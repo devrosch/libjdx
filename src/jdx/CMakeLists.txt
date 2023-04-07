@@ -3,14 +3,14 @@ set(HEADER_LIST
     "${PROJECT_SOURCE_DIR}/include/jdx/JdxParser.hpp"
     "${PROJECT_SOURCE_DIR}/include/jdx/TextReader.hpp"
     # util (private headers)
-    "${PROJECT_SOURCE_DIR}/src/util/StringUtils.hpp"
-    "${PROJECT_SOURCE_DIR}/src/util/LdrUtils.hpp"
-    "${PROJECT_SOURCE_DIR}/src/util/DataParser.hpp"
-    "${PROJECT_SOURCE_DIR}/src/util/TuplesParser.hpp"
-    "${PROJECT_SOURCE_DIR}/src/util/PeakTableParser.hpp"
-    "${PROJECT_SOURCE_DIR}/src/util/MultilineTuplesParser.hpp"
-    "${PROJECT_SOURCE_DIR}/src/util/PeakAssignmentsParser.hpp"
-    "${PROJECT_SOURCE_DIR}/src/util/AuditTrailParser.hpp"
+    "${PROJECT_SOURCE_DIR}/src/jdx/util/StringUtils.hpp"
+    "${PROJECT_SOURCE_DIR}/src/jdx/util/LdrUtils.hpp"
+    "${PROJECT_SOURCE_DIR}/src/jdx/util/DataParser.hpp"
+    "${PROJECT_SOURCE_DIR}/src/jdx/util/TuplesParser.hpp"
+    "${PROJECT_SOURCE_DIR}/src/jdx/util/PeakTableParser.hpp"
+    "${PROJECT_SOURCE_DIR}/src/jdx/util/MultilineTuplesParser.hpp"
+    "${PROJECT_SOURCE_DIR}/src/jdx/util/PeakAssignmentsParser.hpp"
+    "${PROJECT_SOURCE_DIR}/src/jdx/util/AuditTrailParser.hpp"
     # ldr
     "${PROJECT_SOURCE_DIR}/include/jdx/LdrContainer.hpp"
     "${PROJECT_SOURCE_DIR}/include/jdx/Block.hpp"
@@ -41,7 +41,7 @@ set(HEADER_LIST
     # exception
     "${PROJECT_SOURCE_DIR}/include/jdx/ParseException.hpp"
     "${PROJECT_SOURCE_DIR}/include/jdx/BlockParseException.hpp"
-    )
+)
 
 # Make an automatic library - will be static or dynamic based on user setting
 add_library(jdxparser
@@ -81,7 +81,8 @@ add_library(jdxparser
     # exception
     ParseException.cpp
     BlockParseException.cpp
-    ${HEADER_LIST})
+    ${HEADER_LIST}
+)
 
 # All users of this library will need at least C++17
 target_compile_features(jdxparser PUBLIC cxx_std_17)
@@ -101,7 +102,7 @@ endif()
 # public headers
 target_include_directories(jdxparser PUBLIC ${PROJECT_SOURCE_DIR}/include)
 # private headers
-target_include_directories(jdxparser PRIVATE ${PROJECT_SOURCE_DIR}/src)
+target_include_directories(jdxparser PRIVATE ${PROJECT_SOURCE_DIR}/src/jdx)
 
 # --------------------------------------------------------------
 # Use include-what-you-use if available => deactivated due to some iwyu issues

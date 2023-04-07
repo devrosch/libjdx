@@ -1,6 +1,6 @@
 #define CATCH_CONFIG_MAIN
-#include "binaryreader/BinaryReader.hpp"
-#include "binaryreader/Endianness.hpp"
+#include "BinaryReader.hpp"
+#include "Endianness.hpp"
 
 #include "catch2/catch.hpp"
 

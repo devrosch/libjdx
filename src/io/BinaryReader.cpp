@@ -1,5 +1,5 @@
-#include "binaryreader/BinaryReader.hpp"
-#include "binaryreader/Endianness.hpp"
+#include "BinaryReader.hpp"
+#include "Endianness.hpp"
 
 #include <unicode/ucnv.h>
 #include <unicode/unistr.h>

@@ -1,8 +1,8 @@
 #ifndef LIBIO_STRINGPREFIXTYPE_HPP
 #define LIBIO_STRINGPREFIXTYPE_HPP
 
-#include "binaryreader/Endianness.hpp"
-#include "binaryreader/StringPrefixNumericType.hpp"
+#include "Endianness.hpp"
+#include "StringPrefixNumericType.hpp"
 
 namespace sciformats::io
 {

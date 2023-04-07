@@ -1,8 +1,8 @@
 #ifndef LIBIO_BINARYREADER_HPP
 #define LIBIO_BINARYREADER_HPP
 
-#include "binaryreader/Endianness.hpp"
-#include "binaryreader/StringPrefixType.hpp"
+#include "Endianness.hpp"
+#include "StringPrefixType.hpp"
 
 #include <cstdint>
 #include <fstream>
