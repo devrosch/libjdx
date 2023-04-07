@@ -9,6 +9,10 @@
 #include <cstring>
 #include <limits>
 
+// see https://stackoverflow.com/a/43205345
+// #define GCC_GPP_COMPILER (defined(__GNUC__) && !defined(__clang__) && !defined(__INTEL_COMPILER))
+#define GNU_COMPILER (defined(__GNUC__) && !defined(__clang__) && !defined(__INTEL_COMPILER))
+
 // switch off disabled-macro-expansion warning
 // see:
 // https://stackoverflow.com/questions/52485278/pragma-diagnostic-when-mixing-clang-analyzers-with-a-gcc-compiler
@@ -62,15 +66,18 @@ sciformats::io::BinaryReader::BinaryReader(
     // https://stackoverflow.com/questions/45722747/how-can-i-create-a-istream-from-a-uint8-t-vector
     m_stringstream.value().exceptions(
         std::ios::eofbit | std::ios::failbit | std::ios::badbit);
-#ifdef __EMSCRIPTEN__
-    // pubsetbuf() does not work for Emscripten
-    // probable reason:
+#if GNU_COMPILER
+    m_stringstream.value().rdbuf()->pubsetbuf(
+        vec.data(), static_cast<std::streamsize>(vec.size()));
+#else
+    // pubsetbuf() does not work for Emscripten or Clang
+    // probable reason, it seems to be implementation specific:
     // https://stackoverflow.com/questions/12481463/stringstream-rdbuf-pubsetbuf-is-not-setting-the-buffer
     m_stringstream.value().write(
         vec.data(), static_cast<std::streamsize>(vec.size()));
-#else
-    m_stringstream.value().rdbuf()->pubsetbuf(
-        vec.data(), static_cast<std::streamsize>(vec.size()));
+    // TODO: better options might be:
+    // https://stackoverflow.com/a/13059195
+    // https://stackoverflow.com/a/8815308
 #endif
 }
 
@@ -88,17 +95,21 @@ sciformats::io::BinaryReader::BinaryReader(
     static_assert(std::is_same_v<std::uint8_t,
                       char> || std::is_same_v<std::uint8_t, unsigned char>,
         "uint8_t is not a typedef of char or unsigned char.");
-#ifdef __EMSCRIPTEN__
-    // pubsetbuf() does not work for Emscripten
-    // probable reason:
-    // https://stackoverflow.com/questions/12481463/stringstream-rdbuf-pubsetbuf-is-not-setting-the-buffer
-    m_stringstream.value().write(reinterpret_cast<char*>(vec.data()),
-        static_cast<std::streamsize>(vec.size()));
-#else
+#if GNU_COMPILER
     m_stringstream.value().rdbuf()->pubsetbuf(
         // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
         reinterpret_cast<char*>(vec.data()),
         static_cast<std::streamsize>(vec.size()));
+#else
+    // pubsetbuf() does not work for Emscripten
+    // probable reason:
+    // https://stackoverflow.com/questions/12481463/stringstream-rdbuf-pubsetbuf-is-not-setting-the-buffer
+    // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
+    m_stringstream.value().write(reinterpret_cast<char*>(vec.data()),
+        static_cast<std::streamsize>(vec.size()));
+    // TODO: better options might be:
+    // https://stackoverflow.com/a/13059195
+    // https://stackoverflow.com/a/8815308
 #endif
 }
 
