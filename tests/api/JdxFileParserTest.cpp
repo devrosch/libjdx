@@ -32,7 +32,7 @@ TEST_CASE(
         {
             auto nestedNode0 = nodePtr->getChildNodes().at(0);
             REQUIRE("Data XYDATA (PAC) Block" == nestedNode0->getName());
-            REQUIRE(nestedNode0->getParams().size() == 12);
+            REQUIRE(nestedNode0->getParams().size() == 11);
             REQUIRE(nestedNode0->getChildNodes().size() == 1);
 
             auto xyDataNode = nestedNode0->getChildNodes().at(0);
@@ -53,7 +53,7 @@ TEST_CASE(
         {
             auto nestedNode1 = nodePtr->getChildNodes().at(1);
             REQUIRE("Data RADATA (PAC) Block" == nestedNode1->getName());
-            REQUIRE(nestedNode1->getParams().size() == 11);
+            REQUIRE(nestedNode1->getParams().size() == 10);
             REQUIRE(nestedNode1->getChildNodes().size() == 1);
 
             auto raDataNode = nestedNode1->getChildNodes().at(0);
@@ -74,7 +74,7 @@ TEST_CASE(
         {
             auto nestedNode2 = nodePtr->getChildNodes().at(2);
             REQUIRE("Data XYPOINTS (AFFN) Block" == nestedNode2->getName());
-            REQUIRE(nestedNode2->getParams().size() == 11);
+            REQUIRE(nestedNode2->getParams().size() == 10);
             REQUIRE(nestedNode2->getChildNodes().size() == 1);
 
             auto xyPointsNode = nestedNode2->getChildNodes().at(0);

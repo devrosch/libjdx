@@ -19,7 +19,6 @@ public:
     std::vector<std::shared_ptr<model::Node>> getChildNodes() override;
 
 private:
-    std::unique_ptr<std::istream> m_istream;
     std::optional<sciformats::jdx::Block> m_block;
     const sciformats::jdx::Block& m_blockRef;
 };

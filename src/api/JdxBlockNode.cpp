@@ -11,16 +11,14 @@
 
 sciformats::sciwrap::jdx::JdxBlockNode::JdxBlockNode(
     const sciformats::jdx::Block& block)
-    : m_istream{nullptr}
-    , m_block{std::nullopt}
+    : m_block{std::nullopt}
     , m_blockRef{block}
 {
 }
 
 sciformats::sciwrap::jdx::JdxBlockNode::JdxBlockNode(
     std::unique_ptr<std::istream> stream)
-    : m_istream{std::move(stream)}
-    , m_block{sciformats::jdx::JdxParser::parse(*m_istream, true)}
+    : m_block{sciformats::jdx::JdxParser::parse(std::move(stream))}
     , m_blockRef{m_block.value()}
 {
 }
