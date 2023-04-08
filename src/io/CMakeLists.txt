@@ -30,7 +30,7 @@ target_compile_features(binaryreader PUBLIC cxx_std_17)
 
 # We need this directory, and users of our library will need it too
 target_include_directories(binaryreader
-    PUBLIC "${PROJECT_SOURCE_DIR}/include/io"
+    PUBLIC "${PROJECT_SOURCE_DIR}/include"
 )
 
 

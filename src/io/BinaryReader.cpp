@@ -1,5 +1,5 @@
-#include "BinaryReader.hpp"
-#include "Endianness.hpp"
+#include "io/BinaryReader.hpp"
+#include "io/Endianness.hpp"
 
 #include <unicode/ucnv.h>
 #include <unicode/unistr.h>
@@ -9,9 +9,10 @@
 #include <cstring>
 #include <limits>
 
-// see https://stackoverflow.com/a/43205345
-// #define GCC_GPP_COMPILER (defined(__GNUC__) && !defined(__clang__) && !defined(__INTEL_COMPILER))
-#define GNU_COMPILER (defined(__GNUC__) && !defined(__clang__) && !defined(__INTEL_COMPILER))
+// see https://stackoverflow.com/a/43205345, https://stackoverflow.com/a/42074134
+#if defined(__GNUC__) && !defined(__clang__) && !defined(__INTEL_COMPILER)
+#define GNU_COMPILER
+#endif
 
 // switch off disabled-macro-expansion warning
 // see:
@@ -66,7 +67,7 @@ sciformats::io::BinaryReader::BinaryReader(
     // https://stackoverflow.com/questions/45722747/how-can-i-create-a-istream-from-a-uint8-t-vector
     m_stringstream.value().exceptions(
         std::ios::eofbit | std::ios::failbit | std::ios::badbit);
-#if GNU_COMPILER
+#ifdef GNU_COMPILER
     m_stringstream.value().rdbuf()->pubsetbuf(
         vec.data(), static_cast<std::streamsize>(vec.size()));
 #else
@@ -95,7 +96,7 @@ sciformats::io::BinaryReader::BinaryReader(
     static_assert(std::is_same_v<std::uint8_t,
                       char> || std::is_same_v<std::uint8_t, unsigned char>,
         "uint8_t is not a typedef of char or unsigned char.");
-#if GNU_COMPILER
+#ifdef GNU_COMPILER
     m_stringstream.value().rdbuf()->pubsetbuf(
         // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
         reinterpret_cast<char*>(vec.data()),
