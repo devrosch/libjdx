@@ -27,7 +27,9 @@ endif()
 # Options
 # --------------------------------------------------------------
 
+option(CMAKE_BUILD_TYPE "Build type. Defaults to Debug" Debug)
 option(COVERAGE "Capture test coverage. Only relevant if CMAKE_CXX_COMPILER=g++ and CMAKE_BUILD_TYPE=Debug" ON)
+option(CMAKE_EXPORT_COMPILE_COMMANDS "generate compile_commands.json" ON)
 
 # --------------------------------------------------------------
 # Add Emscripten flags
@@ -47,7 +49,7 @@ endif()
 # Add code coverage support
 # --------------------------------------------------------------
 
-if (COVERAGE AND CMAKE_COMPILER_IS_GNUCXX AND CMAKE_BUILD_TYPE MATCHES DEBUG)
+if (COVERAGE AND CMAKE_COMPILER_IS_GNUCXX AND CMAKE_BUILD_TYPE MATCHES Debug)
     # we want to capture test covergae, use g++ and do a debug build
     message(STATUS "setting flags for capturing test coverage")
     add_compile_options(-g -O0 --coverage -fprofile-arcs -ftest-coverage)

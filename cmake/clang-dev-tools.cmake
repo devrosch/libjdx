@@ -9,12 +9,12 @@
 # export json database of processed files for use by clang-tidy during build
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 # include directories for use with clang-tidy and make as separate target
-set(INCLUDE_DIRECTORIES
-    "${PROJECT_SOURCE_DIR}/include"
-    "${PROJECT_SOURCE_DIR}/src"
-    "${PROJECT_SOURCE_DIR}/lib/catch2/include"
-    "${PROJECT_SOURCE_DIR}/lib/trompeloeil/include"
-)
+# set(INCLUDE_DIRECTORIES
+#     "${PROJECT_SOURCE_DIR}/include"
+#     "${PROJECT_SOURCE_DIR}/src"
+#     "${PROJECT_SOURCE_DIR}/lib/catch2/include"
+#     "${PROJECT_SOURCE_DIR}/lib/trompeloeil/include"
+# )
 # source files for use with clang-tidy and make as separate target
 file(GLOB_RECURSE ALL_SOURCE_FILES
     "${PROJECT_SOURCE_DIR}/apps/*.cpp"
@@ -22,13 +22,13 @@ file(GLOB_RECURSE ALL_SOURCE_FILES
     "${PROJECT_SOURCE_DIR}/src/*.hpp"
     "${PROJECT_SOURCE_DIR}/tests/*.cpp"
     "${PROJECT_SOURCE_DIR}/include/*.hpp")
-message(STATUS "clang-tidy INCLUDE_DIRECTORIES: ${INCLUDE_DIRECTORIES}")
+#message(STATUS "clang-tidy INCLUDE_DIRECTORIES: ${INCLUDE_DIRECTORIES}")
 message(STATUS "clang-tidy/clang-format ALL_SOURCE_FILES: ${ALL_SOURCE_FILES}")
 
 # prepend include directories with -I to pass them as multiple options to make
-set(CLANG_TIDY_MAKE_INCLUDES ${INCLUDE_DIRECTORIES})
-list(TRANSFORM CLANG_TIDY_MAKE_INCLUDES PREPEND -I)
-message(STATUS "CLANG_TIDY_MAKE_INCLUDES: ${CLANG_TIDY_MAKE_INCLUDES}")
+#set(CLANG_TIDY_MAKE_INCLUDES ${INCLUDE_DIRECTORIES})
+#list(TRANSFORM CLANG_TIDY_MAKE_INCLUDES PREPEND -I)
+#message(STATUS "CLANG_TIDY_MAKE_INCLUDES: ${CLANG_TIDY_MAKE_INCLUDES}")
 
 # --------------------------------------------------------------
 # Add targets
@@ -38,12 +38,14 @@ add_custom_target(
         clang-tidy
         VERBATIM # use VERBATIM to correctly handle paths that include spaces
         COMMAND clang-tidy
+        --extra-arg=-std=c++17
+        -p ${CMAKE_CURRENT_BINARY_DIR}/compile_commands.json
         --checks=${CLANG_TIDY_CHECKS}
         --warnings-as-errors=${CLANG_TIDY_CHECKS}
         ${ALL_SOURCE_FILES}
-        --
-        -std=c++17
-        ${CLANG_TIDY_MAKE_INCLUDES}
+        #--
+        #-std=c++17
+        #${CLANG_TIDY_MAKE_INCLUDES}
 )
 
 add_custom_target(
