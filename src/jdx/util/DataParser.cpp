@@ -241,11 +241,11 @@ std::optional<std::string> sciformats::jdx::util::DataParser::nextToken(
         throw ParseException("illegal sequence encountered in line \"" + line
                              + "\" at position: " + std::to_string(pos));
     }
-    std::string token{};
-    do
+    std::string token{line.at(pos++)};
+    while (!isTokenDelimiter(line, pos) && !isTokenStart(line, pos))
     {
         token += line.at(pos++);
-    } while (!isTokenDelimiter(line, pos) && !isTokenStart(line, pos));
+    }
     return token;
 }
 

@@ -469,7 +469,7 @@ std::string sciformats::io::BinaryReader::readPrefixedString(
     {
     case StringPrefixNumericType::Int8Chars8:
         // signed char should be interpreted as a signed number here
-        // NOLINTNEXTLINE(bugprone-signed-char-misuse)
+        // NOLINTNEXTLINE(bugprone-signed-char-misuse,cert-str34-c)
         numChars = readInt8();
         multiplicationFactor = 1;
         break;
@@ -479,8 +479,8 @@ std::string sciformats::io::BinaryReader::readPrefixedString(
         break;
     case StringPrefixNumericType::Int8Chars16:
         // signed char should be interpreted as a signed number here
-        // NOLINTNEXTLINE(bugprone-signed-char-misuse)
-        numChars = static_cast<int32_t>(readInt8());
+        // NOLINTNEXTLINE(bugprone-signed-char-misuse,cert-str34-c)
+        numChars = readInt8();
         multiplicationFactor = 2;
         break;
     case StringPrefixNumericType::UInt8Chars16:

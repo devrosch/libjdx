@@ -33,7 +33,7 @@ sciformats::sciwrap::jdx::JdxData2DNode::getData()
 std::vector<std::shared_ptr<sciformats::sciwrap::model::Node>>
 sciformats::sciwrap::jdx::JdxData2DNode::getChildNodes()
 {
-    return std::vector<std::shared_ptr<Node>>();
+    return {};
 }
 
 std::vector<sciformats::sciwrap::model::Point2D>

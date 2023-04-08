@@ -16,6 +16,11 @@ sciformats::sciwrap::model::FileParserSelector::FileParserSelector(
 bool sciformats::sciwrap::model::FileParserSelector::isRecognized(
     const std::string& path)
 {
+    // for C++20 #include <algorithm> and do:
+    // std::ranges::any_of(m_fileParsers,
+    //     [](auto const& parserPtr) {parserPtr->isRecognized(path)});
+    // for c++17, still do:
+    // NOLINTNEXTLINE(readability-use-anyofallof)
     for (auto const& parserPtr : m_fileParsers)
     {
         if (parserPtr->isRecognized(path))
