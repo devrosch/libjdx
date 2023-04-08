@@ -1,4 +1,4 @@
-#include "model/FileParserSelector.hpp"
+#include "api/FileParserSelector.hpp"
 
 #include <vector>
 
@@ -6,14 +6,14 @@
 #include <emscripten/bind.h>
 #endif
 
-sciformats::sciwrap::model::FileParserSelector::FileParserSelector(
-    std::vector<std::shared_ptr<sciformats::sciwrap::model::FileParser>>
+sciformats::api::FileParserSelector::FileParserSelector(
+    std::vector<std::shared_ptr<sciformats::api::FileParser>>
         fileParsers)
     : m_fileParsers{std::move(fileParsers)}
 {
 }
 
-bool sciformats::sciwrap::model::FileParserSelector::isRecognized(
+bool sciformats::api::FileParserSelector::isRecognized(
     const std::string& path)
 {
     // for C++20 #include <algorithm> and do:
@@ -31,8 +31,8 @@ bool sciformats::sciwrap::model::FileParserSelector::isRecognized(
     return false;
 }
 
-std::unique_ptr<sciformats::sciwrap::model::Node>
-sciformats::sciwrap::model::FileParserSelector::parse(const std::string& path)
+std::unique_ptr<sciformats::api::Node>
+sciformats::api::FileParserSelector::parse(const std::string& path)
 {
     auto parseErrors = std::vector<std::string>{};
 
@@ -72,14 +72,14 @@ sciformats::sciwrap::model::FileParserSelector::parse(const std::string& path)
 #ifdef __EMSCRIPTEN__
 EMSCRIPTEN_BINDINGS(FileParserSelector)
 {
-    using namespace sciformats::sciwrap::model;
+    using namespace sciformats::api;
     using namespace emscripten;
     class_<FileParserSelector, base<FileParser>>("FileParserSelector")
         .constructor<std::vector<
-            std::shared_ptr<sciformats::sciwrap::model::FileParser>>>()
+            std::shared_ptr<sciformats::api::FileParser>>>()
         .function("isRecognized", &FileParserSelector::isRecognized)
         .function("parse", &FileParserSelector::parse);
-    register_vector<std::shared_ptr<sciformats::sciwrap::model::FileParser>>(
-        "vector<std::shared_ptr<sciformats::sciwrap::model::FileParser>>");
+    register_vector<std::shared_ptr<sciformats::api::FileParser>>(
+        "vector<std::shared_ptr<sciformats::api::FileParser>>");
 }
 #endif

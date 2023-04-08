@@ -1,5 +1,6 @@
 # Tests need to be added as executables first
 add_executable(jdxparser_test
+    api/JdxFileParserTest.cpp
     TextReaderTest.cpp
     JdxParserTest.cpp
     StringUtilsTest.cpp
@@ -21,7 +22,7 @@ add_executable(jdxparser_test
 target_compile_features(jdxparser_test PRIVATE cxx_std_17)
 
 # Should be linked to the library, as well as the Catch2 testing library
-target_link_libraries(jdxparser_test PRIVATE jdxparser catch2)
+target_link_libraries(jdxparser_test PRIVATE api jdxparser catch2)
 # include private headers see https://stackoverflow.com/questions/35385908/cmake-testing-a-library-header-location-issue
 # required for testing some utils
 target_include_directories(jdxparser_test PRIVATE $<TARGET_PROPERTY:jdxparser,INCLUDE_DIRECTORIES>)

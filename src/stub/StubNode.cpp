@@ -1,38 +1,38 @@
 #include "stub/StubNode.hpp"
-#include "model/KeyValueParam.hpp"
-#include "model/Node.hpp"
+#include "api/KeyValueParam.hpp"
+#include "api/Node.hpp"
 
 #ifdef __EMSCRIPTEN__
 #include <emscripten/bind.h>
 #endif
 
-std::string sciformats::sciwrap::stub::StubNode::getName() const
+std::string sciformats::stub::StubNode::getName() const
 {
     return "A Stub Node";
 }
 
-std::vector<sciformats::sciwrap::model::KeyValueParam>
-sciformats::sciwrap::stub::StubNode::getParams()
+std::vector<sciformats::api::KeyValueParam>
+sciformats::stub::StubNode::getParams()
 {
-    auto vec = std::vector<sciformats::sciwrap::model::KeyValueParam>();
+    auto vec = std::vector<sciformats::api::KeyValueParam>();
     vec.push_back({"key0", "value0"});
     vec.push_back({"key1", "value1"});
     vec.push_back({"key2", "value2"});
     return vec;
 }
 
-std::optional<std::vector<sciformats::sciwrap::model::Point2D>>
-sciformats::sciwrap::stub::StubNode::getData()
+std::optional<std::vector<sciformats::api::Point2D>>
+sciformats::stub::StubNode::getData()
 {
-    auto vec = std::vector<sciformats::sciwrap::model::Point2D>();
+    auto vec = std::vector<sciformats::api::Point2D>();
     vec.push_back({1.0, 10.0});
     vec.push_back({2.0, 20.0});
     vec.push_back({3.0, 30.0});
     return vec;
 }
 
-std::vector<std::shared_ptr<sciformats::sciwrap::model::Node>>
-sciformats::sciwrap::stub::StubNode::getChildNodes()
+std::vector<std::shared_ptr<sciformats::api::Node>>
+sciformats::stub::StubNode::getChildNodes()
 {
     auto children = std::vector<std::shared_ptr<Node>>();
     std::shared_ptr<Node> ptr0 = std::make_shared<StubNode>();
@@ -47,8 +47,8 @@ sciformats::sciwrap::stub::StubNode::getChildNodes()
 #ifdef __EMSCRIPTEN__
 EMSCRIPTEN_BINDINGS(StubNode)
 {
-    using namespace sciformats::sciwrap::model;
-    using namespace sciformats::sciwrap::stub;
+    using namespace sciformats::api;
+    using namespace sciformats::stub;
     using namespace emscripten;
     // see: https://github.com/emscripten-core/emscripten/issues/627
     class_<StubNode, base<Node>>("StubNode")

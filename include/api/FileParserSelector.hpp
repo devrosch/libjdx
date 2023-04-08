@@ -1,13 +1,13 @@
-#ifndef LIBSCIWRAP_FILEPARSERSELECTOR_HPP
-#define LIBSCIWRAP_FILEPARSERSELECTOR_HPP
+#ifndef LIBAPI_FILEPARSERSELECTOR_HPP
+#define LIBAPI_FILEPARSERSELECTOR_HPP
 
-#include "model/FileParser.hpp"
-#include "model/Node.hpp"
+#include "api/FileParser.hpp"
+#include "api/Node.hpp"
 
 #include <string>
 #include <vector>
 
-namespace sciformats::sciwrap::model
+namespace sciformats::api
 {
 class FileParserSelector : public FileParser
 {
@@ -20,6 +20,6 @@ public:
 private:
     std::vector<std::shared_ptr<FileParser>> m_fileParsers;
 };
-} // sciformats::sciwrap::model
+} // sciformats::api
 
-#endif // LIBSCIWRAP_FILEPARSERSELECTOR_HPP
+#endif // LIBAPI_FILEPARSERSELECTOR_HPP

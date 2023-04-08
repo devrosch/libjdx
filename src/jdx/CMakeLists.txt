@@ -1,4 +1,8 @@
 set(HEADER_LIST
+    # public api
+    "${PROJECT_SOURCE_DIR}/include/jdx/api/JdxBlockNode.hpp"
+    "${PROJECT_SOURCE_DIR}/include/jdx/api/JdxData2DNode.hpp"
+    "${PROJECT_SOURCE_DIR}/include/jdx/api/JdxFileParser.hpp"
     # public data providers
     "${PROJECT_SOURCE_DIR}/include/jdx/JdxParser.hpp"
     "${PROJECT_SOURCE_DIR}/include/jdx/TextReader.hpp"
@@ -45,6 +49,10 @@ set(HEADER_LIST
 
 # Make an automatic library - will be static or dynamic based on user setting
 add_library(jdxparser
+    # public api
+    api/JdxBlockNode.cpp
+    api/JdxData2DNode.cpp
+    api/JdxFileParser.cpp
     # public data providers
     JdxParser.cpp
     TextReader.cpp
@@ -83,6 +91,8 @@ add_library(jdxparser
     BlockParseException.cpp
     ${HEADER_LIST}
 )
+
+target_link_libraries(jdxparser PRIVATE api)
 
 # All users of this library will need at least C++17
 target_compile_features(jdxparser PUBLIC cxx_std_17)

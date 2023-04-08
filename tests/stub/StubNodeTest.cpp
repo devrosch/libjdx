@@ -1,12 +1,12 @@
 #include "stub/StubNode.hpp"
-#include "model/KeyValueParam.hpp"
-#include "model/Node.hpp"
+#include "api/KeyValueParam.hpp"
+#include "api/Node.hpp"
 
 #include "catch2/catch.hpp"
 
 TEST_CASE("StubNode returns dummy data", "[StubNode]")
 {
-    using namespace sciformats::sciwrap::stub;
+    using namespace sciformats::stub;
     StubNode node{};
 
     REQUIRE("A Stub Node" == node.getName());

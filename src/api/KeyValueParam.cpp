@@ -1,4 +1,4 @@
-#include "model/KeyValueParam.hpp"
+#include "api/KeyValueParam.hpp"
 
 #ifdef __EMSCRIPTEN__
 #include <emscripten/bind.h>
@@ -7,7 +7,7 @@
 #ifdef __EMSCRIPTEN__
 EMSCRIPTEN_BINDINGS(KeyValueParam)
 {
-    using namespace sciformats::sciwrap::model;
+    using namespace sciformats::api;
     using namespace emscripten;
     value_object<KeyValueParam>("KeyValueParam")
         .field("key", &KeyValueParam::key)

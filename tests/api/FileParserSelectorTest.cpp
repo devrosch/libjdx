@@ -1,6 +1,7 @@
-#include "model/FileParserSelector.hpp"
-#include "model/FileParser.hpp"
-#include "model/Node.hpp"
+#define CATCH_CONFIG_MAIN
+#include "api/FileParserSelector.hpp"
+#include "api/FileParser.hpp"
+#include "api/Node.hpp"
 #include "stub/StubFileParser.hpp"
 #include "stub/StubNode.hpp"
 
@@ -12,7 +13,7 @@
 // , also: https://bugreports.qt.io/browse/QTCREATORBUG-19741
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wweak-vtables"
-class MockFileParser : public sciformats::sciwrap::model::FileParser
+class MockFileParser : public sciformats::api::FileParser
 {
 public:
     // dangerous, see
@@ -21,7 +22,7 @@ public:
 
     MAKE_MOCK1(isRecognized, bool(const std::string&), override);
     MAKE_MOCK1(parse,
-        std::unique_ptr<sciformats::sciwrap::model::Node>(const std::string&),
+        std::unique_ptr<sciformats::api::Node>(const std::string&),
         override);
 };
 #pragma clang diagnostic pop
@@ -29,8 +30,8 @@ public:
 TEST_CASE("FileParserSelector sequentially checks parsers for applicability",
     "[FileParserSelector]")
 {
-    using namespace sciformats::sciwrap::model;
-    using namespace sciformats::sciwrap::stub;
+    using namespace sciformats::api;
+    using namespace sciformats::stub;
 
     auto mockParser0 = MockFileParser();
     REQUIRE_CALL(mockParser0, isRecognized(ANY(const std::string&)))
@@ -64,8 +65,8 @@ TEST_CASE("FileParserSelector sequentially checks parsers for applicability",
 TEST_CASE("FileParserSelector collects failed parsing error messages",
     "[FileParserSelector]")
 {
-    using namespace sciformats::sciwrap::model;
-    using namespace sciformats::sciwrap::stub;
+    using namespace sciformats::api;
+    using namespace sciformats::stub;
 
     auto mockParser0 = MockFileParser();
     REQUIRE_CALL(mockParser0, isRecognized(ANY(const std::string&)))
@@ -107,8 +108,8 @@ TEST_CASE("FileParserSelector provides generic error when no suitable parser "
           "is found",
     "[FileParserSelector]")
 {
-    using namespace sciformats::sciwrap::model;
-    using namespace sciformats::sciwrap::stub;
+    using namespace sciformats::api;
+    using namespace sciformats::stub;
 
     auto mockParser0 = MockFileParser();
     REQUIRE_CALL(mockParser0, isRecognized(ANY(const std::string&)))
@@ -138,8 +139,8 @@ TEST_CASE(
     "is found",
     "[FileParserSelector]")
 {
-    using namespace sciformats::sciwrap::model;
-    using namespace sciformats::sciwrap::stub;
+    using namespace sciformats::api;
+    using namespace sciformats::stub;
 
     auto mockParser0 = MockFileParser();
     REQUIRE_CALL(mockParser0, isRecognized(ANY(const std::string&)))
@@ -157,8 +158,8 @@ TEST_CASE(
 TEST_CASE("FileParserSelector returns node from applicable underlying parser",
     "[FileParserSelector]")
 {
-    using namespace sciformats::sciwrap::model;
-    using namespace sciformats::sciwrap::stub;
+    using namespace sciformats::api;
+    using namespace sciformats::stub;
 
     auto parserPtr = std::make_shared<StubFileParser>(StubFileParser());
     FileParserSelector selector{{parserPtr}};

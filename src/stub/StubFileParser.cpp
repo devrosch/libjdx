@@ -1,5 +1,5 @@
+#include "api/Node.hpp"
 #include "stub/StubFileParser.hpp"
-#include "model/Node.hpp"
 #include "stub/StubNode.hpp"
 
 #include <fstream>
@@ -10,7 +10,7 @@
 #include <emscripten/bind.h>
 #endif
 
-bool sciformats::sciwrap::stub::StubFileParser::isRecognized(
+bool sciformats::stub::StubFileParser::isRecognized(
     const std::string& path)
 {
     // for loading data in JS, see:
@@ -55,19 +55,19 @@ bool sciformats::sciwrap::stub::StubFileParser::isRecognized(
     return ret;
 }
 
-std::unique_ptr<sciformats::sciwrap::model::Node>
-sciformats::sciwrap::stub::StubFileParser::parse(const std::string& path)
+std::unique_ptr<sciformats::api::Node>
+sciformats::stub::StubFileParser::parse(const std::string& path)
 {
     std::cout << "C++: StubFileParser.parse(): " << path << '\n';
-    std::unique_ptr<model::Node> node = std::make_unique<StubNode>(StubNode());
+    std::unique_ptr<sciformats::api::Node> node = std::make_unique<StubNode>(StubNode());
     return node;
 }
 
 #ifdef __EMSCRIPTEN__
 EMSCRIPTEN_BINDINGS(StubFileParser)
 {
-    using namespace sciformats::sciwrap::model;
-    using namespace sciformats::sciwrap::stub;
+    using namespace sciformats::api;
+    using namespace sciformats::stub;
     using namespace emscripten;
     class_<StubFileParser, base<FileParser>>("StubFileParser")
         //        .constructor<>()

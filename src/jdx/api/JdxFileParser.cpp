@@ -1,7 +1,7 @@
-#include "jdx/JdxFileParser.hpp"
-#include "jdx/JdxBlockNode.hpp"
+#include "jdx/api/JdxFileParser.hpp"
+#include "jdx/api/JdxBlockNode.hpp"
 #include "jdx/JdxParser.hpp"
-#include "model/Node.hpp"
+#include "api/Node.hpp"
 
 #include <fstream>
 #include <iostream>
@@ -11,7 +11,7 @@
 #include <emscripten/bind.h>
 #endif
 
-bool sciformats::sciwrap::jdx::JdxFileParser::isRecognized(
+bool sciformats::jdx::api::JdxFileParser::isRecognized(
     const std::string& path)
 {
     std::cout << "C++: JdxFileParser.isRecognized(): " << path << '\n';
@@ -20,13 +20,13 @@ bool sciformats::sciwrap::jdx::JdxFileParser::isRecognized(
     return isRecognized;
 }
 
-std::unique_ptr<sciformats::sciwrap::model::Node>
-sciformats::sciwrap::jdx::JdxFileParser::parse(const std::string& path)
+std::unique_ptr<sciformats::api::Node>
+sciformats::jdx::api::JdxFileParser::parse(const std::string& path)
 {
     std::cout << "C++: JdxFileParser.parse(): " << path << '\n';
     auto streamPtr = std::make_unique<std::ifstream>(path);
     // root node is owner of istream
-    std::unique_ptr<model::Node> node
+    std::unique_ptr<sciformats::api::Node> node
         = std::make_unique<JdxBlockNode>(std::move(streamPtr));
     return node;
 }
@@ -34,8 +34,8 @@ sciformats::sciwrap::jdx::JdxFileParser::parse(const std::string& path)
 #ifdef __EMSCRIPTEN__
 EMSCRIPTEN_BINDINGS(JdxFileParser)
 {
-    using namespace sciformats::sciwrap::model;
-    using namespace sciformats::sciwrap::jdx;
+    using namespace sciformats::api;
+    using namespace sciformats::jdx::api;
     using namespace emscripten;
     class_<JdxFileParser, base<FileParser>>("JdxFileParser")
         .smart_ptr_constructor(

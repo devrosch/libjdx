@@ -1,4 +1,4 @@
-#include "model/Point2D.hpp"
+#include "api/Point2D.hpp"
 
 #ifdef __EMSCRIPTEN__
 #include <emscripten/bind.h>
@@ -7,7 +7,7 @@
 #ifdef __EMSCRIPTEN__
 EMSCRIPTEN_BINDINGS(Point2D)
 {
-    using namespace sciformats::sciwrap::model;
+    using namespace sciformats::api;
     using namespace emscripten;
     value_object<Point2D>("Point2D")
         .field("x", &Point2D::x)

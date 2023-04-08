@@ -10,7 +10,7 @@ add_executable(binaryreader_test BinaryReaderTest.cpp)
 target_compile_features(binaryreader_test PRIVATE cxx_std_17)
 
 # We need this directory, and users of our library will need it too
-target_include_directories(binaryreader_test PRIVATE ${INCLUDE_DIRECTORIES} ${TESTING_INCLUDE_DIRECTORIES})
+#target_include_directories(binaryreader_test PRIVATE ${INCLUDE_DIRECTORIES} ${TESTING_INCLUDE_DIRECTORIES})
 
 # Should be linked to the stream_reader library, as well as the Catch2 testing library
 target_link_libraries(binaryreader_test PRIVATE binaryreader catch2)

@@ -1,11 +1,11 @@
-#ifndef LIBSCIWRAP_FILEPARSER_HPP
-#define LIBSCIWRAP_FILEPARSER_HPP
+#ifndef LIBAPI_FILEPARSER_HPP
+#define LIBAPI_FILEPARSER_HPP
 
-#include "model/Node.hpp"
+#include "api/Node.hpp"
 
 #include <string>
 
-namespace sciformats::sciwrap::model
+namespace sciformats::api
 {
 class FileParser
 {
@@ -21,6 +21,6 @@ public:
     FileParser& operator=(FileParser&&) = default;
     virtual ~FileParser() = default;
 };
-} // sciformats::sciwrap::model
+} // sciformats::api
 
-#endif // LIBSCIWRAP_FILEPARSER_HPP
+#endif // LIBAPI_FILEPARSER_HPP

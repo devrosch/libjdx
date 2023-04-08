@@ -1,13 +1,13 @@
 #define CATCH_CONFIG_MAIN
 #include "stub/StubFileParser.hpp"
-#include "model/Node.hpp"
+#include "api/Node.hpp"
 
 #include "catch2/catch.hpp"
 
 TEST_CASE("StubFileParser returns dummy Node", "[StubFileParser]")
 {
-    using namespace sciformats::sciwrap::model;
-    using namespace sciformats::sciwrap::stub;
+    using namespace sciformats::api;
+    using namespace sciformats::stub;
 
     StubFileParser parser{};
 

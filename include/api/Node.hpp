@@ -1,15 +1,15 @@
-#ifndef LIBSCIWRAP_NODE_HPP
-#define LIBSCIWRAP_NODE_HPP
+#ifndef LIBAPI_NODE_HPP
+#define LIBAPI_NODE_HPP
 
-#include "model/KeyValueParam.hpp"
-#include "model/Point2D.hpp"
+#include "api/KeyValueParam.hpp"
+#include "api/Point2D.hpp"
 
 #include <memory>
 #include <optional>
 #include <string>
 #include <vector>
 
-namespace sciformats::sciwrap::model
+namespace sciformats::api
 {
 class Node
 {
@@ -30,6 +30,6 @@ public:
     Node& operator=(Node&&) = default;
     virtual ~Node() = default;
 };
-} // sciformats::sciwrap::model
+} // sciformats::api
 
-#endif // LIBSCIWRAP_NODE_HPP
+#endif // LIBAPI_NODE_HPP

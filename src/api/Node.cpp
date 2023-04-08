@@ -1,5 +1,5 @@
-#include "model/Node.hpp"
-#include "model/KeyValueParam.hpp"
+#include "api/Node.hpp"
+#include "api/KeyValueParam.hpp"
 
 #ifdef __EMSCRIPTEN__
 #include <emscripten/bind.h>
@@ -8,7 +8,7 @@
 #ifdef __EMSCRIPTEN__
 EMSCRIPTEN_BINDINGS(Node)
 {
-    using namespace sciformats::sciwrap::model;
+    using namespace sciformats::api;
     using namespace emscripten;
     // see: https://github.com/emscripten-core/emscripten/issues/627
     class_<Node>("Node").smart_ptr<std::shared_ptr<Node>>("Node");

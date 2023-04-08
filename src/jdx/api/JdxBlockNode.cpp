@@ -1,38 +1,38 @@
-#include "jdx/JdxBlockNode.hpp"
+#include "jdx/api/JdxBlockNode.hpp"
 #include "jdx/Block.hpp"
-#include "jdx/JdxData2DNode.hpp"
+#include "jdx/api/JdxData2DNode.hpp"
 #include "jdx/JdxParser.hpp"
-#include "model/KeyValueParam.hpp"
-#include "model/Node.hpp"
+#include "api/KeyValueParam.hpp"
+#include "api/Node.hpp"
 
 #ifdef __EMSCRIPTEN__
 #include <emscripten/bind.h>
 #endif
 
-sciformats::sciwrap::jdx::JdxBlockNode::JdxBlockNode(
+sciformats::jdx::api::JdxBlockNode::JdxBlockNode(
     const sciformats::jdx::Block& block)
     : m_block{std::nullopt}
     , m_blockRef{block}
 {
 }
 
-sciformats::sciwrap::jdx::JdxBlockNode::JdxBlockNode(
+sciformats::jdx::api::JdxBlockNode::JdxBlockNode(
     std::unique_ptr<std::istream> stream)
     : m_block{sciformats::jdx::JdxParser::parse(std::move(stream))}
     , m_blockRef{m_block.value()}
 {
 }
 
-std::string sciformats::sciwrap::jdx::JdxBlockNode::getName() const
+std::string sciformats::jdx::api::JdxBlockNode::getName() const
 {
     return m_blockRef.getLdr("TITLE").value().getValue();
 }
 
-std::vector<sciformats::sciwrap::model::KeyValueParam>
-sciformats::sciwrap::jdx::JdxBlockNode::getParams()
+std::vector<sciformats::api::KeyValueParam>
+sciformats::jdx::api::JdxBlockNode::getParams()
 {
     auto const& ldrs = m_blockRef.getLdrs();
-    auto vec = std::vector<sciformats::sciwrap::model::KeyValueParam>();
+    auto vec = std::vector<sciformats::api::KeyValueParam>();
     for (auto const& ldr : ldrs)
     {
         vec.push_back({ldr.getLabel(), ldr.getValue()});
@@ -40,15 +40,15 @@ sciformats::sciwrap::jdx::JdxBlockNode::getParams()
     return vec;
 }
 
-std::optional<std::vector<sciformats::sciwrap::model::Point2D>>
-sciformats::sciwrap::jdx::JdxBlockNode::getData()
+std::optional<std::vector<sciformats::api::Point2D>>
+sciformats::jdx::api::JdxBlockNode::getData()
 {
     // TODO: return data here for data blocks instead of as child node
     return std::nullopt;
 }
 
-std::vector<std::shared_ptr<sciformats::sciwrap::model::Node>>
-sciformats::sciwrap::jdx::JdxBlockNode::getChildNodes()
+std::vector<std::shared_ptr<sciformats::api::Node>>
+sciformats::jdx::api::JdxBlockNode::getChildNodes()
 {
     auto childNodes = std::vector<std::shared_ptr<Node>>();
     if (m_blockRef.getXyData())
@@ -85,8 +85,8 @@ sciformats::sciwrap::jdx::JdxBlockNode::getChildNodes()
 #ifdef __EMSCRIPTEN__
 EMSCRIPTEN_BINDINGS(JdxBlockNode)
 {
-    using namespace sciformats::sciwrap::model;
-    using namespace sciformats::sciwrap::jdx;
+    using namespace sciformats::api;
+    using namespace sciformats::jdx::api;
     using namespace emscripten;
     // see: https://github.com/emscripten-core/emscripten/issues/627
     class_<JdxBlockNode, base<Node>>("JdxBlockNode")

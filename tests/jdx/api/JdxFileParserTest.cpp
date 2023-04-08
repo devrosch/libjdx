@@ -1,13 +1,13 @@
-#include "jdx/JdxFileParser.hpp"
-#include "model/Node.hpp"
+#include "jdx/api/JdxFileParser.hpp"
+#include "api/Node.hpp"
 
 #include "catch2/catch.hpp"
 
 TEST_CASE(
     "JdxFileParser only accepts to parse valid JCAMP-DX", "[JdxFileParser]")
 {
-    using namespace sciformats::sciwrap::model;
-    using namespace sciformats::sciwrap::jdx;
+    using namespace sciformats::api;
+    using namespace sciformats::jdx::api;
     JdxFileParser parser{};
 
     SECTION("Only recognizes existing file that contain JCAMP-DX data")
