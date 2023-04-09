@@ -48,7 +48,7 @@ set(HEADER_LIST
 )
 
 # Make an automatic library - will be static or dynamic based on user setting
-add_library(jdxparser
+add_library(jdx
     # public api
     api/JdxBlockNode.cpp
     api/JdxData2DNode.cpp
@@ -92,12 +92,12 @@ add_library(jdxparser
     ${HEADER_LIST}
 )
 
-target_link_libraries(jdxparser PRIVATE api)
+target_link_libraries(jdx PRIVATE api)
 
 # All users of this library will need at least C++17
-target_compile_features(jdxparser PUBLIC cxx_std_17)
+target_compile_features(jdx PUBLIC cxx_std_17)
 # For g++ 12 the above does not seem to suffice (e.g. does not recognize std::optional), hence additionally setting properties
-set_target_properties(jdxparser PROPERTIES
+set_target_properties(jdx PROPERTIES
     CXX_STANDARD 17
     CXX_EXTENSIONS OFF
 )
@@ -106,13 +106,13 @@ if (CMAKE_COMPILER_IS_GNUCXX AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS 9)
     # make filesystem available
     # see: https://stackoverflow.com/questions/33149878/experimentalfilesystem-linker-error
     message(STATUS "Linking stdc++fs to GNUCXX version: ${CMAKE_CXX_COMPILER_VERSION}")
-    target_link_libraries(jdxparser stdc++fs)
+    target_link_libraries(jdx stdc++fs)
 endif()
 
 # public headers
-target_include_directories(jdxparser PUBLIC ${PROJECT_SOURCE_DIR}/include)
+target_include_directories(jdx PUBLIC ${PROJECT_SOURCE_DIR}/include)
 # private headers
-target_include_directories(jdxparser PRIVATE ${PROJECT_SOURCE_DIR}/src/jdx)
+target_include_directories(jdx PRIVATE ${PROJECT_SOURCE_DIR}/src/jdx)
 
 # --------------------------------------------------------------
 # Use include-what-you-use if available => deactivated due to some iwyu issues
@@ -121,4 +121,4 @@ target_include_directories(jdxparser PRIVATE ${PROJECT_SOURCE_DIR}/src/jdx)
 # if(NOT iwyu_path)
 #   message(FATAL_ERROR "Could not find the program include-what-you-use")
 # endif()
-#set_property(TARGET jdxparser PROPERTY CXX_INCLUDE_WHAT_YOU_USE ${iwyu_path})
+#set_property(TARGET jdx PROPERTY CXX_INCLUDE_WHAT_YOU_USE ${iwyu_path})

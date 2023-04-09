@@ -28,6 +28,7 @@ endif()
 # --------------------------------------------------------------
 
 option(CMAKE_BUILD_TYPE "Build type. Defaults to Debug" Debug)
+option(BUILD_SHARED_LIBS "Build shared of static library. Defaults to static" OFF)
 option(COVERAGE "Capture test coverage. Only relevant if CMAKE_CXX_COMPILER=g++ and CMAKE_BUILD_TYPE=Debug" ON)
 option(CMAKE_EXPORT_COMPILE_COMMANDS "generate compile_commands.json" ON)
 

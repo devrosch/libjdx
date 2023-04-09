@@ -3,7 +3,7 @@ set(HEADER_LIST
 )
 
 # Make an automatic library - will be static or dynamic based on user setting
-add_library(binaryreader
+add_library(io
     BinaryReader.cpp
     ${HEADER_LIST}
 )
@@ -22,13 +22,13 @@ else()
         list(APPEND CMAKE_PREFIX_PATH "/usr/local/opt/icu4c") # required when installing ICU on macOS via Homebrew
     endif()
     find_package(ICU REQUIRED COMPONENTS uc)
-    target_link_libraries(binaryreader PRIVATE ICU::uc)
+    target_link_libraries(io PRIVATE ICU::uc)
 endif()
 
 # All users of this library will need at least C++17
-target_compile_features(binaryreader PUBLIC cxx_std_17)
+target_compile_features(io PUBLIC cxx_std_17)
 
 # We need this directory, and users of our library will need it too
-target_include_directories(binaryreader
+target_include_directories(io
     PUBLIC "${PROJECT_SOURCE_DIR}/include"
 )
