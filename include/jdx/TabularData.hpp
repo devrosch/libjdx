@@ -3,9 +3,9 @@
 
 #include "jdx/DataLdr.hpp"
 #include "jdx/TextReader.hpp"
-#include "util/LdrUtils.hpp"
 
 #include <functional>
+#include <regex>
 #include <string>
 
 namespace sciformats::jdx
@@ -42,19 +42,21 @@ protected:
 template<typename Parser, typename R>
 std::vector<R> sciformats::jdx::TabularData::getData(Parser parser) const
 {
+    const static std::regex pureCommentRegex{"^[ \t\n\v\f\r]*\\$\\$.*$"};
     auto func = [&]() {
         std::vector<R> data{};
         auto& reader = getReader();
 
-        // TODO: use util::skipPureComments()
+        // TODO: use util::skipPureComments() but don't expose private header
         // skip possible initial comment lines
         std::optional<std::streampos> pos;
         while (!reader.eof())
         {
             pos = reader.tellg();
             auto line = reader.readLine();
-            if (!util::isPureComment(line))
+            if (!std::regex_match(line, pureCommentRegex))
             {
+                // not pure comment
                 break;
             }
         }
