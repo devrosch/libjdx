@@ -13,7 +13,7 @@ target_compile_features(io_test PRIVATE cxx_std_17)
 #target_include_directories(io_test PRIVATE ${INCLUDE_DIRECTORIES} ${TESTING_INCLUDE_DIRECTORIES})
 
 # Should be linked to the stream_reader library, as well as the Catch2 testing library
-target_link_libraries(io_test PRIVATE io catch2)
+target_link_libraries(io_test PRIVATE sf catch2)
 
 # https://stackoverflow.com/questions/12313258/cmake-how-to-install-test-files-with-unit-tests
 # https://stackoverflow.com/questions/34799916/copy-file-from-source-directory-to-binary-directory-using-cmake

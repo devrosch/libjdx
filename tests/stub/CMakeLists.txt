@@ -8,7 +8,7 @@ add_executable(stub_test
 target_compile_features(stub_test PRIVATE cxx_std_17)
 
 # Should be linked to the library, as well as the Catch2 testing library
-target_link_libraries(stub_test PRIVATE api stub catch2)
+target_link_libraries(stub_test PRIVATE sf catch2)
 
 # https://stackoverflow.com/questions/12313258/cmake-how-to-install-test-files-with-unit-tests
 # https://stackoverflow.com/questions/34799916/copy-file-from-source-directory-to-binary-directory-using-cmake

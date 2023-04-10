@@ -1,4 +1,4 @@
-set(HEADER_LIST
+set(JDX_HEADER_LIST
     # public api
     "${PROJECT_SOURCE_DIR}/include/jdx/api/JdxBlockNode.hpp"
     "${PROJECT_SOURCE_DIR}/include/jdx/api/JdxData2DNode.hpp"
@@ -7,14 +7,14 @@ set(HEADER_LIST
     "${PROJECT_SOURCE_DIR}/include/jdx/JdxParser.hpp"
     "${PROJECT_SOURCE_DIR}/include/jdx/TextReader.hpp"
     # util (private headers)
-    "${PROJECT_SOURCE_DIR}/src/jdx/util/StringUtils.hpp"
-    "${PROJECT_SOURCE_DIR}/src/jdx/util/LdrUtils.hpp"
-    "${PROJECT_SOURCE_DIR}/src/jdx/util/DataParser.hpp"
-    "${PROJECT_SOURCE_DIR}/src/jdx/util/TuplesParser.hpp"
-    "${PROJECT_SOURCE_DIR}/src/jdx/util/PeakTableParser.hpp"
-    "${PROJECT_SOURCE_DIR}/src/jdx/util/MultilineTuplesParser.hpp"
-    "${PROJECT_SOURCE_DIR}/src/jdx/util/PeakAssignmentsParser.hpp"
-    "${PROJECT_SOURCE_DIR}/src/jdx/util/AuditTrailParser.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/util/StringUtils.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/util/LdrUtils.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/util/DataParser.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/util/TuplesParser.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/util/PeakTableParser.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/util/MultilineTuplesParser.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/util/PeakAssignmentsParser.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/util/AuditTrailParser.hpp"
     # ldr
     "${PROJECT_SOURCE_DIR}/include/jdx/LdrContainer.hpp"
     "${PROJECT_SOURCE_DIR}/include/jdx/Block.hpp"
@@ -45,80 +45,49 @@ set(HEADER_LIST
     # exception
     "${PROJECT_SOURCE_DIR}/include/jdx/ParseException.hpp"
     "${PROJECT_SOURCE_DIR}/include/jdx/BlockParseException.hpp"
+    PARENT_SCOPE
 )
 
-# Make an automatic library - will be static or dynamic based on user setting
-add_library(jdx
+set(JDX_SOURCE_LIST
     # public api
-    api/JdxBlockNode.cpp
-    api/JdxData2DNode.cpp
-    api/JdxFileParser.cpp
+    "${CMAKE_CURRENT_SOURCE_DIR}/api/JdxBlockNode.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/api/JdxData2DNode.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/api/JdxFileParser.cpp"
     # public data providers
-    JdxParser.cpp
-    TextReader.cpp
+    "${CMAKE_CURRENT_SOURCE_DIR}/JdxParser.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/TextReader.cpp"
     # util
-    util/StringUtils.cpp
-    util/LdrUtils.cpp
-    util/DataParser.cpp
-    util/TuplesParser.cpp
-    util/PeakTableParser.cpp
-    util/MultilineTuplesParser.cpp
-    util/PeakAssignmentsParser.cpp
-    util/AuditTrailParser.cpp
+    "${CMAKE_CURRENT_SOURCE_DIR}/util/StringUtils.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/util/LdrUtils.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/util/DataParser.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/util/TuplesParser.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/util/PeakTableParser.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/util/MultilineTuplesParser.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/util/PeakAssignmentsParser.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/util/AuditTrailParser.cpp"
     # ldr
-    Block.cpp
-    LdrContainer.cpp
-    Ldr.cpp
-    StringLdr.cpp
+    "${CMAKE_CURRENT_SOURCE_DIR}/Block.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/LdrContainer.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/Ldr.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/StringLdr.cpp"
     # data
-    DataLdr.cpp
-    NTuples.cpp
-    Page.cpp
-    DataTable.cpp
+    "${CMAKE_CURRENT_SOURCE_DIR}/DataLdr.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/NTuples.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/Page.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/DataTable.cpp"
     # 2D data
-    Data2D.cpp
-    XyData.cpp
-    RaData.cpp
-    XyPoints.cpp
-    XyBase.cpp
+    "${CMAKE_CURRENT_SOURCE_DIR}/Data2D.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/XyData.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/RaData.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/XyPoints.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/XyBase.cpp"
     # tabular data
-    TabularData.cpp
-    PeakTable.cpp
-    PeakAssignments.cpp
-    AuditTrail.cpp
+    "${CMAKE_CURRENT_SOURCE_DIR}/TabularData.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/PeakTable.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/PeakAssignments.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/AuditTrail.cpp"
     # exception
-    ParseException.cpp
-    BlockParseException.cpp
-    ${HEADER_LIST}
+    "${CMAKE_CURRENT_SOURCE_DIR}/ParseException.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/BlockParseException.cpp"
+    PARENT_SCOPE
 )
-
-target_link_libraries(jdx PRIVATE api)
-
-# All users of this library will need at least C++17
-target_compile_features(jdx PUBLIC cxx_std_17)
-# For g++ 12 the above does not seem to suffice (e.g. does not recognize std::optional), hence additionally setting properties
-set_target_properties(jdx PROPERTIES
-    CXX_STANDARD 17
-    CXX_EXTENSIONS OFF
-)
-
-if (CMAKE_COMPILER_IS_GNUCXX AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS 9)
-    # make filesystem available
-    # see: https://stackoverflow.com/questions/33149878/experimentalfilesystem-linker-error
-    message(STATUS "Linking stdc++fs to GNUCXX version: ${CMAKE_CXX_COMPILER_VERSION}")
-    target_link_libraries(jdx stdc++fs)
-endif()
-
-# public headers
-target_include_directories(jdx PUBLIC ${PROJECT_SOURCE_DIR}/include)
-# private headers
-target_include_directories(jdx PRIVATE ${PROJECT_SOURCE_DIR}/src/jdx)
-
-# --------------------------------------------------------------
-# Use include-what-you-use if available => deactivated due to some iwyu issues
-# --------------------------------------------------------------
-#find_program(iwyu_path NAMES include-what-you-use iwyu REQUIRED)
-# if(NOT iwyu_path)
-#   message(FATAL_ERROR "Could not find the program include-what-you-use")
-# endif()
-#set_property(TARGET jdx PROPERTY CXX_INCLUDE_WHAT_YOU_USE ${iwyu_path})
