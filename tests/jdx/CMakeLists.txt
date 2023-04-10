@@ -1,4 +1,4 @@
-# Tests need to be added as executables first
+# Tests need to be added as executables
 add_executable(jdx_test
     api/JdxFileParserTest.cpp
     TextReaderTest.cpp
@@ -18,10 +18,7 @@ add_executable(jdx_test
     AuditTrailTest.cpp
     )
 
-# I'm using C++17 in the test
-target_compile_features(jdx_test PRIVATE cxx_std_17)
-
-# Should be linked to the library, as well as the Catch2 testing library
+# Link to the library, as well as the Catch2 testing library
 target_link_libraries(jdx_test PRIVATE sf catch2)
 # include private headers see https://stackoverflow.com/questions/35385908/cmake-testing-a-library-header-location-issue
 # required for testing some utils

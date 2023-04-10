@@ -1,18 +1,7 @@
-#set(HEADER_LIST
-#	"${binary_reader_SOURCE_DIR}/include/binaryreader/binary_reader.hpp"
-#	"${binary_reader_SOURCE_DIR}/include/catch2/catch.hpp")
-
-# Tests need to be added as executables first
-#add_executable(binary_reader_test binary_reader_test.cpp ${HEADER_LIST})
+# Tests need to be added as executables
 add_executable(io_test BinaryReaderTest.cpp)
 
-# I'm using C++17 in the test
-target_compile_features(io_test PRIVATE cxx_std_17)
-
-# We need this directory, and users of our library will need it too
-#target_include_directories(io_test PRIVATE ${INCLUDE_DIRECTORIES} ${TESTING_INCLUDE_DIRECTORIES})
-
-# Should be linked to the stream_reader library, as well as the Catch2 testing library
+# Link to the library, as well as the Catch2 testing library
 target_link_libraries(io_test PRIVATE sf catch2)
 
 # https://stackoverflow.com/questions/12313258/cmake-how-to-install-test-files-with-unit-tests
@@ -21,7 +10,7 @@ add_custom_command(
         TARGET io_test POST_BUILD
         COMMAND "${CMAKE_COMMAND}" -E copy_directory
                 "${CMAKE_CURRENT_SOURCE_DIR}/resources/"
-                "${CMAKE_CURRENT_BINARY_DIR}/resources/"
+                "$<TARGET_FILE_DIR:io_test>/resources/"
         VERBATIM # use VERBATIM to correctly handle paths that include spaces
 )
 

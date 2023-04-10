@@ -15,6 +15,7 @@ project(
 # For portability, do not use compiler specific C++ extensions and require minimum C++ standard
 # However, if included by another project that decision should be made there, so only make setting if top level project
 if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
+    # TODO: duplicate of settings in CMakelists.txt in src directory
     # E.g., for g++, let's ensure -std=c++xx instead of -std=g++xx
     set(CMAKE_CXX_EXTENSIONS OFF)
     # Set C++ 17

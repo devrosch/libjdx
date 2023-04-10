@@ -1,13 +1,10 @@
-# Tests need to be added as executables first
+# Tests need to be added as executables
 add_executable(stub_test
     StubFileParserTest.cpp
     StubNodeTest.cpp
 )
 
-# I'm using C++17 in the test
-target_compile_features(stub_test PRIVATE cxx_std_17)
-
-# Should be linked to the library, as well as the Catch2 testing library
+# Link to the library, as well as the Catch2 testing library
 target_link_libraries(stub_test PRIVATE sf catch2)
 
 # https://stackoverflow.com/questions/12313258/cmake-how-to-install-test-files-with-unit-tests
