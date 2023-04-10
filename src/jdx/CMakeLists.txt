@@ -1,4 +1,4 @@
-set(JDX_HEADER_LIST
+set(JDX_PUBLIC_HEADER_LIST
     # public api
     "${PROJECT_SOURCE_DIR}/include/jdx/api/JdxBlockNode.hpp"
     "${PROJECT_SOURCE_DIR}/include/jdx/api/JdxData2DNode.hpp"
@@ -6,15 +6,6 @@ set(JDX_HEADER_LIST
     # public data providers
     "${PROJECT_SOURCE_DIR}/include/jdx/JdxParser.hpp"
     "${PROJECT_SOURCE_DIR}/include/jdx/TextReader.hpp"
-    # util (private headers)
-    "${CMAKE_CURRENT_SOURCE_DIR}/util/StringUtils.hpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/util/LdrUtils.hpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/util/DataParser.hpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/util/TuplesParser.hpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/util/PeakTableParser.hpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/util/MultilineTuplesParser.hpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/util/PeakAssignmentsParser.hpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/util/AuditTrailParser.hpp"
     # ldr
     "${PROJECT_SOURCE_DIR}/include/jdx/LdrContainer.hpp"
     "${PROJECT_SOURCE_DIR}/include/jdx/Block.hpp"
@@ -45,7 +36,18 @@ set(JDX_HEADER_LIST
     # exception
     "${PROJECT_SOURCE_DIR}/include/jdx/ParseException.hpp"
     "${PROJECT_SOURCE_DIR}/include/jdx/BlockParseException.hpp"
-    PARENT_SCOPE
+)
+
+set(JDX_PRIVATE_HEADER_LIST
+    # util (private headers)
+    "${CMAKE_CURRENT_SOURCE_DIR}/util/StringUtils.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/util/LdrUtils.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/util/DataParser.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/util/TuplesParser.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/util/PeakTableParser.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/util/MultilineTuplesParser.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/util/PeakAssignmentsParser.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/util/AuditTrailParser.hpp"
 )
 
 set(JDX_SOURCE_LIST
@@ -89,5 +91,10 @@ set(JDX_SOURCE_LIST
     # exception
     "${CMAKE_CURRENT_SOURCE_DIR}/ParseException.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/BlockParseException.cpp"
-    PARENT_SCOPE
+)
+
+target_sources("${SF_LIBRARY_NAME}"
+    PRIVATE "${JDX_SOURCE_LIST}"
+    PUBLIC "${JDX_PUBLIC_HEADER_LIST}"
+    PRIVATE "${JDX_PRIVATE_HEADER_LIST}"
 )

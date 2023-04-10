@@ -19,7 +19,7 @@ add_executable(jdx_test
     )
 
 # Link to the library, as well as the Catch2 testing library
-target_link_libraries(jdx_test PRIVATE sf catch2)
+target_link_libraries(jdx_test PRIVATE "${SF_LIBRARY_NAME}" catch2)
 # include private headers see https://stackoverflow.com/questions/35385908/cmake-testing-a-library-header-location-issue
 # required for testing some utils
 target_include_directories(jdx_test PRIVATE $<TARGET_PROPERTY:sf,INCLUDE_DIRECTORIES>)

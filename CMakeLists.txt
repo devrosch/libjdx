@@ -12,6 +12,10 @@ project(
     DESCRIPTION "A library for reading scientific data formats"
     LANGUAGES CXX)
 
+# Name of the library to be generated (on Linux/Unix "libsf")
+# For WASM needs to be wrapped in a executable of possibly the same name (currently uses project name, i.e. "libsf")
+set(SF_LIBRARY_NAME "sf")
+
 # For portability, do not use compiler specific C++ extensions and require minimum C++ standard
 # However, if included by another project that decision should be made there, so only make setting if top level project
 if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
@@ -22,7 +26,6 @@ if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
     set(CMAKE_CXX_STANDARD 17)
     set(CMAKE_CXX_STANDARD_REQUIRED ON)
 endif()
-
 
 # --------------------------------------------------------------
 # Options

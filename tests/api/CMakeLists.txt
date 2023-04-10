@@ -4,7 +4,7 @@ add_executable(api_test
 )
 
 # Link to the library, as well as the Catch2 testing library and tromeloeil mocking library
-target_link_libraries(api_test PRIVATE sf catch2 trompeloeil)
+target_link_libraries(api_test PRIVATE "${SF_LIBRARY_NAME}" catch2 trompeloeil)
 
 # https://stackoverflow.com/questions/12313258/cmake-how-to-install-test-files-with-unit-tests
 # https://stackoverflow.com/questions/34799916/copy-file-from-source-directory-to-binary-directory-using-cmake

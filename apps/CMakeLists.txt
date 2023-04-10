@@ -1,10 +1,11 @@
-# Tests need to be added as executables first
-add_executable(libsf
+# For WASM, create an executable of same name as library
+# Only this will generate *.wasm and *.js files (e.g., libsf.wasm and libsf.js) that wrap the library and can be uses from JS
+add_executable("${CMAKE_PROJECT_NAME}"
     Main.cpp
 )
 
 # Should be linked to the library
-target_link_libraries(libsf PUBLIC sf)
+target_link_libraries("${CMAKE_PROJECT_NAME}" PUBLIC "${SF_LIBRARY_NAME}")
 
 if (EMSCRIPTEN)
     # Emscripten

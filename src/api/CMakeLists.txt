@@ -4,7 +4,6 @@ set(API_HEADER_LIST
     "${PROJECT_SOURCE_DIR}/include/api/Node.hpp"
     "${PROJECT_SOURCE_DIR}/include/api/FileParser.hpp"
     "${PROJECT_SOURCE_DIR}/include/api/FileParserSelector.hpp"
-    PARENT_SCOPE
 )
 
 set(API_SOURCE_LIST
@@ -13,5 +12,9 @@ set(API_SOURCE_LIST
     "${CMAKE_CURRENT_SOURCE_DIR}/Node.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/FileParser.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/FileParserSelector.cpp"
-    PARENT_SCOPE
+)
+
+target_sources("${SF_LIBRARY_NAME}"
+    PRIVATE "${API_SOURCE_LIST}"
+    PUBLIC "${API_HEADER_LIST}"
 )
