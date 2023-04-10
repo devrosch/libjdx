@@ -23,15 +23,15 @@
         console.log('JS: "/test/data2.txt" found: ' + sfr.isRecognized('/test/data2.txt'));
 
         console.log('JS: =======================================================');
-	let vec = new Module.vector$std$$shared_ptr$sciformats$$sciwrap$$model$$FileParser$$();
-	vec.push_back(sfr);
-	let frs = new Module.FileParserSelector(vec);
+        let vec = new Module.vector$std$$shared_ptr$sciformats$$api$$FileParser$$();
+        vec.push_back(sfr);
+        let frs = new Module.FileParserSelector(vec);
         console.log('JS: FileParserSelector.isRecognized("/data.txt"): ' + frs.isRecognized('/data.txt'));
         console.log('JS: FileParserSelector.isRecognized("/non_existent.txt"): ' + frs.isRecognized('/non_existent.txt'));
       }
     };
   </script>
-  <script src="sciwrap_main.js"></script>
+  <script src="libsf.js"></script>
 <!-- -->
   <!-- Service Worker test -->
   <script>

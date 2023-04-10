@@ -11,4 +11,6 @@ if (EMSCRIPTEN)
     # Emscripten
     # Avoid "undefined symbol" errors, see: https://stackoverflow.com/a/37869647
     target_link_options(libsf PRIVATE "--bind")
+    # Link workerfs
+    target_link_options(libsf PRIVATE "-lworkerfs.js")
 endif()

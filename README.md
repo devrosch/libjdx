@@ -3,7 +3,7 @@
 
 # libsf
 
-Library for reading scientific file formats.
+A library for reading scientific data formats.
 
 ## Prerequisites
 

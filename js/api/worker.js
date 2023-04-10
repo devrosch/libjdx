@@ -5,7 +5,8 @@ onmessage = function(e) {
     FS.mount(WORKERFS, { files: [f] }, '/work');
 
     let sfr = new Module.StubFileParser();
-    console.log('JS (Service Worker): "/work/' + f.name + '" found: ' + sfr.isResponsible('/work/' + f.name));
+    //console.log('JS (Service Worker): "/work/' + f.name + '" found: ' + sfr.isResponsible('/work/' + f.name));
+    console.log('JS (Service Worker): "/work/' + f.name + '" found: ' + sfr.isRecognized('/work/' + f.name));
 }
 
-self.importScripts('sciwrap_main.js');
+self.importScripts('libsf.js');
