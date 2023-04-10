@@ -1,3 +1,6 @@
+[![pipeline](https://gitlab.com/devrosch/libsf/badges/master/pipeline.svg)](https://gitlab.com/devrosch/libsf/commits/master)
+[![coverage](https://gitlab.com/devrosch/libsf/badges/master/coverage.svg)](https://devrosch.gitlab.io/libsf)
+
 # libsf
 
 Library for reading scientific file formats.
@@ -28,6 +31,12 @@ cd emsdk
 ```
 
 More recent versions of `emsdk` should also work.
+
+A pre-configured environment with all the above tools is also available as a Docker container on DockerHub. If you have Docker installed you can download the latest image with:
+
+```
+docker pull devrosch/cppcicdenv
+```
 
 ### macOS
 
@@ -131,6 +140,9 @@ The test coverage report from the latest successful CI/CD pipeline run is locate
 ## Documentation
 
 Documentation generated during the build by the CI/CD pipeline is located at: [GitLab Pages](https://devrosch.gitlab.io/sf/doc)
+
+For more detailed information on specific data formats see:
+* [JCAMP-DX](doc/jdx/README.md)
 
 ## Third Party Code
 
