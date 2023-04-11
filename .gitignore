@@ -14,3 +14,5 @@ doxy.config
 /build
 /build-wasm
 .DS_Store
+/example*/libsf.wasm
+/example*/libsf.js

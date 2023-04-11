@@ -28,6 +28,10 @@
         let frs = new Module.FileParserSelector(vec);
         console.log('JS: FileParserSelector.isRecognized("/data.txt"): ' + frs.isRecognized('/data.txt'));
         console.log('JS: FileParserSelector.isRecognized("/non_existent.txt"): ' + frs.isRecognized('/non_existent.txt'));
+
+        sfr.delete();
+        vec.delete();
+        frs.delete();
       }
     };
   </script>
