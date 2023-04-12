@@ -20,7 +20,7 @@ if (CMAKE_COMPILER_IS_GNUCXX AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS 9)
     # make filesystem available
     # see: https://stackoverflow.com/questions/33149878/experimentalfilesystem-linker-error
     message(STATUS "Linking stdc++fs to GNUCXX version: ${CMAKE_CXX_COMPILER_VERSION}")
-    target_link_libraries("${SF_LIBRARY_NAME}" stdc++fs)
+    target_link_libraries("${SF_LIBRARY_NAME}" PRIVATE stdc++fs)
 endif()
 
 if (EMSCRIPTEN)
