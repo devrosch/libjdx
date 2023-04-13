@@ -1,5 +1,5 @@
-#include "api/Node.hpp"
 #include "stub/StubFileParser.hpp"
+#include "api/Node.hpp"
 #include "stub/StubNode.hpp"
 
 #include <fstream>
@@ -10,8 +10,7 @@
 #include <emscripten/bind.h>
 #endif
 
-bool sciformats::stub::StubFileParser::isRecognized(
-    const std::string& path)
+bool sciformats::stub::StubFileParser::isRecognized(const std::string& path)
 {
     // for loading data in JS, see:
     // https://stackoverflow.com/questions/47313403/passing-client-files-to-webassembly-from-the-front-end
@@ -55,11 +54,12 @@ bool sciformats::stub::StubFileParser::isRecognized(
     return ret;
 }
 
-std::unique_ptr<sciformats::api::Node>
-sciformats::stub::StubFileParser::parse(const std::string& path)
+std::unique_ptr<sciformats::api::Node> sciformats::stub::StubFileParser::parse(
+    const std::string& path)
 {
     std::cout << "C++: StubFileParser.parse(): " << path << '\n';
-    std::unique_ptr<sciformats::api::Node> node = std::make_unique<StubNode>(StubNode());
+    std::unique_ptr<sciformats::api::Node> node
+        = std::make_unique<StubNode>(StubNode());
     return node;
 }
 

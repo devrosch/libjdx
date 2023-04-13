@@ -10,7 +10,8 @@ class StubFileParser : public sciformats::api::FileParser
 {
 public:
     bool isRecognized(const std::string& path) override;
-    std::unique_ptr<sciformats::api::Node> parse(const std::string& path) override;
+    std::unique_ptr<sciformats::api::Node> parse(
+        const std::string& path) override;
 
 private:
 };

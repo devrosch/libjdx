@@ -9,7 +9,8 @@
 #include <cstring>
 #include <limits>
 
-// see https://stackoverflow.com/a/43205345, https://stackoverflow.com/a/42074134
+// see https://stackoverflow.com/a/43205345,
+// https://stackoverflow.com/a/42074134
 #if defined(__GNUC__) && !defined(__clang__) && !defined(__INTEL_COMPILER)
 #define GNU_COMPILER
 #endif

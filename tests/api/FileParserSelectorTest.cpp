@@ -22,8 +22,7 @@ public:
 
     MAKE_MOCK1(isRecognized, bool(const std::string&), override);
     MAKE_MOCK1(parse,
-        std::unique_ptr<sciformats::api::Node>(const std::string&),
-        override);
+        std::unique_ptr<sciformats::api::Node>(const std::string&), override);
 };
 #pragma clang diagnostic pop
 

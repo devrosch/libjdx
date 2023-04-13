@@ -1,7 +1,7 @@
 #include "jdx/api/JdxFileParser.hpp"
-#include "jdx/api/JdxBlockNode.hpp"
-#include "jdx/JdxParser.hpp"
 #include "api/Node.hpp"
+#include "jdx/JdxParser.hpp"
+#include "jdx/api/JdxBlockNode.hpp"
 
 #include <fstream>
 #include <iostream>
@@ -11,8 +11,7 @@
 #include <emscripten/bind.h>
 #endif
 
-bool sciformats::jdx::api::JdxFileParser::isRecognized(
-    const std::string& path)
+bool sciformats::jdx::api::JdxFileParser::isRecognized(const std::string& path)
 {
     std::cout << "C++: JdxFileParser.isRecognized(): " << path << '\n';
     std::ifstream input{path};

@@ -7,14 +7,12 @@
 #endif
 
 sciformats::api::FileParserSelector::FileParserSelector(
-    std::vector<std::shared_ptr<sciformats::api::FileParser>>
-        fileParsers)
+    std::vector<std::shared_ptr<sciformats::api::FileParser>> fileParsers)
     : m_fileParsers{std::move(fileParsers)}
 {
 }
 
-bool sciformats::api::FileParserSelector::isRecognized(
-    const std::string& path)
+bool sciformats::api::FileParserSelector::isRecognized(const std::string& path)
 {
     // for C++20 #include <algorithm> and do:
     // std::ranges::any_of(m_fileParsers,
@@ -75,8 +73,8 @@ EMSCRIPTEN_BINDINGS(FileParserSelector)
     using namespace sciformats::api;
     using namespace emscripten;
     class_<FileParserSelector, base<FileParser>>("FileParserSelector")
-        .constructor<std::vector<
-            std::shared_ptr<sciformats::api::FileParser>>>()
+        .constructor<
+            std::vector<std::shared_ptr<sciformats::api::FileParser>>>()
         .function("isRecognized", &FileParserSelector::isRecognized)
         .function("parse", &FileParserSelector::parse);
     register_vector<std::shared_ptr<sciformats::api::FileParser>>(

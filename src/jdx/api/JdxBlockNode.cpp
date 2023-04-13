@@ -1,9 +1,9 @@
 #include "jdx/api/JdxBlockNode.hpp"
-#include "jdx/Block.hpp"
-#include "jdx/api/JdxData2DNode.hpp"
-#include "jdx/JdxParser.hpp"
 #include "api/KeyValueParam.hpp"
 #include "api/Node.hpp"
+#include "jdx/Block.hpp"
+#include "jdx/JdxParser.hpp"
+#include "jdx/api/JdxData2DNode.hpp"
 
 #ifdef __EMSCRIPTEN__
 #include <emscripten/bind.h>
