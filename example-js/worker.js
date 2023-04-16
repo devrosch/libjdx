@@ -1,4 +1,7 @@
 onmessage = function(e) {
+    console.log('Module:');
+    console.log(Module);
+    
     const f = e.data[0];
 
     const dir = '/work';
