@@ -16,6 +16,7 @@ EMSCRIPTEN_BINDINGS(Node)
     // see:
     // https://stackoverflow.com/questions/31814092/cant-use-vector-of-unique-ptr-in-emscripten-bindings
     register_vector<KeyValueParam>("vector<KeyValueParam>");
+    register_vector<Point2D>("vector<Point2D>");
     register_vector<std::shared_ptr<Node>>("vector<std::shared_ptr<Node>>");
     // as an alternative for mapping vectors to JS arrays, see:
     // https://github.com/emscripten-core/emscripten/issues/11070

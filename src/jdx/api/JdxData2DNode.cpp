@@ -23,7 +23,7 @@ sciformats::jdx::api::JdxData2DNode::getParams()
     return std::vector<sciformats::api::KeyValueParam>{};
 }
 
-std::optional<std::vector<sciformats::api::Point2D>>
+std::vector<sciformats::api::Point2D>
 sciformats::jdx::api::JdxData2DNode::getData()
 {
     // TODO: avoid copy on each call

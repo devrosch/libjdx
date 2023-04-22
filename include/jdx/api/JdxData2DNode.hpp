@@ -15,7 +15,7 @@ public:
         std::string name, std::vector<std::pair<double, double>> data);
     [[nodiscard]] std::string getName() const override;
     std::vector<sciformats::api::KeyValueParam> getParams() override;
-    std::optional<std::vector<sciformats::api::Point2D>> getData() override;
+    std::vector<sciformats::api::Point2D> getData() override;
     std::vector<std::shared_ptr<sciformats::api::Node>>
     getChildNodes() override;
 

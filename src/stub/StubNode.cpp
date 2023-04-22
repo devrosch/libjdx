@@ -21,7 +21,7 @@ sciformats::stub::StubNode::getParams()
     return vec;
 }
 
-std::optional<std::vector<sciformats::api::Point2D>>
+std::vector<sciformats::api::Point2D>
 sciformats::stub::StubNode::getData()
 {
     auto vec = std::vector<sciformats::api::Point2D>();

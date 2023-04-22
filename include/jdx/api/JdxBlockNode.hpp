@@ -14,7 +14,7 @@ public:
     explicit JdxBlockNode(const sciformats::jdx::Block& block);
     [[nodiscard]] std::string getName() const override;
     std::vector<sciformats::api::KeyValueParam> getParams() override;
-    std::optional<std::vector<sciformats::api::Point2D>> getData() override;
+    std::vector<sciformats::api::Point2D> getData() override;
     std::vector<std::shared_ptr<sciformats::api::Node>>
     getChildNodes() override;
 

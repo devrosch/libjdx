@@ -40,11 +40,11 @@ sciformats::jdx::api::JdxBlockNode::getParams()
     return vec;
 }
 
-std::optional<std::vector<sciformats::api::Point2D>>
+std::vector<sciformats::api::Point2D>
 sciformats::jdx::api::JdxBlockNode::getData()
 {
     // TODO: return data here for data blocks instead of as child node
-    return std::nullopt;
+    return {};
 }
 
 std::vector<std::shared_ptr<sciformats::api::Node>>

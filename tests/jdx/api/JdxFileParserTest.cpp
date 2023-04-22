@@ -25,7 +25,7 @@ TEST_CASE(
         REQUIRE(nodePtr != nullptr);
         REQUIRE("Root LINK BLOCK" == nodePtr->getName());
         REQUIRE(nodePtr->getParams().size() == 4);
-        REQUIRE(nodePtr->getData() == std::nullopt);
+        REQUIRE(nodePtr->getData().empty());
         REQUIRE(nodePtr->getChildNodes().size() == 4);
 
         SECTION("Parses nested XYDATA node")
@@ -40,10 +40,7 @@ TEST_CASE(
             REQUIRE(xyDataNode->getParams().empty());
             REQUIRE(xyDataNode->getChildNodes().empty());
 
-            auto dataOpt = xyDataNode->getData();
-            REQUIRE(dataOpt.has_value());
-
-            auto data = dataOpt.value();
+            auto data = xyDataNode->getData();
             REQUIRE(data.size() == 2);
             REQUIRE(data.at(0).x == Approx(450.0));
             REQUIRE(data.at(0).y == Approx(10.0));
@@ -61,10 +58,7 @@ TEST_CASE(
             REQUIRE(raDataNode->getParams().empty());
             REQUIRE(raDataNode->getChildNodes().empty());
 
-            auto dataOpt = raDataNode->getData();
-            REQUIRE(dataOpt.has_value());
-
-            auto data = dataOpt.value();
+            auto data = raDataNode->getData();
             REQUIRE(data.size() == 3);
             REQUIRE(data.at(0).x == Approx(0.0));
             REQUIRE(data.at(0).y == Approx(10.0));
@@ -82,10 +76,7 @@ TEST_CASE(
             REQUIRE(xyPointsNode->getParams().empty());
             REQUIRE(xyPointsNode->getChildNodes().empty());
 
-            auto dataOpt = xyPointsNode->getData();
-            REQUIRE(dataOpt.has_value());
-
-            auto data = dataOpt.value();
+            auto data = xyPointsNode->getData();
             REQUIRE(data.size() == 4);
             REQUIRE(data.at(0).x == Approx(900.0));
             REQUIRE(data.at(0).y == Approx(100.0));
