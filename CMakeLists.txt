@@ -8,7 +8,7 @@ cmake_minimum_required(VERSION 3.15...3.25)
 # Project name and a few useful settings. Other commands can pick up the results
 project(
     libsf
-    VERSION 0.1
+    VERSION 0.1.0
     DESCRIPTION "A library for reading scientific data formats"
     LANGUAGES CXX)
 

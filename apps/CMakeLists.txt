@@ -7,6 +7,9 @@ add_executable("${CMAKE_PROJECT_NAME}"
 # Should be linked to the library
 target_link_libraries("${CMAKE_PROJECT_NAME}" PUBLIC "${SF_LIBRARY_NAME}")
 
+target_compile_definitions("${CMAKE_PROJECT_NAME}" PRIVATE SF_PROJECT_NAME="${PROJECT_NAME}")
+target_compile_definitions("${CMAKE_PROJECT_NAME}" PRIVATE SF_PROJECT_VERSION="${PROJECT_VERSION}")
+
 if (EMSCRIPTEN)
     # Emscripten
     # Avoid "undefined symbol" errors, see: https://stackoverflow.com/a/37869647
