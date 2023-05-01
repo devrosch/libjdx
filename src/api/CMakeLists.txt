@@ -12,6 +12,7 @@ set(API_SOURCE_LIST
     "${CMAKE_CURRENT_SOURCE_DIR}/Node.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/FileParser.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/FileParserSelector.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/ExceptionUtils.cpp"
 )
 
 target_sources("${SF_LIBRARY_NAME}"
