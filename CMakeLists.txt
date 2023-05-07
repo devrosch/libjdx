@@ -48,6 +48,9 @@ if (EMSCRIPTEN)
     # see: https://cmake.org/cmake/help/latest/command/add_compile_options.html#option-de-duplication
     add_compile_options(SHELL:-s DISABLE_EXCEPTION_CATCHING=0)
     add_link_options(SHELL:-s DISABLE_EXCEPTION_CATCHING=0)
+    # TODO: use in more recent version node and emsdk instead of DISABLE_EXCEPTION_CATCHING
+    # add_compile_options(-fwasm-exceptions)
+    # add_link_options(-fwasm-exceptions)
 endif()
 
 # --------------------------------------------------------------
