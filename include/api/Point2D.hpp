@@ -1,5 +1,5 @@
-#ifndef LIBAPI_POINT2D_HPP
-#define LIBAPI_POINT2D_HPP
+#ifndef API_POINT2D_HPP
+#define API_POINT2D_HPP
 
 namespace sciformats::api
 {
@@ -10,4 +10,4 @@ struct Point2D
 };
 } // sciformats::api
 
-#endif // LIBAPI_POINT2D_HPP
+#endif

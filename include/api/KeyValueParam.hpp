@@ -1,5 +1,5 @@
-#ifndef LIBAPI_KEYVALUEPARAM_HPP
-#define LIBAPI_KEYVALUEPARAM_HPP
+#ifndef API_KEYVALUEPARAM_HPP
+#define API_KEYVALUEPARAM_HPP
 
 #include <string>
 
@@ -12,4 +12,4 @@ struct KeyValueParam
 };
 } // sciformats::api
 
-#endif // LIBAPI_KEYVALUEPARAM_HPP
+#endif

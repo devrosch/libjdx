@@ -1,5 +1,5 @@
-#ifndef LIBAPI_NODE_HPP
-#define LIBAPI_NODE_HPP
+#ifndef API_NODE_HPP
+#define API_NODE_HPP
 
 #include "api/KeyValueParam.hpp"
 #include "api/Point2D.hpp"
@@ -33,4 +33,4 @@ public:
 };
 } // sciformats::api
 
-#endif // LIBAPI_NODE_HPP
+#endif

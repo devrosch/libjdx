@@ -3,6 +3,10 @@ set(JDX_PUBLIC_HEADER_LIST
     "${PROJECT_SOURCE_DIR}/include/jdx/api/JdxBlockNode.hpp"
     "${PROJECT_SOURCE_DIR}/include/jdx/api/JdxData2DNode.hpp"
     "${PROJECT_SOURCE_DIR}/include/jdx/api/JdxFileParser.hpp"
+
+    "${PROJECT_SOURCE_DIR}/include/jdx/api/JdxDataScanner.hpp"
+    "${PROJECT_SOURCE_DIR}/include/jdx/api/JdxDataMapper.hpp"
+
     # public data providers
     "${PROJECT_SOURCE_DIR}/include/jdx/JdxParser.hpp"
     "${PROJECT_SOURCE_DIR}/include/jdx/TextReader.hpp"
@@ -55,6 +59,10 @@ set(JDX_SOURCE_LIST
     "${CMAKE_CURRENT_SOURCE_DIR}/api/JdxBlockNode.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/api/JdxData2DNode.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/api/JdxFileParser.cpp"
+
+    "${CMAKE_CURRENT_SOURCE_DIR}/api/JdxDataScanner.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/api/JdxDataMapper.cpp"
+
     # public data providers
     "${CMAKE_CURRENT_SOURCE_DIR}/JdxParser.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/TextReader.cpp"

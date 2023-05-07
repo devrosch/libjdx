@@ -1,5 +1,5 @@
-#ifndef LIBAPI_FILEPARSERSELECTOR_HPP
-#define LIBAPI_FILEPARSERSELECTOR_HPP
+#ifndef API_FILEPARSERSELECTOR_HPP
+#define API_FILEPARSERSELECTOR_HPP
 
 #include "api/FileParser.hpp"
 #include "api/Node.hpp"
@@ -22,4 +22,4 @@ private:
 };
 } // sciformats::api
 
-#endif // LIBAPI_FILEPARSERSELECTOR_HPP
+#endif

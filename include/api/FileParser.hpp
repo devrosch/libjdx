@@ -1,5 +1,5 @@
-#ifndef LIBAPI_FILEPARSER_HPP
-#define LIBAPI_FILEPARSER_HPP
+#ifndef API_FILEPARSER_HPP
+#define API_FILEPARSER_HPP
 
 #include "api/Node.hpp"
 
@@ -23,4 +23,4 @@ public:
 };
 } // sciformats::api
 
-#endif // LIBAPI_FILEPARSER_HPP
+#endif

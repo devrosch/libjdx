@@ -1,6 +1,10 @@
 # Tests need to be added as executables
 add_executable(jdx_test
     api/JdxFileParserTest.cpp
+
+    api/JdxDataScannerTest.cpp
+    api/JdxDataMapperTest.cpp
+
     TextReaderTest.cpp
     JdxParserTest.cpp
     StringUtilsTest.cpp
