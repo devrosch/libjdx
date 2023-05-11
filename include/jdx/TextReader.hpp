@@ -59,6 +59,7 @@ public:
 
 private:
     std::unique_ptr<std::istream> m_streamPtr;
+    // std::unique_ptr<char[]> m_bufferPtr;
 
     void setStreamFlags();
 };

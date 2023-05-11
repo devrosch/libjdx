@@ -79,3 +79,11 @@ sciformats::jdx::Block sciformats::jdx::JdxParser::parse(
     sciformats::jdx::Block block{std::move(textReaderPtr)};
     return block;
 }
+
+sciformats::jdx::Block sciformats::jdx::JdxParser::parse(
+    const std::string& filePath)
+{
+    auto textReaderPtr = std::make_unique<TextReader>(filePath);
+    sciformats::jdx::Block block{std::move(textReaderPtr)};
+    return block;
+}

@@ -289,7 +289,7 @@ sciformats::jdx::util::DataParser::toAffn(std::string& token)
 }
 
 bool sciformats::jdx::util::DataParser::isTokenDelimiter(
-    std::string encodedValues, size_t index)
+    const std::string& encodedValues, size_t index)
 {
     if (index >= encodedValues.size())
     {
@@ -300,7 +300,7 @@ bool sciformats::jdx::util::DataParser::isTokenDelimiter(
 }
 
 bool sciformats::jdx::util::DataParser::isTokenStart(
-    std::string encodedValues, size_t index)
+    const std::string& encodedValues, size_t index)
 {
     if (index >= encodedValues.size())
     {

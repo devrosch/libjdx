@@ -31,6 +31,13 @@ public:
      */
     Block static parse(std::unique_ptr<std::istream> streamPtr);
 
+    /**
+     * @brief Parses the data.
+     * @param filePath Path to the file.
+     * @return A Block representing the data.
+     */
+    Block static parse(const std::string& filePath);
+
 private:
     static constexpr std::array<const char*, 3> s_acceptedExtensions
         = {".jdx", ".dx", ".jcm"};

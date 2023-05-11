@@ -15,7 +15,7 @@
 #endif
 
 sciformats::jdx::api::JdxDataMapper::JdxDataMapper(const std::string& path)
-  : m_rootBlock{std::make_unique<sciformats::jdx::Block>(sciformats::jdx::JdxParser::parse(std::move(std::make_unique<std::ifstream>(path))))}
+  : m_rootBlock{std::make_unique<sciformats::jdx::Block>(sciformats::jdx::JdxParser::parse(path))}
 {
 }
 

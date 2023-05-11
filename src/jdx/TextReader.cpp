@@ -2,6 +2,7 @@
 #include "jdx/ParseException.hpp"
 
 #include <fstream>
+#include <sstream>
 
 sciformats::jdx::TextReader::TextReader(std::unique_ptr<std::istream> streamPtr)
     : m_streamPtr{std::move(streamPtr)}
@@ -10,8 +11,25 @@ sciformats::jdx::TextReader::TextReader(std::unique_ptr<std::istream> streamPtr)
 }
 
 sciformats::jdx::TextReader::TextReader(const std::string& filePath)
+    // : m_streamPtr{}
     : m_streamPtr{std::make_unique<std::ifstream>(filePath)}
+    // , m_bufferPtr{nullptr}
 {
+    // load fully into memory speeds up emscripten reading a lot
+    // TODO: implement chunked loading
+    // auto streamPtr = std::make_unique<std::ifstream>(filePath);
+    // auto stringstreamPtr = std::make_unique<std::stringstream>();
+    // *stringstreamPtr << streamPtr->rdbuf();
+    // m_streamPtr = std::move(stringstreamPtr);
+
+    // little to no effect
+    // constexpr size_t bufferSize = 1024 * 1024;
+    // auto bufferPtr = std::make_unique<char[]>(bufferSize);
+    // auto streamPtr = std::make_unique<std::ifstream>();
+    // streamPtr->rdbuf()->pubsetbuf(bufferPtr.get(), bufferSize);
+    // streamPtr->open(filePath);
+    // m_streamPtr = std::move(streamPtr);
+    // m_bufferPtr = std::move(bufferPtr);
     setStreamFlags();
 }
 
