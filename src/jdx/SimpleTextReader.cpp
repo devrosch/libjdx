@@ -1,39 +1,22 @@
-#include "jdx/TextReader.hpp"
+#include "jdx/SimpleTextReader.hpp"
 #include "jdx/ParseException.hpp"
 
 #include <fstream>
 #include <sstream>
 
-sciformats::jdx::TextReader::TextReader(std::unique_ptr<std::istream> streamPtr)
+sciformats::jdx::SimpleTextReader::SimpleTextReader(std::unique_ptr<std::istream> streamPtr)
     : m_streamPtr{std::move(streamPtr)}
 {
     setStreamFlags();
 }
 
-sciformats::jdx::TextReader::TextReader(const std::string& filePath)
-    // : m_streamPtr{}
+sciformats::jdx::SimpleTextReader::SimpleTextReader(const std::string& filePath)
     : m_streamPtr{std::make_unique<std::ifstream>(filePath)}
-    // , m_bufferPtr{nullptr}
 {
-    // load fully into memory speeds up emscripten reading a lot
-    // TODO: implement chunked loading
-    // auto streamPtr = std::make_unique<std::ifstream>(filePath);
-    // auto stringstreamPtr = std::make_unique<std::stringstream>();
-    // *stringstreamPtr << streamPtr->rdbuf();
-    // m_streamPtr = std::move(stringstreamPtr);
-
-    // little to no effect
-    // constexpr size_t bufferSize = 1024 * 1024;
-    // auto bufferPtr = std::make_unique<char[]>(bufferSize);
-    // auto streamPtr = std::make_unique<std::ifstream>();
-    // streamPtr->rdbuf()->pubsetbuf(bufferPtr.get(), bufferSize);
-    // streamPtr->open(filePath);
-    // m_streamPtr = std::move(streamPtr);
-    // m_bufferPtr = std::move(bufferPtr);
     setStreamFlags();
 }
 
-void sciformats::jdx::TextReader::setStreamFlags()
+void sciformats::jdx::SimpleTextReader::setStreamFlags()
 {
     if (m_streamPtr == nullptr)
     {
@@ -44,18 +27,18 @@ void sciformats::jdx::TextReader::setStreamFlags()
     m_streamPtr->exceptions(std::ios::failbit | std::ios::badbit);
 }
 
-std::ios::pos_type sciformats::jdx::TextReader::tellg() const
+std::ios::pos_type sciformats::jdx::SimpleTextReader::tellg() const
 {
     return m_streamPtr->tellg();
 }
 
-void sciformats::jdx::TextReader::seekg(
+void sciformats::jdx::SimpleTextReader::seekg(
     std::ios::pos_type position, std::ios_base::seekdir seekdir)
 {
     m_streamPtr->seekg(position, seekdir);
 }
 
-std::ios::pos_type sciformats::jdx::TextReader::getLength()
+std::ios::pos_type sciformats::jdx::SimpleTextReader::getLength()
 {
     const std::ios::pos_type current = m_streamPtr->tellg();
     m_streamPtr->seekg(0, std::ios::end);
@@ -64,7 +47,7 @@ std::ios::pos_type sciformats::jdx::TextReader::getLength()
     return length;
 }
 
-bool sciformats::jdx::TextReader::eof() const
+bool sciformats::jdx::SimpleTextReader::eof() const
 {
     // see:
     // https://stackoverflow.com/questions/6283632/how-to-know-if-the-next-character-is-eof-in-c
@@ -83,7 +66,7 @@ bool sciformats::jdx::TextReader::eof() const
     return false;
 }
 
-std::string sciformats::jdx::TextReader::readLine()
+std::string sciformats::jdx::SimpleTextReader::readLine()
 {
     std::string out{};
     if (std::getline(*m_streamPtr, out))

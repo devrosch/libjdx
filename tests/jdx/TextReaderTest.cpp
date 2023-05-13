@@ -48,6 +48,8 @@ TEST_CASE("reads data provided by an istream", "[TextReader]")
     REQUIRE(1 == reader.tellg());
     reader.seekg(21);
     REQUIRE(21 == reader.tellg());
+    reader.seekg(8);
+    REQUIRE("line 2" == reader.readLine());
 }
 
 TEST_CASE("throws when trying to read past end", "[TextReader]")

@@ -12,7 +12,7 @@ TEST_CASE(
     SECTION("reads file specified by path", "[BufferedTextReader]")
     {
         const std::string path{"resources/dummy.txt"};
-        sciformats::jdx::BufferedTextReader reader{path};
+        sciformats::jdx::BufferedTextReader reader{path, 5};
 
         REQUIRE(0 == reader.tellg());
         REQUIRE(20 == reader.getLength());
@@ -32,7 +32,7 @@ TEST_CASE(
                           "line 3"};
         auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
         streamPtr->str(input);
-        sciformats::jdx::BufferedTextReader reader{std::move(streamPtr)};
+        sciformats::jdx::BufferedTextReader reader{std::move(streamPtr), 5};
 
         REQUIRE(0 == reader.tellg());
         REQUIRE(21 == reader.getLength());
@@ -51,6 +51,8 @@ TEST_CASE(
         REQUIRE(1 == reader.tellg());
         reader.seekg(21);
         REQUIRE(21 == reader.tellg());
+        reader.seekg(8);
+        REQUIRE("line 2" == reader.readLine());
     }
 
     SECTION("throws when trying to read past end", "[BufferedTextReader]")
@@ -58,7 +60,7 @@ TEST_CASE(
         std::string input{};
         auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
         streamPtr->str(input);
-        sciformats::jdx::BufferedTextReader reader{std::move(streamPtr)};
+        sciformats::jdx::BufferedTextReader reader{std::move(streamPtr), 5};
 
         REQUIRE_THROWS(reader.readLine());
     }

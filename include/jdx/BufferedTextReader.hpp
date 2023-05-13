@@ -18,14 +18,14 @@ public:
      * @param streamPtr An open input stream.
      * @param bufferSize The size of the buffer in bytes.
      */
-    explicit BufferedTextReader(std::unique_ptr<std::istream> streamPtr, size_t bufferSize = 65536);
+    explicit BufferedTextReader(std::unique_ptr<std::istream> streamPtr, size_t bufferSize = s_bufferDefaultMaxSize);
 
     /**
      * @brief Constructs from file.
      * @param filePath Path to the file.
      * @param bufferSize The size of the buffer in bytes.
      */
-    explicit BufferedTextReader(const std::string& filePath, size_t bufferSize = 65536);
+    explicit BufferedTextReader(const std::string& filePath, size_t bufferSize = s_bufferDefaultMaxSize);
 
     /**
      * @brief tellg Get the current read position in the data.
@@ -61,6 +61,7 @@ public:
     std::string readLine();
 
 private:
+    static constexpr size_t s_bufferDefaultMaxSize = 4 * 1024;
     std::unique_ptr<std::istream> m_streamPtr;
     size_t m_bufferMaxSize;
     std::vector<char> m_buffer;
@@ -69,7 +70,7 @@ private:
 
     void setStreamFlags();
     std::ios::pos_type calculateAbsolutePosition(std::ios::pos_type position, std::ios_base::seekdir seekdir);
-    void updateChunk(std::ios::pos_type position);
+    void updateBuffer(std::ios::pos_type position);
 };
 } // namespace sciformats::jdx
 

@@ -15,7 +15,7 @@ sciformats::jdx::BufferedTextReader::BufferedTextReader(std::unique_ptr<std::ist
     , m_bufferPosIt{m_buffer.begin()}
 {
     setStreamFlags();
-    updateChunk(0);
+    updateBuffer(0);
 }
 
 sciformats::jdx::BufferedTextReader::BufferedTextReader(const std::string& filePath, size_t bufferSize)
@@ -26,7 +26,7 @@ sciformats::jdx::BufferedTextReader::BufferedTextReader(const std::string& fileP
     , m_bufferPosIt{m_buffer.begin()}
 {
     setStreamFlags();
-    updateChunk(0);
+    updateBuffer(0);
 }
 
 void sciformats::jdx::BufferedTextReader::setStreamFlags()
@@ -36,7 +36,7 @@ void sciformats::jdx::BufferedTextReader::setStreamFlags()
         throw ParseException("Text reader input stream is null.");
     }
     // the underlying read() method sets failbit and eofbit at end of file, so do not set
-    // std::ios::eofbit
+    // std::ios::failbit std::ios::eofbit
     m_streamPtr->exceptions(std::ios::badbit);
 }
 
@@ -46,7 +46,7 @@ std::ios::pos_type sciformats::jdx::BufferedTextReader::calculateAbsolutePositio
     std::streampos pos = 0;
     if (seekdir == std::ios_base::beg)
     {
-        pos = m_bufferBasePos + position;
+        pos = position;
     }
     else if (seekdir == std::ios_base::cur)
     {
@@ -54,26 +54,24 @@ std::ios::pos_type sciformats::jdx::BufferedTextReader::calculateAbsolutePositio
     }
     else if (seekdir == std::ios_base::end)
     {
-        pos = m_bufferBasePos - position;
+        pos = getLength() - position;
     }
     return pos;
 }
 
-void sciformats::jdx::BufferedTextReader::updateChunk(std::ios::pos_type position)
+void sciformats::jdx::BufferedTextReader::updateBuffer(std::ios::pos_type position)
 {
     auto bufferStartPos = static_cast<std::ios::pos_type>((position / m_bufferMaxSize) * m_bufferMaxSize);
-    auto good0 = m_streamPtr->good();
     m_streamPtr->seekg(bufferStartPos);
-    auto good1 = m_streamPtr->good();
+    m_buffer.resize(m_bufferMaxSize);
     m_streamPtr->read(m_buffer.data(), m_bufferMaxSize);
-    auto good2 = m_streamPtr->good();
     const auto numCharsRead = m_streamPtr->gcount();
     if (m_streamPtr->eof())
     {
         m_streamPtr->clear();
     }
-    auto good3 = m_streamPtr->good();
     m_buffer.resize(numCharsRead);
+    m_bufferBasePos = bufferStartPos;
     m_bufferPosIt = std::begin(m_buffer) + (position - bufferStartPos);
 }
 
@@ -102,7 +100,7 @@ void sciformats::jdx::BufferedTextReader::seekg(
         else
         {
             // new pos outside existing buffer => read chunk around new pos from stream
-            updateChunk(pos);
+            updateBuffer(pos);
         }
     }
 }
@@ -148,16 +146,19 @@ std::string sciformats::jdx::BufferedTextReader::readLine()
     }
     auto posIt = std::find(m_bufferPosIt, m_buffer.cend(), '\n');    
     std::string out{m_bufferPosIt, posIt};
+    auto lfFound = posIt != m_buffer.cend();
     // set new buffer position either past end or past found LF
-    m_bufferPosIt = posIt == m_buffer.cend() ? m_buffer.cend() : ++posIt;
-    while (posIt == m_buffer.cend())
+    m_bufferPosIt = lfFound ? ++posIt : m_buffer.cend();
+    while (!lfFound && nextChunkStartPos < getLength())
     {
         // no LF encountered => load next chunk if available and continue search
-        if (nextChunkStartPos >= getLength())
-        {
-            break;
-        }
-        updateChunk(nextChunkStartPos);
+        updateBuffer(nextChunkStartPos);        
+        nextChunkStartPos = m_bufferBasePos + static_cast<std::ios::pos_type>(m_bufferMaxSize);
+        posIt = std::find(m_bufferPosIt, m_buffer.cend(), '\n');
+        out.append(m_bufferPosIt, posIt);
+        lfFound = posIt != m_buffer.cend();
+        // set new buffer position either past end or past found LF
+        m_bufferPosIt = lfFound ? ++posIt : m_buffer.cend();
     }
     if (m_streamPtr->eof())
     {
