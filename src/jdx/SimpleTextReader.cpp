@@ -4,7 +4,8 @@
 #include <fstream>
 #include <sstream>
 
-sciformats::jdx::SimpleTextReader::SimpleTextReader(std::unique_ptr<std::istream> streamPtr)
+sciformats::jdx::SimpleTextReader::SimpleTextReader(
+    std::unique_ptr<std::istream> streamPtr)
     : m_streamPtr{std::move(streamPtr)}
 {
     setStreamFlags();

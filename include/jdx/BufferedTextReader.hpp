@@ -18,14 +18,16 @@ public:
      * @param streamPtr An open input stream.
      * @param bufferSize The size of the buffer in bytes.
      */
-    explicit BufferedTextReader(std::unique_ptr<std::istream> streamPtr, size_t bufferSize = s_bufferDefaultMaxSize);
+    explicit BufferedTextReader(std::unique_ptr<std::istream> streamPtr,
+        size_t bufferSize = s_bufferDefaultMaxSize);
 
     /**
      * @brief Constructs from file.
      * @param filePath Path to the file.
      * @param bufferSize The size of the buffer in bytes.
      */
-    explicit BufferedTextReader(const std::string& filePath, size_t bufferSize = s_bufferDefaultMaxSize);
+    explicit BufferedTextReader(const std::string& filePath,
+        size_t bufferSize = s_bufferDefaultMaxSize);
 
     /**
      * @brief tellg Get the current read position in the data.
@@ -36,7 +38,8 @@ public:
     /**
      * @brief seekg Set the read position in the data.
      */
-    void seekg(std::ios::off_type, std::ios_base::seekdir seekdir = std::ios_base::beg);
+    void seekg(std::ios::off_type,
+        std::ios_base::seekdir seekdir = std::ios_base::beg);
 
     /**
      * @brief getLength The length (in chars) of the input data.
@@ -69,7 +72,8 @@ private:
     std::vector<char>::const_iterator m_bufferPosIt;
 
     void setStreamFlags();
-    std::ios::pos_type calculateAbsolutePosition(std::ios::pos_type position, std::ios_base::seekdir seekdir);
+    std::ios::pos_type calculateAbsolutePosition(
+        std::ios::pos_type position, std::ios_base::seekdir seekdir);
     void updateBuffer(std::ios::pos_type position);
 };
 } // namespace sciformats::jdx

@@ -6,8 +6,7 @@
 #include <sstream>
 #include <string>
 
-TEST_CASE(
-    "BufferedTextReader reads data", "[BufferedTextReader]")
+TEST_CASE("BufferedTextReader reads data", "[BufferedTextReader]")
 {
     SECTION("reads file specified by path", "[BufferedTextReader]")
     {

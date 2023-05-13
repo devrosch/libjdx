@@ -15,12 +15,13 @@
 #endif
 
 sciformats::jdx::api::JdxDataMapper::JdxDataMapper(const std::string& path)
-  : m_rootBlock{std::make_unique<sciformats::jdx::Block>(sciformats::jdx::JdxParser::parse(path))}
+    : m_rootBlock{std::make_unique<sciformats::jdx::Block>(
+        sciformats::jdx::JdxParser::parse(path))}
 {
 }
 
-sciformats::api::Node2
-sciformats::jdx::api::JdxDataMapper::read(const std::string& path)
+sciformats::api::Node2 sciformats::jdx::api::JdxDataMapper::read(
+    const std::string& path)
 {
     std::cout << "C++: JdxDataMapper.read(): " << path << '\n';
     std::vector<size_t> nodeIndices = convertPathToNodeIndices(path);
@@ -28,7 +29,9 @@ sciformats::jdx::api::JdxDataMapper::read(const std::string& path)
     return node;
 }
 
-std::vector<size_t> sciformats::jdx::api::JdxDataMapper::convertPathToNodeIndices(const std::string& path)
+std::vector<size_t>
+sciformats::jdx::api::JdxDataMapper::convertPathToNodeIndices(
+    const std::string& path)
 {
     auto pathSegments = util::split(path, "/", true);
     if (!pathSegments.at(0).empty() || pathSegments.size() < 2)
@@ -50,7 +53,8 @@ std::vector<size_t> sciformats::jdx::api::JdxDataMapper::convertPathToNodeIndice
     return nodeIndices;
 }
 
-sciformats::api::Node2 sciformats::jdx::api::JdxDataMapper::retrieveNode(const std::vector<size_t>& nodeIndices)
+sciformats::api::Node2 sciformats::jdx::api::JdxDataMapper::retrieveNode(
+    const std::vector<size_t>& nodeIndices)
 {
     // TODO: try and find a way to do this without raw pointers
     const Block* block = &(*m_rootBlock);
@@ -62,7 +66,8 @@ sciformats::api::Node2 sciformats::jdx::api::JdxDataMapper::retrieveNode(const s
     return mapBlock(*block);
 }
 
-sciformats::api::Node2 sciformats::jdx::api::JdxDataMapper::mapBlock(const Block& block)
+sciformats::api::Node2 sciformats::jdx::api::JdxDataMapper::mapBlock(
+    const Block& block)
 {
     auto name = block.getLdr("TITLE").value().getValue();
 
@@ -71,7 +76,7 @@ sciformats::api::Node2 sciformats::jdx::api::JdxDataMapper::mapBlock(const Block
     {
         parameters.push_back({ldr.getLabel(), ldr.getValue()});
     }
-    
+
     auto data = mapData(block);
 
     std::vector<std::string> childNodeNames{};
@@ -81,15 +86,17 @@ sciformats::api::Node2 sciformats::jdx::api::JdxDataMapper::mapBlock(const Block
         childNodeNames.push_back(childNodeName);
     }
 
-    return { name, parameters, data, childNodeNames };
+    return {name, parameters, data, childNodeNames};
 }
 
-std::vector<sciformats::api::Point2D> sciformats::jdx::api::JdxDataMapper::mapData(const Block& block)
+std::vector<sciformats::api::Point2D>
+sciformats::jdx::api::JdxDataMapper::mapData(const Block& block)
 {
     std::optional<std::vector<std::pair<double, double>>> rawData{};
     if (block.getXyData())
     {
-        // TODO: fix const definitions that prevent rawData = block.getXyData().value().getData();
+        // TODO: fix const definitions that prevent rawData =
+        // block.getXyData().value().getData();
         auto data = block.getXyData().value();
         rawData = data.getData();
     }
@@ -124,8 +131,8 @@ EMSCRIPTEN_BINDINGS(JdxDataMapper)
     using namespace sciformats::jdx::api;
     using namespace emscripten;
     class_<JdxDataMapper, base<DataMapper>>("JdxDataMapper")
-        .smart_ptr_constructor(
-            "JdxDataMapper", &std::make_shared<JdxDataMapper, const std::string&>)
+        .smart_ptr_constructor("JdxDataMapper",
+            &std::make_shared<JdxDataMapper, const std::string&>)
         .function("read", &JdxDataMapper::read);
 }
 #endif

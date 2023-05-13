@@ -11,10 +11,10 @@ EMSCRIPTEN_BINDINGS(Node2)
     using namespace emscripten;
 
     value_object<Node2>("Node2")
-    .field("name", &Node2::name)
-    .field("parameters", &Node2::parameters)
-    .field("data", &Node2::data)
-    .field("childNodeNames", &Node2::childNodeNames);
+        .field("name", &Node2::name)
+        .field("parameters", &Node2::parameters)
+        .field("data", &Node2::data)
+        .field("childNodeNames", &Node2::childNodeNames);
 
     // cannot use unique_ptr in embind
     // see:

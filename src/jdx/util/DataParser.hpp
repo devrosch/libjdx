@@ -36,7 +36,8 @@ private:
         const std::string& line, size_t& pos);
     static TokenType toAffn(std::string& token);
     static bool isTokenStart(const std::string& encodedValues, size_t index);
-    static bool isTokenDelimiter(const std::string& encodedValues, size_t index);
+    static bool isTokenDelimiter(
+        const std::string& encodedValues, size_t index);
     static std::optional<char> getAsciiDigitValue(char c);
     static std::optional<char> getSqzDigitValue(char c);
     static std::optional<char> getDifDigitValue(char c);

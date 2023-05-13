@@ -1,13 +1,14 @@
 #include "jdx/BufferedTextReader.hpp"
 #include "jdx/ParseException.hpp"
 
-#include <istream>
+#include <algorithm>
 #include <fstream>
+#include <istream>
 #include <sstream>
 #include <vector>
-#include <algorithm>
 
-sciformats::jdx::BufferedTextReader::BufferedTextReader(std::unique_ptr<std::istream> streamPtr, size_t bufferSize)
+sciformats::jdx::BufferedTextReader::BufferedTextReader(
+    std::unique_ptr<std::istream> streamPtr, size_t bufferSize)
     : m_streamPtr{std::move(streamPtr)}
     , m_bufferMaxSize{bufferSize}
     , m_buffer(bufferSize)
@@ -18,7 +19,8 @@ sciformats::jdx::BufferedTextReader::BufferedTextReader(std::unique_ptr<std::ist
     updateBuffer(0);
 }
 
-sciformats::jdx::BufferedTextReader::BufferedTextReader(const std::string& filePath, size_t bufferSize)
+sciformats::jdx::BufferedTextReader::BufferedTextReader(
+    const std::string& filePath, size_t bufferSize)
     : m_streamPtr{std::make_unique<std::ifstream>(filePath)}
     , m_bufferMaxSize{bufferSize}
     , m_buffer(bufferSize)
@@ -35,12 +37,14 @@ void sciformats::jdx::BufferedTextReader::setStreamFlags()
     {
         throw ParseException("Text reader input stream is null.");
     }
-    // the underlying read() method sets failbit and eofbit at end of file, so do not set
-    // std::ios::failbit std::ios::eofbit
+    // the underlying read() method sets failbit and eofbit at end of file, so
+    // do not set std::ios::failbit std::ios::eofbit
     m_streamPtr->exceptions(std::ios::badbit);
 }
 
-std::ios::pos_type sciformats::jdx::BufferedTextReader::calculateAbsolutePosition(std::ios::pos_type position, std::ios_base::seekdir seekdir)
+std::ios::pos_type
+sciformats::jdx::BufferedTextReader::calculateAbsolutePosition(
+    std::ios::pos_type position, std::ios_base::seekdir seekdir)
 {
     // find absolute stream position
     std::streampos pos = 0;
@@ -50,7 +54,10 @@ std::ios::pos_type sciformats::jdx::BufferedTextReader::calculateAbsolutePositio
     }
     else if (seekdir == std::ios_base::cur)
     {
-        pos = m_bufferBasePos + static_cast<std::ios::pos_type>(std::distance(m_buffer.cbegin(), m_bufferPosIt)) + position;
+        pos = m_bufferBasePos
+              + static_cast<std::ios::pos_type>(
+                  std::distance(m_buffer.cbegin(), m_bufferPosIt))
+              + position;
     }
     else if (seekdir == std::ios_base::end)
     {
@@ -59,9 +66,11 @@ std::ios::pos_type sciformats::jdx::BufferedTextReader::calculateAbsolutePositio
     return pos;
 }
 
-void sciformats::jdx::BufferedTextReader::updateBuffer(std::ios::pos_type position)
+void sciformats::jdx::BufferedTextReader::updateBuffer(
+    std::ios::pos_type position)
 {
-    auto bufferStartPos = static_cast<std::ios::pos_type>((position / m_bufferMaxSize) * m_bufferMaxSize);
+    auto bufferStartPos = static_cast<std::ios::pos_type>(
+        (position / m_bufferMaxSize) * m_bufferMaxSize);
     m_streamPtr->seekg(bufferStartPos);
     m_buffer.resize(m_bufferMaxSize);
     m_streamPtr->read(m_buffer.data(), m_bufferMaxSize);
@@ -77,21 +86,29 @@ void sciformats::jdx::BufferedTextReader::updateBuffer(std::ios::pos_type positi
 
 std::ios::pos_type sciformats::jdx::BufferedTextReader::tellg() const
 {
-    return m_bufferBasePos + static_cast<std::ios::pos_type>(std::distance(m_buffer.cbegin(), m_bufferPosIt));
+    return m_bufferBasePos
+           + static_cast<std::ios::pos_type>(
+               std::distance(m_buffer.cbegin(), m_bufferPosIt));
 }
 
 void sciformats::jdx::BufferedTextReader::seekg(
     std::ios::off_type position, std::ios_base::seekdir seekdir)
 {
     auto pos = calculateAbsolutePosition(position, seekdir);
-    if (pos >= m_bufferBasePos && pos < m_bufferBasePos + static_cast<std::ios::pos_type>(m_buffer.size()))
+    if (pos >= m_bufferBasePos
+        && pos < m_bufferBasePos
+                     + static_cast<std::ios::pos_type>(m_buffer.size()))
     {
         // new pos inside existing buffer => only update m_bufferPosIt
         auto newBufferPos = position - m_bufferBasePos;
         m_bufferPosIt = m_buffer.cbegin() + newBufferPos;
     }
-    else {
-        const auto bufferEndPos = m_bufferBasePos + static_cast<std::ios::pos_type>(std::distance(m_buffer.cbegin(), m_buffer.cend()));
+    else
+    {
+        const auto bufferEndPos
+            = m_bufferBasePos
+              + static_cast<std::ios::pos_type>(
+                  std::distance(m_buffer.cbegin(), m_buffer.cend()));
         if (bufferEndPos == pos && pos == getLength())
         {
             // buffer already at end of stream => noop
@@ -99,7 +116,8 @@ void sciformats::jdx::BufferedTextReader::seekg(
         }
         else
         {
-            // new pos outside existing buffer => read chunk around new pos from stream
+            // new pos outside existing buffer => read chunk around new pos from
+            // stream
             updateBuffer(pos);
         }
     }
@@ -138,13 +156,14 @@ bool sciformats::jdx::BufferedTextReader::eof() const
 }
 
 std::string sciformats::jdx::BufferedTextReader::readLine()
-{    
-    auto nextChunkStartPos = m_bufferBasePos + static_cast<std::ios::pos_type>(m_bufferMaxSize);
+{
+    auto nextChunkStartPos
+        = m_bufferBasePos + static_cast<std::ios::pos_type>(m_bufferMaxSize);
     if (m_bufferPosIt == m_buffer.cend() && nextChunkStartPos >= getLength())
     {
         throw ParseException("Error reading line from istream.");
     }
-    auto posIt = std::find(m_bufferPosIt, m_buffer.cend(), '\n');    
+    auto posIt = std::find(m_bufferPosIt, m_buffer.cend(), '\n');
     std::string out{m_bufferPosIt, posIt};
     auto lfFound = posIt != m_buffer.cend();
     // set new buffer position either past end or past found LF
@@ -152,8 +171,9 @@ std::string sciformats::jdx::BufferedTextReader::readLine()
     while (!lfFound && nextChunkStartPos < getLength())
     {
         // no LF encountered => load next chunk if available and continue search
-        updateBuffer(nextChunkStartPos);        
-        nextChunkStartPos = m_bufferBasePos + static_cast<std::ios::pos_type>(m_bufferMaxSize);
+        updateBuffer(nextChunkStartPos);
+        nextChunkStartPos = m_bufferBasePos
+                            + static_cast<std::ios::pos_type>(m_bufferMaxSize);
         posIt = std::find(m_bufferPosIt, m_buffer.cend(), '\n');
         out.append(m_bufferPosIt, posIt);
         lfFound = posIt != m_buffer.cend();

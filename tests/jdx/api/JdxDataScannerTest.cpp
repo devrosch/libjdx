@@ -3,8 +3,7 @@
 
 #include "catch2/catch.hpp"
 
-TEST_CASE(
-    "JdxDataScanner only accepts to valid JCAMP-DX", "[JdxDataScanner]")
+TEST_CASE("JdxDataScanner only accepts to valid JCAMP-DX", "[JdxDataScanner]")
 {
     using namespace sciformats::api;
     using namespace sciformats::jdx::api;

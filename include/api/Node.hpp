@@ -15,8 +15,10 @@ class Node
 public:
     [[nodiscard]] virtual std::string getName() const = 0;
     virtual std::vector<KeyValueParam> getParams() = 0;
-    // It would be more descriptive to have a std::optional<std::vector<Point2D>>
-    // However, std::optional is not supported by embind, see: https://github.com/emscripten-core/emscripten/issues/11139
+    // It would be more descriptive to have a
+    // std::optional<std::vector<Point2D>> However, std::optional is not
+    // supported by embind, see:
+    // https://github.com/emscripten-core/emscripten/issues/11139
     virtual std::vector<Point2D> getData() = 0;
     virtual std::vector<std::shared_ptr<Node>> getChildNodes() = 0;
 

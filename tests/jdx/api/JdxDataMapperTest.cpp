@@ -3,8 +3,7 @@
 
 #include "catch2/catch.hpp"
 
-TEST_CASE(
-    "JdxDataMapper only maps valid JCAMP-DX", "[JdxDataMapper]")
+TEST_CASE("JdxDataMapper only maps valid JCAMP-DX", "[JdxDataMapper]")
 {
     using namespace sciformats::api;
     using namespace sciformats::jdx::api;
