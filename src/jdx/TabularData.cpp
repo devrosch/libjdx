@@ -4,7 +4,7 @@
 #include "util/StringUtils.hpp"
 
 sciformats::jdx::TabularData::TabularData(
-    std::string label, std::string variableList, TextReader& reader)
+    std::string label, std::string variableList, io::TextReader& reader)
     : DataLdr(std::move(label), std::move(variableList), reader)
 {
 }

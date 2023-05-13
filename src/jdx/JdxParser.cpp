@@ -25,7 +25,7 @@
 #endif
 
 #include "jdx/JdxParser.hpp"
-#include "jdx/TextReader.hpp"
+#include "io/TextReader.hpp"
 #include "util/StringUtils.hpp"
 
 #include <algorithm>
@@ -75,7 +75,7 @@ bool sciformats::jdx::JdxParser::canParse(
 sciformats::jdx::Block sciformats::jdx::JdxParser::parse(
     std::unique_ptr<std::istream> streamPtr)
 {
-    auto textReaderPtr = std::make_unique<TextReader>(std::move(streamPtr));
+    auto textReaderPtr = std::make_unique<io::TextReader>(std::move(streamPtr));
     sciformats::jdx::Block block{std::move(textReaderPtr)};
     return block;
 }
@@ -83,7 +83,7 @@ sciformats::jdx::Block sciformats::jdx::JdxParser::parse(
 sciformats::jdx::Block sciformats::jdx::JdxParser::parse(
     const std::string& filePath)
 {
-    auto textReaderPtr = std::make_unique<TextReader>(filePath);
+    auto textReaderPtr = std::make_unique<io::TextReader>(filePath);
     sciformats::jdx::Block block{std::move(textReaderPtr)};
     return block;
 }

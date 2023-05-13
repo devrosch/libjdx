@@ -15,7 +15,7 @@ TEST_CASE("parses unevenly spaced (XY..XY) data", "[XyPoints]")
                       "##END="};
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::jdx::TextReader reader{std::move(streamPtr)};
+    sciformats::io::TextReader reader{std::move(streamPtr)};
 
     std::vector<sciformats::jdx::StringLdr> ldrs;
     ldrs.emplace_back("XUNITS", "1/CM");
@@ -63,7 +63,7 @@ TEST_CASE("parses (XR..XR) data", "[XyPoints]")
                       "##END="};
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::jdx::TextReader reader{std::move(streamPtr)};
+    sciformats::io::TextReader reader{std::move(streamPtr)};
 
     std::vector<sciformats::jdx::StringLdr> ldrs;
     ldrs.emplace_back("XUNITS", "1/CM");
@@ -97,7 +97,7 @@ TEST_CASE("parses (XI..XI) data", "[XyPoints]")
                       "##END="};
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::jdx::TextReader reader{std::move(streamPtr)};
+    sciformats::io::TextReader reader{std::move(streamPtr)};
 
     std::vector<sciformats::jdx::StringLdr> ldrs;
     ldrs.emplace_back("XUNITS", "1/CM");
@@ -133,7 +133,7 @@ TEST_CASE("fails when x value undefined while parsing unevenly spaced xy data",
                       "##END="};
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::jdx::TextReader reader{std::move(streamPtr)};
+    sciformats::io::TextReader reader{std::move(streamPtr)};
 
     std::vector<sciformats::jdx::StringLdr> ldrs;
     ldrs.emplace_back("XUNITS", "1/CM");
@@ -163,7 +163,7 @@ TEST_CASE(
                       "##END="};
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::jdx::TextReader reader{std::move(streamPtr)};
+    sciformats::io::TextReader reader{std::move(streamPtr)};
 
     std::vector<sciformats::jdx::StringLdr> ldrs;
     ldrs.emplace_back("XUNITS", "1/CM");
@@ -192,7 +192,7 @@ TEST_CASE("fails for incomplete xy pair", "[XyPoints]")
                       "##END="};
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::jdx::TextReader reader{std::move(streamPtr)};
+    sciformats::io::TextReader reader{std::move(streamPtr)};
 
     std::vector<sciformats::jdx::StringLdr> ldrs;
     ldrs.emplace_back("XUNITS", "1/CM");
@@ -221,7 +221,7 @@ TEST_CASE("fails parsing ? as X value", "[XyPoints]")
                       "##END="};
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::jdx::TextReader reader{std::move(streamPtr)};
+    sciformats::io::TextReader reader{std::move(streamPtr)};
 
     std::vector<sciformats::jdx::StringLdr> ldrs;
     ldrs.emplace_back("XUNITS", "1/CM");

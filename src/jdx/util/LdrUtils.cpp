@@ -157,7 +157,7 @@ std::optional<std::string> sciformats::jdx::util::findLdrValue(
                            : std::optional<std::string>(std::nullopt);
 }
 
-void sciformats::jdx::util::skipToNextLdr(TextReader& reader,
+void sciformats::jdx::util::skipToNextLdr(io::TextReader& reader,
     std::optional<std::string>& nextLine, bool forceSkipFirstLine)
 {
     if (forceSkipFirstLine)
@@ -182,7 +182,7 @@ void sciformats::jdx::util::skipToNextLdr(TextReader& reader,
     }
 }
 
-void sciformats::jdx::util::skipPureComments(TextReader& reader,
+void sciformats::jdx::util::skipPureComments(io::TextReader& reader,
     std::optional<std::string>& nextLine, bool mustPrecedeLdr)
 {
     while (nextLine)

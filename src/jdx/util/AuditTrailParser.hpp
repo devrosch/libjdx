@@ -2,7 +2,7 @@
 #define LIBJDX_AUDITTRAILPARSER_HPP
 
 #include "jdx/AuditTrailEntry.hpp"
-#include "jdx/TextReader.hpp"
+#include "io/TextReader.hpp"
 #include "util/MultilineTuplesParser.hpp"
 
 #include <array>
@@ -16,7 +16,7 @@ namespace sciformats::jdx::util
 class AuditTrailParser : protected MultilineTuplesParser
 {
 public:
-    explicit AuditTrailParser(TextReader& reader, std::string variableList);
+    explicit AuditTrailParser(io::TextReader& reader, std::string variableList);
 
     /**
      * @brief Next audit trail entry.

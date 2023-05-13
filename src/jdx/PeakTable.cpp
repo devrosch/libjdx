@@ -6,7 +6,7 @@
 #include <tuple>
 
 sciformats::jdx::PeakTable::PeakTable(const std::string& label,
-    std::string variableList, TextReader& reader,
+    std::string variableList, io::TextReader& reader,
     std::optional<std::string>& nextLine)
     : TabularData(label, std::move(variableList), reader)
 {

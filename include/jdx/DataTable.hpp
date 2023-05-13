@@ -4,7 +4,7 @@
 #include "jdx/Data2D.hpp"
 #include "jdx/NTuplesAttributes.hpp"
 #include "jdx/ParseException.hpp"
-#include "jdx/TextReader.hpp"
+#include "io/TextReader.hpp"
 
 #include <array>
 #include <map>
@@ -45,7 +45,7 @@ public:
         std::optional<std::string> plotDescriptor,
         const std::vector<StringLdr>& blockLdrs,
         const std::vector<NTuplesAttributes>& nTuplesAttributes,
-        const std::vector<StringLdr>& pageLdrs, TextReader& reader,
+        const std::vector<StringLdr>& pageLdrs, io::TextReader& reader,
         std::optional<std::string>& nextLine);
 
     /**

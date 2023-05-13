@@ -1,5 +1,9 @@
 # Tests need to be added as executables
-add_executable(io_test BinaryReaderTest.cpp)
+add_executable(io_test
+    BinaryReaderTest.cpp    
+    BufferedTextReaderTest.cpp
+    SimpleTextReaderTest.cpp
+)
 
 # Link to the library, as well as the Catch2 testing library
 target_link_libraries(io_test PRIVATE "${SF_LIBRARY_NAME}" catch2)

@@ -2,7 +2,7 @@
 #define LIBJDX_XYPOINTS_HPP
 
 #include "jdx/StringLdr.hpp"
-#include "jdx/TextReader.hpp"
+#include "io/TextReader.hpp"
 #include "jdx/XyBase.hpp"
 #include "jdx/XyParameters.hpp"
 
@@ -32,7 +32,7 @@ public:
      * of the reader has been reached.
      */
     XyPoints(const std::string& label, const std::string& variableList,
-        const std::vector<StringLdr>& ldrs, TextReader& reader,
+        const std::vector<StringLdr>& ldrs, io::TextReader& reader,
         std::optional<std::string>& nextLine);
 
     /**

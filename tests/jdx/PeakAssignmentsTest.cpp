@@ -22,7 +22,7 @@ TEST_CASE("parses well-formed (XYA) PEAK ASSIGNMENTS", "[PeakAssignments]")
                       "##END="};
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::jdx::TextReader reader{std::move(streamPtr)};
+    sciformats::io::TextReader reader{std::move(streamPtr)};
 
     auto nextLine = std::optional<std::string>{};
     auto assignments
@@ -91,7 +91,7 @@ TEST_CASE("parses well-formed (XYWA) PEAK ASSIGNMENTS", "[PeakAssignments]")
                       "##END="};
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::jdx::TextReader reader{std::move(streamPtr)};
+    sciformats::io::TextReader reader{std::move(streamPtr)};
 
     auto nextLine = std::optional<std::string>{};
     auto assignments
@@ -162,7 +162,7 @@ TEST_CASE("parses well-formed (XYMA) PEAK ASSIGNMENTS", "[PeakAssignments]")
                       "##END="};
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::jdx::TextReader reader{std::move(streamPtr)};
+    sciformats::io::TextReader reader{std::move(streamPtr)};
 
     auto nextLine = std::optional<std::string>{};
     auto assignments
@@ -192,7 +192,7 @@ TEST_CASE("parses well-formed (XYMWA) PEAK ASSIGNMENTS", "[PeakAssignments]")
                       "##END="};
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::jdx::TextReader reader{std::move(streamPtr)};
+    sciformats::io::TextReader reader{std::move(streamPtr)};
 
     auto nextLine = std::optional<std::string>{};
     auto assignments
@@ -226,7 +226,7 @@ TEST_CASE("fails when excess component is encountered in three column PEAK "
                       "##END="};
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::jdx::TextReader reader{std::move(streamPtr)};
+    sciformats::io::TextReader reader{std::move(streamPtr)};
 
     auto nextLine = std::optional<std::string>{};
     auto assignments
@@ -247,7 +247,7 @@ TEST_CASE("fails when excess component is encountered in four column PEAK "
                       "##END="};
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::jdx::TextReader reader{std::move(streamPtr)};
+    sciformats::io::TextReader reader{std::move(streamPtr)};
 
     auto nextLine = std::optional<std::string>{};
     auto assignments
@@ -269,7 +269,7 @@ TEST_CASE("fails when ambiguous component is encountered in four column PEAK "
                       "##END="};
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::jdx::TextReader reader{std::move(streamPtr)};
+    sciformats::io::TextReader reader{std::move(streamPtr)};
 
     auto nextLine = std::optional<std::string>{};
     auto assignments
@@ -291,7 +291,7 @@ TEST_CASE("fails when ambiguous component is encountered in five column PEAK "
                       "##END="};
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::jdx::TextReader reader{std::move(streamPtr)};
+    sciformats::io::TextReader reader{std::move(streamPtr)};
 
     auto nextLine = std::optional<std::string>{};
     auto assignments
@@ -311,7 +311,7 @@ TEST_CASE("fails when opening parenthesis is missing in PEAK ASSIGNMENTS",
                       "##END="};
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::jdx::TextReader reader{std::move(streamPtr)};
+    sciformats::io::TextReader reader{std::move(streamPtr)};
 
     auto nextLine = std::optional<std::string>{};
     auto assignments
@@ -331,7 +331,7 @@ TEST_CASE("fails when closing parenthesis is missing in PEAK ASSIGNMENTS",
                       "##END="};
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::jdx::TextReader reader{std::move(streamPtr)};
+    sciformats::io::TextReader reader{std::move(streamPtr)};
 
     auto nextLine = std::optional<std::string>{};
     auto assignments
@@ -353,7 +353,7 @@ TEST_CASE("fails when opening angle bracket is missing in assignment string in "
                       "##END="};
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::jdx::TextReader reader{std::move(streamPtr)};
+    sciformats::io::TextReader reader{std::move(streamPtr)};
 
     auto nextLine = std::optional<std::string>{};
     auto assignments
@@ -374,7 +374,7 @@ TEST_CASE("fails when closing angle bracket is missing in assignment string in "
                       "##END="};
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::jdx::TextReader reader{std::move(streamPtr)};
+    sciformats::io::TextReader reader{std::move(streamPtr)};
 
     auto nextLine = std::optional<std::string>{};
     auto assignments
@@ -394,7 +394,7 @@ TEST_CASE("fails when illegal separator is used in PEAK ASSIGNMENTS",
                       "##END="};
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::jdx::TextReader reader{std::move(streamPtr)};
+    sciformats::io::TextReader reader{std::move(streamPtr)};
 
     auto nextLine = std::optional<std::string>{};
     auto assignments
@@ -414,7 +414,7 @@ TEST_CASE("fails when illegal variable list is encountered in PEAK ASSIGNMENTS",
                       "##END="};
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::jdx::TextReader reader{std::move(streamPtr)};
+    sciformats::io::TextReader reader{std::move(streamPtr)};
     auto nextLine = std::optional<std::string>{};
 
     REQUIRE_THROWS_WITH(
@@ -433,7 +433,7 @@ TEST_CASE(
                       "##END="};
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::jdx::TextReader reader{std::move(streamPtr)};
+    sciformats::io::TextReader reader{std::move(streamPtr)};
 
     auto nextLine = std::optional<std::string>{};
     auto assignments
@@ -453,7 +453,7 @@ TEST_CASE("fails for malformed PEAK ASSIGNMENT in PEAK ASSIGNMENTS",
                       "##END="};
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::jdx::TextReader reader{std::move(streamPtr)};
+    sciformats::io::TextReader reader{std::move(streamPtr)};
 
     auto nextLine = std::optional<std::string>{};
     auto assignments
@@ -475,7 +475,7 @@ TEST_CASE(
                       "##END="};
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::jdx::TextReader reader{std::move(streamPtr)};
+    sciformats::io::TextReader reader{std::move(streamPtr)};
 
     auto nextLine = std::optional<std::string>{};
     auto assignments

@@ -4,7 +4,7 @@
 #include "jdx/DataLdr.hpp"
 #include "jdx/PeakAssignment.hpp"
 #include "jdx/TabularData.hpp"
-#include "jdx/TextReader.hpp"
+#include "io/TextReader.hpp"
 
 #include <array>
 #include <optional>
@@ -34,7 +34,7 @@ public:
      * of the reader has been reached.
      */
     PeakAssignments(const std::string& label, std::string variableList,
-        TextReader& reader, std::optional<std::string>& nextLine);
+        io::TextReader& reader, std::optional<std::string>& nextLine);
 
     /**
      * @brief Provides the parsed peak assignments.

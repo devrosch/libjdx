@@ -7,7 +7,7 @@
 
 sciformats::jdx::NTuples::NTuples(const std::string& label,
     std::string dataForm, const std::vector<StringLdr>& blockLdrs,
-    TextReader& reader, std::optional<std::string>& nextLine)
+    io::TextReader& reader, std::optional<std::string>& nextLine)
     : m_dataForm{std::move(dataForm)}
 {
     validateInput(label);
@@ -46,7 +46,7 @@ void sciformats::jdx::NTuples::validateInput(const std::string& label)
 }
 
 void sciformats::jdx::NTuples::parse(const std::vector<StringLdr>& blockLdrs,
-    TextReader& reader, std::optional<std::string>& nextLine)
+    io::TextReader& reader, std::optional<std::string>& nextLine)
 {
     // skip potential comment lines
     nextLine = reader.eof() ? std::nullopt
@@ -84,7 +84,7 @@ void sciformats::jdx::NTuples::parse(const std::vector<StringLdr>& blockLdrs,
 
 std::vector<sciformats::jdx::NTuplesAttributes>
 sciformats::jdx::NTuples::parseAttributes(
-    TextReader& reader, std::optional<std::string>& nextLine)
+    io::TextReader& reader, std::optional<std::string>& nextLine)
 {
     auto attrTable = readLdrs(nextLine, reader);
     auto attrMap = splitValues(attrTable);
@@ -110,7 +110,7 @@ sciformats::jdx::NTuples::parseAttributes(
 
 std::vector<sciformats::jdx::StringLdr> sciformats::jdx::NTuples::readLdrs(
     std::optional<std::string>& firstLdrStart,
-    sciformats::jdx::TextReader& reader)
+    io::TextReader& reader)
 {
     std::optional<std::string>& nextLine = firstLdrStart;
     std::vector<StringLdr> output;

@@ -133,7 +133,7 @@ TEST_CASE("parses mixed PAC/AFFN stream", "[DataParser]")
         "##END="};
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::jdx::TextReader reader{std::move(streamPtr)};
+    sciformats::io::TextReader reader{std::move(streamPtr)};
 
     auto actual = sciformats::jdx::util::DataParser::readXppYYData(reader);
     auto expect = std::vector<double>{0, 0, 0, 0, 2, 4, 4, 4, 7, 5, 4, 4, 5, 5,
@@ -158,7 +158,7 @@ TEST_CASE("detects failing Y check", "[DataParser]")
                       "##END="};
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::jdx::TextReader reader{std::move(streamPtr)};
+    sciformats::io::TextReader reader{std::move(streamPtr)};
 
     REQUIRE_THROWS(sciformats::jdx::util::DataParser::readXppYYData(reader));
 }
@@ -171,7 +171,7 @@ TEST_CASE("parses DIFDUP stream", "[DataParser]")
         "##END="};
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::jdx::TextReader reader{std::move(streamPtr)};
+    sciformats::io::TextReader reader{std::move(streamPtr)};
 
     auto actual = sciformats::jdx::util::DataParser::readXppYYData(reader);
     auto expect = std::vector<double>{0, 0, 0, 0, 2, 4, 4, 4, 7, 5, 4, 4, 5, 5,

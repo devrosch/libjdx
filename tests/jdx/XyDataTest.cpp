@@ -17,7 +17,7 @@ TEST_CASE(
                       "##END="};
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::jdx::TextReader reader{std::move(streamPtr)};
+    sciformats::io::TextReader reader{std::move(streamPtr)};
 
     std::vector<sciformats::jdx::StringLdr> ldrs;
     ldrs.emplace_back("XUNITS", "1/CM");
@@ -70,7 +70,7 @@ TEST_CASE(
                       "##END="};
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::jdx::TextReader reader{std::move(streamPtr)};
+    sciformats::io::TextReader reader{std::move(streamPtr)};
 
     std::vector<sciformats::jdx::StringLdr> ldrs;
     ldrs.emplace_back("XUNITS", "1/CM");
@@ -124,7 +124,7 @@ TEST_CASE("parses (X++(R..R)) data", "[XyData]")
                       "##END="};
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::jdx::TextReader reader{std::move(streamPtr)};
+    sciformats::io::TextReader reader{std::move(streamPtr)};
 
     std::vector<sciformats::jdx::StringLdr> ldrs;
     ldrs.emplace_back("XUNITS", "1/CM");
@@ -156,7 +156,7 @@ TEST_CASE("parses (X++(I..I)) data", "[XyData]")
                       "##END="};
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::jdx::TextReader reader{std::move(streamPtr)};
+    sciformats::io::TextReader reader{std::move(streamPtr)};
 
     std::vector<sciformats::jdx::StringLdr> ldrs;
     ldrs.emplace_back("XUNITS", "1/CM");
@@ -188,7 +188,7 @@ TEST_CASE("parses single data point record", "[XyData]")
                       "##END="};
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::jdx::TextReader reader{std::move(streamPtr)};
+    sciformats::io::TextReader reader{std::move(streamPtr)};
 
     std::vector<sciformats::jdx::StringLdr> ldrs;
     ldrs.emplace_back("XUNITS", "1/CM");
@@ -220,7 +220,7 @@ TEST_CASE("detects mismatching NPOINTS", "[XyData]")
                       "##END="};
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::jdx::TextReader reader{std::move(streamPtr)};
+    sciformats::io::TextReader reader{std::move(streamPtr)};
 
     std::vector<sciformats::jdx::StringLdr> ldrs;
     ldrs.emplace_back("XUNITS", "1/CM");
@@ -245,7 +245,7 @@ TEST_CASE("detects mismatching variables list for XYDATA", "[XyData]")
                       "##END="};
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::jdx::TextReader reader{std::move(streamPtr)};
+    sciformats::io::TextReader reader{std::move(streamPtr)};
 
     std::vector<sciformats::jdx::StringLdr> ldrs;
     ldrs.emplace_back("FIRSTX", "450.0");
@@ -267,7 +267,7 @@ TEST_CASE("detects illegal stream position (wrong label)", "[XyData]")
                       "##END="};
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::jdx::TextReader reader{std::move(streamPtr)};
+    sciformats::io::TextReader reader{std::move(streamPtr)};
 
     std::vector<sciformats::jdx::StringLdr> ldrs;
     ldrs.emplace_back("FIRSTX", "450.0");
@@ -292,7 +292,7 @@ TEST_CASE(
                       "##END="};
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::jdx::TextReader reader{std::move(streamPtr)};
+    sciformats::io::TextReader reader{std::move(streamPtr)};
 
     std::vector<sciformats::jdx::StringLdr> ldrs;
     ldrs.emplace_back("XUNITS", "1/CM");
@@ -327,7 +327,7 @@ TEST_CASE("parses zero data point record", "[XyData]")
     std::string input{"##END="};
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::jdx::TextReader reader{std::move(streamPtr)};
+    sciformats::io::TextReader reader{std::move(streamPtr)};
 
     std::vector<sciformats::jdx::StringLdr> ldrs;
     ldrs.emplace_back("XUNITS", "1/CM");

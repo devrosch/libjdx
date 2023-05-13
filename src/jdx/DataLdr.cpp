@@ -4,7 +4,7 @@
 #include "util/StringUtils.hpp"
 
 sciformats::jdx::DataLdr::DataLdr(
-    std::string label, std::string variableList, TextReader& reader)
+    std::string label, std::string variableList, io::TextReader& reader)
     : Ldr{std::move(label)}
     , m_variableList{std::move(variableList)}
     , m_reader{reader}
@@ -17,7 +17,7 @@ const std::string& sciformats::jdx::DataLdr::getVariableList() const
     return m_variableList;
 }
 
-sciformats::jdx::TextReader& sciformats::jdx::DataLdr::getReader() const
+sciformats::io::TextReader& sciformats::jdx::DataLdr::getReader() const
 {
     return m_reader;
 }

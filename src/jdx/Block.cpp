@@ -2,7 +2,7 @@
 #include "util/LdrUtils.hpp"
 #include "util/StringUtils.hpp"
 
-sciformats::jdx::Block::Block(std::unique_ptr<TextReader> readerPtr)
+sciformats::jdx::Block::Block(std::unique_ptr<io::TextReader> readerPtr)
     : m_readerPtr{std::move(readerPtr)}
     , m_reader{*m_readerPtr}
 {
@@ -12,7 +12,7 @@ sciformats::jdx::Block::Block(std::unique_ptr<TextReader> readerPtr)
     parseInput(titleFirstLine, nextLine);
 }
 
-sciformats::jdx::Block::Block(TextReader& reader)
+sciformats::jdx::Block::Block(io::TextReader& reader)
     : m_readerPtr{nullptr}
     , m_reader{reader}
 {
@@ -22,7 +22,7 @@ sciformats::jdx::Block::Block(TextReader& reader)
     parseInput(titleFirstLine, nextLine);
 }
 
-sciformats::jdx::Block::Block(const std::string& title, TextReader& reader,
+sciformats::jdx::Block::Block(const std::string& title, io::TextReader& reader,
     std::optional<std::string>& nextLine)
     : m_readerPtr{nullptr}
     , m_reader{reader}

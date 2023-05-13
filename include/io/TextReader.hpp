@@ -1,13 +1,13 @@
-#ifndef JDX_TEXTREADER_HPP
-#define JDX_TEXTREADER_HPP
+#ifndef IO_TEXTREADER_HPP
+#define IO_TEXTREADER_HPP
 
 #ifdef __EMSCRIPTEN__
-#include "jdx/BufferedTextReader.hpp"
+#include "io/BufferedTextReader.hpp"
 #else
-#include "jdx/SimpleTextReader.hpp"
+#include "io/SimpleTextReader.hpp"
 #endif
 
-namespace sciformats::jdx
+namespace sciformats::io
 {
 // use BufferedTextReader for EMSCRIPTEN build as it drastically improves data
 // reading performance in browser context

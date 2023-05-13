@@ -2,7 +2,7 @@
 #define LIBJDX_DATALDR_HPP
 
 #include "jdx/Ldr.hpp"
-#include "jdx/TextReader.hpp"
+#include "io/TextReader.hpp"
 
 #include <functional>
 #include <optional>
@@ -24,9 +24,9 @@ public:
     [[nodiscard]] const std::string& getVariableList() const;
 
 protected:
-    DataLdr(std::string label, std::string variableList, TextReader& reader);
+    DataLdr(std::string label, std::string variableList, io::TextReader& reader);
 
-    [[nodiscard]] TextReader& getReader() const;
+    [[nodiscard]] io::TextReader& getReader() const;
     /**
      * @brief Validates if input is a valid data LDR.
      * @param label LDR label.
@@ -44,7 +44,7 @@ protected:
 
 private:
     const std::string m_variableList;
-    TextReader& m_reader;
+    io::TextReader& m_reader;
     std::streampos m_dataPos;
 };
 

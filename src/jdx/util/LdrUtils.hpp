@@ -2,7 +2,7 @@
 #define LIBJDX_LDRUTILS_HPP
 
 #include "jdx/StringLdr.hpp"
-#include "jdx/TextReader.hpp"
+#include "io/TextReader.hpp"
 
 #include <optional>
 #include <vector>
@@ -23,9 +23,9 @@ std::optional<const StringLdr> findLdr(
     const std::vector<StringLdr>& ldrs, const std::string& label);
 std::optional<std::string> findLdrValue(
     const std::vector<StringLdr>& ldrs, const std::string& label);
-void skipToNextLdr(TextReader& reader, std::optional<std::string>& nextLine,
+void skipToNextLdr(io::TextReader& reader, std::optional<std::string>& nextLine,
     bool forceSkipFirstLine);
-void skipPureComments(TextReader& reader, std::optional<std::string>& nextLine,
+void skipPureComments(io::TextReader& reader, std::optional<std::string>& nextLine,
     bool mustPrecedeLdr);
 bool isPureComment(const std::string& line);
 } // namespace sciformats::jdx::utils

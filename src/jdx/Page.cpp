@@ -7,7 +7,7 @@
 
 sciformats::jdx::Page::Page(std::string& label, std::string pageVar,
     const std::vector<NTuplesAttributes>& nTuplesAttributes,
-    const std::vector<StringLdr>& blockLdrs, TextReader& reader,
+    const std::vector<StringLdr>& blockLdrs, io::TextReader& reader,
     std::optional<std::string>& nextLine)
     : m_pageVariables{std::move(pageVar)}
 {
@@ -43,7 +43,7 @@ sciformats::jdx::Page::getDataTable() const
 
 void sciformats::jdx::Page::parse(
     const std::vector<NTuplesAttributes>& nTuplesAttributes,
-    const std::vector<StringLdr>& blockLdrs, TextReader& reader,
+    const std::vector<StringLdr>& blockLdrs, io::TextReader& reader,
     std::optional<std::string>& nextLine)
 {
     // skip potential comment lines
@@ -75,7 +75,7 @@ void sciformats::jdx::Page::parse(
 }
 
 std::vector<sciformats::jdx::StringLdr> sciformats::jdx::Page::parsePageLdrs(
-    TextReader& reader, std::optional<std::string>& nextLine)
+    io::TextReader& reader, std::optional<std::string>& nextLine)
 {
     std::vector<StringLdr> pageLdrs;
     while (nextLine.has_value())

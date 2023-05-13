@@ -8,7 +8,7 @@
 
 sciformats::jdx::RaData::RaData(const std::string& label,
     const std::string& variableList, const std::vector<StringLdr>& ldrs,
-    TextReader& reader, std::optional<std::string>& nextLine)
+    io::TextReader& reader, std::optional<std::string>& nextLine)
     : Data2D(label, variableList, reader)
 {
     validateInput(label, variableList, s_raDataLabel,

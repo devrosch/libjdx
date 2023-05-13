@@ -4,7 +4,7 @@
 
 std::optional<const std::string>
 sciformats::jdx::LdrContainer::parseStringValue(
-    std::string& value, TextReader& reader)
+    std::string& value, io::TextReader& reader)
 {
     util::trim(value); // trim first line value only
     while (!reader.eof())

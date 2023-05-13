@@ -5,7 +5,7 @@
 #include "jdx/LdrContainer.hpp"
 #include "jdx/NTuplesAttributes.hpp"
 #include "jdx/StringLdr.hpp"
-#include "jdx/TextReader.hpp"
+#include "io/TextReader.hpp"
 
 #include <array>
 #include <functional>
@@ -35,7 +35,7 @@ public:
      */
     Page(std::string& label, std::string pageVar,
         const std::vector<NTuplesAttributes>& nTuplesAttributes,
-        const std::vector<StringLdr>& blockLdrs, TextReader& reader,
+        const std::vector<StringLdr>& blockLdrs, io::TextReader& reader,
         std::optional<std::string>& nextLine);
 
     /**
@@ -67,10 +67,10 @@ private:
 
     static void validateInput(const std::string& label);
     void parse(const std::vector<NTuplesAttributes>& nTuplesAttributes,
-        const std::vector<StringLdr>& blockLdrs, TextReader& reader,
+        const std::vector<StringLdr>& blockLdrs, io::TextReader& reader,
         std::optional<std::string>& nextLine);
     static std::vector<StringLdr> parsePageLdrs(
-        TextReader& reader, std::optional<std::string>& nextLine);
+        io::TextReader& reader, std::optional<std::string>& nextLine);
     static std::pair<std::string, std::optional<std::string>>
     parseDataTableVars(const std::string& rawPageVars);
 };

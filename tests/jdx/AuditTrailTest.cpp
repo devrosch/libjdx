@@ -22,7 +22,7 @@ TEST_CASE("parses well-formed 5 parameters audit trail", "[AuditTrail]")
     // clang-format on
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::jdx::TextReader reader{std::move(streamPtr)};
+    sciformats::io::TextReader reader{std::move(streamPtr)};
 
     auto auditTrail
         = sciformats::jdx::AuditTrail(label, variables, reader, nextLine);
@@ -65,7 +65,7 @@ TEST_CASE("parses well-formed 6 parameters audit trail", "[AuditTrail]")
     // clang-format on
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::jdx::TextReader reader{std::move(streamPtr)};
+    sciformats::io::TextReader reader{std::move(streamPtr)};
 
     auto auditTrail
         = sciformats::jdx::AuditTrail(label, variables, reader, nextLine);
@@ -109,7 +109,7 @@ TEST_CASE("parses well-formed 7 parameters audit trail", "[AuditTrail]")
     // clang-format on
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::jdx::TextReader reader{std::move(streamPtr)};
+    sciformats::io::TextReader reader{std::move(streamPtr)};
 
     auto auditTrail
         = sciformats::jdx::AuditTrail(label, variables, reader, nextLine);
@@ -174,7 +174,7 @@ TEST_CASE("parses Bruker NMR type audit trail", "[AuditTrail]")
     // clang-format on
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::jdx::TextReader reader{std::move(streamPtr)};
+    sciformats::io::TextReader reader{std::move(streamPtr)};
 
     auto auditTrail
         = sciformats::jdx::AuditTrail(label, variables, reader, nextLine);
@@ -217,7 +217,7 @@ TEST_CASE("fails when unclosed audit trail entry parenthesis", "[AuditTrail]")
     // clang-format on
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::jdx::TextReader reader{std::move(streamPtr)};
+    sciformats::io::TextReader reader{std::move(streamPtr)};
 
     auto auditTrail
         = sciformats::jdx::AuditTrail(label, variables, reader, nextLine);
@@ -242,7 +242,7 @@ TEST_CASE("fails when file ends unexpectedly", "[AuditTrail]")
     // clang-format on
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::jdx::TextReader reader{std::move(streamPtr)};
+    sciformats::io::TextReader reader{std::move(streamPtr)};
 
     auto auditTrail
         = sciformats::jdx::AuditTrail(label, variables, reader, nextLine);

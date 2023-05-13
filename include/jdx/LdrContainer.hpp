@@ -1,7 +1,7 @@
 #ifndef LIBJDX_LDRCONTAINER_HPP
 #define LIBJDX_LDRCONTAINER_HPP
 
-#include "jdx/TextReader.hpp"
+#include "io/TextReader.hpp"
 
 #include <optional>
 
@@ -14,7 +14,7 @@ class LdrContainer
 {
 protected:
     static std::optional<const std::string> parseStringValue(
-        std::string& value, TextReader& reader);
+        std::string& value, io::TextReader& reader);
 };
 } // namespace sciformats::jdx
 

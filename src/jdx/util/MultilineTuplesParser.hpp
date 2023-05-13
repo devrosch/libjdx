@@ -1,7 +1,7 @@
 #ifndef LIBJDX_MULTILINETUPLESPARSER_HPP
 #define LIBJDX_MULTILINETUPLESPARSER_HPP
 
-#include "jdx/TextReader.hpp"
+#include "io/TextReader.hpp"
 #include "util/TuplesParser.hpp"
 
 #include <optional>
@@ -24,18 +24,18 @@ protected:
      * @param ldrName The name of the LDR.
      * @param lineBreakChars A char array to replace line breaks with.
      */
-    explicit MultilineTuplesParser(TextReader& reader, std::string variableList,
+    explicit MultilineTuplesParser(io::TextReader& reader, std::string variableList,
         std::string ldrName, std::string lineBreakChars);
 
     /**
      * @brief Retrieves the next tuple, delimited by ")" at the end of a line
-     * from the TextReader.
+     * from the io::TextReader.
      * @return The next tuple.
      */
     std::optional<std::string> nextTuple();
 
 private:
-    TextReader& m_reader;
+    io::TextReader& m_reader;
     const std::string m_lineBreakChars;
 
     static bool isTupleStart(const std::string& stringValue);

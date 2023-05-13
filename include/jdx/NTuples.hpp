@@ -5,7 +5,7 @@
 #include "jdx/NTuplesAttributes.hpp"
 #include "jdx/Page.hpp"
 #include "jdx/StringLdr.hpp"
-#include "jdx/TextReader.hpp"
+#include "io/TextReader.hpp"
 
 #include <functional>
 #include <map>
@@ -32,7 +32,7 @@ public:
      * of the reader has been reached.
      */
     NTuples(const std::string& label, std::string dataForm,
-        const std::vector<StringLdr>& blockLdrs, TextReader& reader,
+        const std::vector<StringLdr>& blockLdrs, io::TextReader& reader,
         std::optional<std::string>& nextLine);
 
     /**
@@ -72,12 +72,12 @@ private:
     std::vector<Page> m_pages;
 
     static void validateInput(const std::string& label);
-    void parse(const std::vector<StringLdr>& blockLdrs, TextReader& reader,
+    void parse(const std::vector<StringLdr>& blockLdrs, io::TextReader& reader,
         std::optional<std::string>& nextLine);
     std::vector<NTuplesAttributes> parseAttributes(
-        TextReader& reader, std::optional<std::string>& nextLine);
+        io::TextReader& reader, std::optional<std::string>& nextLine);
     static std::vector<StringLdr> readLdrs(
-        std::optional<std::string>& firstLdrStart, TextReader& reader);
+        std::optional<std::string>& firstLdrStart, io::TextReader& reader);
     static std::map<std::string, std::vector<std::string>> splitValues(
         const std::vector<StringLdr>& ldr);
     static std::map<std::string, std::vector<std::string>>

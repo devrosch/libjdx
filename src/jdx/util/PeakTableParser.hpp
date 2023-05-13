@@ -2,7 +2,7 @@
 #define LIBJDX_PEAKTABLEPARSER_HPP
 
 #include "jdx/PeakTable.hpp"
-#include "jdx/TextReader.hpp"
+#include "io/TextReader.hpp"
 #include "util/TuplesParser.hpp"
 
 #include <array>
@@ -18,7 +18,7 @@ namespace sciformats::jdx::util
 class PeakTableParser : protected TuplesParser
 {
 public:
-    explicit PeakTableParser(TextReader& reader, std::string variableList);
+    explicit PeakTableParser(io::TextReader& reader, std::string variableList);
 
     /**
      * @brief Next peak.
@@ -49,7 +49,7 @@ private:
                              R"((?:\s*,\s*([^,]*))?)"
                              R"($)"};
 
-    TextReader& m_reader;
+    io::TextReader& m_reader;
     std::queue<std::string> m_tuples;
 
     // tuple

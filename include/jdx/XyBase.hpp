@@ -3,7 +3,7 @@
 
 #include "jdx/Data2D.hpp"
 #include "jdx/StringLdr.hpp"
-#include "jdx/TextReader.hpp"
+#include "io/TextReader.hpp"
 #include "jdx/XyParameters.hpp"
 
 #include <vector>
@@ -43,7 +43,7 @@ protected:
     XyBase(const std::string& label, const std::string& variableList,
         const std::vector<StringLdr>& ldrs, const std::string& expectedLabel,
         const std::vector<std::string>& expectedVariableLists,
-        TextReader& reader, std::optional<std::string>& nextLine);
+        io::TextReader& reader, std::optional<std::string>& nextLine);
 
     /**
      * @brief Provides the parsed xy data of type (X++(Y..Y)) and similar.

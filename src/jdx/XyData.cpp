@@ -4,7 +4,7 @@
 
 sciformats::jdx::XyData::XyData(const std::string& label,
     const std::string& variableList, const std::vector<StringLdr>& ldrs,
-    TextReader& reader, std::optional<std::string>& nextLine)
+    io::TextReader& reader, std::optional<std::string>& nextLine)
     : XyBase(label, variableList, ldrs, s_xyDataLabel,
         std::vector<std::string>{
             s_xyDataVariableLists.begin(), s_xyDataVariableLists.end()},

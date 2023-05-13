@@ -3,16 +3,10 @@ set(JDX_PUBLIC_HEADER_LIST
     "${PROJECT_SOURCE_DIR}/include/jdx/api/JdxBlockNode.hpp"
     "${PROJECT_SOURCE_DIR}/include/jdx/api/JdxData2DNode.hpp"
     "${PROJECT_SOURCE_DIR}/include/jdx/api/JdxFileParser.hpp"
-
     "${PROJECT_SOURCE_DIR}/include/jdx/api/JdxDataScanner.hpp"
     "${PROJECT_SOURCE_DIR}/include/jdx/api/JdxDataMapper.hpp"
-
     # public data providers
     "${PROJECT_SOURCE_DIR}/include/jdx/JdxParser.hpp"
-    "${PROJECT_SOURCE_DIR}/include/jdx/TextReader.hpp"
-    "${PROJECT_SOURCE_DIR}/include/jdx/SimpleTextReader.hpp"
-    "${PROJECT_SOURCE_DIR}/include/jdx/BufferedTextReader.hpp"
-
     # ldr
     "${PROJECT_SOURCE_DIR}/include/jdx/LdrContainer.hpp"
     "${PROJECT_SOURCE_DIR}/include/jdx/Block.hpp"
@@ -62,15 +56,10 @@ set(JDX_SOURCE_LIST
     "${CMAKE_CURRENT_SOURCE_DIR}/api/JdxBlockNode.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/api/JdxData2DNode.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/api/JdxFileParser.cpp"
-
     "${CMAKE_CURRENT_SOURCE_DIR}/api/JdxDataScanner.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/api/JdxDataMapper.cpp"
-
     # public data providers
     "${CMAKE_CURRENT_SOURCE_DIR}/JdxParser.cpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/SimpleTextReader.cpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/BufferedTextReader.cpp"
-
     # util
     "${CMAKE_CURRENT_SOURCE_DIR}/util/StringUtils.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/util/LdrUtils.cpp"

@@ -1,10 +1,10 @@
-#ifndef JDX_SIMPLETEXTREADER_HPP
-#define JDX_SIMPLETEXTREADER_HPP
+#ifndef IO_SIMPLETEXTREADER_HPP
+#define IO_SIMPLETEXTREADER_HPP
 
 #include <istream>
 #include <memory>
 
-namespace sciformats::jdx
+namespace sciformats::io
 {
 /**
  * @brief Provides mechanisms to read textual data.
@@ -63,6 +63,6 @@ private:
 
     void setStreamFlags();
 };
-} // namespace sciformats::jdx
+} // namespace sciformats::io
 
 #endif

@@ -11,7 +11,7 @@ sciformats::jdx::DataTable::DataTable(std::string label,
     std::string variableList, std::optional<std::string> plotDescriptor,
     const std::vector<StringLdr>& blockLdrs,
     const std::vector<NTuplesAttributes>& nTuplesAttributes,
-    const std::vector<StringLdr>& pageLdrs, TextReader& reader,
+    const std::vector<StringLdr>& pageLdrs, io::TextReader& reader,
     std::optional<std::string>& nextLine)
     : Data2D(std::move(label), std::move(variableList), reader)
     , m_plotDescriptor{std::move(plotDescriptor)}

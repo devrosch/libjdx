@@ -2,7 +2,7 @@
 #define LIBJDX_DATA2D_HPP
 
 #include "jdx/DataLdr.hpp"
-#include "jdx/TextReader.hpp"
+#include "io/TextReader.hpp"
 
 #include <vector>
 
@@ -60,7 +60,7 @@ protected:
      * XYDATA or RADATA) of the record. The reader is expected to exist for the
      * lifetime of this object.
      */
-    Data2D(std::string label, std::string variableList, TextReader& reader);
+    Data2D(std::string label, std::string variableList, io::TextReader& reader);
 
     /**
      * @brief Parses the equally x spaced xy data (i.e. "X++(Y..Y)", "R++(A..A)"
@@ -83,7 +83,7 @@ protected:
      * by FIRSTX, LASTX and NPOINTS.
      */
     std::vector<std::pair<double, double>> parseXppYYData(
-        const std::string& label, TextReader& reader, double firstX,
+        const std::string& label, io::TextReader& reader, double firstX,
         double lastX, double yFactor, size_t nPoints) const;
 
     /**
@@ -104,7 +104,7 @@ protected:
      * std::numeric_limits<T>::quiet_NaN.
      */
     std::vector<std::pair<double, double>> parseXyXyData(
-        const std::string& label, TextReader& reader, double xFactor,
+        const std::string& label, io::TextReader& reader, double xFactor,
         double yFactor, std::optional<size_t> nPoints) const;
 };
 } // namespace sciformats::jdx

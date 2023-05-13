@@ -1,13 +1,8 @@
 # Tests need to be added as executables
 add_executable(jdx_test
     api/JdxFileParserTest.cpp
-
     api/JdxDataScannerTest.cpp
     api/JdxDataMapperTest.cpp
-
-    TextReaderTest.cpp
-    BufferedTextReaderTest.cpp
-
     JdxParserTest.cpp
     StringUtilsTest.cpp
     LdrUtilsTest.cpp
@@ -22,7 +17,7 @@ add_executable(jdx_test
     NTuplesTest.cpp
     IntegrationTest.cpp
     AuditTrailTest.cpp
-    )
+)
 
 # Link to the library, as well as the Catch2 testing library
 target_link_libraries(jdx_test PRIVATE "${SF_LIBRARY_NAME}" catch2)

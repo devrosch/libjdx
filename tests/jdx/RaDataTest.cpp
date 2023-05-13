@@ -16,7 +16,7 @@ TEST_CASE("parses AFFN RA data with minimum required parameters", "[RaData]")
                       "##END="};
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::jdx::TextReader reader{std::move(streamPtr)};
+    sciformats::io::TextReader reader{std::move(streamPtr)};
 
     std::vector<sciformats::jdx::StringLdr> ldrs;
     ldrs.emplace_back("RUNITS", "MICROMETERS");
@@ -67,7 +67,7 @@ TEST_CASE("parses AFFN RA data with all parameters", "[RaData]")
                       "##END="};
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::jdx::TextReader reader{std::move(streamPtr)};
+    sciformats::io::TextReader reader{std::move(streamPtr)};
 
     std::vector<sciformats::jdx::StringLdr> ldrs;
     ldrs.emplace_back("RUNITS", "MICROMETERS");
@@ -120,7 +120,7 @@ TEST_CASE("detects mismatching variables list for RADATA", "[RaData]")
                       "##END="};
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::jdx::TextReader reader{std::move(streamPtr)};
+    sciformats::io::TextReader reader{std::move(streamPtr)};
 
     std::vector<sciformats::jdx::StringLdr> ldrs;
     ldrs.emplace_back("RUNITS", "MICROMETERS");

@@ -1,7 +1,7 @@
 #ifndef LIBJDX_TUPLESPARSER_HPP
 #define LIBJDX_TUPLESPARSER_HPP
 
-#include "jdx/TextReader.hpp"
+#include "io/TextReader.hpp"
 
 #include <map>
 #include <optional>

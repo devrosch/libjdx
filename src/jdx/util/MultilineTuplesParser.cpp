@@ -4,7 +4,7 @@
 #include "util/StringUtils.hpp"
 
 sciformats::jdx::util::MultilineTuplesParser::MultilineTuplesParser(
-    TextReader& reader, std::string variableList, std::string ldrName,
+    io::TextReader& reader, std::string variableList, std::string ldrName,
     std::string lineBreakChars)
     : TuplesParser(std::move(variableList), std::move(ldrName))
     , m_reader{reader}

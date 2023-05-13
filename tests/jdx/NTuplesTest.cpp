@@ -36,7 +36,7 @@ TEST_CASE("parses NTUPLES NMR record", "[NTuples]")
     // clang-format on
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::jdx::TextReader reader{std::move(streamPtr)};
+    sciformats::io::TextReader reader{std::move(streamPtr)};
     std::vector<sciformats::jdx::StringLdr> blockLdrs;
 
     sciformats::jdx::NTuples nTuples{
@@ -139,7 +139,7 @@ TEST_CASE("parses NTUPLES NMR FID record (round robin format)", "[NTuples]")
     // clang-format on
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::jdx::TextReader reader{std::move(streamPtr)};
+    sciformats::io::TextReader reader{std::move(streamPtr)};
     std::vector<sciformats::jdx::StringLdr> blockLdrs;
 
     sciformats::jdx::NTuples nTuples{
@@ -217,7 +217,7 @@ TEST_CASE(
     // clang-format on
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::jdx::TextReader reader{std::move(streamPtr)};
+    sciformats::io::TextReader reader{std::move(streamPtr)};
     std::vector<sciformats::jdx::StringLdr> blockLdrs;
 
     sciformats::jdx::NTuples nTuples{
@@ -303,7 +303,7 @@ TEST_CASE("parses NTUPLES MS record", "[NTuples]")
     // clang-format on
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::jdx::TextReader reader{std::move(streamPtr)};
+    sciformats::io::TextReader reader{std::move(streamPtr)};
     std::vector<sciformats::jdx::StringLdr> blockLdrs;
 
     sciformats::jdx::NTuples nTuples{
@@ -385,7 +385,7 @@ TEST_CASE("uses block LDRs to fill missing NTUPLES attributes", "[NTuples]")
     // clang-format on
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::jdx::TextReader reader{std::move(streamPtr)};
+    sciformats::io::TextReader reader{std::move(streamPtr)};
 
     std::vector<sciformats::jdx::StringLdr> blockLdrs;
     blockLdrs.emplace_back("XUNITS", "XUNITS-TEST");
@@ -474,7 +474,7 @@ TEST_CASE(
     // clang-format on
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::jdx::TextReader reader{std::move(streamPtr)};
+    sciformats::io::TextReader reader{std::move(streamPtr)};
 
     std::vector<sciformats::jdx::StringLdr> blockLdrs;
     blockLdrs.emplace_back("NPOINTS", "10"); // to be overridden by PAGE LDR
@@ -533,7 +533,7 @@ TEST_CASE("fails when NTUPLES record is missing VAR_NAME LDR", "[NTuples]")
     // clang-format on
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::jdx::TextReader reader{std::move(streamPtr)};
+    sciformats::io::TextReader reader{std::move(streamPtr)};
     std::vector<sciformats::jdx::StringLdr> blockLdrs;
 
     REQUIRE_THROWS_WITH(sciformats::jdx::NTuples("NTUPLES", "NMR SPECTRUM",
@@ -563,7 +563,7 @@ TEST_CASE("fails when NTUPLES record contains duplicate LDRs", "[NTuples]")
     // clang-format on
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::jdx::TextReader reader{std::move(streamPtr)};
+    sciformats::io::TextReader reader{std::move(streamPtr)};
     std::vector<sciformats::jdx::StringLdr> blockLdrs;
     auto nextLine = std::optional<std::string>{};
 
@@ -595,7 +595,7 @@ TEST_CASE("correctly handles NTUPLES standard variable LDR missing columns",
     // clang-format on
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::jdx::TextReader reader{std::move(streamPtr)};
+    sciformats::io::TextReader reader{std::move(streamPtr)};
     std::vector<sciformats::jdx::StringLdr> blockLdrs;
 
     sciformats::jdx::NTuples nTuples{
@@ -633,7 +633,7 @@ TEST_CASE("correctly handles NTUPLES custom variable LDR missing columns",
     // clang-format on
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::jdx::TextReader reader{std::move(streamPtr)};
+    sciformats::io::TextReader reader{std::move(streamPtr)};
     std::vector<sciformats::jdx::StringLdr> blockLdrs;
 
     sciformats::jdx::NTuples nTuples{
@@ -666,7 +666,7 @@ TEST_CASE("fails when NTUPLES record ends prematurely", "[NTuples]")
     // clang-format on
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::jdx::TextReader reader{std::move(streamPtr)};
+    sciformats::io::TextReader reader{std::move(streamPtr)};
     std::vector<sciformats::jdx::StringLdr> blockLdrs;
 
     REQUIRE_THROWS_WITH(sciformats::jdx::NTuples("NTUPLES", "NMR SPECTRUM",
@@ -690,7 +690,7 @@ TEST_CASE("fails when NTUPLES PAGE record ends prematurely", "[NTuples]")
     // clang-format on
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::jdx::TextReader reader{std::move(streamPtr)};
+    sciformats::io::TextReader reader{std::move(streamPtr)};
     std::vector<sciformats::jdx::StringLdr> blockLdrs;
 
     REQUIRE_THROWS_WITH(sciformats::jdx::NTuples("NTUPLES", "NMR SPECTRUM",
@@ -713,7 +713,7 @@ TEST_CASE("fails for missing NTUPLES DATA TABLE variable list",
     // clang-format on
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::jdx::TextReader reader{std::move(streamPtr)};
+    sciformats::io::TextReader reader{std::move(streamPtr)};
     std::vector<sciformats::jdx::StringLdr> blockLdrs;
 
     REQUIRE_THROWS_WITH(sciformats::jdx::NTuples("NTUPLES", "NMR SPECTRUM",
@@ -736,7 +736,7 @@ TEST_CASE("fails for illegal NTUPLES DATA TABLE variable list",
     // clang-format on
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::jdx::TextReader reader{std::move(streamPtr)};
+    sciformats::io::TextReader reader{std::move(streamPtr)};
     std::vector<sciformats::jdx::StringLdr> blockLdrs;
 
     REQUIRE_THROWS_WITH(sciformats::jdx::NTuples("NTUPLES", "NMR SPECTRUM",

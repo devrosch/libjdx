@@ -2,7 +2,7 @@
 #define LIBJDX_PEAKASSIGNMENTSPARSER_HPP
 
 #include "jdx/PeakAssignment.hpp"
-#include "jdx/TextReader.hpp"
+#include "io/TextReader.hpp"
 #include "util/MultilineTuplesParser.hpp"
 
 #include <array>
@@ -16,7 +16,7 @@ class PeakAssignmentsParser : protected MultilineTuplesParser
 {
 public:
     explicit PeakAssignmentsParser(
-        TextReader& reader, std::string variableList);
+        io::TextReader& reader, std::string variableList);
 
     /**
      * @brief Next peak assignment.

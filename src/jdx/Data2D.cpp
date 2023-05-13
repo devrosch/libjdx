@@ -6,13 +6,13 @@
 #include <tuple>
 
 sciformats::jdx::Data2D::Data2D(
-    std::string label, std::string variableList, TextReader& reader)
+    std::string label, std::string variableList, io::TextReader& reader)
     : DataLdr(std::move(label), std::move(variableList), reader)
 {
 }
 
 std::vector<std::pair<double, double>> sciformats::jdx::Data2D::parseXppYYData(
-    const std::string& label, TextReader& reader, double firstX, double lastX,
+    const std::string& label, io::TextReader& reader, double firstX, double lastX,
     double yFactor, size_t nPoints) const
 {
     // parse
@@ -53,7 +53,7 @@ std::vector<std::pair<double, double>> sciformats::jdx::Data2D::parseXppYYData(
 }
 
 std::vector<std::pair<double, double>> sciformats::jdx::Data2D::parseXyXyData(
-    const std::string& label, TextReader& reader, double xFactor,
+    const std::string& label, io::TextReader& reader, double xFactor,
     double yFactor, std::optional<size_t> nPoints) const
 {
     // parse

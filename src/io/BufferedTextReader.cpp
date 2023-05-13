@@ -1,13 +1,13 @@
-#include "jdx/BufferedTextReader.hpp"
-#include "jdx/ParseException.hpp"
+#include "io/BufferedTextReader.hpp"
 
 #include <algorithm>
 #include <fstream>
 #include <istream>
 #include <sstream>
 #include <vector>
+#include <stdexcept>	
 
-sciformats::jdx::BufferedTextReader::BufferedTextReader(
+sciformats::io::BufferedTextReader::BufferedTextReader(
     std::unique_ptr<std::istream> streamPtr, size_t bufferSize)
     : m_streamPtr{std::move(streamPtr)}
     , m_bufferMaxSize{bufferSize}
@@ -19,7 +19,7 @@ sciformats::jdx::BufferedTextReader::BufferedTextReader(
     updateBuffer(0);
 }
 
-sciformats::jdx::BufferedTextReader::BufferedTextReader(
+sciformats::io::BufferedTextReader::BufferedTextReader(
     const std::string& filePath, size_t bufferSize)
     : m_streamPtr{std::make_unique<std::ifstream>(filePath)}
     , m_bufferMaxSize{bufferSize}
@@ -31,11 +31,11 @@ sciformats::jdx::BufferedTextReader::BufferedTextReader(
     updateBuffer(0);
 }
 
-void sciformats::jdx::BufferedTextReader::setStreamFlags()
+void sciformats::io::BufferedTextReader::setStreamFlags()
 {
     if (m_streamPtr == nullptr)
     {
-        throw ParseException("Text reader input stream is null.");
+        throw std::runtime_error("Text reader input stream is null.");
     }
     // the underlying read() method sets failbit and eofbit at end of file, so
     // do not set std::ios::failbit std::ios::eofbit
@@ -43,7 +43,7 @@ void sciformats::jdx::BufferedTextReader::setStreamFlags()
 }
 
 std::ios::pos_type
-sciformats::jdx::BufferedTextReader::calculateAbsolutePosition(
+sciformats::io::BufferedTextReader::calculateAbsolutePosition(
     std::ios::pos_type position, std::ios_base::seekdir seekdir)
 {
     // find absolute stream position
@@ -66,7 +66,7 @@ sciformats::jdx::BufferedTextReader::calculateAbsolutePosition(
     return pos;
 }
 
-void sciformats::jdx::BufferedTextReader::updateBuffer(
+void sciformats::io::BufferedTextReader::updateBuffer(
     std::ios::pos_type position)
 {
     auto bufferStartPos = static_cast<std::ios::pos_type>(
@@ -84,14 +84,14 @@ void sciformats::jdx::BufferedTextReader::updateBuffer(
     m_bufferPosIt = std::begin(m_buffer) + (position - bufferStartPos);
 }
 
-std::ios::pos_type sciformats::jdx::BufferedTextReader::tellg() const
+std::ios::pos_type sciformats::io::BufferedTextReader::tellg() const
 {
     return m_bufferBasePos
            + static_cast<std::ios::pos_type>(
                std::distance(m_buffer.cbegin(), m_bufferPosIt));
 }
 
-void sciformats::jdx::BufferedTextReader::seekg(
+void sciformats::io::BufferedTextReader::seekg(
     std::ios::off_type position, std::ios_base::seekdir seekdir)
 {
     auto pos = calculateAbsolutePosition(position, seekdir);
@@ -123,7 +123,7 @@ void sciformats::jdx::BufferedTextReader::seekg(
     }
 }
 
-std::ios::pos_type sciformats::jdx::BufferedTextReader::getLength()
+std::ios::pos_type sciformats::io::BufferedTextReader::getLength()
 {
     const std::ios::pos_type current = m_streamPtr->tellg();
     m_streamPtr->seekg(0, std::ios::end);
@@ -132,7 +132,7 @@ std::ios::pos_type sciformats::jdx::BufferedTextReader::getLength()
     return length;
 }
 
-bool sciformats::jdx::BufferedTextReader::eof() const
+bool sciformats::io::BufferedTextReader::eof() const
 {
     if (std::distance(m_buffer.cbegin(), m_bufferPosIt) < m_buffer.size())
     {
@@ -149,19 +149,19 @@ bool sciformats::jdx::BufferedTextReader::eof() const
             m_streamPtr->clear();
             return true;
         }
-        throw ParseException(
+        throw std::runtime_error(
             "End of file reached, but std::ios::eofbit not set.");
     }
     return false;
 }
 
-std::string sciformats::jdx::BufferedTextReader::readLine()
+std::string sciformats::io::BufferedTextReader::readLine()
 {
     auto nextChunkStartPos
         = m_bufferBasePos + static_cast<std::ios::pos_type>(m_bufferMaxSize);
     if (m_bufferPosIt == m_buffer.cend() && nextChunkStartPos >= getLength())
     {
-        throw ParseException("Error reading line from istream.");
+        throw std::runtime_error("Error reading line from istream.");
     }
     auto posIt = std::find(m_bufferPosIt, m_buffer.cend(), '\n');
     std::string out{m_bufferPosIt, posIt};

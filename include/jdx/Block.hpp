@@ -8,7 +8,7 @@
 #include "jdx/PeakTable.hpp"
 #include "jdx/RaData.hpp"
 #include "jdx/StringLdr.hpp"
-#include "jdx/TextReader.hpp"
+#include "io/TextReader.hpp"
 #include "jdx/XyData.hpp"
 #include "jdx/XyPoints.hpp"
 
@@ -31,7 +31,7 @@ public:
      * is assumed to be at the start of the first line of the block (containing
      * the TITLE LDR).
      */
-    explicit Block(std::unique_ptr<TextReader> readerPtr);
+    explicit Block(std::unique_ptr<io::TextReader> readerPtr);
 
     /**
      * @brief Constructs a Block from text reader data.
@@ -40,7 +40,7 @@ public:
      * the TITLE LDR). The reader is expected to exist for the lifetime of
      * this object.
      */
-    explicit Block(TextReader& reader);
+    explicit Block(io::TextReader& reader);
 
     /**
      * @brief Provides the labeled data records (LDRs) of the Block.
@@ -131,8 +131,8 @@ private:
         = {"", "END", s_blockStartLabel, "XYDATA", "RADATA", "XYPOINTS",
             "PEAKTABLE", "PEAKASSIGNMENTS", "NTUPLES", "AUDITTRAIL"};
 
-    std::unique_ptr<TextReader> m_readerPtr;
-    TextReader& m_reader;
+    std::unique_ptr<io::TextReader> m_readerPtr;
+    io::TextReader& m_reader;
     std::vector<StringLdr> m_ldrs;
     std::vector<std::string> m_ldrComments;
     std::vector<Block> m_blocks;
@@ -156,7 +156,7 @@ private:
      * label. Will contain the line following the record or nullopt if the end
      * of the reader has been reached.
      */
-    Block(const std::string& title, TextReader& reader,
+    Block(const std::string& title, io::TextReader& reader,
         std::optional<std::string>& nextLine);
     static std::string parseFirstLine(const std::string& firstLine);
     void parseInput(

@@ -1,45 +1,45 @@
-#include "jdx/SimpleTextReader.hpp"
-#include "jdx/ParseException.hpp"
+#include "io/SimpleTextReader.hpp"
 
 #include <fstream>
 #include <sstream>
+#include <stdexcept>	
 
-sciformats::jdx::SimpleTextReader::SimpleTextReader(
+sciformats::io::SimpleTextReader::SimpleTextReader(
     std::unique_ptr<std::istream> streamPtr)
     : m_streamPtr{std::move(streamPtr)}
 {
     setStreamFlags();
 }
 
-sciformats::jdx::SimpleTextReader::SimpleTextReader(const std::string& filePath)
+sciformats::io::SimpleTextReader::SimpleTextReader(const std::string& filePath)
     : m_streamPtr{std::make_unique<std::ifstream>(filePath)}
 {
     setStreamFlags();
 }
 
-void sciformats::jdx::SimpleTextReader::setStreamFlags()
+void sciformats::io::SimpleTextReader::setStreamFlags()
 {
     if (m_streamPtr == nullptr)
     {
-        throw ParseException("Text reader input stream is null.");
+        throw std::runtime_error("Text reader input stream is null.");
     }
     // the underlying getline() method sets eofbit at end of file, so do not set
     // std::ios::eofbit
     m_streamPtr->exceptions(std::ios::failbit | std::ios::badbit);
 }
 
-std::ios::pos_type sciformats::jdx::SimpleTextReader::tellg() const
+std::ios::pos_type sciformats::io::SimpleTextReader::tellg() const
 {
     return m_streamPtr->tellg();
 }
 
-void sciformats::jdx::SimpleTextReader::seekg(
+void sciformats::io::SimpleTextReader::seekg(
     std::ios::pos_type position, std::ios_base::seekdir seekdir)
 {
     m_streamPtr->seekg(position, seekdir);
 }
 
-std::ios::pos_type sciformats::jdx::SimpleTextReader::getLength()
+std::ios::pos_type sciformats::io::SimpleTextReader::getLength()
 {
     const std::ios::pos_type current = m_streamPtr->tellg();
     m_streamPtr->seekg(0, std::ios::end);
@@ -48,7 +48,7 @@ std::ios::pos_type sciformats::jdx::SimpleTextReader::getLength()
     return length;
 }
 
-bool sciformats::jdx::SimpleTextReader::eof() const
+bool sciformats::io::SimpleTextReader::eof() const
 {
     // see:
     // https://stackoverflow.com/questions/6283632/how-to-know-if-the-next-character-is-eof-in-c
@@ -61,13 +61,13 @@ bool sciformats::jdx::SimpleTextReader::eof() const
             m_streamPtr->clear();
             return true;
         }
-        throw ParseException(
+        throw std::runtime_error(
             "End of file reached, but std::ios::eofbit not set.");
     }
     return false;
 }
 
-std::string sciformats::jdx::SimpleTextReader::readLine()
+std::string sciformats::io::SimpleTextReader::readLine()
 {
     std::string out{};
     if (std::getline(*m_streamPtr, out))
@@ -86,5 +86,5 @@ std::string sciformats::jdx::SimpleTextReader::readLine()
         }
         return out;
     }
-    throw ParseException("Error reading line from istream.");
+    throw std::runtime_error("Error reading line from istream.");
 }

@@ -9,7 +9,7 @@
 #include <regex>
 
 sciformats::jdx::util::AuditTrailParser::AuditTrailParser(
-    TextReader& reader, std::string variableList)
+    io::TextReader& reader, std::string variableList)
     : MultilineTuplesParser(reader, std::move(variableList), s_ldrName, "\n")
 {
 }

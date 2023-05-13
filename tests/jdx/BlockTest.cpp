@@ -30,7 +30,7 @@ TEST_CASE("parses all LDRs in block with XYDATA", "[Block]")
                       "$$ random comment #3\r\n"};
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::jdx::TextReader reader{std::move(streamPtr)};
+    sciformats::io::TextReader reader{std::move(streamPtr)};
 
     auto block = sciformats::jdx::Block(reader);
     const auto& ldrs = block.getLdrs();
@@ -76,7 +76,7 @@ TEST_CASE("fails to parse block with duplicate XYDATA", "[Block]")
                       "##END="};
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::jdx::TextReader reader{std::move(streamPtr)};
+    sciformats::io::TextReader reader{std::move(streamPtr)};
 
     REQUIRE_THROWS_WITH(sciformats::jdx::Block(reader),
         Catch::Matchers::Contains("multiple", Catch::CaseSensitive::No));
@@ -103,7 +103,7 @@ TEST_CASE("parses all LDRs in block with RADATA", "[Block]")
                       "##END="};
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::jdx::TextReader reader{std::move(streamPtr)};
+    sciformats::io::TextReader reader{std::move(streamPtr)};
 
     auto block = sciformats::jdx::Block(reader);
     const auto& ldrs = block.getLdrs();
@@ -141,7 +141,7 @@ TEST_CASE("fails to parse block with duplicate RADATA", "[Block]")
                       "##END="};
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::jdx::TextReader reader{std::move(streamPtr)};
+    sciformats::io::TextReader reader{std::move(streamPtr)};
 
     REQUIRE_THROWS_WITH(sciformats::jdx::Block(reader),
         Catch::Matchers::Contains("multiple", Catch::CaseSensitive::No));
@@ -166,7 +166,7 @@ TEST_CASE("parses block with XYPOINTS", "[Block]")
                       "##END="};
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::jdx::TextReader reader{std::move(streamPtr)};
+    sciformats::io::TextReader reader{std::move(streamPtr)};
 
     auto block = sciformats::jdx::Block(reader);
     REQUIRE(block.getXyPoints().has_value());
@@ -196,7 +196,7 @@ TEST_CASE("fails to parse block with duplicate XYPOINTS", "[Block]")
                       "##END="};
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::jdx::TextReader reader{std::move(streamPtr)};
+    sciformats::io::TextReader reader{std::move(streamPtr)};
 
     REQUIRE_THROWS_WITH(sciformats::jdx::Block(reader),
         Catch::Matchers::Contains("multiple", Catch::CaseSensitive::No));
@@ -212,7 +212,7 @@ TEST_CASE("parses block with PEAK TABLE", "[Block]")
                       "##END="};
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::jdx::TextReader reader{std::move(streamPtr)};
+    sciformats::io::TextReader reader{std::move(streamPtr)};
 
     auto block = sciformats::jdx::Block(reader);
     const auto& ldrs = block.getLdrs();
@@ -239,7 +239,7 @@ TEST_CASE("fails to parse block with duplicate PEAK TABLE", "[Block]")
                       "##END="};
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::jdx::TextReader reader{std::move(streamPtr)};
+    sciformats::io::TextReader reader{std::move(streamPtr)};
 
     REQUIRE_THROWS_WITH(sciformats::jdx::Block(reader),
         Catch::Matchers::Contains("multiple", Catch::CaseSensitive::No));
@@ -256,7 +256,7 @@ TEST_CASE("parses block with PEAK ASSIGNMENTS", "[Block]")
                       "##END="};
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::jdx::TextReader reader{std::move(streamPtr)};
+    sciformats::io::TextReader reader{std::move(streamPtr)};
 
     auto block = sciformats::jdx::Block(reader);
     const auto& ldrs = block.getLdrs();
@@ -285,7 +285,7 @@ TEST_CASE("fails to parse block with duplicate PEAK ASSIGNMENTS", "[Block]")
                       "##END="};
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::jdx::TextReader reader{std::move(streamPtr)};
+    sciformats::io::TextReader reader{std::move(streamPtr)};
 
     REQUIRE_THROWS_WITH(sciformats::jdx::Block(reader),
         Catch::Matchers::Contains("multiple", Catch::CaseSensitive::No));
@@ -331,7 +331,7 @@ TEST_CASE("parses LINK block", "[Block]")
                       "##END=\r\n"};
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::jdx::TextReader reader{std::move(streamPtr)};
+    sciformats::io::TextReader reader{std::move(streamPtr)};
 
     auto block = sciformats::jdx::Block(reader);
     const auto& ldrs = block.getLdrs();
@@ -368,7 +368,7 @@ TEST_CASE("throws if required LDRs for xy data are missing", "[Block]")
                       "##END="};
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::jdx::TextReader reader{std::move(streamPtr)};
+    sciformats::io::TextReader reader{std::move(streamPtr)};
 
     REQUIRE_THROWS_WITH(sciformats::jdx::Block(reader),
         Catch::Matchers::Contains("NPOINTS")
@@ -403,7 +403,7 @@ TEST_CASE("parses nested blocks", "[Block]")
                       "##END="};
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::jdx::TextReader reader{std::move(streamPtr)};
+    sciformats::io::TextReader reader{std::move(streamPtr)};
 
     auto block = sciformats::jdx::Block(reader);
     const auto& ldrs = block.getLdrs();
@@ -430,7 +430,7 @@ TEST_CASE("treats block comments different from other LDRs", "[Block]")
                       "##END="};
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::jdx::TextReader reader{std::move(streamPtr)};
+    sciformats::io::TextReader reader{std::move(streamPtr)};
 
     auto block = sciformats::jdx::Block(reader);
     const auto& ldrs = block.getLdrs();
@@ -449,7 +449,7 @@ TEST_CASE("throws on illegal block start", "[Block]")
                       "##END="};
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::jdx::TextReader reader{std::move(streamPtr)};
+    sciformats::io::TextReader reader{std::move(streamPtr)};
 
     REQUIRE_THROWS(sciformats::jdx::Block(reader));
 }
@@ -462,7 +462,7 @@ TEST_CASE("throws on duplicate LDRs in block", "[Block]")
                       "##END="};
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::jdx::TextReader reader{std::move(streamPtr)};
+    sciformats::io::TextReader reader{std::move(streamPtr)};
 
     REQUIRE_THROWS(sciformats::jdx::Block(reader));
 }
@@ -473,7 +473,7 @@ TEST_CASE("throws on missing END LDR in block", "[Block]")
                       "##JCAMP-DX= 5.00\r\n"};
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::jdx::TextReader reader{std::move(streamPtr)};
+    sciformats::io::TextReader reader{std::move(streamPtr)};
 
     REQUIRE_THROWS(sciformats::jdx::Block(reader));
 }
@@ -511,7 +511,7 @@ TEST_CASE("parses block with NTUPLES", "[Block]")
 
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::jdx::TextReader reader{std::move(streamPtr)};
+    sciformats::io::TextReader reader{std::move(streamPtr)};
 
     auto block = sciformats::jdx::Block(reader);
     REQUIRE(block.getNTuples().has_value());
@@ -542,7 +542,7 @@ TEST_CASE("parses block with AUDIT TRAIL", "[Block]")
 
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::jdx::TextReader reader{std::move(streamPtr)};
+    sciformats::io::TextReader reader{std::move(streamPtr)};
 
     auto block = sciformats::jdx::Block(reader);
     REQUIRE(block.getAuditTrail().has_value());

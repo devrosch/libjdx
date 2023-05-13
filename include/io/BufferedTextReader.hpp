@@ -1,11 +1,11 @@
-#ifndef JDX_BUFFEREDTEXTREADER_HPP
-#define JDX_BUFFEREDTEXTREADER_HPP
+#ifndef IO_BUFFEREDTEXTREADER_HPP
+#define IO_BUFFEREDTEXTREADER_HPP
 
 #include <istream>
 #include <memory>
 #include <vector>
 
-namespace sciformats::jdx
+namespace sciformats::io
 {
 /**
  * @brief Provides mechanisms to read textual data partially buffered in memory.
@@ -76,6 +76,6 @@ private:
         std::ios::pos_type position, std::ios_base::seekdir seekdir);
     void updateBuffer(std::ios::pos_type position);
 };
-} // namespace sciformats::jdx
+} // namespace sciformats::io
 
 #endif

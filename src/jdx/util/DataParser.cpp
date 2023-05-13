@@ -9,7 +9,7 @@
 #include <string>
 
 std::vector<double> sciformats::jdx::util::DataParser::readXppYYData(
-    TextReader& reader)
+    io::TextReader& reader)
 {
     static_assert(
         std::numeric_limits<double>::has_quiet_NaN, "No quiet NaN available.");
@@ -56,7 +56,7 @@ std::vector<double> sciformats::jdx::util::DataParser::readXppYYData(
 }
 
 std::vector<std::pair<double, double>>
-sciformats::jdx::util::DataParser::readXyXyData(TextReader& reader)
+sciformats::jdx::util::DataParser::readXyXyData(io::TextReader& reader)
 {
     static_assert(
         std::numeric_limits<double>::has_quiet_NaN, "No quiet NaN available.");

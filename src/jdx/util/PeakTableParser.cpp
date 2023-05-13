@@ -8,7 +8,7 @@
 #include <regex>
 
 sciformats::jdx::util::PeakTableParser::PeakTableParser(
-    TextReader& reader, std::string variableList)
+    io::TextReader& reader, std::string variableList)
     : TuplesParser(std::move(variableList), "peak table")
     , m_reader{reader}
 {
