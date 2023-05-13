@@ -10,6 +10,9 @@ set(JDX_PUBLIC_HEADER_LIST
     # public data providers
     "${PROJECT_SOURCE_DIR}/include/jdx/JdxParser.hpp"
     "${PROJECT_SOURCE_DIR}/include/jdx/TextReader.hpp"
+
+    "${PROJECT_SOURCE_DIR}/include/jdx/BufferedTextReader.hpp"
+
     # ldr
     "${PROJECT_SOURCE_DIR}/include/jdx/LdrContainer.hpp"
     "${PROJECT_SOURCE_DIR}/include/jdx/Block.hpp"
@@ -66,6 +69,9 @@ set(JDX_SOURCE_LIST
     # public data providers
     "${CMAKE_CURRENT_SOURCE_DIR}/JdxParser.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/TextReader.cpp"
+
+    "${CMAKE_CURRENT_SOURCE_DIR}/BufferedTextReader.cpp"
+
     # util
     "${CMAKE_CURRENT_SOURCE_DIR}/util/StringUtils.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/util/LdrUtils.cpp"

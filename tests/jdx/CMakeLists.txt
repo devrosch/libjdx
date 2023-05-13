@@ -6,6 +6,8 @@ add_executable(jdx_test
     api/JdxDataMapperTest.cpp
 
     TextReaderTest.cpp
+    BufferedTextReaderTest.cpp
+
     JdxParserTest.cpp
     StringUtilsTest.cpp
     LdrUtilsTest.cpp
