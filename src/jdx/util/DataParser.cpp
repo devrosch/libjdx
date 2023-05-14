@@ -5,7 +5,6 @@
 
 #include <cmath>
 #include <limits>
-#include <regex>
 #include <string>
 
 std::vector<double> sciformats::jdx::util::DataParser::readXppYYData(
@@ -306,9 +305,6 @@ bool sciformats::jdx::util::DataParser::isTokenStart(
     {
         return false;
     }
-    // TODO: this is fragile
-    const static std::regex regex{"^[eE][+-]{0,1}\\d{1,3}[;,\\s]{1}.*"};
-    const static std::regex altRegex{"^[eE][+-]{0,1}\\d{1,3}[;,\\s]$"};
     char c = encodedValues.at(index);
     if ((getAsciiDigitValue(c).has_value() || c == '.')
         && (index == 0 || isTokenDelimiter(encodedValues, index - 1)))
@@ -319,21 +315,17 @@ bool sciformats::jdx::util::DataParser::isTokenStart(
     {
         // could be either an exponent or SQZ digit (E==+5, e==-5)
         // apply heuristic to provide answer
-        auto substr = encodedValues.substr(index, 6);
-        return !std::regex_match(substr, regex)
-               && !std::regex_match(substr, altRegex);
+        return !isExponentStart(encodedValues, index);
     }
     if (c == '+' || c == '-')
     {
+        // could be either a sign of an exponent or AFFN/PAC start digit
+        // apply heuristic to provide answer
         if (index == 0)
         {
             return true;
         }
-        // could be either a sign of an exponent or PAC start digit
-        // apply heuristic to provide answer
-        auto substr = encodedValues.substr(index - 1, 6);
-        return !std::regex_match(substr, regex)
-               && !std::regex_match(substr, altRegex);
+        return !isExponentStart(encodedValues, index - 1);
     }
     if (getSqzDigitValue(c).has_value() || getDifDigitValue(c).has_value()
         || getDupDigitValue(c).has_value())
@@ -346,6 +338,52 @@ bool sciformats::jdx::util::DataParser::isTokenStart(
         return true;
     }
     return false;
+}
+
+bool sciformats::jdx::util::DataParser::isExponentStart(const std::string& encodedValues, size_t index)
+{
+    // a faster check for start of exponent instead of these regexes:
+    // ^[eE][+-]{0,1}\\d{1,3}[;,\\s]{1}.*
+    // ^[eE][+-]{0,1}\\d{1,3}[;,\\s]$
+    // TODO: these heuristics are fragile
+    auto i = index;
+    auto curChar = encodedValues.at(i++);
+    if (curChar != 'E' && curChar != 'e')
+    {
+        return false;
+    }
+    if (i > encodedValues.size())
+    {
+        return false;
+    }
+    curChar = encodedValues.at(i++);
+    const auto plusMinusFound = curChar == '+' || curChar == '-';
+    if (!plusMinusFound && !getAsciiDigitValue(curChar).has_value())
+    {
+        return false;
+    }
+    // so far, e.g., "E+", "e-", "E2"
+    if (plusMinusFound && i >= encodedValues.size())
+    {
+        // string ends with illegal sequence "E+" "E-", "e+", "e-"
+        return false;
+    }
+    // no need to update curChar after this point
+    auto numDigits = plusMinusFound ? 0 : 1;
+    while (numDigits < 3 && i < encodedValues.size()
+        && getAsciiDigitValue(encodedValues.at(i)).has_value())
+    {
+        ++i;
+        ++numDigits;
+    }
+    // so far, e.g., "E+", "E+2", "e-34", "E234"
+    if (numDigits == 0)
+    {
+        return false;
+    }
+    // compressed values can easily end in a line on, e.g., "E567", so require delimiter 
+    // TODO: this is probably wrong for AFFN
+    return i < encodedValues.size() && isTokenDelimiter(encodedValues, i);
 }
 
 std::optional<char> sciformats::jdx::util::DataParser::getAsciiDigitValue(
