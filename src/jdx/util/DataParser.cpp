@@ -111,7 +111,8 @@ sciformats::jdx::util::DataParser::readXyXyData(io::TextReader& reader)
 // TODO: refactor to reduce complexity
 std::pair<std::vector<double>, bool>
 // NOLINTNEXTLINE(readability-function-cognitive-complexity)
-sciformats::jdx::util::DataParser::readValues(std::string& encodedValues, bool isAsdf)
+sciformats::jdx::util::DataParser::readValues(
+    std::string& encodedValues, bool isAsdf)
 {
     // output
     std::vector<double> yValues{};
