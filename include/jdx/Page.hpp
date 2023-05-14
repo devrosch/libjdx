@@ -1,11 +1,11 @@
 #ifndef LIBJDX_PAGE_HPP
 #define LIBJDX_PAGE_HPP
 
+#include "io/TextReader.hpp"
 #include "jdx/DataTable.hpp"
 #include "jdx/LdrContainer.hpp"
 #include "jdx/NTuplesAttributes.hpp"
 #include "jdx/StringLdr.hpp"
-#include "io/TextReader.hpp"
 
 #include <array>
 #include <functional>

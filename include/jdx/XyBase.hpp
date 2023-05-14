@@ -1,9 +1,9 @@
 #ifndef LIBJDX_XYBASE_HPP
 #define LIBJDX_XYBASE_HPP
 
+#include "io/TextReader.hpp"
 #include "jdx/Data2D.hpp"
 #include "jdx/StringLdr.hpp"
-#include "io/TextReader.hpp"
 #include "jdx/XyParameters.hpp"
 
 #include <vector>

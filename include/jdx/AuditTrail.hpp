@@ -1,9 +1,9 @@
 #ifndef LIBJDX_AUDITTRAIL_HPP
 #define LIBJDX_AUDITTRAIL_HPP
 
+#include "io/TextReader.hpp"
 #include "jdx/AuditTrailEntry.hpp"
 #include "jdx/TabularData.hpp"
-#include "io/TextReader.hpp"
 
 #include <array>
 #include <optional>

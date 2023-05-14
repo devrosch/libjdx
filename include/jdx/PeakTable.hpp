@@ -1,10 +1,10 @@
 #ifndef LIBJDX_PEAKTABLE_HPP
 #define LIBJDX_PEAKTABLE_HPP
 
+#include "io/TextReader.hpp"
 #include "jdx/DataLdr.hpp"
 #include "jdx/Peak.hpp"
 #include "jdx/TabularData.hpp"
-#include "io/TextReader.hpp"
 
 #include <array>
 #include <optional>

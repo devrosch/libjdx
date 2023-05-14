@@ -1,8 +1,8 @@
 #ifndef LIBJDX_PEAKASSIGNMENTSPARSER_HPP
 #define LIBJDX_PEAKASSIGNMENTSPARSER_HPP
 
-#include "jdx/PeakAssignment.hpp"
 #include "io/TextReader.hpp"
+#include "jdx/PeakAssignment.hpp"
 #include "util/MultilineTuplesParser.hpp"
 
 #include <array>

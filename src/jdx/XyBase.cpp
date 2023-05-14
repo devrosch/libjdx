@@ -8,8 +8,8 @@
 sciformats::jdx::XyBase::XyBase(const std::string& label,
     const std::string& variableList, const std::vector<StringLdr>& ldrs,
     const std::string& expectedLabel,
-    const std::vector<std::string>& expectedVariableLists, io::TextReader& reader,
-    std::optional<std::string>& nextLine)
+    const std::vector<std::string>& expectedVariableLists,
+    io::TextReader& reader, std::optional<std::string>& nextLine)
     : Data2D{label, variableList, reader}
 {
     validateInput(

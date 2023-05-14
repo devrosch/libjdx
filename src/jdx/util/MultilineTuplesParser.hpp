@@ -24,8 +24,9 @@ protected:
      * @param ldrName The name of the LDR.
      * @param lineBreakChars A char array to replace line breaks with.
      */
-    explicit MultilineTuplesParser(io::TextReader& reader, std::string variableList,
-        std::string ldrName, std::string lineBreakChars);
+    explicit MultilineTuplesParser(io::TextReader& reader,
+        std::string variableList, std::string ldrName,
+        std::string lineBreakChars);
 
     /**
      * @brief Retrieves the next tuple, delimited by ")" at the end of a line

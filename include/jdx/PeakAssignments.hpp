@@ -1,10 +1,10 @@
 #ifndef LIBJDX_PEAKASSIGNMENTS_HPP
 #define LIBJDX_PEAKASSIGNMENTS_HPP
 
+#include "io/TextReader.hpp"
 #include "jdx/DataLdr.hpp"
 #include "jdx/PeakAssignment.hpp"
 #include "jdx/TabularData.hpp"
-#include "io/TextReader.hpp"
 
 #include <array>
 #include <optional>

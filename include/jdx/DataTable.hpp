@@ -1,10 +1,10 @@
 #ifndef LIBJDX_DATATABLE_HPP
 #define LIBJDX_DATATABLE_HPP
 
+#include "io/TextReader.hpp"
 #include "jdx/Data2D.hpp"
 #include "jdx/NTuplesAttributes.hpp"
 #include "jdx/ParseException.hpp"
-#include "io/TextReader.hpp"
 
 #include <array>
 #include <map>

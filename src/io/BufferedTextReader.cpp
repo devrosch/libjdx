@@ -4,8 +4,8 @@
 #include <fstream>
 #include <istream>
 #include <sstream>
+#include <stdexcept>
 #include <vector>
-#include <stdexcept>	
 
 sciformats::io::BufferedTextReader::BufferedTextReader(
     std::unique_ptr<std::istream> streamPtr, size_t bufferSize)

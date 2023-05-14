@@ -109,8 +109,7 @@ sciformats::jdx::NTuples::parseAttributes(
 }
 
 std::vector<sciformats::jdx::StringLdr> sciformats::jdx::NTuples::readLdrs(
-    std::optional<std::string>& firstLdrStart,
-    io::TextReader& reader)
+    std::optional<std::string>& firstLdrStart, io::TextReader& reader)
 {
     std::optional<std::string>& nextLine = firstLdrStart;
     std::vector<StringLdr> output;

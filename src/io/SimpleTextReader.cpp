@@ -2,7 +2,7 @@
 
 #include <fstream>
 #include <sstream>
-#include <stdexcept>	
+#include <stdexcept>
 
 sciformats::io::SimpleTextReader::SimpleTextReader(
     std::unique_ptr<std::istream> streamPtr)

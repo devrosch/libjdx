@@ -1,8 +1,8 @@
 #ifndef LIBJDX_DATA2D_HPP
 #define LIBJDX_DATA2D_HPP
 
-#include "jdx/DataLdr.hpp"
 #include "io/TextReader.hpp"
+#include "jdx/DataLdr.hpp"
 
 #include <vector>
 

@@ -1,11 +1,11 @@
 #ifndef LIBJDX_NTUPLES_HPP
 #define LIBJDX_NTUPLES_HPP
 
+#include "io/TextReader.hpp"
 #include "jdx/LdrContainer.hpp"
 #include "jdx/NTuplesAttributes.hpp"
 #include "jdx/Page.hpp"
 #include "jdx/StringLdr.hpp"
-#include "io/TextReader.hpp"
 
 #include <functional>
 #include <map>

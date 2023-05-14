@@ -1,8 +1,8 @@
 #ifndef LIBJDX_AUDITTRAILPARSER_HPP
 #define LIBJDX_AUDITTRAILPARSER_HPP
 
-#include "jdx/AuditTrailEntry.hpp"
 #include "io/TextReader.hpp"
+#include "jdx/AuditTrailEntry.hpp"
 #include "util/MultilineTuplesParser.hpp"
 
 #include <array>

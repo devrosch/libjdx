@@ -1,8 +1,8 @@
 #ifndef LIBJDX_XYPOINTS_HPP
 #define LIBJDX_XYPOINTS_HPP
 
-#include "jdx/StringLdr.hpp"
 #include "io/TextReader.hpp"
+#include "jdx/StringLdr.hpp"
 #include "jdx/XyBase.hpp"
 #include "jdx/XyParameters.hpp"
 

@@ -340,7 +340,8 @@ bool sciformats::jdx::util::DataParser::isTokenStart(
     return false;
 }
 
-bool sciformats::jdx::util::DataParser::isExponentStart(const std::string& encodedValues, size_t index)
+bool sciformats::jdx::util::DataParser::isExponentStart(
+    const std::string& encodedValues, size_t index)
 {
     // a faster check for start of exponent instead of these regexes:
     // ^[eE][+-]{0,1}\\d{1,3}[;,\\s]{1}.*
@@ -371,7 +372,7 @@ bool sciformats::jdx::util::DataParser::isExponentStart(const std::string& encod
     // no need to update curChar after this point
     auto numDigits = plusMinusFound ? 0 : 1;
     while (numDigits < 3 && i < encodedValues.size()
-        && getAsciiDigitValue(encodedValues.at(i)).has_value())
+           && getAsciiDigitValue(encodedValues.at(i)).has_value())
     {
         ++i;
         ++numDigits;
@@ -381,7 +382,8 @@ bool sciformats::jdx::util::DataParser::isExponentStart(const std::string& encod
     {
         return false;
     }
-    // compressed values can easily end in a line on, e.g., "E567", so require delimiter 
+    // compressed values can easily end in a line on, e.g., "E567", so require
+    // delimiter
     // TODO: this is probably wrong for AFFN
     return i < encodedValues.size() && isTokenDelimiter(encodedValues, i);
 }

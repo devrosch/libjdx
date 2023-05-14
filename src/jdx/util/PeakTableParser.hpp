@@ -1,8 +1,8 @@
 #ifndef LIBJDX_PEAKTABLEPARSER_HPP
 #define LIBJDX_PEAKTABLEPARSER_HPP
 
-#include "jdx/PeakTable.hpp"
 #include "io/TextReader.hpp"
+#include "jdx/PeakTable.hpp"
 #include "util/TuplesParser.hpp"
 
 #include <array>

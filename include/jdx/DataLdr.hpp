@@ -1,8 +1,8 @@
 #ifndef LIBJDX_DATALDR_HPP
 #define LIBJDX_DATALDR_HPP
 
-#include "jdx/Ldr.hpp"
 #include "io/TextReader.hpp"
+#include "jdx/Ldr.hpp"
 
 #include <functional>
 #include <optional>
@@ -24,7 +24,8 @@ public:
     [[nodiscard]] const std::string& getVariableList() const;
 
 protected:
-    DataLdr(std::string label, std::string variableList, io::TextReader& reader);
+    DataLdr(
+        std::string label, std::string variableList, io::TextReader& reader);
 
     [[nodiscard]] io::TextReader& getReader() const;
     /**

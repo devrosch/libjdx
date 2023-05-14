@@ -1,5 +1,6 @@
 #ifndef LIBJDX_BLOCK_HPP
 #define LIBJDX_BLOCK_HPP
+#include "io/TextReader.hpp"
 #include "jdx/AuditTrail.hpp"
 #include "jdx/BlockParseException.hpp"
 #include "jdx/LdrContainer.hpp"
@@ -8,7 +9,6 @@
 #include "jdx/PeakTable.hpp"
 #include "jdx/RaData.hpp"
 #include "jdx/StringLdr.hpp"
-#include "io/TextReader.hpp"
 #include "jdx/XyData.hpp"
 #include "jdx/XyPoints.hpp"
 

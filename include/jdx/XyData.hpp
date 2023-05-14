@@ -1,8 +1,8 @@
 #ifndef LIBJDX_XYDATA_HPP
 #define LIBJDX_XYDATA_HPP
 
-#include "jdx/StringLdr.hpp"
 #include "io/TextReader.hpp"
+#include "jdx/StringLdr.hpp"
 #include "jdx/XyBase.hpp"
 #include "jdx/XyParameters.hpp"
 

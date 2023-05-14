@@ -1,10 +1,10 @@
 #ifndef LIBJDX_RADATA_HPP
 #define LIBJDX_RADATA_HPP
 
+#include "io/TextReader.hpp"
 #include "jdx/Data2D.hpp"
 #include "jdx/RaParameters.hpp"
 #include "jdx/StringLdr.hpp"
-#include "io/TextReader.hpp"
 
 #include <string>
 #include <vector>

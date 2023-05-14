@@ -1,8 +1,8 @@
 #ifndef LIBJDX_TABULARDATA_HPP
 #define LIBJDX_TABULARDATA_HPP
 
-#include "jdx/DataLdr.hpp"
 #include "io/TextReader.hpp"
+#include "jdx/DataLdr.hpp"
 
 #include <functional>
 #include <regex>
