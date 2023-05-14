@@ -19,7 +19,7 @@ public:
     static std::vector<std::pair<double, double>> readXyXyData(
         io::TextReader& reader);
     static std::pair<std::vector<double>, bool> readValues(
-        std::string& encodedValues);
+        std::string& encodedValues, bool isAsdf);
 
 private:
     enum class TokenType
@@ -33,12 +33,12 @@ private:
     static std::pair<std::vector<double>, bool> readXppYYLine(
         std::string& line, const std::optional<double>& yValueCheck);
     static std::optional<std::string> nextToken(
-        const std::string& line, size_t& pos);
+        const std::string& line, size_t& pos, bool isAsdf);
     static TokenType toAffn(std::string& token);
     static bool isTokenDelimiter(
         const std::string& encodedValues, size_t index);
-    static bool isTokenStart(const std::string& encodedValues, size_t index);
-    static bool isExponentStart(const std::string& encodedValues, size_t index);
+    static bool isTokenStart(const std::string& encodedValues, size_t index, bool isAsdf);
+    static bool isExponentStart(const std::string& encodedValues, size_t index, bool isAsdf);
     static std::optional<char> getAsciiDigitValue(char c);
     static std::optional<char> getSqzDigitValue(char c);
     static std::optional<char> getDifDigitValue(char c);

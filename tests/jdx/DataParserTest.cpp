@@ -7,14 +7,30 @@
 
 TEST_CASE("parses AFFN data line", "[DataParser]")
 {
-    std::string input{"1.23 4.5E23 4.5E2 7.89E-14 600"};
+    std::string input{"1.23 4.5E23 4.5e2 7.89E-14 600 1E2"};
 
     auto [actual, difEncoded]
-        = sciformats::jdx::util::DataParser::readValues(input);
-    auto expect = std::vector<double>{1.23, 4.5E23, 4.5E2, 7.89E-14, 600};
+        = sciformats::jdx::util::DataParser::readValues(input, false);
+    auto expect = std::vector<double>{1.23, 4.5E23, 4.5E2, 7.89E-14, 600, 1E2};
 
     REQUIRE(false == difEncoded);
-    REQUIRE(5 == actual.size());
+    REQUIRE(6 == actual.size());
+    for (size_t i{0}; i < expect.size(); i++)
+    {
+        REQUIRE((expect.at(i) == Approx(actual.at(i))));
+    }
+}
+
+TEST_CASE("parses ambiguous AFFN - SQZ data line", "[DataParser]")
+{
+    std::string input{"1E2 B23C34D45E56"};
+
+    auto [actual, difEncoded]
+        = sciformats::jdx::util::DataParser::readValues(input, true);
+    auto expect = std::vector<double>{100, 223, 334, 445, 556};
+
+    REQUIRE(false == difEncoded);
+    REQUIRE(expect.size() == actual.size());
     for (size_t i{0}; i < expect.size(); i++)
     {
         REQUIRE((expect.at(i) == Approx(actual.at(i))));
@@ -26,7 +42,7 @@ TEST_CASE("parses FIX (I3) ASCII data line", "[DataParser]")
     std::string input{"1  2  3  3  2  1  0 -1 -2 -3"};
 
     auto [actual, difEncoded]
-        = sciformats::jdx::util::DataParser::readValues(input);
+        = sciformats::jdx::util::DataParser::readValues(input, false);
     auto expect = std::vector<double>{1, 2, 3, 3, 2, 1, 0, -1, -2, -3};
 
     REQUIRE(false == difEncoded);
@@ -42,7 +58,7 @@ TEST_CASE("parses PAC data line", "[DataParser]")
     std::string input{"1+2+3+3+2+1+0-1-2-3"};
 
     auto [actual, difEncoded]
-        = sciformats::jdx::util::DataParser::readValues(input);
+        = sciformats::jdx::util::DataParser::readValues(input, true);
     auto expect = std::vector<double>{1, 2, 3, 3, 2, 1, 0, -1, -2, -3};
 
     REQUIRE(false == difEncoded);
@@ -58,7 +74,7 @@ TEST_CASE("parses SQZ data line", "[DataParser]")
     std::string input{"1BCCBA@abc"};
 
     auto [actual, difEncoded]
-        = sciformats::jdx::util::DataParser::readValues(input);
+        = sciformats::jdx::util::DataParser::readValues(input, true);
     auto expect = std::vector<double>{1, 2, 3, 3, 2, 1, 0, -1, -2, -3};
 
     REQUIRE(false == difEncoded);
@@ -74,7 +90,7 @@ TEST_CASE("parses DIF data line", "[DataParser]")
     std::string input{"1JJ%jjjjjj"};
 
     auto [actual, difEncoded]
-        = sciformats::jdx::util::DataParser::readValues(input);
+        = sciformats::jdx::util::DataParser::readValues(input, true);
     auto expect = std::vector<double>{1, 2, 3, 3, 2, 1, 0, -1, -2, -3};
 
     REQUIRE(true == difEncoded);
@@ -89,7 +105,7 @@ TEST_CASE("fails if sequence starts with DIF token", "[DataParser]")
 {
     std::string input{"jjj"};
 
-    REQUIRE_THROWS(sciformats::jdx::util::DataParser::readValues(input));
+    REQUIRE_THROWS(sciformats::jdx::util::DataParser::readValues(input, true));
 }
 
 TEST_CASE("parses DIFDUP data line", "[DataParser]")
@@ -97,7 +113,7 @@ TEST_CASE("parses DIFDUP data line", "[DataParser]")
     std::string input{"1JT%jX"};
 
     auto [actual, difEncoded]
-        = sciformats::jdx::util::DataParser::readValues(input);
+        = sciformats::jdx::util::DataParser::readValues(input, true);
     auto expect = std::vector<double>{1, 2, 3, 3, 2, 1, 0, -1, -2, -3};
 
     REQUIRE(false == difEncoded); // last ordinate is in DUP format , not DIF
@@ -113,7 +129,7 @@ TEST_CASE(
 {
     std::string input{"1VZ"};
 
-    REQUIRE_THROWS(sciformats::jdx::util::DataParser::readValues(input));
+    REQUIRE_THROWS(sciformats::jdx::util::DataParser::readValues(input, true));
 }
 
 TEST_CASE("fails for illegal token start character", "[DataParser]")
@@ -121,7 +137,7 @@ TEST_CASE("fails for illegal token start character", "[DataParser]")
     // "u" is an illegal character
     std::string input{"123 u45"};
 
-    REQUIRE_THROWS(sciformats::jdx::util::DataParser::readValues(input));
+    REQUIRE_THROWS(sciformats::jdx::util::DataParser::readValues(input, true));
 }
 
 TEST_CASE("parses mixed PAC/AFFN stream", "[DataParser]")

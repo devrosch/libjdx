@@ -72,7 +72,7 @@ sciformats::jdx::util::DataParser::readXyXyData(io::TextReader& reader)
         // pre-process line
         auto [data, _] = util::stripLineComment(line, true);
         // read xy values from line
-        auto [lineValues, isDifEncoded] = readValues(data);
+        auto [lineValues, isDifEncoded] = readValues(data, false);
         // turn line values into pairs and append line values to xyValues
         for (auto value : lineValues)
         {
@@ -111,7 +111,7 @@ sciformats::jdx::util::DataParser::readXyXyData(io::TextReader& reader)
 // TODO: refactor to reduce complexity
 std::pair<std::vector<double>, bool>
 // NOLINTNEXTLINE(readability-function-cognitive-complexity)
-sciformats::jdx::util::DataParser::readValues(std::string& encodedValues)
+sciformats::jdx::util::DataParser::readValues(std::string& encodedValues, bool isAsdf)
 {
     // output
     std::vector<double> yValues{};
@@ -122,7 +122,7 @@ sciformats::jdx::util::DataParser::readValues(std::string& encodedValues)
     TokenType previousTokenType = TokenType::Affn;
     // loop
     size_t index = 0;
-    while (auto token = nextToken(encodedValues, index))
+    while (auto token = nextToken(encodedValues, index, isAsdf))
     {
         TokenType tokenType = toAffn(token.value());
         // it's not quite clear if DUP of DIF should also count as DIF encoded
@@ -205,7 +205,7 @@ sciformats::jdx::util::DataParser::readXppYYLine(
     std::string& line, const std::optional<double>& yValueCheck)
 {
     // read (X++(Y..Y)) data line
-    auto [values, difEncoded] = readValues(line);
+    auto [values, difEncoded] = readValues(line, true);
     if (!values.empty())
     {
         // remove initial x value (not required for (X++(Y..Y)) encoded data)
@@ -224,7 +224,7 @@ sciformats::jdx::util::DataParser::readXppYYLine(
 }
 
 std::optional<std::string> sciformats::jdx::util::DataParser::nextToken(
-    const std::string& line, size_t& pos)
+    const std::string& line, size_t& pos, bool isAsdf)
 {
     // skip delimiters
     while (pos < line.size() && isTokenDelimiter(line, pos))
@@ -235,13 +235,13 @@ std::optional<std::string> sciformats::jdx::util::DataParser::nextToken(
     {
         return std::nullopt;
     }
-    if (!isTokenStart(line, pos))
+    if (!isTokenStart(line, pos, isAsdf))
     {
         throw ParseException("illegal sequence encountered in line \"" + line
                              + "\" at position: " + std::to_string(pos));
     }
     std::string token{line.at(pos++)};
-    while (!isTokenDelimiter(line, pos) && !isTokenStart(line, pos))
+    while (!isTokenDelimiter(line, pos) && !isTokenStart(line, pos, isAsdf))
     {
         token += line.at(pos++);
     }
@@ -299,7 +299,7 @@ bool sciformats::jdx::util::DataParser::isTokenDelimiter(
 }
 
 bool sciformats::jdx::util::DataParser::isTokenStart(
-    const std::string& encodedValues, size_t index)
+    const std::string& encodedValues, size_t index, bool isAsdf)
 {
     if (index >= encodedValues.size())
     {
@@ -315,7 +315,7 @@ bool sciformats::jdx::util::DataParser::isTokenStart(
     {
         // could be either an exponent or SQZ digit (E==+5, e==-5)
         // apply heuristic to provide answer
-        return !isExponentStart(encodedValues, index);
+        return !isExponentStart(encodedValues, index, isAsdf);
     }
     if (c == '+' || c == '-')
     {
@@ -325,7 +325,7 @@ bool sciformats::jdx::util::DataParser::isTokenStart(
         {
             return true;
         }
-        return !isExponentStart(encodedValues, index - 1);
+        return !isExponentStart(encodedValues, index - 1, isAsdf);
     }
     if (getSqzDigitValue(c).has_value() || getDifDigitValue(c).has_value()
         || getDupDigitValue(c).has_value())
@@ -341,7 +341,7 @@ bool sciformats::jdx::util::DataParser::isTokenStart(
 }
 
 bool sciformats::jdx::util::DataParser::isExponentStart(
-    const std::string& encodedValues, size_t index)
+    const std::string& encodedValues, size_t index, bool isAsdf)
 {
     // a faster check for start of exponent instead of these regexes:
     // ^[eE][+-]{0,1}\\d{1,3}[;,\\s]{1}.*
@@ -384,8 +384,12 @@ bool sciformats::jdx::util::DataParser::isExponentStart(
     }
     // compressed values can easily end in a line on, e.g., "E567", so require
     // delimiter
-    // TODO: this is probably wrong for AFFN
-    return i < encodedValues.size() && isTokenDelimiter(encodedValues, i);
+    if (isAsdf)
+    {
+        return i < encodedValues.size() && isTokenDelimiter(encodedValues, i);
+    }
+    // for AFFN
+    return i >= encodedValues.size() || isTokenDelimiter(encodedValues, i);
 }
 
 std::optional<char> sciformats::jdx::util::DataParser::getAsciiDigitValue(
