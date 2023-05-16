@@ -116,7 +116,8 @@ TEST_CASE("parses DIFDUP data line", "[DataParser]")
         = sciformats::jdx::util::DataParser::readValues(input, true);
     auto expect = std::vector<double>{1, 2, 3, 3, 2, 1, 0, -1, -2, -3};
 
-    // last ordinate is in DUP format, but previous value is DIF hence count as DIF (as Bruker does)
+    // last ordinate is in DUP format, but previous value is DIF hence count as
+    // DIF (as Bruker does)
     REQUIRE(true == difEncoded);
     REQUIRE(expect.size() == actual.size());
     for (size_t i{0}; i < expect.size(); i++)

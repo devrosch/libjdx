@@ -64,7 +64,7 @@ bool sciformats::jdx::JdxParser::canParse(
     const auto bytesRead = iStream.gcount();
     if (iStream.eof() || iStream.fail() || iStream.bad())
     {
-        iStream.clear();        
+        iStream.clear();
     }
     iStream.seekg(position, std::ios_base::beg);
     buffer.resize(bytesRead);
