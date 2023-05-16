@@ -127,7 +127,8 @@ sciformats::jdx::util::DataParser::readValues(
     {
         TokenType tokenType = toAffn(token.value());
         // it's not quite clear if DUP of DIF should also count as DIF encoded
-        difEncoded = tokenType == TokenType::Dif;
+        // Bruker seems to think so => apply same logic here
+        difEncoded = tokenType == TokenType::Dif || (difEncoded && tokenType == TokenType::Dup);
 
         // check for logical errors
         if ((tokenType == TokenType::Dup || tokenType == TokenType::Dif)

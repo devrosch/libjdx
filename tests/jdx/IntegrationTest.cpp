@@ -6,7 +6,7 @@
 #include <fstream>
 #include <sstream>
 
-TEST_CASE("parses XyData from actual sample file", "[IntegrationTest][XyData]")
+TEST_CASE("parses XyData from Claniline.jdx sample file", "[IntegrationTest][XyData]")
 {
     const std::string path{"resources/Claniline.jdx"};
     auto istream = std::make_unique<std::ifstream>(path);
