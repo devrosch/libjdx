@@ -41,6 +41,7 @@ public:
 private:
     static constexpr std::array<const char*, 3> s_acceptedExtensions
         = {".jdx", ".dx", ".jcm"};
+    static constexpr size_t s_scanBufferSize = 16;
 };
 } // namespace sciformats::jdx
 

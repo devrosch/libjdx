@@ -26,6 +26,7 @@
 
 #include "jdx/JdxParser.hpp"
 #include "io/TextReader.hpp"
+#include "util/LdrUtils.hpp"
 #include "util/StringUtils.hpp"
 
 #include <algorithm>
@@ -33,6 +34,7 @@
 #include <climits>
 #include <cstring>
 #include <limits>
+#include <sstream>
 // include and alias filesystem header
 #if LIBJDX_USE_EXPERIMENTAL_FILESYSTEM
 #include <experimental/filesystem>
@@ -55,21 +57,28 @@ bool sciformats::jdx::JdxParser::canParse(
         return false;
     }
 
-    // check magic bytes
+    // read first few chars
     std::ios::pos_type position = iStream.tellg();
-    std::string magic{"##TITLE="};
-    bool match = true;
-    for (size_t i{0}; i < magic.size(); i++)
+    std::string buffer(s_scanBufferSize, '\0');
+    iStream.read(buffer.data(), s_scanBufferSize);
+    const auto bytesRead = iStream.gcount();
+    if (iStream.eof() || iStream.fail() || iStream.bad())
     {
-        // technically, label should be normalized before comparison
-        if (iStream.eof() || magic.at(i) != iStream.get())
-        {
-            match = false;
-            break;
-        }
+        iStream.clear();        
     }
     iStream.seekg(position, std::ios_base::beg);
-    return match;
+    buffer.resize(bytesRead);
+
+    // check if first line starts with "##TITLE="
+    std::stringstream ss{buffer};
+    std::string line{};
+    std::getline(ss, line);
+    if (util::isLdrStart(line))
+    {
+        auto [label, _] = util::parseLdrStart(line);
+        return label == "TITLE";
+    }
+    return false;
 }
 
 sciformats::jdx::Block sciformats::jdx::JdxParser::parse(

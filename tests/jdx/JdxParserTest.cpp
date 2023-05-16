@@ -16,6 +16,16 @@ TEST_CASE("accepts legal file", "[JdxParser]")
     REQUIRE(canParse == true);
 }
 
+TEST_CASE("accepts legal header with whitespaces", "[JdxParser]")
+{
+    const std::string path{"legal.jdx"};
+    const std::string header{"  ##TI_TLE= xxx\n"};
+    std::stringstream istream{header};
+
+    bool canParse = sciformats::jdx::JdxParser::canParse(path, istream);
+    REQUIRE(canParse == true);
+}
+
 TEST_CASE("rejects illegal file (wrong extension)", "[JdxParser]")
 {
     const std::string path{"resources/dummy.txt"};
