@@ -35,7 +35,8 @@ option(CMAKE_BUILD_TYPE "Build type. Defaults to Debug" Debug)
 option(BUILD_SHARED_LIBS "Build shared of static library. Defaults to static" OFF)
 option(COVERAGE "Capture test coverage. Only relevant if CMAKE_CXX_COMPILER=g++ and CMAKE_BUILD_TYPE=Debug" ON)
 option(PROFILING "Capture profiling data. Only relevant if CMAKE_CXX_COMPILER=g++" OFF)
-option(CMAKE_EXPORT_COMPILE_COMMANDS "generate compile_commands.json" ON)
+option(CMAKE_EXPORT_COMPILE_COMMANDS "Generate compile_commands.json" ON)
+option(INCLUDE_DEBUG_SYMBOLS "Include debug symbols" OFF)
 
 # --------------------------------------------------------------
 # Add Emscripten flags
@@ -72,11 +73,23 @@ endif()
 # --------------------------------------------------------------
 
 if (PROFILING AND CMAKE_COMPILER_IS_GNUCXX)
-    # we want to capture test covergae, use g++
-    message(STATUS "setting flags for profiling")
+    # we want to profiling info with g++
+    message(STATUS "setting flag for profiling")
     add_compile_options(-pg)
     add_link_options(-pg)
     message(STATUS "set compile and link option: -pg")
+endif()
+
+# --------------------------------------------------------------
+# Debug symbols
+# --------------------------------------------------------------
+
+if (INCLUDE_DEBUG_SYMBOLS AND (CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang"))
+    # we want to add debug symbols for g++ and clang
+    message(STATUS "setting flag for debug symbols")
+    add_compile_options(-g)
+    add_link_options(-g)
+    message(STATUS "set compile and link option: -g")
 endif()
 
 # --------------------------------------------------------------
