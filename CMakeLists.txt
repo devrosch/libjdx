@@ -34,6 +34,7 @@ endif()
 option(CMAKE_BUILD_TYPE "Build type. Defaults to Debug" Debug)
 option(BUILD_SHARED_LIBS "Build shared of static library. Defaults to static" OFF)
 option(COVERAGE "Capture test coverage. Only relevant if CMAKE_CXX_COMPILER=g++ and CMAKE_BUILD_TYPE=Debug" ON)
+option(PROFILING "Capture profiling data. Only relevant if CMAKE_CXX_COMPILER=g++" OFF)
 option(CMAKE_EXPORT_COMPILE_COMMANDS "generate compile_commands.json" ON)
 
 # --------------------------------------------------------------
@@ -64,6 +65,18 @@ if (COVERAGE AND CMAKE_COMPILER_IS_GNUCXX AND CMAKE_BUILD_TYPE MATCHES Debug)
     add_link_options(-lgcov --coverage -fprofile-arcs -ftest-coverage -p)
     message(STATUS "set compile options: -g -O0 --coverage -fprofile-arcs -ftest-coverage")
     message(STATUS "set link options: -lgcov --coverage -fprofile-arcs -ftest-coverage -p")
+endif()
+
+# --------------------------------------------------------------
+# Add profiling support
+# --------------------------------------------------------------
+
+if (PROFILING AND CMAKE_COMPILER_IS_GNUCXX)
+    # we want to capture test covergae, use g++
+    message(STATUS "setting flags for profiling")
+    add_compile_options(-pg)
+    add_link_options(-pg)
+    message(STATUS "set compile and link option: -pg")
 endif()
 
 # --------------------------------------------------------------
