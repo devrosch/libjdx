@@ -41,6 +41,11 @@ private:
         const std::string& encodedValues, size_t index, bool isAsdf);
     static bool isExponentStart(
         const std::string& encodedValues, size_t index, bool isAsdf);
+    static bool isAsciiDigit(char c);
+    static bool isSqzDigit(char c);
+    static bool isDifDigit(char c);
+    static bool isDupDigit(char c);
+    static bool isSqzDifDupDigit(char c);
     static std::optional<char> getAsciiDigitValue(char c);
     static std::optional<char> getSqzDigitValue(char c);
     static std::optional<char> getDifDigitValue(char c);

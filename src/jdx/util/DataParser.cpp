@@ -6,6 +6,7 @@
 #include <cmath>
 #include <limits>
 #include <string>
+#include <iostream>
 
 std::vector<double> sciformats::jdx::util::DataParser::readXppYYData(
     io::TextReader& reader)
@@ -39,7 +40,7 @@ std::vector<double> sciformats::jdx::util::DataParser::readXppYYData(
             || (lineYValues.size() == 1 && std::isnan(lineYValues.back()))
             || (lineYValues.size() >= 2
                 && (std::isnan(lineYValues.back())
-                    || std::isnan(lineYValues.at(lineYValues.size() - 2)))))
+                    || std::isnan(lineYValues[lineYValues.size() - 2]))))
         {
             yValueCheck = std::nullopt;
         }
@@ -243,10 +244,10 @@ std::optional<std::string> sciformats::jdx::util::DataParser::nextToken(
         throw ParseException("illegal sequence encountered in line \"" + line
                              + "\" at position: " + std::to_string(pos));
     }
-    std::string token{line.at(pos++)};
+    std::string token{line[pos++]};
     while (!isTokenDelimiter(line, pos) && !isTokenStart(line, pos, isAsdf))
     {
-        token += line.at(pos++);
+        token += line[pos++];
     }
     return token;
 }
@@ -261,30 +262,35 @@ sciformats::jdx::util::DataParser::toAffn(std::string& token)
     {
         tokenType = TokenType::Missing;
     }
-    // TODO: refactor
-    // NOLINTNEXTLINE(bugprone-assignment-in-if-condition)
-    else if ((firstDigit = getSqzDigitValue(c)))
+    else if (isSqzDigit(c))
     {
+        firstDigit = getSqzDigitValue(c);
         tokenType = TokenType::Sqz;
     }
-    // TODO: refactor
-    // NOLINTNEXTLINE(bugprone-assignment-in-if-condition)
-    else if ((firstDigit = getDifDigitValue(c)))
+    else if (isDifDigit(c))
     {
+        firstDigit = getDifDigitValue(c);
         tokenType = TokenType::Dif;
     }
-    // TODO: refactor
-    // NOLINTNEXTLINE(bugprone-assignment-in-if-condition)
-    else if ((firstDigit = getDupDigitValue(c)))
+    else if (isDupDigit(c))
     {
+        firstDigit = getDupDigitValue(c);
         tokenType = TokenType::Dup;
     }
 
     if (TokenType::Affn != tokenType && TokenType::Missing != tokenType)
     {
         // replace SQZ/DIF/DUP char (first char) with (signed) value
-        token.erase(0, 1);
-        token.insert(0, std::to_string(firstDigit.value()));
+        // the below code should be faster than the naive:
+        // token.erase(0, 1);
+        // token.insert(0, std::to_string(firstDigit.value()));
+        const char value = firstDigit.value();
+        const char digit = value >= 0 ? static_cast<char>('0' + value) : static_cast<char>('0' - value);
+        token[0] = digit;
+        if (value < 0 )
+        {
+            token.insert(0, "-");
+        }
     }
     // must be plain AFFN or PAC (or illegal)
     return tokenType;
@@ -297,7 +303,7 @@ bool sciformats::jdx::util::DataParser::isTokenDelimiter(
     {
         return true;
     }
-    char c = encodedValues.at(index);
+    char c = encodedValues[index];
     return isSpace(c) || c == ';' || c == ',';
 }
 
@@ -308,8 +314,8 @@ bool sciformats::jdx::util::DataParser::isTokenStart(
     {
         return false;
     }
-    char c = encodedValues.at(index);
-    if ((getAsciiDigitValue(c).has_value() || c == '.')
+    char c = encodedValues[index];
+    if ((isAsciiDigit(c) || c == '.')
         && (index == 0 || isTokenDelimiter(encodedValues, index - 1)))
     {
         return true;
@@ -330,8 +336,7 @@ bool sciformats::jdx::util::DataParser::isTokenStart(
         }
         return !isExponentStart(encodedValues, index - 1, isAsdf);
     }
-    if (getSqzDigitValue(c).has_value() || getDifDigitValue(c).has_value()
-        || getDupDigitValue(c).has_value())
+    if (isSqzDifDupDigit(c))
     {
         return true;
     }
@@ -350,8 +355,15 @@ bool sciformats::jdx::util::DataParser::isExponentStart(
     // ^[eE][+-]{0,1}\\d{1,3}[;,\\s]{1}.*
     // ^[eE][+-]{0,1}\\d{1,3}[;,\\s]$
     // TODO: these heuristics are fragile
+    if (index >= encodedValues.size())
+    {
+        throw ParseException(
+            "Illegal index provided for exponent check. Line: "
+            + encodedValues + ", index: " + std::to_string(index));
+    }
     auto i = index;
-    auto curChar = encodedValues.at(i++);
+    // TODO: replace at() with []
+    auto curChar = encodedValues[i++];
     if (curChar != 'E' && curChar != 'e')
     {
         return false;
@@ -360,9 +372,9 @@ bool sciformats::jdx::util::DataParser::isExponentStart(
     {
         return false;
     }
-    curChar = encodedValues.at(i++);
+    curChar = encodedValues[i++];
     const auto plusMinusFound = curChar == '+' || curChar == '-';
-    if (!plusMinusFound && !getAsciiDigitValue(curChar).has_value())
+    if (!plusMinusFound && !isAsciiDigit(curChar))
     {
         return false;
     }
@@ -375,7 +387,7 @@ bool sciformats::jdx::util::DataParser::isExponentStart(
     // no need to update curChar after this point
     auto numDigits = plusMinusFound ? 0 : 1;
     while (numDigits < 3 && i < encodedValues.size()
-           && getAsciiDigitValue(encodedValues.at(i)).has_value())
+           && isAsciiDigit(encodedValues[i]))
     {
         ++i;
         ++numDigits;
@@ -393,6 +405,31 @@ bool sciformats::jdx::util::DataParser::isExponentStart(
     }
     // for AFFN
     return i >= encodedValues.size() || isTokenDelimiter(encodedValues, i);
+}
+
+bool sciformats::jdx::util::DataParser::isAsciiDigit(char c)
+{
+    return c >= '0' && c <= '9';
+}
+
+bool sciformats::jdx::util::DataParser::isSqzDigit(char c)
+{
+    return (c >= '@' && c <= 'I') || (c >= 'a' && c <= 'i');
+}
+
+bool sciformats::jdx::util::DataParser::isDifDigit(char c)
+{
+    return (c >= 'J' && c <= 'R') || (c >= 'j' && c <= 'r') || c == '%';
+}
+
+bool sciformats::jdx::util::DataParser::isDupDigit(char c)
+{
+    return (c >= 'S' && c <= 'Z') || c == 's';
+}
+
+bool sciformats::jdx::util::DataParser::isSqzDifDupDigit(char c)
+{
+    return (c >= '@' && c <= 'Z') || (c >= 'a' && c <= 's') || c == '%';
 }
 
 std::optional<char> sciformats::jdx::util::DataParser::getAsciiDigitValue(
