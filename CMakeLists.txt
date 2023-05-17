@@ -31,35 +31,41 @@ endif()
 # Options
 # --------------------------------------------------------------
 
-option(CMAKE_BUILD_TYPE "Build type. Defaults to Debug" Debug)
-option(BUILD_SHARED_LIBS "Build shared of static library. Defaults to static" OFF)
-option(COVERAGE "Capture test coverage. Only relevant if CMAKE_CXX_COMPILER=g++ and CMAKE_BUILD_TYPE=Debug" ON)
-option(PROFILING "Capture profiling data. Only relevant if CMAKE_CXX_COMPILER=g++" OFF)
-option(CMAKE_EXPORT_COMPILE_COMMANDS "Generate compile_commands.json" ON)
-option(INCLUDE_DEBUG_SYMBOLS "Include debug symbols" OFF)
+option(CMAKE_BUILD_TYPE "Build type. Defaults to Debug." Debug)
+option(BUILD_SHARED_LIBS "Build shared of static library. Defaults to static." OFF)
+option(COVERAGE "Capture test coverage. Only relevant if compiler is g++ and CMAKE_BUILD_TYPE=Debug." ON)
+option(PROFILING "Capture profiling data. Only relevant if compiler is g++." OFF)
+option(CMAKE_EXPORT_COMPILE_COMMANDS "Generate compile_commands.json." ON)
+option(INCLUDE_DEBUG_SYMBOLS "Include debug symbols. Only relevant if compiler is g++ or clang++." OFF)
+option(WASM_EXCEPTIONS "Use WASM exception. Only relevant in Emscripten build." OFF)
 
 # --------------------------------------------------------------
 # Add Emscripten flags
 # --------------------------------------------------------------
 
-if (EMSCRIPTEN)
+if(EMSCRIPTEN)
     # TODO: also set USE_ICU through compile/link options
-    # TODO: (only) set in io library that actually requires ICU
+    # TODO: (only) set in io target that actually requires ICU
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s USE_ICU=1")
     # use SHELL prefix to make sure -s flag is not de-duplicated
     # see: https://cmake.org/cmake/help/latest/command/add_compile_options.html#option-de-duplication
-    add_compile_options(SHELL:-s DISABLE_EXCEPTION_CATCHING=0)
-    add_link_options(SHELL:-s DISABLE_EXCEPTION_CATCHING=0)
-    # TODO: use in more recent version node and emsdk instead of DISABLE_EXCEPTION_CATCHING
-    # add_compile_options(-fwasm-exceptions)
-    # add_link_options(-fwasm-exceptions)
+    if(WASM_EXCEPTIONS)
+        # use in more recent version node and emsdk instead of DISABLE_EXCEPTION_CATCHING
+        message(STATUS "build with WASM exception support")
+        add_compile_options(-fwasm-exceptions)
+        add_link_options(-fwasm-exceptions)
+    else()
+        message(STATUS "build with (non native WASM) exception support enabled")
+        add_compile_options(SHELL:-s DISABLE_EXCEPTION_CATCHING=0)
+        add_link_options(SHELL:-s DISABLE_EXCEPTION_CATCHING=0)
+    endif()
 endif()
 
 # --------------------------------------------------------------
 # Add code coverage support
 # --------------------------------------------------------------
 
-if (COVERAGE AND CMAKE_COMPILER_IS_GNUCXX AND CMAKE_BUILD_TYPE MATCHES Debug)
+if(COVERAGE AND CMAKE_COMPILER_IS_GNUCXX AND CMAKE_BUILD_TYPE MATCHES Debug)
     # we want to capture test covergae, use g++ and do a debug build
     message(STATUS "setting flags for capturing test coverage")
     add_compile_options(-g -O0 --coverage -fprofile-arcs -ftest-coverage)
@@ -72,7 +78,7 @@ endif()
 # Add profiling support
 # --------------------------------------------------------------
 
-if (PROFILING AND CMAKE_COMPILER_IS_GNUCXX)
+if(PROFILING AND CMAKE_COMPILER_IS_GNUCXX)
     # we want to profiling info with g++
     message(STATUS "setting flag for profiling")
     add_compile_options(-pg)
@@ -84,7 +90,7 @@ endif()
 # Debug symbols
 # --------------------------------------------------------------
 
-if (INCLUDE_DEBUG_SYMBOLS AND (CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang"))
+if(INCLUDE_DEBUG_SYMBOLS AND (CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang"))
     # we want to add debug symbols for g++ and clang
     message(STATUS "setting flag for debug symbols")
     add_compile_options(-g)
