@@ -68,14 +68,9 @@ bool sciformats::jdx::JdxParser::canParse(
     }
     iStream.seekg(position, std::ios_base::beg);
     buffer.resize(bytesRead);
-
-    // check if first line starts with "##TITLE="
-    std::stringstream ss{buffer};
-    std::string line{};
-    std::getline(ss, line);
-    if (util::isLdrStart(line))
+    if (util::isLdrStart(buffer))
     {
-        auto [label, _] = util::parseLdrStart(line);
+        auto [label, _] = util::parseLdrStart(buffer);
         return label == "TITLE";
     }
     return false;

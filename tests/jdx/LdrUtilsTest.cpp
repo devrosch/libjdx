@@ -21,6 +21,28 @@ TEST_CASE(
     REQUIRE(true == sciformats::jdx::util::isLdrStart(input));
 }
 
+TEST_CASE(
+    "recognizes LDR start with trailing line break characters", "[util][isLdrStart]")
+{
+    std::string inputLf{"##TITLE= abc\n"};
+    std::string inputCr{"##TITLE= abc\r"};
+    std::string inputCrLf{"##TITLE= abc\r\n"};
+    std::string inputCrLfLsPs{"##TITLE= abc\r\n\u2028\u2029"};
+
+    REQUIRE(sciformats::jdx::util::isLdrStart(inputLf));
+    REQUIRE(sciformats::jdx::util::isLdrStart(inputCr));
+    REQUIRE(sciformats::jdx::util::isLdrStart(inputCrLf));
+    REQUIRE(sciformats::jdx::util::isLdrStart(inputCrLfLsPs));
+}
+
+TEST_CASE(
+    "rejects string if non whitespace preceeds LDR start", "[util][isLdrStart]")
+{
+    std::string inputLf{"xyz ##TITLE= abc"};
+
+    REQUIRE_FALSE(sciformats::jdx::util::isLdrStart(inputLf));
+}
+
 TEST_CASE("recognizes LDR start with labels containing special characters and "
           "numbers",
     "[util][isLdrStart]")

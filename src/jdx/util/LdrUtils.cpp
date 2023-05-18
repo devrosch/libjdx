@@ -10,7 +10,7 @@
 bool sciformats::jdx::util::isLdrStart(const std::string& line)
 {
     static const std::regex regex{"^\\s*##.*=.*"};
-    return std::regex_match(line, regex);
+    return std::regex_search(line, regex);
 }
 
 std::string sciformats::jdx::util::normalizeLdrStart(const std::string& ldr)
