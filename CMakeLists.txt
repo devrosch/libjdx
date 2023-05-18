@@ -44,17 +44,15 @@ option(WASM_EXCEPTIONS "Use WASM exception. Only relevant in Emscripten build." 
 # --------------------------------------------------------------
 
 if(EMSCRIPTEN)
-    # TODO: also set USE_ICU through compile/link options
-    # TODO: (only) set in io target that actually requires ICU
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s USE_ICU=1")
     # use SHELL prefix to make sure -s flag is not de-duplicated
     # see: https://cmake.org/cmake/help/latest/command/add_compile_options.html#option-de-duplication
     if(WASM_EXCEPTIONS)
-        # use in more recent version node and emsdk instead of DISABLE_EXCEPTION_CATCHING
+        # use in more recent versions of Browsers, Node.js and emsdk instead of DISABLE_EXCEPTION_CATCHING for better performance
         message(STATUS "build with WASM exception support")
         add_compile_options(-fwasm-exceptions)
         add_link_options(-fwasm-exceptions)
     else()
+        # exception support with better compatibility with JS runtimes but negative performance impact
         message(STATUS "build with (non native WASM) exception support enabled")
         add_compile_options(SHELL:-s DISABLE_EXCEPTION_CATCHING=0)
         add_link_options(SHELL:-s DISABLE_EXCEPTION_CATCHING=0)

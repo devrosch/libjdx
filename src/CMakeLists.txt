@@ -25,8 +25,9 @@ endif()
 
 if (EMSCRIPTEN)
     message(STATUS "Setting USE_ICU=1 flag for Emscripten build...")
-    # TODO: also set USE_ICU through compile/link options
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s USE_ICU=1")
+    target_compile_options(sf PRIVATE "SHELL:-sUSE_ICU=1")
+    # link option needs to be public, so that consuming targets will also link ICU
+    target_link_options(sf PUBLIC "-sUSE_ICU=1")
     # make sure that code not used in this target is retained, see: https://emscripten.org/docs/porting/connecting_cpp_and_javascript/embind.html
     # for making this work in CMake, see: https://stackoverflow.com/a/59994837
     # alternative discussion https://stackoverflow.com/questions/53071878/using-whole-archive-linker-option-with-cmake-and-libraries-with-other-library
