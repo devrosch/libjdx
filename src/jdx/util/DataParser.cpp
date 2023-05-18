@@ -15,6 +15,7 @@ std::vector<double> sciformats::jdx::util::DataParser::readXppYYData(
         std::numeric_limits<double>::has_quiet_NaN, "No quiet NaN available.");
 
     // read (X++(Y..Y)) data
+    // TODO: possible performance tweak: yValues.reserve(NPOINTS)
     std::vector<double> yValues;
     std::string line;
     std::streamoff pos = reader.tellg();
@@ -180,6 +181,10 @@ sciformats::jdx::util::DataParser::readValues(
         else
         {
             auto str = token.value();
+            // TODO: use std::from_chars from <charconv> header
+            // for better performance when more compilers support it
+            // see: https://en.cppreference.com/w/cpp/utility/from_chars
+            // https://gcc.gnu.org/onlinedocs/libstdc++/manual/status.html
             auto value = std::stod(token.value());
             if (tokenType == TokenType::Dif)
             {
@@ -289,6 +294,7 @@ sciformats::jdx::util::DataParser::toAffn(std::string& token)
         token[0] = digit;
         if (value < 0 )
         {
+            // TODO: possibly return +/- as separate bool to avoid insert()
             token.insert(0, "-");
         }
     }
@@ -444,39 +450,48 @@ std::optional<char> sciformats::jdx::util::DataParser::getAsciiDigitValue(
 
 std::optional<char> sciformats::jdx::util::DataParser::getSqzDigitValue(char c)
 {
-    static const std::string positiveSqzDigits = "@ABCDEFGHI";
-    auto pos = positiveSqzDigits.find(c);
-    if (pos != std::string::npos)
+    // positive SQZ digits @ABCDEFGHI
+    if (c >= '@' && c <= 'I')
     {
-        return std::make_optional(static_cast<char>(pos));
+        return c - '@';
     }
-    static const std::string negativeSqzDigits = "abcdefghi";
-    pos = negativeSqzDigits.find(c);
-    return pos == std::string::npos
-               ? std::nullopt
-               : std::make_optional(static_cast<char>(-pos - 1));
+    // negative SQZ digits abcdefghi
+    if (c >= 'a' && c <= 'i')
+    {
+        return '`' - c;
+    }
+    return {};
 }
 
 std::optional<char> sciformats::jdx::util::DataParser::getDifDigitValue(char c)
 {
-    static const std::string positiveDifDigits = "%JKLMNOPQR";
-    auto pos = positiveDifDigits.find(c);
-    if (pos != std::string::npos)
+    // positive DIF digits %JKLMNOPQR
+    if (c == '%')
     {
-        return std::make_optional(static_cast<char>(pos));
+        return 0;
     }
-    static const std::string negativeDifDigits = "jklmnopqr";
-    pos = negativeDifDigits.find(c);
-    return pos == std::string::npos
-               ? std::nullopt
-               : std::make_optional(static_cast<char>(-pos - 1));
+    if (c >= 'J' && c <= 'R')
+    {
+        return c - 'I';
+    }
+    // negative DIF digits jklmnopqr
+    if (c >= 'j' && c <= 'r')
+    {
+        return 'i' - c;
+    }
+    return {};
 }
 
 std::optional<char> sciformats::jdx::util::DataParser::getDupDigitValue(char c)
 {
-    static const std::string positiveDupDigits = "STUVWXYZs";
-    auto pos = positiveDupDigits.find(c);
-    return pos == std::string::npos
-               ? std::nullopt
-               : std::make_optional(static_cast<char>(pos + 1));
+    // DUP digits STUVWXYZs
+    if (c >= 'S' && c <= 'Z')
+    {
+        return c - 'R';
+    }
+    if (c == 's')
+    {
+        return 9;
+    }
+    return {};
 }
