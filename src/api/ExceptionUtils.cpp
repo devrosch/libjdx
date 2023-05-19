@@ -4,7 +4,7 @@
 #include <emscripten/bind.h>
 #endif
 
-std::string getExceptionMessage(std::intptr_t exceptionPtr)
+std::string getCppExceptionMessage(std::intptr_t exceptionPtr)
 {
     // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
     return std::string(reinterpret_cast<std::exception*>(exceptionPtr)->what());
@@ -13,6 +13,6 @@ std::string getExceptionMessage(std::intptr_t exceptionPtr)
 #ifdef __EMSCRIPTEN__
 EMSCRIPTEN_BINDINGS(Bindings)
 {
-    emscripten::function("getExceptionMessage", &getExceptionMessage);
+    emscripten::function("getCppExceptionMessage", &getCppExceptionMessage);
 };
 #endif

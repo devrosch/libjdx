@@ -48,20 +48,16 @@ if(EMSCRIPTEN)
     # see: https://cmake.org/cmake/help/latest/command/add_compile_options.html#option-de-duplication
     if(WASM_EXCEPTIONS)
         # use in more recent versions of Browsers, Node.js and emsdk instead of DISABLE_EXCEPTION_CATCHING for better performance
-        message(STATUS "build with WASM exception support")
+        message(STATUS "build with native WASM exception support")
         add_compile_options(-fwasm-exceptions)
         add_link_options(-fwasm-exceptions)
-        # so that WASM exception type tag is exposed to JS
+        # so that WASM exception helpers (e.g. for readfing the exception message) are exposed to JS
         # see: https://github.com/emscripten-core/emscripten/issues/16033
-        add_link_options(-Wl,--export=__cpp_exception)
-        # add_link_options("-sDEFAULT_LIBRARY_FUNCS_TO_INCLUDE=['$getExceptionMessage']")
-        add_link_options("-sEXPORTED_FUNCTIONS=['getExceptionMessage']")
-        # add_link_options("-sEXPORTED_FUNCTIONS=['_main', 'getExceptionMessage', '___get_exception_message', '___cpp_exception', '___increment_wasm_exception_refcount', '___decrement_wasm_exception_refcount']")
-        # add_link_options("-sDEFAULT_LIBRARY_FUNCS_TO_INCLUDE=['$getExceptionMessage', '$incrementExceptionRefcount', '$decrementExceptionRefcount']")
-        # add_link_options("-sEXPORTED_FUNCTIONS=['_main', 'getExceptionMessage', '___get_exception_message', '___cpp_exception', '___increment_wasm_exception_refcount', '___decrement_wasm_exception_refcount']")
+        # https://github.com/emscripten-core/emscripten/pull/17219
+        add_link_options(-sEXPORT_EXCEPTION_HANDLING_HELPERS=1)
     else()
         # exception support with better compatibility with JS runtimes but negative performance impact
-        message(STATUS "build with (non native WASM) exception support enabled")
+        message(STATUS "build with (non native) WASM exception support enabled")
         add_compile_options(SHELL:-s DISABLE_EXCEPTION_CATCHING=0)
         add_link_options(SHELL:-s DISABLE_EXCEPTION_CATCHING=0)
     endif()

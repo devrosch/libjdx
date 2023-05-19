@@ -27,7 +27,7 @@ apt-get update --yes && apt-get install --yes python3 default-jre
 cd ~
 git clone https://github.com/emscripten-core/emsdk.git
 cd emsdk
-./emsdk install 2.0.8 && ./emsdk activate 2.0.8
+./emsdk install 3.1.35 && ./emsdk activate 3.1.35
 ```
 
 More recent versions of `emsdk` should also work.
