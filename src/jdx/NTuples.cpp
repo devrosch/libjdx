@@ -97,6 +97,18 @@ sciformats::jdx::NTuples::parseAttributes(
         throw ParseException(
             "No \"VAR_NAME\" LDR found in NTUPLES: " + m_dataForm);
     }
+    if (!attrNames.value().empty())
+    {
+        // check if last VAR_NAME is blank, i.e., there is a trailing comma
+        // if so, remove, thus ignore column in subsequent processing
+        // required to sucessfully process test data set
+        auto lastVarName = attrNames.value().back();
+        util::trim(lastVarName);
+        if (lastVarName.empty())
+        {
+            attrNames.value().pop_back();
+        }
+    }
     auto numAttrs = attrNames.value().size();
 
     std::vector<NTuplesAttributes> output;
@@ -199,7 +211,6 @@ sciformats::jdx::NTuplesAttributes sciformats::jdx::NTuples::map(
               {
                   return std::optional<std::string>{std::nullopt};
               }
-              //              return pickColumnValue(values, key);
               return pickColumnValue(values);
           };
 

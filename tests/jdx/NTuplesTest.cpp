@@ -366,6 +366,47 @@ TEST_CASE("parses NTUPLES MS record", "[NTuples]")
     REQUIRE(Approx(99.0) == pageT10Data.at(3).second);
 }
 
+TEST_CASE("parses NTUPLES MS record with trailing blank VAR_NAME", "[NTuples]")
+{
+    // strictly, the trailing blank VAR_NAME shoud be interpreted as " " name
+    // however, as the JCAMP-DX test data set contains one such file and
+    // that the expectation is to ignore the blank VARN_NAME, have special treatment for this case
+    auto nextLine
+        = std::optional<std::string>{"##NTUPLES=          MASS SPECTRUM"};
+    // clang-format off
+    std::string input{
+        "##VAR_NAME=        MASS,          INTENSITY,          RETENTION TIME, \n"
+        "##SYMBOL=          X,             Y,                  T\n"
+        "##VAR_TYPE=        INDEPENDENT,   DEPENDENT,          INDEPENDENT\n"
+        "##VAR_FORM=        AFFN,          AFFN,               AFFN\n"
+        "##VAR_DIM=         ,              ,                   3\n"
+        "##UNITS=           M/Z,           RELATIVE ABUNDANCE, SECONDS\n"
+        "##FIRST=           ,              ,                   5\n"
+        "##LAST=            ,              ,                   15\n"
+        "##PAGE=            T = 5\n"
+        "##DATA TABLE=      (XY..XY),      PEAKS\n"
+        "100,  50.0;  110,  60.0;  120,  70.0   \n"
+        "130,  80.0;  140,  90.0                \n"
+        "##PAGE=            T = 10              \n"
+        "##NPOINTS=         4                   \n"
+        "##DATA TABLE= (XY..XY), PEAKS          \n"
+        "200,  55.0;  220,  77.0                \n"
+        "230,  88.0;  240,  99.0                \n"
+        "##PAGE=            T = 15              \n"
+        "##DATA TABLE= (XY..XY), PEAKS          \n"
+        "300,  55.5;  310,  66.6;  320,  77.7   \n"
+        "330,  88.8;  340,  99.9                \n"
+        "##END NTUPLES= MASS SPECTRUM\n"
+        "##END=\n"};
+    // clang-format on
+    auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
+    streamPtr->str(input);
+    sciformats::io::TextReader reader{std::move(streamPtr)};
+    std::vector<sciformats::jdx::StringLdr> blockLdrs;
+    REQUIRE_NOTHROW(
+        sciformats::jdx::NTuples("NTUPLES", "MASS SPECTRUM", blockLdrs, reader, nextLine));
+}
+
 TEST_CASE("uses block LDRs to fill missing NTUPLES attributes", "[NTuples]")
 {
     auto nextLine
