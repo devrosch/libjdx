@@ -43,23 +43,24 @@ sciformats::jdx::XyParameters sciformats::jdx::XyBase::parseParameters(
 {
     // required
     // string
-    auto xUnits = util::findLdrValue(ldrs, "XUNITS");
-    auto yUnits = util::findLdrValue(ldrs, "YUNITS");
+    auto xUnits = util::parseLdrValue<std::string>(ldrs, "XUNITS");
+    auto yUnits = util::parseLdrValue<std::string>(ldrs, "YUNITS");
     // double
-    auto firstX = util::findLdrValue(ldrs, "FIRSTX");
-    auto lastX = util::findLdrValue(ldrs, "LASTX");
-    auto xFactor = util::findLdrValue(ldrs, "XFACTOR");
-    auto yFactor = util::findLdrValue(ldrs, "YFACTOR");
-    auto nPoints = util::findLdrValue(ldrs, "NPOINTS");
+    auto firstX = util::parseLdrValue<double>(ldrs, "FIRSTX");
+    auto lastX = util::parseLdrValue<double>(ldrs, "LASTX");
+    auto xFactor = util::parseLdrValue<double>(ldrs, "XFACTOR");
+    auto yFactor = util::parseLdrValue<double>(ldrs, "YFACTOR");
+    // uint64_t
+    auto nPoints = util::parseLdrValue<uint64_t>(ldrs, "NPOINTS");
     // optional
     // double
-    auto firstY = util::findLdrValue(ldrs, "FIRSTY");
-    auto maxX = util::findLdrValue(ldrs, "MAXX");
-    auto minX = util::findLdrValue(ldrs, "MINX");
-    auto maxY = util::findLdrValue(ldrs, "MAXY");
-    auto minY = util::findLdrValue(ldrs, "MINY");
-    auto resolution = util::findLdrValue(ldrs, "RESOLUTION");
-    auto deltaX = util::findLdrValue(ldrs, "DELTAX");
+    auto firstY = util::parseLdrValue<double>(ldrs, "FIRSTY");
+    auto maxX = util::parseLdrValue<double>(ldrs, "MAXX");
+    auto minX = util::parseLdrValue<double>(ldrs, "MINX");
+    auto maxY = util::parseLdrValue<double>(ldrs, "MAXY");
+    auto minY = util::parseLdrValue<double>(ldrs, "MINY");
+    auto resolution = util::parseLdrValue<double>(ldrs, "RESOLUTION");
+    auto deltaX = util::parseLdrValue<double>(ldrs, "DELTAX");
 
     std::string missing{};
     missing += xUnits.has_value() ? "" : " XUNITS";
@@ -69,48 +70,29 @@ sciformats::jdx::XyParameters sciformats::jdx::XyBase::parseParameters(
     missing += xFactor.has_value() ? "" : " XFACTOR";
     missing += yFactor.has_value() ? "" : " YFACTOR";
     missing += nPoints.has_value() ? "" : " NPOINTS";
-
     if (!missing.empty())
     {
         throw ParseException(
             "Required LDR(s) missing for XYDATA: {" + missing + " }");
     }
 
-    // we're parsing NPOINTS as unsigned long and assigning to unint_64
-    static_assert(std::numeric_limits<unsigned long>::max()
-                      // NOLINTNEXTLINE(misc-redundant-expression)
-                      <= std::numeric_limits<uint64_t>::max(),
-        "unsigned long max larger than uint_64_t max");
+    XyParameters parameters
+    {
+        xUnits.value(),
+        yUnits.value(),
+        firstX.value(),
+        lastX.value(),
+        maxX,
+        minX,
+        maxY,
+        minY,
+        xFactor.value(),
+        yFactor.value(),
+        nPoints.value(),
+        firstY,
+        resolution,
+        deltaX,
+    };
 
-    // parse values
-    XyParameters parms;
-    parms.xUnits = xUnits.value();
-    parms.yUnits = yUnits.value();
-    parms.firstX = std::stod(firstX.value());
-    parms.lastX = std::stod(lastX.value());
-    parms.xFactor = std::stod(xFactor.value());
-    parms.yFactor = std::stod(yFactor.value());
-    parms.nPoints = std::stoul(nPoints.value());
-    parms.firstY = firstY.has_value()
-                       ? std::optional<double>(std::stod(firstY.value()))
-                       : std::nullopt;
-    parms.maxX = maxX.has_value()
-                     ? std::optional<double>(std::stod(maxX.value()))
-                     : std::nullopt;
-    parms.minX = minX.has_value()
-                     ? std::optional<double>(std::stod(minX.value()))
-                     : std::nullopt;
-    parms.maxY = maxY.has_value()
-                     ? std::optional<double>(std::stod(maxY.value()))
-                     : std::nullopt;
-    parms.minY = minY.has_value()
-                     ? std::optional<double>(std::stod(minY.value()))
-                     : std::nullopt;
-    parms.resolution = resolution.has_value() ? std::optional<double>(
-                           std::stod(resolution.value()))
-                                              : std::nullopt;
-    parms.deltaX = deltaX.has_value()
-                       ? std::optional<double>(std::stod(deltaX.value()))
-                       : std::nullopt;
-    return parms;
+    return parameters;
 }

@@ -34,26 +34,27 @@ sciformats::jdx::RaParameters sciformats::jdx::RaData::parseParameters(
 {
     // required
     // string
-    auto rUnits = util::findLdrValue(ldrs, "RUNITS");
-    auto aUnits = util::findLdrValue(ldrs, "AUNITS");
+    auto rUnits = util::parseLdrValue<std::string>(ldrs, "RUNITS");
+    auto aUnits = util::parseLdrValue<std::string>(ldrs, "AUNITS");
     // double
-    auto firstR = util::findLdrValue(ldrs, "FIRSTR");
-    auto lastR = util::findLdrValue(ldrs, "LASTR");
-    auto rFactor = util::findLdrValue(ldrs, "RFACTOR");
-    auto aFactor = util::findLdrValue(ldrs, "AFACTOR");
-    auto nPoints = util::findLdrValue(ldrs, "NPOINTS");
+    auto firstR = util::parseLdrValue<double>(ldrs, "FIRSTR");
+    auto lastR = util::parseLdrValue<double>(ldrs, "LASTR");
+    auto rFactor = util::parseLdrValue<double>(ldrs, "RFACTOR");
+    auto aFactor = util::parseLdrValue<double>(ldrs, "AFACTOR");
+    // uint64_t
+    auto nPoints = util::parseLdrValue<uint64_t>(ldrs, "NPOINTS");
     // optional
     // double
-    auto firstA = util::findLdrValue(ldrs, "FIRSTA");
+    auto firstA = util::parseLdrValue<double>(ldrs, "FIRSTA");
     auto maxA
-        = util::findLdrValue(ldrs, "MAXA"); // required, according to standard
+        = util::parseLdrValue<double>(ldrs, "MAXA"); // required, according to standard
     auto minA
-        = util::findLdrValue(ldrs, "MINA"); // required, according to standard
-    auto resolution = util::findLdrValue(ldrs, "RESOLUTION");
-    auto deltaR = util::findLdrValue(ldrs, "DELTAR");
-    auto zdp = util::findLdrValue(ldrs, "ZDP");
+        = util::parseLdrValue<double>(ldrs, "MINA"); // required, according to standard
+    auto resolution = util::parseLdrValue<double>(ldrs, "RESOLUTION");
+    auto deltaR = util::parseLdrValue<double>(ldrs, "DELTAR");
+    auto zdp = util::parseLdrValue<double>(ldrs, "ZDP");
     // string
-    auto alias = util::findLdrValue(ldrs, "ALIAS");
+    auto alias = util::parseLdrValue<std::string>(ldrs, "ALIAS");
 
     std::string missing{};
     missing += rUnits.has_value() ? "" : " RUNITS";
@@ -63,46 +64,28 @@ sciformats::jdx::RaParameters sciformats::jdx::RaData::parseParameters(
     missing += rFactor.has_value() ? "" : " RFACTOR";
     missing += aFactor.has_value() ? "" : " AFACTOR";
     missing += nPoints.has_value() ? "" : " NPOINTS";
-
     if (!missing.empty())
     {
         throw ParseException(
             "Required LDR(s) missing for RADATA: {" + missing + " }");
     }
 
-    // we're parsing NPOINTS as unsigned long and assigning to unint_64
-    static_assert(std::numeric_limits<unsigned long>::max()
-                      // NOLINTNEXTLINE(misc-redundant-expression)
-                      <= std::numeric_limits<uint64_t>::max(),
-        "unsigned long max larger than uint_64_t max");
+    RaParameters parameters {
+        rUnits.value(),
+        aUnits.value(),
+        firstR.value(),
+        lastR.value(),
+        maxA,
+        minA,
+        rFactor.value(),
+        aFactor.value(),
+        nPoints.value(),
+        firstA,
+        resolution,
+        deltaR,
+        zdp,
+        alias,
+    };
 
-    // parse values
-    RaParameters parms;
-    parms.rUnits = rUnits.value();
-    parms.aUnits = aUnits.value();
-    parms.firstR = std::stod(firstR.value());
-    parms.lastR = std::stod(lastR.value());
-    parms.rFactor = std::stod(rFactor.value());
-    parms.aFactor = std::stod(aFactor.value());
-    parms.nPoints = std::stoul(nPoints.value());
-    parms.firstA = firstA.has_value()
-                       ? std::optional<double>(std::stod(firstA.value()))
-                       : std::nullopt;
-    parms.maxA = maxA.has_value()
-                     ? std::optional<double>(std::stod(maxA.value()))
-                     : std::nullopt;
-    parms.minA = minA.has_value()
-                     ? std::optional<double>(std::stod(minA.value()))
-                     : std::nullopt;
-    parms.resolution = resolution.has_value() ? std::optional<double>(
-                           std::stod(resolution.value()))
-                                              : std::nullopt;
-    parms.deltaR = deltaR.has_value()
-                       ? std::optional<double>(std::stod(deltaR.value()))
-                       : std::nullopt;
-    parms.zdp = zdp.has_value() ? std::optional<double>(std::stod(zdp.value()))
-                                : std::nullopt;
-    parms.alias = alias.has_value() ? std::optional<std::string>(alias.value())
-                                    : std::nullopt;
-    return parms;
+    return parameters;
 }

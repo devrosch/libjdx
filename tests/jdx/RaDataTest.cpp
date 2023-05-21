@@ -78,6 +78,8 @@ TEST_CASE("parses AFFN RA data with all parameters", "[RaData]")
     ldrs.emplace_back("AFACTOR", "1.0");
     ldrs.emplace_back("NPOINTS", "3");
     ldrs.emplace_back("FIRSTA", "10.0");
+    ldrs.emplace_back("MAXA", "12.0");
+    ldrs.emplace_back("MINA", "10.0");
     ldrs.emplace_back("RESOLUTION", "2.0");
     ldrs.emplace_back("DELTAR", "1.0");
     ldrs.emplace_back("ZDP", "1");
@@ -105,10 +107,63 @@ TEST_CASE("parses AFFN RA data with all parameters", "[RaData]")
     REQUIRE(1.0 == Approx(params.aFactor));
     REQUIRE(3 == params.nPoints);
     REQUIRE(10.0 == params.firstA.value());
+    REQUIRE(12.0 == params.maxA.value());
+    REQUIRE(10.0 == params.minA.value());
     REQUIRE(2.0 == params.resolution.value());
     REQUIRE(1.0 == params.deltaR.value());
     REQUIRE(1.0 == params.zdp.value());
     REQUIRE("1/2" == params.alias.value());
+}
+
+TEST_CASE("accepts blank values for optional RA data parameters", "[RaData]")
+{
+    // "##RADATA= (R++(A..A))\r\n"
+    const auto* label = "RADATA";
+    const auto* variables = "(R++(A..A))";
+    std::string input{"0, 10.0\r\n"
+                      "1, 11.0\r\n"
+                      "2, 12.0\r\n"
+                      "##END="};
+    auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
+    streamPtr->str(input);
+    sciformats::io::TextReader reader{std::move(streamPtr)};
+
+    std::vector<sciformats::jdx::StringLdr> ldrs;
+    ldrs.emplace_back("RUNITS", "MICROMETERS");
+    ldrs.emplace_back("AUNITS", "ARBITRARY UNITS");
+    ldrs.emplace_back("FIRSTR", "0");
+    ldrs.emplace_back("LASTR", "2");
+    ldrs.emplace_back("RFACTOR", "1.0");
+    ldrs.emplace_back("AFACTOR", "1.0");
+    ldrs.emplace_back("NPOINTS", "3");
+    ldrs.emplace_back("FIRSTA", "");
+    ldrs.emplace_back("MAXA", "");
+    ldrs.emplace_back("MINA", "");
+    ldrs.emplace_back("RESOLUTION", "");
+    ldrs.emplace_back("DELTAR", "");
+    ldrs.emplace_back("ZDP", "");
+    ldrs.emplace_back("ALIAS", "");
+
+    auto nextLine = std::optional<std::string>{};
+    auto raDataRecord
+        = sciformats::jdx::RaData(label, variables, ldrs, reader, nextLine);
+    auto raData = raDataRecord.getData();
+    auto params = raDataRecord.getParameters();
+
+    REQUIRE("MICROMETERS" == params.rUnits);
+    REQUIRE("ARBITRARY UNITS" == params.aUnits);
+    REQUIRE(0.0 == Approx(params.firstR));
+    REQUIRE(2.0 == Approx(params.lastR));
+    REQUIRE(1.0 == Approx(params.rFactor));
+    REQUIRE(1.0 == Approx(params.aFactor));
+    REQUIRE(3 == params.nPoints);
+    REQUIRE_FALSE(params.firstA.has_value());
+    REQUIRE_FALSE(params.maxA.has_value());
+    REQUIRE_FALSE(params.minA.has_value());
+    REQUIRE_FALSE(params.resolution.has_value());
+    REQUIRE_FALSE(params.deltaR.has_value());
+    REQUIRE_FALSE(params.zdp.has_value());
+    REQUIRE(params.alias.value().empty());
 }
 
 TEST_CASE("detects mismatching variables list for RADATA", "[RaData]")

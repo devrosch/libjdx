@@ -115,6 +115,58 @@ TEST_CASE(
     REQUIRE(2.0 == params.resolution.value());
 }
 
+TEST_CASE(
+    "accepts blank values for optional XY data parameters", "[XyData]")
+{
+    // "##XYDATA= (X++(Y..Y))\r\n"
+    const auto* label = "XYDATA";
+    const auto* variables = "(X++(Y..Y))";
+    std::string input{"450.0, 10.0\r\n"
+                      "451.0, 11.0\r\n"
+                      "452.0, 12.0\r\n"
+                      "##END="};
+    auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
+    streamPtr->str(input);
+    sciformats::io::TextReader reader{std::move(streamPtr)};
+
+    std::vector<sciformats::jdx::StringLdr> ldrs;
+    // required parameters
+    ldrs.emplace_back("XUNITS", "1/CM");
+    ldrs.emplace_back("YUNITS", "ABSORBANCE");
+    ldrs.emplace_back("FIRSTX", "450.0");
+    ldrs.emplace_back("LASTX", "452.0");
+    ldrs.emplace_back("XFACTOR", "1.0");
+    ldrs.emplace_back("YFACTOR", "1.0");
+    ldrs.emplace_back("NPOINTS", "3");
+    // optional parameters
+    ldrs.emplace_back("MAXX", "");
+    ldrs.emplace_back("MINX", "");
+    ldrs.emplace_back("MAXY", "");
+    ldrs.emplace_back("MINY", "");
+    ldrs.emplace_back("FIRSTY", "");
+    ldrs.emplace_back("RESOLUTION", "");
+    ldrs.emplace_back("DELTAX", "");
+    auto nextLine = std::optional<std::string>{};
+    auto xyDataRecord
+        = sciformats::jdx::XyData(label, variables, ldrs, reader, nextLine);
+
+    auto params = xyDataRecord.getParameters();
+    REQUIRE("1/CM" == params.xUnits);
+    REQUIRE("ABSORBANCE" == params.yUnits);
+    REQUIRE(450.0 == Approx(params.firstX));
+    REQUIRE(452.0 == Approx(params.lastX));
+    REQUIRE(1.0 == Approx(params.xFactor));
+    REQUIRE(1.0 == Approx(params.yFactor));
+    REQUIRE(3 == params.nPoints);
+    REQUIRE_FALSE(params.maxX.has_value());
+    REQUIRE_FALSE(params.minX.has_value());
+    REQUIRE_FALSE(params.maxY.has_value());
+    REQUIRE_FALSE(params.minY.has_value());
+    REQUIRE_FALSE(params.firstY.has_value());
+    REQUIRE_FALSE(params.deltaX.has_value());
+    REQUIRE_FALSE(params.resolution.has_value());
+}
+
 TEST_CASE("parses (X++(R..R)) data", "[XyData]")
 {
     // "##XYDATA= (X++(R..R))\r\n"
