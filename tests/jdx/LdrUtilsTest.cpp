@@ -21,8 +21,8 @@ TEST_CASE(
     REQUIRE(true == sciformats::jdx::util::isLdrStart(input));
 }
 
-TEST_CASE(
-    "recognizes LDR start with trailing line break characters", "[util][isLdrStart]")
+TEST_CASE("recognizes LDR start with trailing line break characters",
+    "[util][isLdrStart]")
 {
     std::string inputLf{"##TITLE= abc\n"};
     std::string inputCr{"##TITLE= abc\r"};

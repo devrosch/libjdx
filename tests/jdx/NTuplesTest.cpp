@@ -370,7 +370,8 @@ TEST_CASE("parses NTUPLES MS record with trailing blank VAR_NAME", "[NTuples]")
 {
     // strictly, the trailing blank VAR_NAME shoud be interpreted as " " name
     // however, as the JCAMP-DX test data set contains one such file and
-    // that the expectation is to ignore the blank VARN_NAME, have special treatment for this case
+    // that the expectation is to ignore the blank VARN_NAME, have special
+    // treatment for this case
     auto nextLine
         = std::optional<std::string>{"##NTUPLES=          MASS SPECTRUM"};
     // clang-format off
@@ -403,8 +404,8 @@ TEST_CASE("parses NTUPLES MS record with trailing blank VAR_NAME", "[NTuples]")
     streamPtr->str(input);
     sciformats::io::TextReader reader{std::move(streamPtr)};
     std::vector<sciformats::jdx::StringLdr> blockLdrs;
-    REQUIRE_NOTHROW(
-        sciformats::jdx::NTuples("NTUPLES", "MASS SPECTRUM", blockLdrs, reader, nextLine));
+    REQUIRE_NOTHROW(sciformats::jdx::NTuples(
+        "NTUPLES", "MASS SPECTRUM", blockLdrs, reader, nextLine));
 }
 
 TEST_CASE("uses block LDRs to fill missing NTUPLES attributes", "[NTuples]")

@@ -46,10 +46,10 @@ sciformats::jdx::RaParameters sciformats::jdx::RaData::parseParameters(
     // optional
     // double
     auto firstA = util::parseLdrValue<double>(ldrs, "FIRSTA");
-    auto maxA
-        = util::parseLdrValue<double>(ldrs, "MAXA"); // required, according to standard
-    auto minA
-        = util::parseLdrValue<double>(ldrs, "MINA"); // required, according to standard
+    auto maxA = util::parseLdrValue<double>(
+        ldrs, "MAXA"); // required, according to standard
+    auto minA = util::parseLdrValue<double>(
+        ldrs, "MINA"); // required, according to standard
     auto resolution = util::parseLdrValue<double>(ldrs, "RESOLUTION");
     auto deltaR = util::parseLdrValue<double>(ldrs, "DELTAR");
     auto zdp = util::parseLdrValue<double>(ldrs, "ZDP");
@@ -70,7 +70,7 @@ sciformats::jdx::RaParameters sciformats::jdx::RaData::parseParameters(
             "Required LDR(s) missing for RADATA: {" + missing + " }");
     }
 
-    RaParameters parameters {
+    RaParameters parameters{
         rUnits.value(),
         aUnits.value(),
         firstR.value(),

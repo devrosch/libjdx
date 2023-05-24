@@ -11,7 +11,8 @@ bool sciformats::jdx::util::isLdrStart(const std::string& line)
 {
     static const std::regex regex{"\\s*##.*=.*"};
     // match_continuous => match at start only
-    return std::regex_search(line, regex, std::regex_constants::match_continuous);
+    return std::regex_search(
+        line, regex, std::regex_constants::match_continuous);
 }
 
 std::string sciformats::jdx::util::normalizeLdrStart(const std::string& ldr)

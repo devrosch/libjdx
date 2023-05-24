@@ -2,8 +2,8 @@
 #define JDX_LDRUTILS_HPP
 
 #include "io/TextReader.hpp"
-#include "util/StringUtils.hpp"
 #include "jdx/StringLdr.hpp"
+#include "util/StringUtils.hpp"
 
 #include <optional>
 #include <string>
@@ -32,43 +32,46 @@ void skipPureComments(io::TextReader& reader,
     std::optional<std::string>& nextLine, bool mustPrecedeLdr);
 bool isPureComment(const std::string& line);
 
-template<typename T>
-struct LdrValueParser
+template<typename T> struct LdrValueParser
 {
     // for std::string
     static std::optional<T> parse(const std::string& value)
     {
-        // see: https://stackoverflow.com/questions/49330687/how-do-i-restrict-templates-to-specific-types
+        // see:
+        // https://stackoverflow.com/questions/49330687/how-do-i-restrict-templates-to-specific-types
         // https://stackoverflow.com/questions/44847559/is-stdis-samet-tvalue-always-true
-        static_assert(std::is_same_v<T, std::string>, "LdrValueParser template for string used with wrong type.");
+        static_assert(std::is_same_v<T, std::string>,
+            "LdrValueParser template for string used with wrong type.");
         // could be empty string which is also a valid string
         return value;
     };
 };
-template<>
-struct LdrValueParser<double>
+template<> struct LdrValueParser<double>
 {
     static std::optional<double> parse(const std::string& value)
     {
-        return value.empty() ? std::nullopt : std::optional<double>{std::stod(value)};
+        return value.empty() ? std::nullopt
+                             : std::optional<double>{std::stod(value)};
     };
 };
-template<>
-struct LdrValueParser<uint64_t>
+template<> struct LdrValueParser<uint64_t>
 {
     static std::optional<uint64_t> parse(const std::string& value)
     {
         // we're parsing uint64_t as unsigned long and assigning to uint64_t
         static_assert(std::numeric_limits<unsigned long>::max()
-            // NOLINTNEXTLINE(misc-redundant-expression)
-            <= std::numeric_limits<uint64_t>::max(),
+                          // NOLINTNEXTLINE(misc-redundant-expression)
+                          <= std::numeric_limits<uint64_t>::max(),
             "unsigned long max larger than uint_64_t max");
-        return value.empty() ? std::nullopt : std::optional<uint64_t>{std::stoul(value)};
+        return value.empty() ? std::nullopt
+                             : std::optional<uint64_t>{std::stoul(value)};
     };
 };
 
-template <typename T>
-std::optional<T> parseLdrValue(const std::vector<StringLdr>& ldrs, const std::string& label) {
+template<typename T>
+std::optional<T> parseLdrValue(
+    const std::vector<StringLdr>& ldrs, const std::string& label)
+{
     auto stringValueOptional = findLdrValue(ldrs, label);
     if (!stringValueOptional.has_value())
     {

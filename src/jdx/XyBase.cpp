@@ -76,8 +76,7 @@ sciformats::jdx::XyParameters sciformats::jdx::XyBase::parseParameters(
             "Required LDR(s) missing for XYDATA: {" + missing + " }");
     }
 
-    XyParameters parameters
-    {
+    XyParameters parameters{
         xUnits.value(),
         yUnits.value(),
         firstX.value(),

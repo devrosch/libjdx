@@ -115,8 +115,7 @@ TEST_CASE(
     REQUIRE(2.0 == params.resolution.value());
 }
 
-TEST_CASE(
-    "accepts blank values for optional XY data parameters", "[XyData]")
+TEST_CASE("accepts blank values for optional XY data parameters", "[XyData]")
 {
     // "##XYDATA= (X++(Y..Y))\r\n"
     const auto* label = "XYDATA";

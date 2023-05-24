@@ -6,7 +6,6 @@
 #include <cmath>
 #include <limits>
 #include <string>
-#include <iostream>
 
 std::vector<double> sciformats::jdx::util::DataParser::readXppYYData(
     io::TextReader& reader)
@@ -290,9 +289,10 @@ sciformats::jdx::util::DataParser::toAffn(std::string& token)
         // token.erase(0, 1);
         // token.insert(0, std::to_string(firstDigit.value()));
         const char value = firstDigit.value();
-        const char digit = value >= 0 ? static_cast<char>('0' + value) : static_cast<char>('0' - value);
+        const char digit = value >= 0 ? static_cast<char>('0' + value)
+                                      : static_cast<char>('0' - value);
         token[0] = digit;
-        if (value < 0 )
+        if (value < 0)
         {
             // TODO: possibly return +/- as separate bool to avoid insert()
             token.insert(0, "-");
@@ -364,8 +364,8 @@ bool sciformats::jdx::util::DataParser::isExponentStart(
     if (index >= encodedValues.size())
     {
         throw ParseException(
-            "Illegal index provided for exponent check. Line: "
-            + encodedValues + ", index: " + std::to_string(index));
+            "Illegal index provided for exponent check. Line: " + encodedValues
+            + ", index: " + std::to_string(index));
     }
     auto i = index;
     // TODO: replace at() with []
