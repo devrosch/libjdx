@@ -29,7 +29,11 @@ private:
         const std::string& path);
     sciformats::api::Node2 retrieveNode(const std::vector<size_t>& nodeIndices);
     static sciformats::api::Node2 mapBlock(const Block& block);
+    static sciformats::api::Node2 mapNTuples(const NTuples& nTuples, const std::vector<size_t>& nodeIndices);
+    static sciformats::api::Node2 mapNTuplesPage(const Page& page);
+    static std::vector<sciformats::api::KeyValueParam> mapNTuplesAttributes(const NTuplesAttributes& nTuplesAttributes);
     static std::vector<sciformats::api::Point2D> mapData(const Block& block);
+    static std::vector<sciformats::api::Point2D> mapXyData(const std::vector<std::pair<double, double>>& xyData);
 };
 } // sciformats::jdx::api
 
