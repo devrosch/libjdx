@@ -112,21 +112,26 @@ sciformats::api::Node2 sciformats::jdx::api::JdxDataMapper::mapNTuples(
     {
         // map NTUPLES record
         auto name = nTuples.getDataForm();
+
         std::vector<sciformats::api::KeyValueParam> parameters{};
-        size_t parameterColumnIndex = 0;
-        for (auto&& attr : nTuples.getAttributes())
+        size_t colIndex = 0;
+        for (size_t colIndex = 0; colIndex < nTuples.getAttributes().size();
+             colIndex++)
         {
-            auto params = mapNTuplesAttributes(attr);
-            for (auto&& param : params)
+            if (colIndex == 0)
             {
-                parameters.push_back({std::string{"column "}
-                                          + std::to_string(parameterColumnIndex)
-                                          + " - " + param.key,
-                    param.value});
+                parameters = mapNTuplesAttributes(
+                    nTuples.getAttributes().at(colIndex));
             }
-            ++parameterColumnIndex;
+            else
+            {
+                mergeAttributes(parameters,
+                    nTuples.getAttributes().at(colIndex), colIndex);
+            }
         }
+
         std::vector<sciformats::api::Point2D> data{};
+
         std::vector<std::string> childNodeNames{};
         for (size_t pageIndex = 0; pageIndex < nTuples.getNumPages();
              ++pageIndex)
@@ -134,6 +139,7 @@ sciformats::api::Node2 sciformats::jdx::api::JdxDataMapper::mapNTuples(
             const auto& page = nTuples.getPage(pageIndex);
             childNodeNames.push_back(page.getPageVariables());
         }
+
         return {name, parameters, data, childNodeNames};
     }
 
@@ -156,11 +162,13 @@ sciformats::api::Node2 sciformats::jdx::api::JdxDataMapper::mapNTuplesPage(
     const Page& page)
 {
     const auto& name = page.getPageVariables();
+
     std::vector<sciformats::api::KeyValueParam> parameters{};
     for (auto&& ldr : page.getPageLdrs())
     {
         parameters.push_back({ldr.getLabel(), ldr.getValue()});
     }
+
     std::vector<sciformats::api::Point2D> data{};
     if (page.getDataTable())
     {
@@ -170,14 +178,9 @@ sciformats::api::Node2 sciformats::jdx::api::JdxDataMapper::mapNTuplesPage(
             parameters.push_back(
                 {"Plot Descriptor", dataTable.getPlotDescriptor().value()});
         }
-        auto attributes = dataTable.getAttributes();
-        auto xParams = mapNTuplesAttributes(attributes.xAttributes);
-        auto yParams = mapNTuplesAttributes(attributes.yAttributes);
-        parameters.insert(parameters.end(), xParams.cbegin(), xParams.cend());
-        parameters.insert(parameters.end(), yParams.cbegin(), yParams.cend());
-
         data = mapXyData(dataTable.getData());
     }
+
     std::vector<std::string> childNodeNames{};
 
     return {name, parameters, data, childNodeNames};
@@ -241,6 +244,130 @@ sciformats::jdx::api::JdxDataMapper::mapNTuplesAttributes(
     }
 
     return parameters;
+}
+
+void sciformats::jdx::api::JdxDataMapper::mergeAttributes(
+    std::vector<sciformats::api::KeyValueParam>& parameters,
+    const NTuplesAttributes& nTuplesAttributes, size_t colIndex)
+{
+    auto findParameter = [&parameters](const std::string& key)
+    {
+        for (auto&& param : parameters)
+        {
+            if (param.key == key)
+            {
+                return std::optional<sciformats::api::KeyValueParam>{param};
+            }
+        }
+        return std::optional<sciformats::api::KeyValueParam>{std::nullopt};
+    };
+
+    auto addParameterIfMissing
+        = [&parameters, &colIndex, &findParameter](const std::string& key,
+              const std::string& value)
+    {
+        auto param = findParameter(key);
+        if (!param.has_value())
+        {
+            // add parameter including preceding empty columns
+            sciformats::api::KeyValueParam kvp{key, ""};
+            for (size_t i = 0; i < colIndex; ++i)
+            {
+                kvp.value += ", ";
+            }
+            kvp.value += value;
+            parameters.push_back(kvp);
+        }
+    };
+
+    // add a column for each existing parameter
+    for (auto&& param : parameters)
+    {
+        auto attrValue = findAttribute(nTuplesAttributes, param.key);
+        if (attrValue.has_value())
+        {
+            param.value += ", " + attrValue.value();
+        }
+        else
+        {
+            param.value += ", ";
+        }
+    }
+
+    // add parameters for standard attributes new in this column
+    for (auto&& attrName : s_nTuplesStandardAttrNames)
+    {
+        auto attrValue = findAttribute(nTuplesAttributes, attrName);
+        if (attrValue.has_value())
+        {
+            addParameterIfMissing(attrName, attrValue.value());
+        }
+    }
+
+    // add parameters for application attributes new in this column
+    for (auto&& applAttr : nTuplesAttributes.applicationAttributes)
+    {
+        addParameterIfMissing(applAttr.getLabel(), applAttr.getValue());
+    }
+}
+
+std::optional<std::string> sciformats::jdx::api::JdxDataMapper::findAttribute(
+    const NTuplesAttributes& nTuplesAttributes, const std::string& key)
+{
+    if (key == "VAR_NAME")
+    {
+        return nTuplesAttributes.varName;
+    }
+    if (key == "SYMBOL")
+    {
+        return nTuplesAttributes.symbol;
+    }
+    if (key == "VAR_TYPE")
+    {
+        return nTuplesAttributes.varType;
+    }
+    if (key == "VAR_FORM")
+    {
+        return nTuplesAttributes.varForm;
+    }
+    if (key == "VAR_DIM")
+    {
+        return std::to_string(nTuplesAttributes.varDim.value());
+    }
+    if (key == "UNITS")
+    {
+        return nTuplesAttributes.units;
+    }
+    if (key == "FIRST")
+    {
+        return std::to_string(nTuplesAttributes.first.value());
+    }
+    if (key == "LAST")
+    {
+        return std::to_string(nTuplesAttributes.last.value());
+    }
+    if (key == "MIN")
+    {
+        return std::to_string(nTuplesAttributes.min.value());
+    }
+    if (key == "MAX")
+    {
+        return std::to_string(nTuplesAttributes.max.value());
+    }
+    if (key == "FACTOR")
+    {
+        return std::to_string(nTuplesAttributes.factor.value());
+    }
+
+    for (auto&& ldr : nTuplesAttributes.applicationAttributes)
+    {
+        if (ldr.getLabel() == key)
+        {
+            return ldr.getValue();
+        }
+    }
+
+    return std::nullopt;
 }
 
 std::vector<sciformats::api::Point2D>
