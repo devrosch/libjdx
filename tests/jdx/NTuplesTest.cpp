@@ -370,7 +370,7 @@ TEST_CASE("parses NTUPLES MS record with trailing blank VAR_NAME", "[NTuples]")
 {
     // strictly, the trailing blank VAR_NAME shoud be interpreted as " " name
     // however, as the JCAMP-DX test data set contains one such file and
-    // that the expectation is to ignore the blank VARN_NAME, have special
+    // the expectation is to ignore the blank VARN_NAME, have special
     // treatment for this case
     auto nextLine
         = std::optional<std::string>{"##NTUPLES=          MASS SPECTRUM"};

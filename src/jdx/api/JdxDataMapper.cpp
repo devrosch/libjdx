@@ -314,6 +314,12 @@ void sciformats::jdx::api::JdxDataMapper::mergeAttributes(
 std::optional<std::string> sciformats::jdx::api::JdxDataMapper::findAttribute(
     const NTuplesAttributes& nTuplesAttributes, const std::string& key)
 {
+    auto toStringOrOptional = [&nTuplesAttributes](const auto& value)
+    {
+        return value.has_value() ? std::to_string(value.value())
+                                 : std::optional<std::string>{};
+    };
+
     if (key == "VAR_NAME")
     {
         return nTuplesAttributes.varName;
@@ -332,7 +338,7 @@ std::optional<std::string> sciformats::jdx::api::JdxDataMapper::findAttribute(
     }
     if (key == "VAR_DIM")
     {
-        return std::to_string(nTuplesAttributes.varDim.value());
+        return toStringOrOptional(nTuplesAttributes.varDim);
     }
     if (key == "UNITS")
     {
@@ -340,23 +346,23 @@ std::optional<std::string> sciformats::jdx::api::JdxDataMapper::findAttribute(
     }
     if (key == "FIRST")
     {
-        return std::to_string(nTuplesAttributes.first.value());
+        return toStringOrOptional(nTuplesAttributes.first);
     }
     if (key == "LAST")
     {
-        return std::to_string(nTuplesAttributes.last.value());
+        return toStringOrOptional(nTuplesAttributes.last);
     }
     if (key == "MIN")
     {
-        return std::to_string(nTuplesAttributes.min.value());
+        return toStringOrOptional(nTuplesAttributes.min);
     }
     if (key == "MAX")
     {
-        return std::to_string(nTuplesAttributes.max.value());
+        return toStringOrOptional(nTuplesAttributes.max);
     }
     if (key == "FACTOR")
     {
-        return std::to_string(nTuplesAttributes.factor.value());
+        return toStringOrOptional(nTuplesAttributes.factor);
     }
 
     for (auto&& ldr : nTuplesAttributes.applicationAttributes)
