@@ -24,7 +24,7 @@ std::vector<std::pair<double, double>> sciformats::jdx::Data2D::parseXppYYData(
     if (yData.size() != nPoints)
     {
         throw ParseException(
-            "Mismatch betwee NPOINTS and actual number of points in \"" + label
+            "Mismatch between NPOINTS and actual number of points in \"" + label
             + "\". NPOINTS: " + std::to_string(nPoints)
             + ", actual: " + std::to_string(yData.size()));
     }

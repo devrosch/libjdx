@@ -454,7 +454,7 @@ TEST_CASE("throws on illegal block start", "[Block]")
     REQUIRE_THROWS(sciformats::jdx::Block(reader));
 }
 
-TEST_CASE("throws on duplicate LDRs in block", "[Block]")
+TEST_CASE("throws on duplicate generic LDRs with different content in block", "[Block]")
 {
     std::string input{"##TITLE= Test Block\r\n"
                       "##JCAMP-DX= 4.24\r\n"
@@ -465,6 +465,20 @@ TEST_CASE("throws on duplicate LDRs in block", "[Block]")
     sciformats::io::TextReader reader{std::move(streamPtr)};
 
     REQUIRE_THROWS(sciformats::jdx::Block(reader));
+}
+
+TEST_CASE("does not throw on duplicate generic LDRs with same content in block", "[Block]")
+{
+    std::string input{"##TITLE= Test Block\r\n"
+                      "##JCAMP-DX= 4.24\r\n"
+                      "##JCAMP-DX= 4.24\r\n"
+                      "##END="};
+    auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
+    streamPtr->str(input);
+    sciformats::io::TextReader reader{std::move(streamPtr)};
+
+    sciformats::jdx::Block block{reader};
+    REQUIRE("4.24" == block.getLdr("JCAMP-DX").value().getValue());
 }
 
 TEST_CASE("throws on missing END LDR in block", "[Block]")
