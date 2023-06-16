@@ -1,6 +1,6 @@
 # Tests need to be added as executables
 add_executable(api_test
-    FileParserSelectorTest.cpp
+    ConverterServiceTest.cpp
 )
 
 # Link to the library, as well as the Catch2 testing library and tromeloeil mocking library

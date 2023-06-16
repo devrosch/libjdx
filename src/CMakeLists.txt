@@ -4,7 +4,6 @@ add_library("${SF_LIBRARY_NAME}")
 add_subdirectory(api)
 add_subdirectory(io)
 add_subdirectory(jdx)
-add_subdirectory(stub)
 add_subdirectory(sf)
 
 # All users of this library will need at least C++17

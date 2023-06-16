@@ -1,13 +1,12 @@
-#include "jdx/api/JdxDataScanner.hpp"
-#include "api/Node2.hpp"
+#include "jdx/api/JdxScanner.hpp"
 
 #include "catch2/catch.hpp"
 
-TEST_CASE("JdxDataScanner only accepts to valid JCAMP-DX", "[JdxDataScanner]")
+TEST_CASE("JdxScanner only accepts to valid JCAMP-DX", "[JdxScanner]")
 {
     using namespace sciformats::api;
     using namespace sciformats::jdx::api;
-    JdxDataScanner scanner{};
+    JdxScanner scanner{};
 
     SECTION("Only recognizes existing file that contain JCAMP-DX data")
     {

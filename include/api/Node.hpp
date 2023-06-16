@@ -4,34 +4,17 @@
 #include "api/KeyValueParam.hpp"
 #include "api/Point2D.hpp"
 
-#include <memory>
 #include <string>
 #include <vector>
 
 namespace sciformats::api
 {
-class Node
+struct Node
 {
-public:
-    [[nodiscard]] virtual std::string getName() const = 0;
-    virtual std::vector<KeyValueParam> getParams() = 0;
-    // It would be more descriptive to have a
-    // std::optional<std::vector<Point2D>> However, std::optional is not
-    // supported by embind, see:
-    // https://github.com/emscripten-core/emscripten/issues/11139
-    virtual std::vector<Point2D> getData() = 0;
-    virtual std::vector<std::shared_ptr<Node>> getChildNodes() = 0;
-
-    // see:
-    // https://stackoverflow.com/questions/26039907/does-rule-of-three-five-apply-to-inheritance-and-virtual-destructors
-    // but also:
-    // https://stackoverflow.com/questions/32557206/inheritance-from-a-pure-abstract-class-without-default-constructor
-    Node() = default;
-    Node(const Node& node) = default;
-    Node& operator=(const Node& node) = default;
-    Node(Node&&) = default;
-    Node& operator=(Node&&) = default;
-    virtual ~Node() = default;
+    std::string name;
+    std::vector<KeyValueParam> parameters;
+    std::vector<Point2D> data;
+    std::vector<std::string> childNodeNames;
 };
 } // sciformats::api
 

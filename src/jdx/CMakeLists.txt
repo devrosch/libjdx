@@ -1,10 +1,7 @@
 set(JDX_PUBLIC_HEADER_LIST
     # public api
-    "${PROJECT_SOURCE_DIR}/include/jdx/api/JdxBlockNode.hpp"
-    "${PROJECT_SOURCE_DIR}/include/jdx/api/JdxData2DNode.hpp"
-    "${PROJECT_SOURCE_DIR}/include/jdx/api/JdxFileParser.hpp"
-    "${PROJECT_SOURCE_DIR}/include/jdx/api/JdxDataScanner.hpp"
-    "${PROJECT_SOURCE_DIR}/include/jdx/api/JdxDataMapper.hpp"
+    "${PROJECT_SOURCE_DIR}/include/jdx/api/JdxScanner.hpp"
+    "${PROJECT_SOURCE_DIR}/include/jdx/api/JdxConverter.hpp"
     # public data providers
     "${PROJECT_SOURCE_DIR}/include/jdx/JdxParser.hpp"
     # ldr
@@ -53,11 +50,8 @@ set(JDX_PRIVATE_HEADER_LIST
 
 set(JDX_SOURCE_LIST
     # public api
-    "${CMAKE_CURRENT_SOURCE_DIR}/api/JdxBlockNode.cpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/api/JdxData2DNode.cpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/api/JdxFileParser.cpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/api/JdxDataScanner.cpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/api/JdxDataMapper.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/api/JdxScanner.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/api/JdxConverter.cpp"
     # public data providers
     "${CMAKE_CURRENT_SOURCE_DIR}/JdxParser.cpp"
     # util

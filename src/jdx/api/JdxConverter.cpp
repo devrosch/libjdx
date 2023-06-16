@@ -1,8 +1,6 @@
-#include "jdx/api/JdxDataMapper.hpp"
-#include "api/Node.hpp"
 #include "api/Point2D.hpp"
+#include "jdx/api/JdxConverter.hpp"
 #include "jdx/JdxParser.hpp"
-#include "jdx/api/JdxBlockNode.hpp"
 #include "util/StringUtils.hpp"
 
 #include <fstream>
@@ -15,23 +13,23 @@
 #include <emscripten/bind.h>
 #endif
 
-sciformats::jdx::api::JdxDataMapper::JdxDataMapper(const std::string& path)
+sciformats::jdx::api::JdxConverter::JdxConverter(const std::string& path)
     : m_rootBlock{std::make_unique<sciformats::jdx::Block>(
         sciformats::jdx::JdxParser::parse(path))}
 {
 }
 
-sciformats::api::Node2 sciformats::jdx::api::JdxDataMapper::read(
+sciformats::api::Node sciformats::jdx::api::JdxConverter::read(
     const std::string& path)
 {
-    std::cout << "C++: JdxDataMapper.read(): " << path << '\n';
+    std::cout << "C++: JdxConverter.read(): " << path << '\n';
     std::vector<size_t> nodeIndices = convertPathToNodeIndices(path);
     auto node = retrieveNode(nodeIndices);
     return node;
 }
 
 std::vector<size_t>
-sciformats::jdx::api::JdxDataMapper::convertPathToNodeIndices(
+sciformats::jdx::api::JdxConverter::convertPathToNodeIndices(
     const std::string& path)
 {
     auto pathSegments = util::split(path, "/", true);
@@ -54,7 +52,7 @@ sciformats::jdx::api::JdxDataMapper::convertPathToNodeIndices(
     return nodeIndices;
 }
 
-sciformats::api::Node2 sciformats::jdx::api::JdxDataMapper::retrieveNode(
+sciformats::api::Node sciformats::jdx::api::JdxConverter::retrieveNode(
     const std::vector<size_t>& nodeIndices)
 {
     const Block* block = &(*m_rootBlock);
@@ -76,7 +74,7 @@ sciformats::api::Node2 sciformats::jdx::api::JdxDataMapper::retrieveNode(
     return mapBlock(*block);
 }
 
-sciformats::api::Node2 sciformats::jdx::api::JdxDataMapper::mapBlock(
+sciformats::api::Node sciformats::jdx::api::JdxConverter::mapBlock(
     const Block& block)
 {
     auto name = block.getLdr("TITLE").value().getValue();
@@ -105,7 +103,7 @@ sciformats::api::Node2 sciformats::jdx::api::JdxDataMapper::mapBlock(
     return {name, parameters, data, childNodeNames};
 }
 
-sciformats::api::Node2 sciformats::jdx::api::JdxDataMapper::mapNTuples(
+sciformats::api::Node sciformats::jdx::api::JdxConverter::mapNTuples(
     const NTuples& nTuples, const std::vector<size_t>& nodeIndices)
 {
     if (nodeIndices.empty())
@@ -158,7 +156,7 @@ sciformats::api::Node2 sciformats::jdx::api::JdxDataMapper::mapNTuples(
     return mapNTuplesPage(nTuples.getPage(nodeIndices.at(0)));
 }
 
-sciformats::api::Node2 sciformats::jdx::api::JdxDataMapper::mapNTuplesPage(
+sciformats::api::Node sciformats::jdx::api::JdxConverter::mapNTuplesPage(
     const Page& page)
 {
     const auto& name = page.getPageVariables();
@@ -187,7 +185,7 @@ sciformats::api::Node2 sciformats::jdx::api::JdxDataMapper::mapNTuplesPage(
 }
 
 std::vector<sciformats::api::KeyValueParam>
-sciformats::jdx::api::JdxDataMapper::mapNTuplesAttributes(
+sciformats::jdx::api::JdxConverter::mapNTuplesAttributes(
     const NTuplesAttributes& nTuplesAttributes)
 {
     std::vector<sciformats::api::KeyValueParam> parameters{};
@@ -246,7 +244,7 @@ sciformats::jdx::api::JdxDataMapper::mapNTuplesAttributes(
     return parameters;
 }
 
-void sciformats::jdx::api::JdxDataMapper::mergeAttributes(
+void sciformats::jdx::api::JdxConverter::mergeAttributes(
     std::vector<sciformats::api::KeyValueParam>& parameters,
     const NTuplesAttributes& nTuplesAttributes, size_t colIndex)
 {
@@ -311,7 +309,7 @@ void sciformats::jdx::api::JdxDataMapper::mergeAttributes(
     }
 }
 
-std::optional<std::string> sciformats::jdx::api::JdxDataMapper::findAttribute(
+std::optional<std::string> sciformats::jdx::api::JdxConverter::findAttribute(
     const NTuplesAttributes& nTuplesAttributes, const std::string& key)
 {
     auto toStringOrOptional = [&nTuplesAttributes](const auto& value)
@@ -377,7 +375,7 @@ std::optional<std::string> sciformats::jdx::api::JdxDataMapper::findAttribute(
 }
 
 std::vector<sciformats::api::Point2D>
-sciformats::jdx::api::JdxDataMapper::mapData(const Block& block)
+sciformats::jdx::api::JdxConverter::mapData(const Block& block)
 {
     std::optional<std::vector<std::pair<double, double>>> rawData{};
     if (block.getXyData())
@@ -404,7 +402,7 @@ sciformats::jdx::api::JdxDataMapper::mapData(const Block& block)
 }
 
 std::vector<sciformats::api::Point2D>
-sciformats::jdx::api::JdxDataMapper::mapXyData(
+sciformats::jdx::api::JdxConverter::mapXyData(
     const std::vector<std::pair<double, double>>& xyData)
 {
     std::vector<sciformats::api::Point2D> output{};
@@ -418,14 +416,14 @@ sciformats::jdx::api::JdxDataMapper::mapXyData(
 }
 
 #ifdef __EMSCRIPTEN__
-EMSCRIPTEN_BINDINGS(JdxDataMapper)
+EMSCRIPTEN_BINDINGS(JdxConverter)
 {
     using namespace sciformats::api;
     using namespace sciformats::jdx::api;
     using namespace emscripten;
-    class_<JdxDataMapper, base<DataMapper>>("JdxDataMapper")
-        .smart_ptr_constructor("JdxDataMapper",
-            &std::make_shared<JdxDataMapper, const std::string&>)
-        .function("read", &JdxDataMapper::read);
+    class_<JdxConverter, base<Converter>>("JdxConverter")
+        .smart_ptr_constructor("JdxConverter",
+            &std::make_shared<JdxConverter, const std::string&>)
+        .function("read", &JdxConverter::read);
 }
 #endif
