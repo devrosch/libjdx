@@ -1,5 +1,5 @@
-#ifndef JDX_API_JDXDATAMAPPER_HPP
-#define JDX_API_JDXDATAMAPPER_HPP
+#ifndef JDX_API_JDXCONVERTER_HPP
+#define JDX_API_JDXCONVERTER_HPP
 
 #include "api/Converter.hpp"
 #include "api/Node.hpp"
