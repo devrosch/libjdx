@@ -1,1 +1,1 @@
-// just a dummy file for cmake configure tzo work
+// just a dummy file for cmake configure to work

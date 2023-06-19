@@ -54,11 +54,20 @@ TEST_CASE("JdxConverter only maps valid JCAMP-DX", "[JdxConverter]")
             REQUIRE(data.at(0).x == Approx(900.0));
             REQUIRE(data.at(0).y == Approx(100.0));
         }
+
+        SECTION("Throws when trying to read non existent node")
+        {
+            REQUIRE_THROWS(converter.read("/0/0"));
+        }
     }
 
-    SECTION("Throws when trying to map invalid or non-existing JCAMP-DX file")
+    SECTION("Throws when trying to map invalid JCAMP-DX file")
     {
         REQUIRE_THROWS(JdxConverter("resources/dummy.txt"));
+    }
+
+    SECTION("Throws when trying to map non-existing JCAMP-DX file")
+    {
         REQUIRE_THROWS(JdxConverter("resources/non_existent.txt"));
     }
 }
