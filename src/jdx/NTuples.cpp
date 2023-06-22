@@ -63,7 +63,11 @@ void sciformats::jdx::NTuples::parse(const std::vector<StringLdr>& blockLdrs,
         {
             // ##END NTUPLES is described as optional in JCAMP6_2b Draft
             // but is required for indicating the NTUPLES end
-            break;
+
+            // skip ##END NTUPLES
+            nextLine = reader.eof() ? std::nullopt
+                : std::optional<std::string>{reader.readLine()};
+            return;
         }
         if (label != "PAGE")
         {

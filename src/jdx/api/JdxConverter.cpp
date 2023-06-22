@@ -62,7 +62,7 @@ sciformats::api::Node sciformats::jdx::api::JdxConverter::retrieveNode(
         if (nodeIndex == 0 && block->getNTuples().has_value())
         {
             // consider NTUPLES LDR as first child node
-            auto startIt = nodeIndices.cbegin() + nodeIndex;
+            auto startIt = nodeIndices.cbegin() + iterationIndex;
             auto nTuplesIndices
                 = std::vector<size_t>{++startIt, nodeIndices.cend()};
             return mapNTuples(block->getNTuples().value(), nTuplesIndices);

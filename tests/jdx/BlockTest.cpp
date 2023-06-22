@@ -528,6 +528,7 @@ TEST_CASE("parses block with NTUPLES", "[Block]")
     sciformats::io::TextReader reader{std::move(streamPtr)};
 
     auto block = sciformats::jdx::Block(reader);
+    REQUIRE(block.getLdrs().size() == 4);
     REQUIRE(block.getNTuples().has_value());
     const auto& nTuples = block.getNTuples().value();
     const auto& pageN1 = nTuples.getPage(0);
