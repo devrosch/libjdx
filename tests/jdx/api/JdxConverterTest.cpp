@@ -17,7 +17,7 @@ TEST_CASE("JdxConverter only maps valid JCAMP-DX", "[JdxConverter]")
         REQUIRE("Root LINK BLOCK" == rootNode.name);
         REQUIRE(rootNode.parameters.size() == 4);
         REQUIRE(rootNode.data.empty());
-        REQUIRE(rootNode.childNodeNames.size() == 5);
+        REQUIRE(rootNode.childNodeNames.size() == 6);
 
         SECTION("Maps nested XYDATA node")
         {
