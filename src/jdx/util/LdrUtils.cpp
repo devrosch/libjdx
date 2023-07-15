@@ -215,12 +215,12 @@ bool sciformats::jdx::util::isPureComment(const std::string& line)
     return preCommentValue.empty();
 }
 
-bool sciformats::jdx::util::isBrukerSpecificSectionStart(const std::string& line)
+bool sciformats::jdx::util::isBrukerSpecificSectionStart(
+    const std::string& line)
 {
     auto [preCommentValue, comment] = util::stripLineComment(line, false, true);
-    if(preCommentValue.empty() && comment.has_value())
+    if (preCommentValue.empty() && comment.has_value())
     {
-        // alternatively use: strncmp(str.c_str(), substr.c_str(), substr.size())
         if (comment.value().rfind("Bruker specific parameters", 0) == 0)
         {
             return true;

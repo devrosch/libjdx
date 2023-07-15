@@ -8,7 +8,8 @@
 namespace sciformats::api
 {
 /**
- * Scan raw data to determine if a converter is applicable and provide converter.
+ * Scan raw data to determine if a converter is applicable and provide
+ * converter.
  */
 class Scanner
 {
@@ -25,7 +26,8 @@ public:
      * @param path The path to the data set.
      * @return The converter for the data set.
      */
-    virtual std::unique_ptr<Converter> getConverter(const std::string& path) = 0;
+    virtual std::unique_ptr<Converter> getConverter(const std::string& path)
+        = 0;
 
     // https://stackoverflow.com/questions/26039907/does-rule-of-three-five-apply-to-inheritance-and-virtual-destructors
     Scanner() = default;

@@ -130,7 +130,8 @@ public:
      * @brief Provides data contained in Bruker specific sections if available.
      * @return Bruker specific records.
      */
-    [[nodiscard]] const std::vector<BrukerSpecificSection>& getBrukerSpecificSections() const;
+    [[nodiscard]] const std::vector<BrukerSpecificSection>&
+    getBrukerSpecificSections() const;
 
 private:
     static constexpr const char* s_blockStartLabel = "TITLE";

@@ -116,8 +116,8 @@ std::string sciformats::jdx::Block::parseFirstLine(const std::string& firstLine)
     return value;
 }
 
-void sciformats::jdx::Block::parseInput(const std::string& titleValue,
-    std::optional<std::string>& nextLine)
+void sciformats::jdx::Block::parseInput(
+    const std::string& titleValue, std::optional<std::string>& nextLine)
 {
     std::string title = titleValue;
     nextLine = parseStringValue(title, m_reader);
@@ -183,21 +183,21 @@ void sciformats::jdx::Block::parseInput(const std::string& titleValue,
         }
         else if ("XYDATA" == label)
         {
-            addLdr<XyData>(title, "XYDATA", m_xyData,
-                [&]()
-                { return XyData(label, value, m_ldrs, m_reader, nextLine); });
+            addLdr<XyData>(title, "XYDATA", m_xyData, [&]() {
+                return XyData(label, value, m_ldrs, m_reader, nextLine);
+            });
         }
         else if ("RADATA" == label)
         {
-            addLdr<RaData>(title, "RADATA", m_raData,
-                [&]()
-                { return RaData(label, value, m_ldrs, m_reader, nextLine); });
+            addLdr<RaData>(title, "RADATA", m_raData, [&]() {
+                return RaData(label, value, m_ldrs, m_reader, nextLine);
+            });
         }
         else if ("XYPOINTS" == label)
         {
-            addLdr<XyPoints>(title, "XYPOINTS", m_xyPoints,
-                [&]()
-                { return XyPoints(label, value, m_ldrs, m_reader, nextLine); });
+            addLdr<XyPoints>(title, "XYPOINTS", m_xyPoints, [&]() {
+                return XyPoints(label, value, m_ldrs, m_reader, nextLine);
+            });
         }
         else if ("PEAKTABLE" == label)
         {
@@ -206,15 +206,16 @@ void sciformats::jdx::Block::parseInput(const std::string& titleValue,
         }
         else if ("PEAKASSIGNMENTS" == label)
         {
-            addLdr<PeakAssignments>(title, "PEAKASSIGNMENTS", m_peakAssignments,
-                [&]()
-                { return PeakAssignments(label, value, m_reader, nextLine); });
+            addLdr<PeakAssignments>(
+                title, "PEAKASSIGNMENTS", m_peakAssignments, [&]() {
+                    return PeakAssignments(label, value, m_reader, nextLine);
+                });
         }
         else if ("NTUPLES" == label)
         {
-            addLdr<NTuples>(title, "NTUPLES", m_nTuples,
-                [&]()
-                { return NTuples(label, value, m_ldrs, m_reader, nextLine); });
+            addLdr<NTuples>(title, "NTUPLES", m_nTuples, [&]() {
+                return NTuples(label, value, m_ldrs, m_reader, nextLine);
+            });
         }
         else if ("AUDITTRAIL" == label)
         {

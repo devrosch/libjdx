@@ -12,8 +12,7 @@ namespace sciformats::api
 class ConverterService : public Scanner
 {
 public:
-    explicit ConverterService(
-        std::vector<std::shared_ptr<Scanner>> scanners);
+    explicit ConverterService(std::vector<std::shared_ptr<Scanner>> scanners);
     bool isRecognized(const std::string& path) override;
     std::unique_ptr<Converter> getConverter(const std::string& path) override;
 

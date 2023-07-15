@@ -2,7 +2,9 @@
 
 #include "catch2/catch.hpp"
 
-TEST_CASE("JdxScanner recognizes valid JCAMP-DX and provides a converter for the data", "[JdxScanner]")
+TEST_CASE("JdxScanner recognizes valid JCAMP-DX and provides a converter for "
+          "the data",
+    "[JdxScanner]")
 {
     using namespace sciformats::api;
     using namespace sciformats::jdx::api;

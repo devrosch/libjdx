@@ -1,5 +1,5 @@
-#include "api/Point2D.hpp"
 #include "jdx/api/JdxConverter.hpp"
+#include "api/Point2D.hpp"
 #include "jdx/JdxParser.hpp"
 #include "util/StringUtils.hpp"
 
@@ -123,8 +123,8 @@ sciformats::api::Node sciformats::jdx::api::JdxConverter::mapNTuples(
             }
             else
             {
-                mergeAttributes(parameters,
-                    nTuples.getAttributes().at(colIndex), colIndex);
+                mergeAttributes(
+                    parameters, nTuples.getAttributes().at(colIndex), colIndex);
             }
         }
 
@@ -248,8 +248,7 @@ void sciformats::jdx::api::JdxConverter::mergeAttributes(
     std::vector<sciformats::api::KeyValueParam>& parameters,
     const NTuplesAttributes& nTuplesAttributes, size_t colIndex)
 {
-    auto findParameter = [&parameters](const std::string& key)
-    {
+    auto findParameter = [&parameters](const std::string& key) {
         for (auto&& param : parameters)
         {
             if (param.key == key)
@@ -261,22 +260,21 @@ void sciformats::jdx::api::JdxConverter::mergeAttributes(
     };
 
     auto addParameterIfMissing
-        = [&parameters, &colIndex, &findParameter](const std::string& key,
-              const std::string& value)
-    {
-        auto param = findParameter(key);
-        if (!param.has_value())
-        {
-            // add parameter including preceding empty columns
-            sciformats::api::KeyValueParam kvp{key, ""};
-            for (size_t i = 0; i < colIndex; ++i)
-            {
-                kvp.value += ", ";
-            }
-            kvp.value += value;
-            parameters.push_back(kvp);
-        }
-    };
+        = [&parameters, &colIndex, &findParameter](
+              const std::string& key, const std::string& value) {
+              auto param = findParameter(key);
+              if (!param.has_value())
+              {
+                  // add parameter including preceding empty columns
+                  sciformats::api::KeyValueParam kvp{key, ""};
+                  for (size_t i = 0; i < colIndex; ++i)
+                  {
+                      kvp.value += ", ";
+                  }
+                  kvp.value += value;
+                  parameters.push_back(kvp);
+              }
+          };
 
     // add a column for each existing parameter
     for (auto&& param : parameters)
@@ -312,8 +310,7 @@ void sciformats::jdx::api::JdxConverter::mergeAttributes(
 std::optional<std::string> sciformats::jdx::api::JdxConverter::findAttribute(
     const NTuplesAttributes& nTuplesAttributes, const std::string& key)
 {
-    auto toStringOrOptional = [&nTuplesAttributes](const auto& value)
-    {
+    auto toStringOrOptional = [&nTuplesAttributes](const auto& value) {
         return value.has_value() ? std::to_string(value.value())
                                  : std::optional<std::string>{};
     };
@@ -422,8 +419,8 @@ EMSCRIPTEN_BINDINGS(JdxConverter)
     using namespace sciformats::jdx::api;
     using namespace emscripten;
     class_<JdxConverter, base<Converter>>("JdxConverter")
-        .smart_ptr_constructor("JdxConverter",
-            &std::make_shared<JdxConverter, const std::string&>)
+        .smart_ptr_constructor(
+            "JdxConverter", &std::make_shared<JdxConverter, const std::string&>)
         .function("read", &JdxConverter::read);
 }
 #endif

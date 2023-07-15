@@ -33,8 +33,8 @@ private:
         const std::string& path);
     sciformats::api::Node retrieveNode(const std::vector<size_t>& nodeIndices);
     static sciformats::api::Node mapBlock(const Block& block);
-    static sciformats::api::Node mapNTuples(const NTuples& nTuples,
-        const std::vector<size_t>& nodeIndices);
+    static sciformats::api::Node mapNTuples(
+        const NTuples& nTuples, const std::vector<size_t>& nodeIndices);
     static sciformats::api::Node mapNTuplesPage(const Page& page);
     static std::vector<sciformats::api::KeyValueParam> mapNTuplesAttributes(
         const NTuplesAttributes& nTuplesAttributes);

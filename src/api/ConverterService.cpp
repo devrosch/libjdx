@@ -73,8 +73,7 @@ EMSCRIPTEN_BINDINGS(ConverterService)
     using namespace sciformats::api;
     using namespace emscripten;
     class_<ConverterService, base<Scanner>>("ConverterService")
-        .constructor<
-            std::vector<std::shared_ptr<sciformats::api::Scanner>>>()
+        .constructor<std::vector<std::shared_ptr<sciformats::api::Scanner>>>()
         .function("isRecognized", &ConverterService::isRecognized)
         .function("getConverter", &ConverterService::getConverter);
     register_vector<std::shared_ptr<sciformats::api::Scanner>>(

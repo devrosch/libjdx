@@ -238,7 +238,8 @@ TEST_CASE("trims content and comment if indicated", "[util][stripLineComment]")
     REQUIRE("comment" == commentTrimmed3.value());
 }
 
-TEST_CASE("recognizes Bruker specific section", "[util][isBrukerSpecificSectionStart]")
+TEST_CASE("recognizes Bruker specific section",
+    "[util][isBrukerSpecificSectionStart]")
 {
     std::string brukerSectionStart{"$$ Bruker specific parameters"};
     std::string brukerSectionStartF1{"$$ Bruker specific parameters for F1"};
@@ -246,9 +247,14 @@ TEST_CASE("recognizes Bruker specific section", "[util][isBrukerSpecificSectionS
     std::string brukerDashes{"$$ ---------------------------------"};
     std::string regularLdr{"##ORIGIN= Test"};
 
-    REQUIRE(sciformats::jdx::util::isBrukerSpecificSectionStart(brukerSectionStart));
-    REQUIRE(sciformats::jdx::util::isBrukerSpecificSectionStart(brukerSectionStartF1));
-    REQUIRE_FALSE(sciformats::jdx::util::isBrukerSpecificSectionStart(brukerSectionEnd));
-    REQUIRE_FALSE(sciformats::jdx::util::isBrukerSpecificSectionStart(brukerDashes));
-    REQUIRE_FALSE(sciformats::jdx::util::isBrukerSpecificSectionStart(regularLdr));
+    REQUIRE(sciformats::jdx::util::isBrukerSpecificSectionStart(
+        brukerSectionStart));
+    REQUIRE(sciformats::jdx::util::isBrukerSpecificSectionStart(
+        brukerSectionStartF1));
+    REQUIRE_FALSE(
+        sciformats::jdx::util::isBrukerSpecificSectionStart(brukerSectionEnd));
+    REQUIRE_FALSE(
+        sciformats::jdx::util::isBrukerSpecificSectionStart(brukerDashes));
+    REQUIRE_FALSE(
+        sciformats::jdx::util::isBrukerSpecificSectionStart(regularLdr));
 }

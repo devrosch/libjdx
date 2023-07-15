@@ -454,7 +454,8 @@ TEST_CASE("throws on illegal block start", "[Block]")
     REQUIRE_THROWS(sciformats::jdx::Block(reader));
 }
 
-TEST_CASE("throws on duplicate generic LDRs with different content in block", "[Block]")
+TEST_CASE("throws on duplicate generic LDRs with different content in block",
+    "[Block]")
 {
     std::string input{"##TITLE= Test Block\r\n"
                       "##JCAMP-DX= 4.24\r\n"
@@ -467,7 +468,8 @@ TEST_CASE("throws on duplicate generic LDRs with different content in block", "[
     REQUIRE_THROWS(sciformats::jdx::Block(reader));
 }
 
-TEST_CASE("does not throw on duplicate generic LDRs with same content in block", "[Block]")
+TEST_CASE("does not throw on duplicate generic LDRs with same content in block",
+    "[Block]")
 {
     std::string input{"##TITLE= Test Block\r\n"
                       "##JCAMP-DX= 4.24\r\n"

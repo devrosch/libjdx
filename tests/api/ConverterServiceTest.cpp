@@ -28,6 +28,7 @@ public:
     {
         return {m_nodeName};
     }
+
 private:
     std::string m_nodeName;
 };
@@ -44,6 +45,7 @@ public:
     {
         return {};
     }
+
 private:
     std::string m_errorMessage;
 };
@@ -86,24 +88,26 @@ TEST_CASE("ConverterService collects failed parsing error messages",
     REQUIRE_CALL(*mockScannerPtr0, getConverter(ANY(const std::string&)))
         .TIMES(1)
         .RETURN(std::make_unique<ErrorConverter>("Error 1"));
-    
+
     auto mockScannerPtr1 = std::make_shared<MockScanner>();
     REQUIRE_CALL(*mockScannerPtr1, isRecognized(ANY(const std::string&)))
         .TIMES(1)
         .RETURN(false);
     REQUIRE_CALL(*mockScannerPtr1, getConverter(ANY(const std::string&)))
         .TIMES(0);
-    
+
     auto mockScannerPtr2 = std::make_shared<MockScanner>();
     REQUIRE_CALL(*mockScannerPtr2, isRecognized(ANY(const std::string&)))
         .TIMES(1)
         .RETURN(true);
     REQUIRE_CALL(*mockScannerPtr2, getConverter(ANY(const std::string&)))
         .TIMES(1)
-        // there is no obvious way to return a unique_ptr of a mock object, hence use Stub
+        // there is no obvious way to return a unique_ptr of a mock object,
+        // hence use Stub
         .RETURN(std::make_unique<ErrorConverter>("Error 3"));
-    
-    ConverterService service{{mockScannerPtr0, mockScannerPtr1, mockScannerPtr2}};
+
+    ConverterService service{
+        {mockScannerPtr0, mockScannerPtr1, mockScannerPtr2}};
 
     REQUIRE_THROWS_WITH(service.getConverter("resources/dummy.txt"),
         Catch::Matchers::Contains("Error 1")
@@ -125,7 +129,7 @@ TEST_CASE("ConverterService provides generic error when no suitable parser "
     REQUIRE_CALL(*mockScannerPtr1, isRecognized(ANY(const std::string&)))
         .TIMES(1)
         .RETURN(false);
-    
+
     ConverterService service{{mockScannerPtr0, mockScannerPtr1}};
 
     REQUIRE_THROWS_WITH(service.getConverter("resources/dummy.txt"),
@@ -163,7 +167,8 @@ TEST_CASE("ConverterService returns converter from first applicable scanner",
         .RETURN(true);
     REQUIRE_CALL(*mockScannerPtr0, getConverter(ANY(const std::string&)))
         .TIMES(1)
-        // there is no obvious way to return a unique_ptr of a mock object, hence use Stub
+        // there is no obvious way to return a unique_ptr of a mock object,
+        // hence use Stub
         .RETURN(std::make_unique<SuccessConverter>(nodeName));
 
     auto mockScannerPtr1 = std::make_shared<MockScanner>();
@@ -171,7 +176,7 @@ TEST_CASE("ConverterService returns converter from first applicable scanner",
         .TIMES(0);
     REQUIRE_CALL(*mockScannerPtr1, getConverter(ANY(const std::string&)))
         .TIMES(0);
-            
+
     ConverterService service{{mockScannerPtr0, mockScannerPtr1}};
 
     auto converter = service.getConverter("resources/dummy.txt");

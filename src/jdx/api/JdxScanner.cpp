@@ -1,6 +1,6 @@
 #include "jdx/api/JdxScanner.hpp"
-#include "jdx/api/JdxConverter.hpp"
 #include "jdx/JdxParser.hpp"
+#include "jdx/api/JdxConverter.hpp"
 
 #include <fstream>
 #include <iostream>
@@ -18,7 +18,8 @@ bool sciformats::jdx::api::JdxScanner::isRecognized(const std::string& path)
     return isRecognized;
 }
 
-std::unique_ptr<sciformats::api::Converter> sciformats::jdx::api::JdxScanner::getConverter(const std::string& path)
+std::unique_ptr<sciformats::api::Converter>
+sciformats::jdx::api::JdxScanner::getConverter(const std::string& path)
 {
     return std::make_unique<sciformats::jdx::api::JdxConverter>(path);
 }
@@ -30,8 +31,7 @@ EMSCRIPTEN_BINDINGS(JdxScanner)
     using namespace sciformats::jdx::api;
     using namespace emscripten;
     class_<JdxScanner, base<Scanner>>("JdxScanner")
-        .smart_ptr_constructor(
-            "JdxScanner", &std::make_shared<JdxScanner>)
+        .smart_ptr_constructor("JdxScanner", &std::make_shared<JdxScanner>)
         .function("isRecognized", &JdxScanner::isRecognized)
         .function("getConverter", &JdxScanner::getConverter);
 }

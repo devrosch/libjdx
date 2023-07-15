@@ -4,9 +4,10 @@
 #include <emscripten/bind.h>
 
 /**
- * Helper function to get exception message from JS for Emscripten JS exceptions.
- * See: https://emscripten.org/docs/porting/Debugging.html#handling-c-exceptions-from-javascript
-*/
+ * Helper function to get exception message from JS for Emscripten JS
+ * exceptions. See:
+ * https://emscripten.org/docs/porting/Debugging.html#handling-c-exceptions-from-javascript
+ */
 std::string getCppExceptionMessage(std::intptr_t exceptionPtr)
 {
     // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)

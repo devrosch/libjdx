@@ -80,8 +80,7 @@ TEST_CASE("JdxConverter only maps valid JCAMP-DX", "[JdxConverter]")
             REQUIRE(nTuplesNode.parameters.at(11).value
                     == "VAL1, VAL2, VAL3, VAL4");
             REQUIRE(nTuplesNode.parameters.at(12).key == "$CUSTOMLDR2");
-            REQUIRE(nTuplesNode.parameters.at(12).value
-                    == ", , VAL3, VAL4");
+            REQUIRE(nTuplesNode.parameters.at(12).value == ", , VAL3, VAL4");
 
             auto page1 = converter.read("/3/0/0");
             REQUIRE(page1.name == "N=1");

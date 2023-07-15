@@ -65,8 +65,9 @@ void sciformats::jdx::NTuples::parse(const std::vector<StringLdr>& blockLdrs,
             // but is required for indicating the NTUPLES end
 
             // skip ##END NTUPLES
-            nextLine = reader.eof() ? std::nullopt
-                : std::optional<std::string>{reader.readLine()};
+            nextLine = reader.eof()
+                           ? std::nullopt
+                           : std::optional<std::string>{reader.readLine()};
             return;
         }
         if (label != "PAGE")

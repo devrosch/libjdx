@@ -9,7 +9,8 @@ class JdxScanner : public sciformats::api::Scanner
 {
 public:
     bool isRecognized(const std::string& path) override;
-    std::unique_ptr<sciformats::api::Converter> getConverter(const std::string& path) override;
+    std::unique_ptr<sciformats::api::Converter> getConverter(
+        const std::string& path) override;
 
 private:
 };
