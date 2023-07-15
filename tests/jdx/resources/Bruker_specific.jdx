@@ -1,0 +1,45 @@
+##TITLE= Bruker Specific Type NMR Spectrum
+##JCAMP-DX= 6.00
+##DATA TYPE= nD NMR SPECTRUM
+##DATA CLASS= NTUPLES
+##ORIGIN= Test
+##OWNER= nmrsu
+$$ Bruker specific parameters
+$$ --------------------------
+##$DU= <C:/>
+##$NAME= <Jul11-2023>
+##$AQSEQ= 0
+##$AQ_mod= 3
+$$ Bruker specific parameters for F1
+$$ ---------------------------------
+##$AMP= (0..31)
+100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 
+100 100 100 100 100 100 100 100 100 100 100 100 100 100 
+##$AQSEQ= 0
+##$AQ_mod= 2
+$$ End of Bruker specific parameters
+$$ ---------------------------------
+##NTUPLES= NMR SPECTRUM
+##VAR_NAME=   FREQUENCY,    SPECTRUM/REAL,    SPECTRUM/IMAG, PAGE NUMBER
+##SYMBOL=             X,                R,                I,           N
+##VAR_TYPE= INDEPENDENT,        DEPENDENT,        DEPENDENT,        PAGE
+##VAR_FORM=        AFFN,             ASDF,             ASDF,        AFFN
+##VAR_DIM=            4,                4,                4,           2
+##UNITS=             HZ,  ARBITRARY UNITS,  ARBITRARY UNITS,            
+##FIRST=            0.1,             50.0,            300.0,           1
+##LAST=            0.25,            105.0,            410.0,           2
+##MIN=              0.1,             50.0,            300.0,           1
+##MAX=             0.25,            105.0,            410.0,           2
+##FACTOR=           0.1,              5.0,             10.0,           1
+##$CUSTOM_LDR=     VAL1,             VAL2,             VAL3,        VAL4,
+##$CUSTOM_LDR2=        ,                 ,             VAL3,        VAL4
+##PAGE= N=1
+##DATA TABLE= (X++(R..R)), XYDATA   $$ Real data points
+1.0 +10+11
+2.0 +20+21
+##PAGE= N=2
+##DATA TABLE= (X++(I..I)), XYDATA   $$ Imaginary data points
+1.0 +30+31
+2.0 +40+41
+##END NTUPLES= NMR SPECTRUM
+##END=

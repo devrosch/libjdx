@@ -31,6 +31,7 @@ void skipToNextLdr(io::TextReader& reader, std::optional<std::string>& nextLine,
 void skipPureComments(io::TextReader& reader,
     std::optional<std::string>& nextLine, bool mustPrecedeLdr);
 bool isPureComment(const std::string& line);
+bool isBrukerSpecificSectionStart(const std::string& line);
 
 template<typename T> struct LdrValueParser
 {
@@ -58,7 +59,7 @@ template<> struct LdrValueParser<uint64_t>
 {
     static std::optional<uint64_t> parse(const std::string& value)
     {
-        // we're parsing uint64_t as unsigned long and assigning to uint64_t
+        // we parse uint64_t as unsigned long and assign it to uint64_t
         static_assert(std::numeric_limits<unsigned long>::max()
                           // NOLINTNEXTLINE(misc-redundant-expression)
                           <= std::numeric_limits<uint64_t>::max(),

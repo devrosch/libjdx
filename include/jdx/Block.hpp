@@ -1,8 +1,9 @@
-#ifndef LIBJDX_BLOCK_HPP
-#define LIBJDX_BLOCK_HPP
+#ifndef JDX_BLOCK_HPP
+#define JDX_BLOCK_HPP
 #include "io/TextReader.hpp"
 #include "jdx/AuditTrail.hpp"
 #include "jdx/BlockParseException.hpp"
+#include "jdx/BrukerSpecificSection.hpp"
 #include "jdx/LdrContainer.hpp"
 #include "jdx/NTuples.hpp"
 #include "jdx/PeakAssignments.hpp"
@@ -125,6 +126,12 @@ public:
      */
     [[nodiscard]] const std::optional<AuditTrail>& getAuditTrail() const;
 
+    /**
+     * @brief Provides data contained in Bruker specific sections if available.
+     * @return Bruker specific records.
+     */
+    [[nodiscard]] const std::vector<BrukerSpecificSection>& getBrukerSpecificSections() const;
+
 private:
     static constexpr const char* s_blockStartLabel = "TITLE";
     static constexpr std::array<const char*, 10> s_specialLdrs
@@ -143,6 +150,7 @@ private:
     std::optional<PeakAssignments> m_peakAssignments;
     std::optional<NTuples> m_nTuples;
     std::optional<AuditTrail> m_auditTrail;
+    std::vector<BrukerSpecificSection> m_brukerSpecificSections;
 
     /**
      * @brief Constructs a Block from first line value and reader.
@@ -181,4 +189,4 @@ void sciformats::jdx::Block::addLdr(const std::string& title,
 }
 } // namespace sciformats::jdx
 
-#endif // LIBJDX_BLOCK_HPP
+#endif // JDX_BLOCK_HPP

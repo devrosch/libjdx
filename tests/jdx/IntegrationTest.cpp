@@ -23,3 +23,12 @@ TEST_CASE(
     auto data = xyData.getData();
     REQUIRE(data.size() == 1801);
 }
+
+TEST_CASE(
+    "parses Bruker specific sample file without errors", "[IntegrationTest]")
+{
+    const std::string path{"resources/Bruker_specific.jdx"};
+    auto istream = std::make_unique<std::ifstream>(path);
+
+    REQUIRE_NOTHROW(sciformats::jdx::JdxParser::parse(std::move(istream)));
+}
