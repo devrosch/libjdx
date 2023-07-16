@@ -218,13 +218,10 @@ bool sciformats::jdx::util::isPureComment(const std::string& line)
 bool sciformats::jdx::util::isBrukerSpecificSectionStart(
     const std::string& line)
 {
-    auto [preCommentValue, comment] = util::stripLineComment(line, false, true);
-    if (preCommentValue.empty() && comment.has_value())
-    {
-        if (comment.value().rfind("Bruker specific parameters", 0) == 0)
-        {
-            return true;
-        }
-    }
-    return false;
+    return line.rfind("$$ Bruker specific parameters", 0) == 0;
+}
+
+bool sciformats::jdx::util::isBrukerSpecificSectionEnd(const std::string& line)
+{
+    return line.rfind("$$ End of Bruker specific parameters", 0) == 0;
 }

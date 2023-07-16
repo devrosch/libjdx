@@ -35,7 +35,7 @@ set(JDX_PUBLIC_HEADER_LIST
     "${PROJECT_SOURCE_DIR}/include/jdx/ParseException.hpp"
     "${PROJECT_SOURCE_DIR}/include/jdx/BlockParseException.hpp"
     # Bruker
-    "${PROJECT_SOURCE_DIR}/include/jdx/BrukerSpecificSection.hpp"
+    "${PROJECT_SOURCE_DIR}/include/jdx/BrukerSpecificParameters.hpp"
 )
 
 set(JDX_PRIVATE_HEADER_LIST
@@ -90,7 +90,7 @@ set(JDX_SOURCE_LIST
     "${CMAKE_CURRENT_SOURCE_DIR}/ParseException.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/BlockParseException.cpp"
     # Bruker
-    "${CMAKE_CURRENT_SOURCE_DIR}/BrukerSpecificSection.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/BrukerSpecificParameters.cpp"
 )
 
 target_sources("${SF_LIBRARY_NAME}"

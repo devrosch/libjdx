@@ -24,11 +24,16 @@ TEST_CASE(
     REQUIRE(data.size() == 1801);
 }
 
-TEST_CASE(
-    "parses Bruker specific sample file without errors", "[IntegrationTest]")
+TEST_CASE("parses Bruker specific sample file", "[IntegrationTest]")
 {
     const std::string path{"resources/Bruker_specific.jdx"};
     auto istream = std::make_unique<std::ifstream>(path);
 
-    REQUIRE_NOTHROW(sciformats::jdx::JdxParser::parse(std::move(istream)));
+    auto block = sciformats::jdx::JdxParser::parse(std::move(istream));
+
+    const auto& brukerParameterSections = block.getBrukerSpecificParameters();
+
+    REQUIRE(brukerParameterSections.size() == 2);
+    REQUIRE(brukerParameterSections.at(0).getContent().size() == 4);
+    REQUIRE(brukerParameterSections.at(1).getContent().size() == 3);
 }

@@ -21,12 +21,11 @@ sciformats::jdx::LdrContainer::parseStringValue(
             value.pop_back();
             value.append(line);
         }
-        else if (content.empty() && comment.has_value())
+        else if (content.empty() && comment.has_value()
+                 && (util::isBrukerSpecificSectionStart(line)
+                     || util::isBrukerSpecificSectionEnd(line)))
         {
-            if (util::isBrukerSpecificSectionStart(line))
-            {
-                return line;
-            }
+            return line;
         }
         else
         {

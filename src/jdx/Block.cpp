@@ -95,10 +95,10 @@ sciformats::jdx::Block::getAuditTrail() const
     return m_auditTrail;
 }
 
-const std::vector<sciformats::jdx::BrukerSpecificSection>&
-sciformats::jdx::Block::getBrukerSpecificSections() const
+const std::vector<sciformats::jdx::BrukerSpecificParameters>&
+sciformats::jdx::Block::getBrukerSpecificParameters() const
 {
-    return m_brukerSpecificSections;
+    return m_brukerSpecificParameters;
 }
 
 std::string sciformats::jdx::Block::parseFirstLine(const std::string& firstLine)
@@ -129,7 +129,7 @@ void sciformats::jdx::Block::parseInput(
         {
             if (util::isBrukerSpecificSectionStart(nextLine.value()))
             {
-                m_brukerSpecificSections.emplace_back(m_reader, nextLine);
+                m_brukerSpecificParameters.emplace_back(m_reader, nextLine);
                 continue;
             }
             util::skipPureComments(m_reader, nextLine, true);

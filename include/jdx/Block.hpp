@@ -3,7 +3,7 @@
 #include "io/TextReader.hpp"
 #include "jdx/AuditTrail.hpp"
 #include "jdx/BlockParseException.hpp"
-#include "jdx/BrukerSpecificSection.hpp"
+#include "jdx/BrukerSpecificParameters.hpp"
 #include "jdx/LdrContainer.hpp"
 #include "jdx/NTuples.hpp"
 #include "jdx/PeakAssignments.hpp"
@@ -127,11 +127,12 @@ public:
     [[nodiscard]] const std::optional<AuditTrail>& getAuditTrail() const;
 
     /**
-     * @brief Provides data contained in Bruker specific sections if available.
+     * @brief Provides data contained in Bruker specific parameter sections if
+     * available.
      * @return Bruker specific records.
      */
-    [[nodiscard]] const std::vector<BrukerSpecificSection>&
-    getBrukerSpecificSections() const;
+    [[nodiscard]] const std::vector<BrukerSpecificParameters>&
+    getBrukerSpecificParameters() const;
 
 private:
     static constexpr const char* s_blockStartLabel = "TITLE";
@@ -151,7 +152,7 @@ private:
     std::optional<PeakAssignments> m_peakAssignments;
     std::optional<NTuples> m_nTuples;
     std::optional<AuditTrail> m_auditTrail;
-    std::vector<BrukerSpecificSection> m_brukerSpecificSections;
+    std::vector<BrukerSpecificParameters> m_brukerSpecificParameters;
 
     /**
      * @brief Constructs a Block from first line value and reader.

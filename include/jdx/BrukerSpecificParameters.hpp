@@ -1,7 +1,9 @@
-#ifndef JDX_BRUKERSPECIFICSECTION_HPP
-#define JDX_BRUKERSPECIFICSECTION_HPP
+#ifndef JDX_BRUKERSPECIFICPARAMETERS_HPP
+#define JDX_BRUKERSPECIFICPARAMETERS_HPP
 
 #include "io/TextReader.hpp"
+#include "jdx/LdrContainer.hpp"
+#include "jdx/StringLdr.hpp"
 
 #include <optional>
 #include <string>
@@ -10,7 +12,7 @@
 namespace sciformats::jdx
 {
 /**
- * @brief A JCAMP-DX Bruker specific section.
+ * @brief A JCAMP-DX Bruker specific parameters section.
  * @details This section starts with:
  *
  * $$ Bruker specific parameters <optional additional text>
@@ -22,11 +24,11 @@ namespace sciformats::jdx
  * $$ End of Bruker specific parameters
  * $$ ---------------------------------
  */
-class BrukerSpecificSection
+class BrukerSpecificParameters : private LdrContainer
 {
 public:
     /**
-     * @brief Constructs BrukerSpecificSection.
+     * @brief Constructs BrukerSpecificParameters.
      * @param reader Text reader with JCAMP-DX data. The reader position is
      * assumed to be at the start of the second line of the record. The reader
      * is expected to exist for the lifetime of this object.
@@ -34,29 +36,27 @@ public:
      * the section start text. Will contain the line following the record or
      * nullopt if the end of the reader has been reached.
      */
-    BrukerSpecificSection(
+    BrukerSpecificParameters(
         io::TextReader& reader, std::optional<std::string>& nextLine);
 
     /**
-     * @brief Provides the contents of the section as text. Lines are separated
-     * by "\n".
+     * @brief Provides the contents of the section as LDRs.
      * @return The section content.
      */
-    [[nodiscard]] std::string getContent() const;
+    [[nodiscard]] std::vector<StringLdr> getContent() const;
 
 private:
-    // static constexpr const char* s_sectionStartText = "$$ Bruker specific
-    // parameters";
     static constexpr const char* s_sectionEndText
         = "$$ End of Bruker specific parameters";
 
     void parse(io::TextReader& reader, std::optional<std::string>& nextLine);
-    static bool isSectionEnd(std::optional<std::string>& nextLine);
     static bool isDashedLine(std::optional<std::string>& nextLine);
+    void parseLdrs(
+        io::TextReader& reader, std::optional<std::string>& nextLine);
 
     std::string m_title;
-    std::string m_content;
+    std::vector<StringLdr> m_content;
 };
 } // namespace sciformats::jdx
 
-#endif // JDX_BRUKERSPECIFICSECTION_HPP
+#endif // JDX_BRUKERSPECIFICPARAMETERS_HPP

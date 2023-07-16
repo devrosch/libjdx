@@ -16,6 +16,7 @@ add_executable(jdx_test
     NTuplesTest.cpp
     IntegrationTest.cpp
     AuditTrailTest.cpp
+    BrukerSpecificParametersTest.cpp
 )
 
 # Link to the library, as well as the Catch2 testing library

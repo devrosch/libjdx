@@ -32,6 +32,7 @@ void skipPureComments(io::TextReader& reader,
     std::optional<std::string>& nextLine, bool mustPrecedeLdr);
 bool isPureComment(const std::string& line);
 bool isBrukerSpecificSectionStart(const std::string& line);
+bool isBrukerSpecificSectionEnd(const std::string& line);
 
 template<typename T> struct LdrValueParser
 {
