@@ -1,6 +1,4 @@
 #include "jdx/BrukerSpecificParameters.hpp"
-#include "jdx/JdxParser.hpp"
-#include "jdx/XyData.hpp"
 
 #include "catch2/catch.hpp"
 

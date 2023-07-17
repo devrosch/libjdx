@@ -5,7 +5,7 @@
 ##ORIGIN= Test
 ##OWNER= nmrsu
 ##$RELAX= 
-##$BRUKER FILE EXP=file_name1
+##$BRUKER FILE EXP=file_name_1
 $$ 1.0
 $$ 0.0 1.0 2.0
 ##$RELAX= 

@@ -16,6 +16,7 @@ add_executable(jdx_test
     NTuplesTest.cpp
     IntegrationTest.cpp
     AuditTrailTest.cpp
+    BrukerRelaxSectionTest.cpp
     BrukerSpecificParametersTest.cpp
 )
 
