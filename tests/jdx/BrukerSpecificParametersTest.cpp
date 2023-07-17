@@ -27,6 +27,7 @@ TEST_CASE(
     sciformats::jdx::BrukerSpecificParameters brukerParameterSection{
         reader, nextLine};
 
+    REQUIRE("Bruker specific parameters" == brukerParameterSection.getName());
     auto content = brukerParameterSection.getContent();
     REQUIRE(4 == content.size());
     REQUIRE("$DU" == content.at(0).getLabel());
@@ -63,6 +64,7 @@ TEST_CASE(
     sciformats::jdx::BrukerSpecificParameters brukerParameterSection{
         reader, nextLine};
 
+    REQUIRE("Bruker specific parameters for F1" == brukerParameterSection.getName());
     auto content = brukerParameterSection.getContent();
     REQUIRE(3 == content.size());
     REQUIRE("$AMP" == content.at(0).getLabel());
