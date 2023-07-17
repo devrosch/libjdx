@@ -3,6 +3,7 @@
 #include "io/TextReader.hpp"
 #include "jdx/AuditTrail.hpp"
 #include "jdx/BlockParseException.hpp"
+#include "jdx/BrukerRelaxSection.hpp"
 #include "jdx/BrukerSpecificParameters.hpp"
 #include "jdx/LdrContainer.hpp"
 #include "jdx/NTuples.hpp"
@@ -134,11 +135,18 @@ public:
     [[nodiscard]] const std::vector<BrukerSpecificParameters>&
     getBrukerSpecificParameters() const;
 
+    /**
+     * @brief Provides data contained in Bruker RELAX sections if available.
+     * @return Bruker specific RELAX sections.
+     */
+    [[nodiscard]] const std::vector<BrukerRelaxSection>&
+    getBrukerRelaxSections() const;
+
 private:
     static constexpr const char* s_blockStartLabel = "TITLE";
-    static constexpr std::array<const char*, 10> s_specialLdrs
+    static constexpr std::array<const char*, 11> s_specialLdrs
         = {"", "END", s_blockStartLabel, "XYDATA", "RADATA", "XYPOINTS",
-            "PEAKTABLE", "PEAKASSIGNMENTS", "NTUPLES", "AUDITTRAIL"};
+            "PEAKTABLE", "PEAKASSIGNMENTS", "NTUPLES", "AUDITTRAIL", "$RELAX"};
 
     std::unique_ptr<io::TextReader> m_readerPtr;
     io::TextReader& m_reader;
@@ -153,6 +161,7 @@ private:
     std::optional<NTuples> m_nTuples;
     std::optional<AuditTrail> m_auditTrail;
     std::vector<BrukerSpecificParameters> m_brukerSpecificParameters;
+    std::vector<BrukerRelaxSection> m_brukerRelaxSections;
 
     /**
      * @brief Constructs a Block from first line value and reader.

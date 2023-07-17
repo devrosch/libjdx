@@ -101,6 +101,12 @@ sciformats::jdx::Block::getBrukerSpecificParameters() const
     return m_brukerSpecificParameters;
 }
 
+const std::vector<sciformats::jdx::BrukerRelaxSection>&
+sciformats::jdx::Block::getBrukerRelaxSections() const
+{
+    return m_brukerRelaxSections;
+}
+
 std::string sciformats::jdx::Block::parseFirstLine(const std::string& firstLine)
 {
     if (!util::isLdrStart(firstLine))
@@ -221,6 +227,20 @@ void sciformats::jdx::Block::parseInput(
         {
             addLdr<AuditTrail>(title, "AUDITTRAIL", m_auditTrail,
                 [&]() { return AuditTrail(label, value, m_reader, nextLine); });
+        }
+        else if ("$RELAX" == label)
+        {
+            // RELAX section start
+            auto relaxSection
+                = BrukerRelaxSection(label, value, m_reader, nextLine);
+            // only add non blank sections
+            // section may be blank if ##$RELAX= line is immediately followed by
+            // $$ Bruker specific parameters
+            if (!relaxSection.getName().empty()
+                || !relaxSection.getContent().empty())
+            {
+                m_brukerRelaxSections.push_back(std::move(relaxSection));
+            }
         }
         else
         {

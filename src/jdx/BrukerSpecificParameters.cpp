@@ -24,14 +24,14 @@ void sciformats::jdx::BrukerSpecificParameters::parse(
             + nextLine.value_or(""));
     }
 
-    m_title = util::stripLineComment(nextLine.value(), false, true)
-                  .second.value_or("");
+    m_name = util::stripLineComment(nextLine.value(), false, true)
+                 .second.value_or("");
     nextLine = reader.readLine();
     if (!isDashedLine(nextLine))
     {
         throw ParseException(
             "Illegal body of Bruker specific section. No dash line after: "
-            + m_title);
+            + m_name);
     }
     nextLine = reader.eof() ? std::optional<std::string>{} : reader.readLine();
 
@@ -89,6 +89,11 @@ void sciformats::jdx::BrukerSpecificParameters::parseLdrs(
         nextLine
             = reader.eof() ? std::optional<std::string>{} : reader.readLine();
     }
+}
+
+std::string sciformats::jdx::BrukerSpecificParameters::getName() const
+{
+    return m_name;
 }
 
 std::vector<sciformats::jdx::StringLdr>
