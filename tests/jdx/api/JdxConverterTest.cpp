@@ -149,5 +149,86 @@ TEST_CASE("JdxConverter maps Bruker specific JCAMP-DX", "[JdxConverter]")
         REQUIRE("Bruker specific parameters for F1"
                 == rootNode.childNodeNames.at(3));
         REQUIRE("NMR SPECTRUM" == rootNode.childNodeNames.at(4));
+
+        SECTION("Bruker $RELAX section file_name_1 content as parameter")
+        {
+            auto brukerRelaxSection = converter.read("/0");
+
+            REQUIRE("file_name_1" == brukerRelaxSection.name);
+            REQUIRE(brukerRelaxSection.data.empty());
+            REQUIRE(brukerRelaxSection.childNodeNames.empty());
+            REQUIRE(1 == brukerRelaxSection.parameters.size());
+
+            auto [key, value] = brukerRelaxSection.parameters.at(0);
+            REQUIRE(key.empty());
+            REQUIRE("1.0\n0.0 1.0 2.0\n" == value);
+        }
+
+        SECTION("Bruker $RELAX section file_name_2 content as parameter")
+        {
+            auto brukerRelaxSection = converter.read("/1");
+
+            REQUIRE("file_name_2" == brukerRelaxSection.name);
+            REQUIRE(brukerRelaxSection.data.empty());
+            REQUIRE(brukerRelaxSection.childNodeNames.empty());
+            REQUIRE(1 == brukerRelaxSection.parameters.size());
+
+            auto [key, value] = brukerRelaxSection.parameters.at(0);
+            REQUIRE(key.empty());
+            REQUIRE("##TITLE= Parameter file\n"
+                    "##JCAMPDX= 5.0\n"
+                    "$$ c:/nmr/data/somepath\n"
+                    "##$BLKPA= (0..15)\n"
+                    "3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 \n"
+                    "##$BLKTR= (0..15)\n"
+                    "3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 \n"
+                    "##$DE1= 2\n"
+                    "##END=\n"
+                    == value);
+        }
+
+        SECTION("Bruker specific parameters as parameters")
+        {
+            auto brukerParametersSection = converter.read("/2");
+
+            REQUIRE(
+                "Bruker specific parameters" == brukerParametersSection.name);
+            REQUIRE(brukerParametersSection.data.empty());
+            REQUIRE(brukerParametersSection.childNodeNames.empty());
+            REQUIRE(4 == brukerParametersSection.parameters.size());
+
+            REQUIRE("$DU" == brukerParametersSection.parameters.at(0).key);
+            REQUIRE("<C:/>" == brukerParametersSection.parameters.at(0).value);
+            REQUIRE("$NAME" == brukerParametersSection.parameters.at(1).key);
+            REQUIRE("<Jul11-2023>"
+                    == brukerParametersSection.parameters.at(1).value);
+            REQUIRE("$AQSEQ" == brukerParametersSection.parameters.at(2).key);
+            REQUIRE("0" == brukerParametersSection.parameters.at(2).value);
+            REQUIRE("$AQMOD" == brukerParametersSection.parameters.at(3).key);
+            REQUIRE("3" == brukerParametersSection.parameters.at(3).value);
+        }
+
+        SECTION("Bruker specific parameters for F1 as parameters")
+        {
+            auto brukerParametersSection = converter.read("/3");
+
+            REQUIRE("Bruker specific parameters for F1"
+                    == brukerParametersSection.name);
+            REQUIRE(brukerParametersSection.data.empty());
+            REQUIRE(brukerParametersSection.childNodeNames.empty());
+            REQUIRE(3 == brukerParametersSection.parameters.size());
+
+            REQUIRE("$AMP" == brukerParametersSection.parameters.at(0).key);
+            REQUIRE("(0..31)\n"
+                    "100 100 100 100 100 100 100 100 100 100 100 100 100 100 "
+                    "100 100 "
+                    "100 100 \n"
+                    "100 100 100 100 100 100 100 100 100 100 100 100 100 100 "
+                    == brukerParametersSection.parameters.at(0).value);
+            REQUIRE("$AQSEQ" == brukerParametersSection.parameters.at(1).key);
+            REQUIRE("0" == brukerParametersSection.parameters.at(1).value);
+            REQUIRE("$AQMOD" == brukerParametersSection.parameters.at(2).key);
+            REQUIRE("2" == brukerParametersSection.parameters.at(2).value);
+        }
     }
 }
