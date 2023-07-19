@@ -230,5 +230,18 @@ TEST_CASE("JdxConverter maps Bruker specific JCAMP-DX", "[JdxConverter]")
             REQUIRE("$AQMOD" == brukerParametersSection.parameters.at(2).key);
             REQUIRE("2" == brukerParametersSection.parameters.at(2).value);
         }
+
+        SECTION("raises error if $RELAX section is not leaf node")
+        {
+            REQUIRE_THROWS_WITH(converter.read("/0/0"),
+                Catch::Matchers::Contains("illegal", Catch::CaseSensitive::No));
+        }
+
+        SECTION("raises error if Bruker specific parameters section is not "
+                "leaf node")
+        {
+            REQUIRE_THROWS_WITH(converter.read("/2/0"),
+                Catch::Matchers::Contains("illegal", Catch::CaseSensitive::No));
+        }
     }
 }

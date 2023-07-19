@@ -82,8 +82,9 @@ sciformats::api::Node sciformats::jdx::api::JdxConverter::retrieveNode(
             && !block->getBrukerRelaxSections().empty())
         {
             // Bruker ##$RELAX section
-            if (iterationIndex > nodeIndices.size())
+            if (iterationIndex < nodeIndices.size() - 1)
             {
+                // not a leaf node
                 raiseIllegalPathError(nodeIndex, block);
             }
             return mapBrukerRelaxSection(block->getBrukerRelaxSections().at(
@@ -94,8 +95,9 @@ sciformats::api::Node sciformats::jdx::api::JdxConverter::retrieveNode(
             && !block->getBrukerSpecificParameters().empty())
         {
             // $$ Bruker specific parameters section
-            if (iterationIndex > nodeIndices.size())
+            if (iterationIndex < nodeIndices.size() - 1)
             {
+                // not a leaf node
                 raiseIllegalPathError(nodeIndex, block);
             }
             return mapBrukerSpecificParameters(
