@@ -55,7 +55,7 @@ public:
 
 private:
     static constexpr const char* s_label = "$RELAX";
-    static constexpr const char* s_labelFileName = "$BRUKERFILEEXP";
+    static constexpr const char* s_labelFileNameStart = "$BRUKERFILE";
 
     static void validate(const std::string& label, std::string value,
         std::optional<std::string>& nextLine);

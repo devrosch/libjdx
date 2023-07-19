@@ -17,8 +17,9 @@ void sciformats::jdx::BrukerRelaxSection::validate(const std::string& label,
     util::trim(value);
     if (label != s_label || !value.empty())
     {
-        throw ParseException("Illegal start of Bruker $RELAX section: "
-                             + std::string{"##"} + label + ": " + value);
+        throw ParseException("Illegal start of Bruker " + std::string{s_label}
+                             + " section: " + std::string{"##"} + label + ": "
+                             + value);
     }
 }
 
@@ -27,7 +28,8 @@ void sciformats::jdx::BrukerRelaxSection::parse(
 {
     if (reader.eof())
     {
-        throw ParseException("Premature end of Bruker $RELAX section.");
+        throw ParseException(
+            "Premature end of Bruker " + std::string{s_label} + " section.");
     }
     nextLine = reader.readLine();
     if (util::isBrukerSpecificSectionStart(nextLine.value()))
@@ -38,11 +40,12 @@ void sciformats::jdx::BrukerRelaxSection::parse(
         return;
     }
     auto [label, fileName] = util::parseLdrStart(nextLine.value());
-    if (label != s_labelFileName)
+    if (label.rfind(s_labelFileNameStart, 0) != 0)
     {
-        throw ParseException("Illegal start of Bruker $RELAX section. "
-                             "##$RELAX line not followed by "
-                             + std::string{s_labelFileName} + ".");
+        throw ParseException("Illegal start of Bruker " + std::string{s_label}
+                             + " section. " + std::string{s_label}
+                             + " line not followed by "
+                             + std::string{s_labelFileNameStart} + "....");
     }
     util::trim(fileName);
     m_name = fileName;

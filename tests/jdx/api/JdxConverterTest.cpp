@@ -128,3 +128,26 @@ TEST_CASE("JdxConverter only maps valid JCAMP-DX", "[JdxConverter]")
         REQUIRE_THROWS(JdxConverter("resources/non_existent.txt"));
     }
 }
+
+TEST_CASE("JdxConverter maps Bruker specific JCAMP-DX", "[JdxConverter]")
+{
+    using namespace sciformats::api;
+    using namespace sciformats::jdx::api;
+
+    SECTION("Bruker $RELAX sections as child nodes")
+    {
+        auto converter = JdxConverter("resources/Bruker_specific_relax.jdx");
+        auto rootNode = converter.read("/");
+
+        REQUIRE("Bruker Relax Type NMR Spectrum" == rootNode.name);
+        REQUIRE(6 == rootNode.parameters.size());
+        REQUIRE(rootNode.data.empty());
+        REQUIRE(5 == rootNode.childNodeNames.size());
+        REQUIRE("file_name_1" == rootNode.childNodeNames.at(0));
+        REQUIRE("file_name_2" == rootNode.childNodeNames.at(1));
+        REQUIRE("Bruker specific parameters" == rootNode.childNodeNames.at(2));
+        REQUIRE("Bruker specific parameters for F1"
+                == rootNode.childNodeNames.at(3));
+        REQUIRE("NMR SPECTRUM" == rootNode.childNodeNames.at(4));
+    }
+}

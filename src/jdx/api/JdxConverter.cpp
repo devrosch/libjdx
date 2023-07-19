@@ -55,11 +55,54 @@ sciformats::jdx::api::JdxConverter::convertPathToNodeIndices(
 sciformats::api::Node sciformats::jdx::api::JdxConverter::retrieveNode(
     const std::vector<size_t>& nodeIndices)
 {
+    auto raiseIllegalPathError = [](size_t nodeIndex, const Block* block) {
+        throw std::invalid_argument(
+            "Illegal path for reading node. Block: "
+            + block->getLdr("TITLE").value().getLabel()
+            + ", child index: " + std::to_string(nodeIndex));
+    };
+
     const Block* block = &(*m_rootBlock);
     size_t iterationIndex = 0;
     for (const auto nodeIndex : nodeIndices)
     {
-        if (nodeIndex == 0 && block->getNTuples().has_value())
+        const size_t brukerRelaxStartIndex = 0;
+        const size_t brukerRelaxEndIndexExclusive
+            = brukerRelaxStartIndex + block->getBrukerRelaxSections().size();
+        const size_t brukerParamsStartIndex = brukerRelaxEndIndexExclusive;
+        const size_t brukerParamsEndIndexExclusive
+            = brukerParamsStartIndex
+              + block->getBrukerSpecificParameters().size();
+        const size_t nTuplesIndex = brukerParamsEndIndexExclusive;
+        const size_t childBlocksStartIndex
+            = block->getNTuples().has_value() ? nTuplesIndex + 1 : nTuplesIndex;
+
+        if (nodeIndex >= brukerRelaxStartIndex
+            && nodeIndex < brukerRelaxEndIndexExclusive
+            && !block->getBrukerRelaxSections().empty())
+        {
+            // Bruker ##$RELAX section
+            if (iterationIndex > nodeIndices.size())
+            {
+                raiseIllegalPathError(nodeIndex, block);
+            }
+            return mapBrukerRelaxSection(block->getBrukerRelaxSections().at(
+                nodeIndex - brukerRelaxStartIndex));
+        }
+        if (nodeIndex >= brukerParamsStartIndex
+            && nodeIndex < brukerParamsEndIndexExclusive
+            && !block->getBrukerSpecificParameters().empty())
+        {
+            // $$ Bruker specific parameters section
+            if (iterationIndex > nodeIndices.size())
+            {
+                raiseIllegalPathError(nodeIndex, block);
+            }
+            return mapBrukerSpecificParameters(
+                block->getBrukerSpecificParameters().at(
+                    nodeIndex - brukerParamsStartIndex));
+        }
+        if (nodeIndex == nTuplesIndex && block->getNTuples().has_value())
         {
             // consider NTUPLES LDR as first child node
             auto startIt = nodeIndices.cbegin() + iterationIndex;
@@ -67,7 +110,8 @@ sciformats::api::Node sciformats::jdx::api::JdxConverter::retrieveNode(
                 = std::vector<size_t>{++startIt, nodeIndices.cend()};
             return mapNTuples(block->getNTuples().value(), nTuplesIndices);
         }
-        const auto& childBlock = block->getBlocks().at(nodeIndex);
+        const auto& childBlock
+            = block->getBlocks().at(nodeIndex - childBlocksStartIndex);
         block = &childBlock;
         ++iterationIndex;
     }
@@ -88,6 +132,17 @@ sciformats::api::Node sciformats::jdx::api::JdxConverter::mapBlock(
     auto data = mapData(block);
 
     std::vector<std::string> childNodeNames{};
+    for (auto const& brukerRelaxSection : block.getBrukerRelaxSections())
+    {
+        auto childNodeName = brukerRelaxSection.getName();
+        childNodeNames.push_back(childNodeName);
+    }
+    for (auto const& brukerSpecificSection :
+        block.getBrukerSpecificParameters())
+    {
+        auto childNodeName = brukerSpecificSection.getName();
+        childNodeNames.push_back(childNodeName);
+    }
     if (block.getNTuples().has_value())
     {
         // consider NTUPLES LDR as first child node
@@ -101,6 +156,36 @@ sciformats::api::Node sciformats::jdx::api::JdxConverter::mapBlock(
     }
 
     return {name, parameters, data, childNodeNames};
+}
+
+sciformats::api::Node sciformats::jdx::api::JdxConverter::mapBrukerRelaxSection(
+    const BrukerRelaxSection& section)
+{
+    std::vector<sciformats::api::KeyValueParam> parameters{};
+    parameters.push_back({"", section.getContent()});
+    return {
+        section.getName(),
+        parameters,
+        std::vector<sciformats::api::Point2D>{},
+        std::vector<std::string>{},
+    };
+}
+
+sciformats::api::Node
+sciformats::jdx::api::JdxConverter::mapBrukerSpecificParameters(
+    const BrukerSpecificParameters& section)
+{
+    std::vector<sciformats::api::KeyValueParam> parameters{};
+    for (const auto& ldr : section.getContent())
+    {
+        parameters.push_back({ldr.getLabel(), ldr.getValue()});
+    }
+    return {
+        section.getName(),
+        parameters,
+        std::vector<sciformats::api::Point2D>{},
+        std::vector<std::string>{},
+    };
 }
 
 sciformats::api::Node sciformats::jdx::api::JdxConverter::mapNTuples(

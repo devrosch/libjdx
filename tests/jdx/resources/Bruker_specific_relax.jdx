@@ -9,7 +9,7 @@
 $$ 1.0
 $$ 0.0 1.0 2.0
 ##$RELAX= 
-##$BRUKER FILE EXP=file_name_2
+##$BRUKER FILE PROC= file_name_2
 $$ ##TITLE= Parameter file
 $$ ##JCAMPDX= 5.0
 $$ $$ c:/nmr/data/somepath

@@ -33,6 +33,10 @@ private:
         const std::string& path);
     sciformats::api::Node retrieveNode(const std::vector<size_t>& nodeIndices);
     static sciformats::api::Node mapBlock(const Block& block);
+    static sciformats::api::Node mapBrukerRelaxSection(
+        const BrukerRelaxSection& section);
+    static sciformats::api::Node mapBrukerSpecificParameters(
+        const BrukerSpecificParameters& section);
     static sciformats::api::Node mapNTuples(
         const NTuples& nTuples, const std::vector<size_t>& nodeIndices);
     static sciformats::api::Node mapNTuplesPage(const Page& page);
