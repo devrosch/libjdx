@@ -14,6 +14,7 @@ EMSCRIPTEN_BINDINGS(Node)
         .field("name", &Node::name)
         .field("parameters", &Node::parameters)
         .field("data", &Node::data)
+        .field("peakTable", &Node::peakTable)
         .field("childNodeNames", &Node::childNodeNames);
 
     // cannot use unique_ptr in embind

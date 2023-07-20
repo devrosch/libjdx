@@ -133,6 +133,16 @@ sciformats::api::Node sciformats::jdx::api::JdxConverter::mapBlock(
 
     auto data = mapData(block);
 
+    auto peakTable = sciformats::api::PeakTable{};
+    if (block.getPeakAssignments().has_value())
+    {
+        peakTable = mapPeakAssignments(block.getPeakAssignments().value());
+    }
+    else if (block.getPeakTable().has_value())
+    {
+        peakTable = mapPeakTable(block.getPeakTable().value());
+    }
+
     std::vector<std::string> childNodeNames{};
     for (auto const& brukerRelaxSection : block.getBrukerRelaxSections())
     {
@@ -157,18 +167,19 @@ sciformats::api::Node sciformats::jdx::api::JdxConverter::mapBlock(
         childNodeNames.push_back(childNodeName);
     }
 
-    return {name, parameters, data, childNodeNames};
+    return {name, parameters, data, peakTable, childNodeNames};
 }
 
 sciformats::api::Node sciformats::jdx::api::JdxConverter::mapBrukerRelaxSection(
     const BrukerRelaxSection& section)
 {
     std::vector<sciformats::api::KeyValueParam> parameters{};
-    parameters.push_back({"", section.getContent()});
+    parameters.push_back({"Content", section.getContent()});
     return {
         section.getName(),
         parameters,
         std::vector<sciformats::api::Point2D>{},
+        sciformats::api::PeakTable{},
         std::vector<std::string>{},
     };
 }
@@ -186,6 +197,7 @@ sciformats::jdx::api::JdxConverter::mapBrukerSpecificParameters(
         section.getName(),
         parameters,
         std::vector<sciformats::api::Point2D>{},
+        sciformats::api::PeakTable{},
         std::vector<std::string>{},
     };
 }
@@ -206,6 +218,8 @@ sciformats::api::Node sciformats::jdx::api::JdxConverter::mapNTuples(
 
         std::vector<sciformats::api::Point2D> data{};
 
+        auto peakTable = sciformats::api::PeakTable{};
+
         std::vector<std::string> childNodeNames{};
         for (size_t pageIndex = 0; pageIndex < nTuples.getNumPages();
              ++pageIndex)
@@ -214,7 +228,7 @@ sciformats::api::Node sciformats::jdx::api::JdxConverter::mapNTuples(
             childNodeNames.push_back(page.getPageVariables());
         }
 
-        return {name, parameters, data, childNodeNames};
+        return {name, parameters, data, peakTable, childNodeNames};
     }
 
     if (nodeIndices.size() > 1 || nodeIndices.at(0) > nTuples.getNumPages())
@@ -255,9 +269,11 @@ sciformats::api::Node sciformats::jdx::api::JdxConverter::mapNTuplesPage(
         data = mapXyData(dataTable.getData());
     }
 
+    auto peakTable = sciformats::api::PeakTable{};
+
     std::vector<std::string> childNodeNames{};
 
-    return {name, parameters, data, childNodeNames};
+    return {name, parameters, data, peakTable, childNodeNames};
 }
 
 std::vector<sciformats::api::Point2D>
@@ -281,7 +297,6 @@ sciformats::jdx::api::JdxConverter::mapData(const Block& block)
         auto data = block.getXyPoints().value();
         rawData = data.getData();
     }
-    // TODO: add PEAK TABLE, PEAK ASSIGNMENTS
 
     return rawData ? mapXyData(rawData.value())
                    : std::vector<sciformats::api::Point2D>{};
@@ -299,6 +314,101 @@ sciformats::jdx::api::JdxConverter::mapXyData(
     }
 
     return output;
+}
+
+sciformats::api::PeakTable sciformats::jdx::api::JdxConverter::mapPeakTable(
+    const sciformats::jdx::PeakTable& peakTable)
+{
+    auto peakTableData = peakTable.getData();
+    const auto has_w = std::any_of(peakTableData.cbegin(), peakTableData.cend(),
+        [](const Peak& peak) { return peak.w.has_value(); });
+    const auto has_m = std::any_of(peakTableData.cbegin(), peakTableData.cend(),
+        [](const Peak& peak) { return peak.m.has_value(); });
+
+    auto resultPeakTable = sciformats::api::PeakTable{};
+    resultPeakTable.columnNames.emplace_back("x", "Peak Position");
+    resultPeakTable.columnNames.emplace_back("y", "Intensity");
+    if (has_w)
+    {
+        resultPeakTable.columnNames.emplace_back("w", "Width");
+    }
+    if (has_m)
+    {
+        resultPeakTable.columnNames.emplace_back("m", "Multiplicity");
+    }
+
+    for (const auto& peak : peakTable.getData())
+    {
+        auto resultPeak = std::map<std::string, std::string>{};
+        resultPeak.emplace("x", std::to_string(peak.x));
+        resultPeak.emplace("y", std::to_string(peak.y));
+        if (peak.w.has_value())
+        {
+            resultPeak.emplace("w", std::to_string(peak.w.value()));
+        }
+        if (peak.m.has_value())
+        {
+            resultPeak.emplace("m", peak.m.value());
+        }
+        resultPeakTable.peaks.push_back(resultPeak);
+    }
+    return resultPeakTable;
+}
+
+sciformats::api::PeakTable
+sciformats::jdx::api::JdxConverter::mapPeakAssignments(
+    const sciformats::jdx::PeakAssignments& peakAssignments)
+{
+    auto peakAssignmentsData = peakAssignments.getData();
+    const auto has_y = std::any_of(peakAssignmentsData.cbegin(),
+        peakAssignmentsData.cend(), [](const PeakAssignment& peakAssignment) {
+            return peakAssignment.y.has_value();
+        });
+    const auto has_m = std::any_of(peakAssignmentsData.cbegin(),
+        peakAssignmentsData.cend(), [](const PeakAssignment& peakAssignment) {
+            return peakAssignment.m.has_value();
+        });
+    const auto has_w = std::any_of(peakAssignmentsData.cbegin(),
+        peakAssignmentsData.cend(), [](const PeakAssignment& peakAssignment) {
+            return peakAssignment.w.has_value();
+        });
+
+    auto resultPeakTable = sciformats::api::PeakTable{};
+    resultPeakTable.columnNames.emplace_back("x", "Peak Position");
+    if (has_y)
+    {
+        resultPeakTable.columnNames.emplace_back("y", "Intensity");
+    }
+    if (has_m)
+    {
+        resultPeakTable.columnNames.emplace_back("m", "Multiplicity");
+    }
+    if (has_w)
+    {
+        resultPeakTable.columnNames.emplace_back("w", "Width");
+    }
+    resultPeakTable.columnNames.emplace_back("a", "Assignment");
+
+    for (const auto& peakAssignment : peakAssignments.getData())
+    {
+        auto resultPeak = std::map<std::string, std::string>{};
+        resultPeak.emplace("x", std::to_string(peakAssignment.x));
+        if (peakAssignment.y.has_value())
+        {
+            resultPeak.emplace("y", std::to_string(peakAssignment.y.value()));
+        }
+        if (peakAssignment.w.has_value())
+        {
+            resultPeak.emplace("w", std::to_string(peakAssignment.w.value()));
+        }
+        if (peakAssignment.m.has_value())
+        {
+            resultPeak.emplace("m", peakAssignment.m.value());
+        }
+        resultPeak.emplace("a", peakAssignment.a);
+        resultPeakTable.peaks.push_back(resultPeak);
+    }
+    return resultPeakTable;
 }
 
 #ifdef __EMSCRIPTEN__

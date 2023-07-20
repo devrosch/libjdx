@@ -2,6 +2,7 @@
 #define API_NODE_HPP
 
 #include "api/KeyValueParam.hpp"
+#include "api/PeakTable.hpp"
 #include "api/Point2D.hpp"
 
 #include <string>
@@ -14,6 +15,7 @@ struct Node
     std::string name;
     std::vector<KeyValueParam> parameters;
     std::vector<Point2D> data;
+    PeakTable peakTable;
     std::vector<std::string> childNodeNames;
 };
 } // sciformats::api

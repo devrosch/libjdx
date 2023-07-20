@@ -3,6 +3,7 @@
 
 #include "api/Converter.hpp"
 #include "api/Node.hpp"
+#include "api/PeakTable.hpp"
 #include "jdx/Block.hpp"
 
 namespace sciformats::jdx::api
@@ -39,6 +40,10 @@ private:
     static std::vector<sciformats::api::Point2D> mapData(const Block& block);
     static std::vector<sciformats::api::Point2D> mapXyData(
         const std::vector<std::pair<double, double>>& xyData);
+    static sciformats::api::PeakTable mapPeakTable(
+        const sciformats::jdx::PeakTable& peakTable);
+    static sciformats::api::PeakTable mapPeakAssignments(
+        const sciformats::jdx::PeakAssignments& peakAssignments);
 };
 } // sciformats::jdx::api
 

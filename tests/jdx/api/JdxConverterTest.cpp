@@ -4,6 +4,7 @@
 
 #include <iostream>
 
+// NOLINTNEXTLINE(hicpp-function-size,readability-function-size)
 TEST_CASE("JdxConverter only maps valid JCAMP-DX", "[JdxConverter]")
 {
     using namespace sciformats::api;
@@ -59,12 +60,12 @@ TEST_CASE("JdxConverter only maps valid JCAMP-DX", "[JdxConverter]")
 
         SECTION("Maps nested NTUPLES node")
         {
-            auto nestedNode4 = converter.read("/3");
-            REQUIRE("NTUPLES Block" == nestedNode4.name);
+            auto nestedNode3 = converter.read("/3");
+            REQUIRE("NTUPLES Block" == nestedNode3.name);
 
-            REQUIRE(nestedNode4.parameters.size() == 3);
-            REQUIRE(nestedNode4.childNodeNames.size() == 1);
-            REQUIRE(nestedNode4.childNodeNames.at(0) == "NMR SPECTRUM");
+            REQUIRE(nestedNode3.parameters.size() == 3);
+            REQUIRE(nestedNode3.childNodeNames.size() == 1);
+            REQUIRE(nestedNode3.childNodeNames.at(0) == "NMR SPECTRUM");
 
             auto nTuplesNode = converter.read("/3/0");
 
@@ -112,8 +113,67 @@ TEST_CASE("JdxConverter only maps valid JCAMP-DX", "[JdxConverter]")
             REQUIRE(page2Data.at(3).y == Approx(410.0));
         }
 
-        // TODO: test /4 (PEAK TABLE)
-        // TODO: add data/test for PEAK ASSIGNMENTS
+        SECTION("Maps nested PEAK TABLE node")
+        {
+            auto nestedNode4 = converter.read("/4");
+            REQUIRE("PEAK TABLE (AFFN) Block" == nestedNode4.name);
+            REQUIRE(nestedNode4.parameters.size() == 10);
+            REQUIRE(nestedNode4.data.empty());
+            REQUIRE(nestedNode4.childNodeNames.empty());
+
+            auto peakTable = nestedNode4.peakTable;
+            REQUIRE(peakTable.columnNames.size() == 2);
+            REQUIRE(peakTable.columnNames.at(0).first == "x");
+            REQUIRE(peakTable.columnNames.at(0).second == "Peak Position");
+            REQUIRE(peakTable.columnNames.at(1).first == "y");
+            REQUIRE(peakTable.columnNames.at(1).second == "Intensity");
+
+            REQUIRE(peakTable.peaks.at(0).at("x") == "450.000000");
+            REQUIRE(peakTable.peaks.at(0).at("y") == "10.000000");
+            REQUIRE(peakTable.peaks.at(1).at("x") == "451.000000");
+            REQUIRE(peakTable.peaks.at(1).at("y") == "11.000000");
+            REQUIRE(peakTable.peaks.at(2).at("x") == "460.000000");
+            REQUIRE(peakTable.peaks.at(2).at("y") == "20.000000");
+            REQUIRE(peakTable.peaks.at(3).at("x") == "461.000000");
+            REQUIRE(peakTable.peaks.at(3).at("y") == "21.000000");
+        }
+
+        SECTION("Maps nested PEAK ASSIGNMENTS node")
+        {
+            auto nestedNode5 = converter.read("/5");
+            REQUIRE("PEAK ASSIGNMENTS (AFFN) Block" == nestedNode5.name);
+            REQUIRE(nestedNode5.parameters.size() == 10);
+            REQUIRE(nestedNode5.data.empty());
+            REQUIRE(nestedNode5.childNodeNames.empty());
+
+            auto peakTable = nestedNode5.peakTable;
+            REQUIRE(peakTable.columnNames.size() == 4);
+            REQUIRE(peakTable.columnNames.at(0).first == "x");
+            REQUIRE(peakTable.columnNames.at(0).second == "Peak Position");
+            REQUIRE(peakTable.columnNames.at(1).first == "y");
+            REQUIRE(peakTable.columnNames.at(1).second == "Intensity");
+            REQUIRE(peakTable.columnNames.at(2).first == "m");
+            REQUIRE(peakTable.columnNames.at(2).second == "Multiplicity");
+            REQUIRE(peakTable.columnNames.at(3).first == "a");
+            REQUIRE(peakTable.columnNames.at(3).second == "Assignment");
+
+            REQUIRE(peakTable.peaks.at(0).at("x") == "450.000000");
+            REQUIRE(peakTable.peaks.at(0).at("y") == "10.000000");
+            REQUIRE(peakTable.peaks.at(0).at("m") == "S");
+            REQUIRE(peakTable.peaks.at(0).at("a") == "1");
+            REQUIRE(peakTable.peaks.at(1).at("x") == "451.000000");
+            REQUIRE(peakTable.peaks.at(1).at("y") == "11.000000");
+            REQUIRE(peakTable.peaks.at(1).at("m") == "T");
+            REQUIRE(peakTable.peaks.at(1).at("a") == "2");
+            REQUIRE(peakTable.peaks.at(2).at("x") == "460.000000");
+            REQUIRE(peakTable.peaks.at(2).at("y") == "20.000000");
+            REQUIRE(peakTable.peaks.at(2).at("m") == "D");
+            REQUIRE(peakTable.peaks.at(2).at("a") == "3");
+            REQUIRE(peakTable.peaks.at(3).at("x") == "461.000000");
+            REQUIRE(peakTable.peaks.at(3).at("y") == "21.000000");
+            REQUIRE(peakTable.peaks.at(3).at("m") == "Q");
+            REQUIRE(peakTable.peaks.at(3).at("a") == "4");
+        }
 
         SECTION("Throws when trying to read non existent node")
         {
@@ -163,7 +223,7 @@ TEST_CASE("JdxConverter maps Bruker specific JCAMP-DX", "[JdxConverter]")
             REQUIRE(1 == brukerRelaxSection.parameters.size());
 
             auto [key, value] = brukerRelaxSection.parameters.at(0);
-            REQUIRE(key.empty());
+            REQUIRE("Content" == key);
             REQUIRE("1.0\n0.0 1.0 2.0\n" == value);
         }
 
@@ -177,7 +237,7 @@ TEST_CASE("JdxConverter maps Bruker specific JCAMP-DX", "[JdxConverter]")
             REQUIRE(1 == brukerRelaxSection.parameters.size());
 
             auto [key, value] = brukerRelaxSection.parameters.at(0);
-            REQUIRE(key.empty());
+            REQUIRE("Content" == key);
             REQUIRE("##TITLE= Parameter file\n"
                     "##JCAMPDX= 5.0\n"
                     "$$ c:/nmr/data/somepath\n"
