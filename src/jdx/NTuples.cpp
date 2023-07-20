@@ -19,6 +19,12 @@ std::string sciformats::jdx::NTuples::getDataForm() const
     return m_dataForm;
 }
 
+const std::vector<sciformats::jdx::StringLdr>&
+sciformats::jdx::NTuples::getLdrs() const
+{
+    return m_ldrs;
+}
+
 const std::vector<sciformats::jdx::NTuplesAttributes>&
 sciformats::jdx::NTuples::getAttributes() const
 {
@@ -91,8 +97,8 @@ std::vector<sciformats::jdx::NTuplesAttributes>
 sciformats::jdx::NTuples::parseAttributes(
     io::TextReader& reader, std::optional<std::string>& nextLine)
 {
-    auto attrTable = readLdrs(nextLine, reader);
-    auto attrMap = splitValues(attrTable);
+    m_ldrs = readLdrs(nextLine, reader);
+    auto attrMap = splitValues(m_ldrs);
     auto standardAttrMap = extractStandardAttributes(attrMap);
 
     auto attrNames = findValue("VARNAME", standardAttrMap);

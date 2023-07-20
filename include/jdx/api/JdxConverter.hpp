@@ -23,10 +23,6 @@ public:
     sciformats::api::Node read(const std::string& path) override;
 
 private:
-    static constexpr std::array<const char*, 11> s_nTuplesStandardAttrNames
-        = {"VAR_NAME", "SYMBOL", "VAR_TYPE", "VAR_FORM", "VAR_DIM", "UNITS",
-            "FIRST", "LAST", "MIN", "MAX", "FACTOR"};
-
     std::unique_ptr<sciformats::jdx::Block> m_rootBlock;
 
     static std::vector<size_t> convertPathToNodeIndices(
@@ -40,13 +36,6 @@ private:
     static sciformats::api::Node mapNTuples(
         const NTuples& nTuples, const std::vector<size_t>& nodeIndices);
     static sciformats::api::Node mapNTuplesPage(const Page& page);
-    static std::vector<sciformats::api::KeyValueParam> mapNTuplesAttributes(
-        const NTuplesAttributes& nTuplesAttributes);
-    static void mergeAttributes(
-        std::vector<sciformats::api::KeyValueParam>& parameters,
-        const NTuplesAttributes& nTuplesAttributes, size_t colIndex);
-    static std::optional<std::string> findAttribute(
-        const NTuplesAttributes& nTuplesAttributes, const std::string& key);
     static std::vector<sciformats::api::Point2D> mapData(const Block& block);
     static std::vector<sciformats::api::Point2D> mapXyData(
         const std::vector<std::pair<double, double>>& xyData);

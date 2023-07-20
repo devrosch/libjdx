@@ -73,14 +73,17 @@ TEST_CASE("JdxConverter only maps valid JCAMP-DX", "[JdxConverter]")
             REQUIRE(nTuplesNode.childNodeNames.size() == 2);
             REQUIRE(nTuplesNode.parameters.size() == 13);
 
-            REQUIRE(nTuplesNode.parameters.at(0).key == "VAR_NAME");
+            REQUIRE(nTuplesNode.parameters.at(0).key == "VARNAME");
             REQUIRE(nTuplesNode.parameters.at(0).value
-                    == "FREQUENCY, SPECTRUM/REAL, SPECTRUM/IMAG, PAGE NUMBER");
+                    == "FREQUENCY,    SPECTRUM/REAL,    SPECTRUM/IMAG, PAGE "
+                       "NUMBER");
             REQUIRE(nTuplesNode.parameters.at(11).key == "$CUSTOMLDR");
-            REQUIRE(nTuplesNode.parameters.at(11).value
-                    == "VAL1, VAL2, VAL3, VAL4");
+            REQUIRE(
+                nTuplesNode.parameters.at(11).value
+                == "VAL1,             VAL2,             VAL3,        VAL4,");
             REQUIRE(nTuplesNode.parameters.at(12).key == "$CUSTOMLDR2");
-            REQUIRE(nTuplesNode.parameters.at(12).value == ", , VAL3, VAL4");
+            REQUIRE(nTuplesNode.parameters.at(12).value
+                    == ",                 ,             VAL3,        VAL4");
 
             auto page1 = converter.read("/3/0/0");
             REQUIRE(page1.name == "N=1");

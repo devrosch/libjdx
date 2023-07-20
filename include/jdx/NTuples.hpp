@@ -43,6 +43,12 @@ public:
     [[nodiscard]] std::string getDataForm() const;
 
     /**
+     * @brief Returns the LDRs excluding PAGEs.
+     * @return The LDRs in this NTUPLE.
+     */
+    [[nodiscard]] const std::vector<StringLdr>& getLdrs() const;
+
+    /**
      * @brief Returns the page attributes.
      * @return The page attributes.
      */
@@ -68,6 +74,7 @@ private:
             "FIRST", "LAST", "MIN", "MAX", "FACTOR"};
 
     const std::string m_dataForm;
+    std::vector<StringLdr> m_ldrs;
     std::vector<NTuplesAttributes> m_attributes;
     std::vector<Page> m_pages;
 
