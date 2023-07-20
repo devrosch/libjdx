@@ -45,6 +45,15 @@ TEST_CASE("parses NTUPLES NMR record", "[NTuples]")
     REQUIRE(2 == nTuples.getNumPages());
     REQUIRE("NMR SPECTRUM" == nTuples.getDataForm());
 
+    REQUIRE(12 == nTuples.getLdrs().size());
+    REQUIRE("VARNAME" == nTuples.getLdrs().at(0).getLabel());
+    REQUIRE("FREQUENCY,    SPECTRUM/REAL,    SPECTRUM/IMAG, PAGE NUMBER"
+            == nTuples.getLdrs().at(0).getValue());
+    REQUIRE("$CUSTOMLDR" == nTuples.getLdrs().at(11).getLabel());
+    REQUIRE("VAL1,             VAL2,             VAL3,       VAL4,"
+            == nTuples.getLdrs().at(11).getValue());
+    REQUIRE(nTuples.getLdrs().at(11).isUserDefined());
+
     const auto& pageN1 = nTuples.getPage(0);
     REQUIRE("N=1" == pageN1.getPageVariables());
     REQUIRE(pageN1.getPageLdrs().empty());
@@ -145,6 +154,11 @@ TEST_CASE("parses NTUPLES NMR FID record (round robin format)", "[NTuples]")
     sciformats::jdx::NTuples nTuples{
         "NTUPLES", "nD NMR FID", blockLdrs, reader, nextLine};
 
+    REQUIRE(10 == nTuples.getLdrs().size());
+    REQUIRE("VARNAME" == nTuples.getLdrs().at(0).getLabel());
+    REQUIRE("TIME1,         TIME2,           FID/REAL,        FID/IMAG"
+            == nTuples.getLdrs().at(0).getValue());
+
     REQUIRE(4 == nTuples.getAttributes().size());
     const auto& nTuplesAttrsT1 = nTuples.getAttributes().at(0);
     REQUIRE(1 == nTuplesAttrsT1.applicationAttributes.size());
@@ -222,6 +236,16 @@ TEST_CASE(
 
     sciformats::jdx::NTuples nTuples{
         "NTUPLES", "nD NMR SPECTRUM", blockLdrs, reader, nextLine};
+
+    REQUIRE(10 == nTuples.getLdrs().size());
+    REQUIRE("VARNAME" == nTuples.getLdrs().at(0).getLabel());
+    REQUIRE("FREQUENCY1,    FREQUENCY2,      SPECTRUM"
+            == nTuples.getLdrs().at(0).getValue());
+    REQUIRE(".NUCLEUS" == nTuples.getLdrs().at(2).getLabel());
+    REQUIRE("1H, 1H" == nTuples.getLdrs().at(2).getValue());
+    REQUIRE(nTuples.getLdrs().at(2).isTechniqueSpecific());
+    REQUIRE("FACTOR" == nTuples.getLdrs().at(9).getLabel());
+    REQUIRE("1.0, 1.0, 1.0" == nTuples.getLdrs().at(9).getValue());
 
     REQUIRE(3 == nTuples.getAttributes().size());
     const auto& nTuplesAttrsT1 = nTuples.getAttributes().at(0);
@@ -709,7 +733,7 @@ TEST_CASE("fails when NTUPLES record ends prematurely", "[NTuples]")
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
     sciformats::io::TextReader reader{std::move(streamPtr)};
-    std::vector<sciformats::jdx::StringLdr> blockLdrs;
+    std::vector<sciformats::jdx::StringLdr> blockLdrs{};
 
     REQUIRE_THROWS_WITH(sciformats::jdx::NTuples("NTUPLES", "NMR SPECTRUM",
                             blockLdrs, reader, nextLine),
@@ -733,7 +757,7 @@ TEST_CASE("fails when NTUPLES PAGE record ends prematurely", "[NTuples]")
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
     sciformats::io::TextReader reader{std::move(streamPtr)};
-    std::vector<sciformats::jdx::StringLdr> blockLdrs;
+    std::vector<sciformats::jdx::StringLdr> blockLdrs{};
 
     REQUIRE_THROWS_WITH(sciformats::jdx::NTuples("NTUPLES", "NMR SPECTRUM",
                             blockLdrs, reader, nextLine),
@@ -756,7 +780,7 @@ TEST_CASE("fails for missing NTUPLES DATA TABLE variable list",
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
     sciformats::io::TextReader reader{std::move(streamPtr)};
-    std::vector<sciformats::jdx::StringLdr> blockLdrs;
+    std::vector<sciformats::jdx::StringLdr> blockLdrs{};
 
     REQUIRE_THROWS_WITH(sciformats::jdx::NTuples("NTUPLES", "NMR SPECTRUM",
                             blockLdrs, reader, nextLine),
@@ -779,7 +803,7 @@ TEST_CASE("fails for illegal NTUPLES DATA TABLE variable list",
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
     sciformats::io::TextReader reader{std::move(streamPtr)};
-    std::vector<sciformats::jdx::StringLdr> blockLdrs;
+    std::vector<sciformats::jdx::StringLdr> blockLdrs{};
 
     REQUIRE_THROWS_WITH(sciformats::jdx::NTuples("NTUPLES", "NMR SPECTRUM",
                             blockLdrs, reader, nextLine),

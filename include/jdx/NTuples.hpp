@@ -44,12 +44,12 @@ public:
 
     /**
      * @brief Returns the LDRs excluding PAGEs.
-     * @return The LDRs in this NTUPLE.
+     * @return The LDRs in this record.
      */
     [[nodiscard]] const std::vector<StringLdr>& getLdrs() const;
 
     /**
-     * @brief Returns the page attributes.
+     * @brief Returns the attributes parsed from the LDRs.
      * @return The page attributes.
      */
     [[nodiscard]] const std::vector<NTuplesAttributes>& getAttributes() const;
