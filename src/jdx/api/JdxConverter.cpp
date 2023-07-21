@@ -174,7 +174,7 @@ sciformats::api::Node sciformats::jdx::api::JdxConverter::mapBrukerRelaxSection(
     const BrukerRelaxSection& section)
 {
     std::vector<sciformats::api::KeyValueParam> parameters{};
-    parameters.push_back({"Content", section.getContent()});
+    parameters.push_back({"", section.getContent()});
     return {
         section.getName(),
         parameters,

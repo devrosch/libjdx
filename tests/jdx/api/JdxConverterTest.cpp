@@ -223,7 +223,7 @@ TEST_CASE("JdxConverter maps Bruker specific JCAMP-DX", "[JdxConverter]")
             REQUIRE(1 == brukerRelaxSection.parameters.size());
 
             auto [key, value] = brukerRelaxSection.parameters.at(0);
-            REQUIRE("Content" == key);
+            REQUIRE(key.empty());
             REQUIRE("1.0\n0.0 1.0 2.0\n" == value);
         }
 
@@ -237,7 +237,7 @@ TEST_CASE("JdxConverter maps Bruker specific JCAMP-DX", "[JdxConverter]")
             REQUIRE(1 == brukerRelaxSection.parameters.size());
 
             auto [key, value] = brukerRelaxSection.parameters.at(0);
-            REQUIRE("Content" == key);
+            REQUIRE(key.empty());
             REQUIRE("##TITLE= Parameter file\n"
                     "##JCAMPDX= 5.0\n"
                     "$$ c:/nmr/data/somepath\n"
