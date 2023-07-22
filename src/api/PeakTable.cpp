@@ -5,7 +5,7 @@
 #endif
 
 #ifdef __EMSCRIPTEN__
-EMSCRIPTEN_BINDINGS(Node)
+EMSCRIPTEN_BINDINGS(PeakTable)
 {
     using namespace sciformats::api;
     using namespace emscripten;
