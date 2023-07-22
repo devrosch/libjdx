@@ -44,7 +44,7 @@ option(WASM_EXCEPTIONS "Use WASM exception. Only relevant in Emscripten build." 
 # --------------------------------------------------------------
 
 if(EMSCRIPTEN)
-    # add_link_options(-sALLOW_MEMORY_GROWTH=1)
+    add_link_options(-sALLOW_MEMORY_GROWTH=1)
     # add_link_options(-sTOTAL_MEMORY=1073741824) #1Gb
     # add_link_options(-sSAFE_HEAP=1)
     if(WASM_EXCEPTIONS)
