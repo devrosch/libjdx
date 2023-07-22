@@ -17,9 +17,6 @@ EMSCRIPTEN_BINDINGS(Node)
         .field("peakTable", &Node::peakTable)
         .field("childNodeNames", &Node::childNodeNames);
 
-    // cannot use unique_ptr in embind
-    // see:
-    // https://stackoverflow.com/questions/31814092/cant-use-vector-of-unique-ptr-in-emscripten-bindings
     register_vector<KeyValueParam>("vector<KeyValueParam>");
     register_vector<Point2D>("vector<Point2D>");
     register_vector<std::string>("vector<std::string>");

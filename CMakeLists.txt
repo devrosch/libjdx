@@ -44,8 +44,9 @@ option(WASM_EXCEPTIONS "Use WASM exception. Only relevant in Emscripten build." 
 # --------------------------------------------------------------
 
 if(EMSCRIPTEN)
-    # use SHELL prefix to make sure -s flag is not de-duplicated
-    # see: https://cmake.org/cmake/help/latest/command/add_compile_options.html#option-de-duplication
+    # add_link_options(-sALLOW_MEMORY_GROWTH=1)
+    # add_link_options(-sTOTAL_MEMORY=1073741824) #1Gb
+    # add_link_options(-sSAFE_HEAP=1)
     if(WASM_EXCEPTIONS)
         # use in more recent versions of Browsers, Node.js and emsdk instead of DISABLE_EXCEPTION_CATCHING for better performance
         message(STATUS "build with native WASM exception support")
@@ -58,6 +59,8 @@ if(EMSCRIPTEN)
     else()
         # exception support with better compatibility with JS runtimes but negative performance impact
         message(STATUS "build with (non native) WASM exception support enabled")
+        # use SHELL prefix to make sure -s flag is not de-duplicated
+        # see: https://cmake.org/cmake/help/latest/command/add_compile_options.html#option-de-duplication
         add_compile_options(SHELL:-s DISABLE_EXCEPTION_CATCHING=0)
         add_link_options(SHELL:-s DISABLE_EXCEPTION_CATCHING=0)
     endif()
@@ -68,12 +71,19 @@ endif()
 # --------------------------------------------------------------
 
 if(COVERAGE AND CMAKE_COMPILER_IS_GNUCXX AND CMAKE_BUILD_TYPE MATCHES Debug)
-    # we want to capture test covergae, use g++ and do a debug build
+    # we want to capture test coverage, use g++ and do a debug build
     message(STATUS "setting flags for capturing test coverage")
     add_compile_options(-g -O0 --coverage -fprofile-arcs -ftest-coverage)
     add_link_options(-lgcov --coverage -fprofile-arcs -ftest-coverage -p)
     message(STATUS "set compile options: -g -O0 --coverage -fprofile-arcs -ftest-coverage")
     message(STATUS "set link options: -lgcov --coverage -fprofile-arcs -ftest-coverage -p")
+
+    # add_link_options(-g3 -Wall -Wextra -Wconversion -Wdouble-promotion
+    #     -Wno-unused-parameter -Wno-unused-function -Wno-sign-conversion
+    #     -fsanitize=undefined -fsanitize=address)
+    # add_compile_options(-g3 -Wall -Wextra -Wconversion -Wdouble-promotion
+    #     -Wno-unused-parameter -Wno-unused-function -Wno-sign-conversion
+    #     -fsanitize=undefined -fsanitize=address)
 endif()
 
 # --------------------------------------------------------------
