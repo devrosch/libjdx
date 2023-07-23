@@ -80,7 +80,8 @@ std::optional<T> parseLdrValue(
         // LDR not found
         return std::nullopt;
     }
-    auto [stringValue, _] = stripLineComment(stringValueOptional.value(), true);
+    auto stringValue
+        = stripLineComment(stringValueOptional.value(), true).first;
     return LdrValueParser<T>::parse(stringValue);
 }
 } // namespace sciformats::jdx::utils

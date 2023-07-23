@@ -6,6 +6,7 @@
 #include "util/StringUtils.hpp"
 
 #include <limits>
+#include <tuple>
 
 sciformats::jdx::DataTable::DataTable(std::string label,
     std::string variableList, std::optional<std::string> plotDescriptor,
@@ -19,9 +20,9 @@ sciformats::jdx::DataTable::DataTable(std::string label,
     // extract permitted variable lists from mapping keys
     std::vector<std::string> permittedVarLists;
     permittedVarLists.reserve(s_varListMapping.size());
-    for (const auto& [key, _] : s_varListMapping)
+    for (const auto& keyValuePair : s_varListMapping)
     {
-        permittedVarLists.emplace_back(key);
+        permittedVarLists.emplace_back(keyValuePair.first);
     }
     // validate label and variable list
     validateInput(getLabel(), getVariableList(), s_label, permittedVarLists);
@@ -75,7 +76,7 @@ void sciformats::jdx::DataTable::parse(const std::vector<StringLdr>& blockLdrs,
     const std::vector<StringLdr>& pageLdrs,
     std::optional<std::string>& nextLine)
 {
-    auto [variableList, plotDescriptor] = parseDataTableVars();
+    auto variableList = parseDataTableVars().first;
 
     auto findNTuplesIndex = [&nTuplesVars](const std::string& symbol) {
         for (size_t i = 0; i < nTuplesVars.size(); ++i)

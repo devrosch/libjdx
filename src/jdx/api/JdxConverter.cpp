@@ -77,8 +77,8 @@ sciformats::api::Node sciformats::jdx::api::JdxConverter::retrieveNode(
         const size_t childBlocksStartIndex
             = block->getNTuples().has_value() ? nTuplesIndex + 1 : nTuplesIndex;
 
-        if (nodeIndex >= brukerRelaxStartIndex
-            && nodeIndex < brukerRelaxEndIndexExclusive
+        // nodeIndex >= brukerRelaxStartIndex, always true
+        if (nodeIndex < brukerRelaxEndIndexExclusive
             && !block->getBrukerRelaxSections().empty())
         {
             // Bruker ##$RELAX section

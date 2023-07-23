@@ -13,7 +13,7 @@ sciformats::jdx::Data2D::Data2D(
 
 std::vector<std::pair<double, double>> sciformats::jdx::Data2D::parseXppYYData(
     const std::string& label, io::TextReader& reader, double firstX,
-    double lastX, double yFactor, size_t nPoints) const
+    double lastX, double yFactor, uint64_t nPoints) const
 {
     // parse
     auto func = [&]() {

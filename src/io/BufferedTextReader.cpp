@@ -81,7 +81,9 @@ void sciformats::io::BufferedTextReader::updateBuffer(
     }
     m_buffer.resize(numCharsRead);
     m_bufferBasePos = bufferStartPos;
-    m_bufferPosIt = std::begin(m_buffer) + (position - bufferStartPos);
+    m_bufferPosIt = std::begin(m_buffer)
+                    + static_cast<std::vector<char>::difference_type>(
+                        position - bufferStartPos);
 }
 
 std::ios::pos_type sciformats::io::BufferedTextReader::tellg() const
@@ -101,7 +103,9 @@ void sciformats::io::BufferedTextReader::seekg(
     {
         // new pos inside existing buffer => only update m_bufferPosIt
         auto newBufferPos = position - m_bufferBasePos;
-        m_bufferPosIt = m_buffer.cbegin() + newBufferPos;
+        m_bufferPosIt
+            = m_buffer.cbegin()
+              + static_cast<std::vector<char>::difference_type>(newBufferPos);
     }
     else
     {
@@ -134,7 +138,9 @@ std::ios::pos_type sciformats::io::BufferedTextReader::getLength()
 
 bool sciformats::io::BufferedTextReader::eof() const
 {
-    if (std::distance(m_buffer.cbegin(), m_bufferPosIt) < m_buffer.size())
+    // static cast is safe as distance from the beginning cannot benegative
+    if (static_cast<size_t>(std::distance(m_buffer.cbegin(), m_bufferPosIt))
+        < m_buffer.size())
     {
         return false;
     }

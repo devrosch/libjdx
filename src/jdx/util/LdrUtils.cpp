@@ -211,7 +211,7 @@ void sciformats::jdx::util::skipPureComments(io::TextReader& reader,
 bool sciformats::jdx::util::isPureComment(const std::string& line)
 {
     // only $$ comment?
-    auto [preCommentValue, _] = util::stripLineComment(line, true);
+    auto preCommentValue = util::stripLineComment(line, true).first;
     return preCommentValue.empty();
 }
 

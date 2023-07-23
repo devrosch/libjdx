@@ -9,8 +9,10 @@
 // -Wweak-vtable warning due to QTCreator bug, see:
 // https://stackoverflow.com/questions/50463374/avoid-weak-vtable-warnings-for-classes-only-defined-in-a-source-file
 // , also: https://bugreports.qt.io/browse/QTCREATORBUG-19741
+#ifdef __clang__
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wweak-vtables"
+#endif
 class MockScanner : public trompeloeil::mock_interface<sciformats::api::Scanner>
 {
     IMPLEMENT_MOCK1(isRecognized);
@@ -26,7 +28,9 @@ public:
     }
     sciformats::api::Node read(const std::string& path) override
     {
-        return {m_nodeName};
+        return {m_nodeName, std::vector<sciformats::api::KeyValueParam>{},
+            std::vector<sciformats::api::Point2D>{},
+            sciformats::api::PeakTable{}, std::vector<std::string>{}};
     }
 
 private:
@@ -49,7 +53,9 @@ public:
 private:
     std::string m_errorMessage;
 };
+#ifdef __clang__
 #pragma clang diagnostic pop
+#endif
 
 TEST_CASE("ConverterService sequentially checks parsers for applicability",
     "[ConverterService]")

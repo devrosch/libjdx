@@ -43,7 +43,7 @@ std::optional<std::string> sciformats::jdx::util::PeakTableParser::nextTuple()
             return std::nullopt;
         }
 
-        auto [value, _] = util::stripLineComment(nextLine, true);
+        auto value = util::stripLineComment(nextLine, true).first;
         if (value.empty())
         {
             // skip pure comments

@@ -26,7 +26,7 @@ std::vector<std::optional<std::string>>
 sciformats::jdx::util::TuplesParser::extractTokens(
     const std::string& tuple, const std::regex& regex, size_t numTokens) const
 {
-    auto [noCommentTuple, _] = util::stripLineComment(tuple, true);
+    auto noCommentTuple = util::stripLineComment(tuple, true).first;
     std::smatch matches = match(noCommentTuple, regex);
 
     std::vector<std::optional<std::string>> tokens;

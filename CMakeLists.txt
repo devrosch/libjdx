@@ -33,6 +33,7 @@ endif()
 
 option(CMAKE_BUILD_TYPE "Build type. Defaults to Debug." Debug)
 option(BUILD_SHARED_LIBS "Build shared of static library. Defaults to static." OFF)
+option(SANITIZERS "Build with UBSan and ASan sanitizer. Only relevant if compiler is g++ or clang++." OFF)
 option(COVERAGE "Capture test coverage. Only relevant if compiler is g++ and CMAKE_BUILD_TYPE=Debug." ON)
 option(PROFILING "Capture profiling data. Only relevant if compiler is g++." OFF)
 option(CMAKE_EXPORT_COMPILE_COMMANDS "Generate compile_commands.json." ON)
@@ -40,7 +41,58 @@ option(INCLUDE_DEBUG_SYMBOLS "Include debug symbols. Only relevant if compiler i
 option(WASM_EXCEPTIONS "Use WASM exception. Only relevant in Emscripten build." OFF)
 
 # --------------------------------------------------------------
-# Add Emscripten flags
+# General compiler settings
+# --------------------------------------------------------------
+
+# Activate warnings
+
+if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+    add_link_options(-Wall -Wextra -Wconversion -Wdouble-promotion
+        -Wno-unused-parameter -Wno-unused-function -Wno-sign-conversion)
+    add_compile_options(-Wall -Wextra -Wconversion -Wdouble-promotion
+        -Wno-unused-parameter -Wno-unused-function -Wno-sign-conversion)
+endif()
+
+# Activate UBSan and ASan
+
+if(SANITIZERS AND (CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang"))
+    add_link_options(-fsanitize=undefined -fsanitize=address)
+    add_compile_options(-fsanitize=undefined -fsanitize=address)
+endif()
+
+# Profiling support
+
+if(PROFILING AND CMAKE_COMPILER_IS_GNUCXX)
+    # add profiling info with g++
+    message(STATUS "setting flag for profiling")
+    add_compile_options(-pg)
+    add_link_options(-pg)
+    message(STATUS "set compile and link option: -pg")
+endif()
+
+# Debug symbols
+
+if(INCLUDE_DEBUG_SYMBOLS AND (CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang"))
+    # add debug symbols for g++ and clang
+    message(STATUS "setting flag for debug symbols")
+    add_compile_options(-g)
+    add_link_options(-g)
+    message(STATUS "set compile and link option: -g")
+endif()
+
+# Code coverage support
+
+if(COVERAGE AND CMAKE_COMPILER_IS_GNUCXX AND CMAKE_BUILD_TYPE MATCHES Debug)
+    # capture test coverage for g++ debug builds
+    message(STATUS "setting flags for capturing test coverage")
+    add_compile_options(-g -O0 --coverage -fprofile-arcs -ftest-coverage)
+    add_link_options(-lgcov --coverage -fprofile-arcs -ftest-coverage -p)
+    message(STATUS "set compile options: -g -O0 --coverage -fprofile-arcs -ftest-coverage")
+    message(STATUS "set link options: -lgcov --coverage -fprofile-arcs -ftest-coverage -p")
+endif()
+
+# --------------------------------------------------------------
+# Emscripten flags
 # --------------------------------------------------------------
 
 if(EMSCRIPTEN)
@@ -64,50 +116,6 @@ if(EMSCRIPTEN)
         add_compile_options(SHELL:-s DISABLE_EXCEPTION_CATCHING=0)
         add_link_options(SHELL:-s DISABLE_EXCEPTION_CATCHING=0)
     endif()
-endif()
-
-# --------------------------------------------------------------
-# Add code coverage support
-# --------------------------------------------------------------
-
-if(COVERAGE AND CMAKE_COMPILER_IS_GNUCXX AND CMAKE_BUILD_TYPE MATCHES Debug)
-    # we want to capture test coverage, use g++ and do a debug build
-    message(STATUS "setting flags for capturing test coverage")
-    add_compile_options(-g -O0 --coverage -fprofile-arcs -ftest-coverage)
-    add_link_options(-lgcov --coverage -fprofile-arcs -ftest-coverage -p)
-    message(STATUS "set compile options: -g -O0 --coverage -fprofile-arcs -ftest-coverage")
-    message(STATUS "set link options: -lgcov --coverage -fprofile-arcs -ftest-coverage -p")
-
-    # add_link_options(-g3 -Wall -Wextra -Wconversion -Wdouble-promotion
-    #     -Wno-unused-parameter -Wno-unused-function -Wno-sign-conversion
-    #     -fsanitize=undefined -fsanitize=address)
-    # add_compile_options(-g3 -Wall -Wextra -Wconversion -Wdouble-promotion
-    #     -Wno-unused-parameter -Wno-unused-function -Wno-sign-conversion
-    #     -fsanitize=undefined -fsanitize=address)
-endif()
-
-# --------------------------------------------------------------
-# Add profiling support
-# --------------------------------------------------------------
-
-if(PROFILING AND CMAKE_COMPILER_IS_GNUCXX)
-    # we want to profiling info with g++
-    message(STATUS "setting flag for profiling")
-    add_compile_options(-pg)
-    add_link_options(-pg)
-    message(STATUS "set compile and link option: -pg")
-endif()
-
-# --------------------------------------------------------------
-# Debug symbols
-# --------------------------------------------------------------
-
-if(INCLUDE_DEBUG_SYMBOLS AND (CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang"))
-    # we want to add debug symbols for g++ and clang
-    message(STATUS "setting flag for debug symbols")
-    add_compile_options(-g)
-    add_link_options(-g)
-    message(STATUS "set compile and link option: -g")
 endif()
 
 # --------------------------------------------------------------

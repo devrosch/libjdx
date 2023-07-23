@@ -84,7 +84,7 @@ protected:
      */
     std::vector<std::pair<double, double>> parseXppYYData(
         const std::string& label, io::TextReader& reader, double firstX,
-        double lastX, double yFactor, size_t nPoints) const;
+        double lastX, double yFactor, uint64_t nPoints) const;
 
     /**
      * @brief Parses the xy data pairs (i.e. "(XY..XY)" or "(RA..RA)") from a

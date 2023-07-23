@@ -70,7 +70,7 @@ bool sciformats::jdx::JdxParser::canParse(
     buffer.resize(bytesRead);
     if (util::isLdrStart(buffer))
     {
-        auto [label, _] = util::parseLdrStart(buffer);
+        auto label = util::parseLdrStart(buffer).first;
         return label == "TITLE";
     }
     return false;

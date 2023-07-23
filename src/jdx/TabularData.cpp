@@ -31,7 +31,7 @@ std::optional<std::string> sciformats::jdx::TabularData::getWidthFunction()
                && util::isPureComment(line))
         {
             readerPos = reader.tellg();
-            auto [_, comment] = util::stripLineComment(line);
+            auto comment = util::stripLineComment(line).second;
             appendToDescription(comment.value(), functionDescription);
         }
         // reset reader position to start of first assignment or start of next

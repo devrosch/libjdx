@@ -154,7 +154,7 @@ TEST_CASE("normalizes LDR start label", "[util][parseLdrStart]")
 {
     std::string input{"\t\n\v\f\r ##abcde\xE4\xF6\xFC\xC4\xD6\xDC="};
 
-    auto [label, value] = sciformats::jdx::util::parseLdrStart(input);
+    auto label = sciformats::jdx::util::parseLdrStart(input).first;
 
     REQUIRE("ABCDE\xE4\xF6\xFC\xC4\xD6\xDC" == label);
 }

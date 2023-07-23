@@ -22,7 +22,7 @@ sciformats::jdx::util::MultilineTuplesParser::nextTuple()
     {
         std::streampos pos = m_reader.tellg();
         auto line = m_reader.readLine();
-        auto [lineStart, _] = util::stripLineComment(line, true);
+        auto lineStart = util::stripLineComment(line, true).first;
         if (isTupleStart(lineStart))
         {
             tupleString.append(lineStart);
@@ -51,7 +51,7 @@ sciformats::jdx::util::MultilineTuplesParser::nextTuple()
     {
         std::streampos pos = m_reader.tellg();
         auto line = m_reader.readLine();
-        auto [lineStart, _] = util::stripLineComment(line, true);
+        auto lineStart = util::stripLineComment(line, true).first;
 
         if (util::isLdrStart(lineStart))
         {
