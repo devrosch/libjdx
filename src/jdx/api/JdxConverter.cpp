@@ -167,7 +167,9 @@ sciformats::api::Node sciformats::jdx::api::JdxConverter::mapBlock(
         childNodeNames.push_back(childNodeName);
     }
 
-    return {name, parameters, data, peakTable, childNodeNames};
+    auto metadata = mapMetadata(block);
+
+    return {name, parameters, data, peakTable, childNodeNames, metadata};
 }
 
 sciformats::api::Node sciformats::jdx::api::JdxConverter::mapBrukerRelaxSection(
@@ -181,6 +183,7 @@ sciformats::api::Node sciformats::jdx::api::JdxConverter::mapBrukerRelaxSection(
         std::vector<sciformats::api::Point2D>{},
         sciformats::api::PeakTable{},
         std::vector<std::string>{},
+        std::map<std::string, std::string>{},
     };
 }
 
@@ -199,6 +202,7 @@ sciformats::jdx::api::JdxConverter::mapBrukerSpecificParameters(
         std::vector<sciformats::api::Point2D>{},
         sciformats::api::PeakTable{},
         std::vector<std::string>{},
+        std::map<std::string, std::string>{},
     };
 }
 
@@ -228,7 +232,10 @@ sciformats::api::Node sciformats::jdx::api::JdxConverter::mapNTuples(
             childNodeNames.push_back(page.getPageVariables());
         }
 
-        return {name, parameters, data, peakTable, childNodeNames};
+        // TODO: map NTUPLES metadata
+        auto metadata = std::map<std::string, std::string>{};
+
+        return {name, parameters, data, peakTable, childNodeNames, metadata};
     }
 
     if (nodeIndices.size() > 1 || nodeIndices.at(0) > nTuples.getNumPages())
@@ -273,7 +280,10 @@ sciformats::api::Node sciformats::jdx::api::JdxConverter::mapNTuplesPage(
 
     std::vector<std::string> childNodeNames{};
 
-    return {name, parameters, data, peakTable, childNodeNames};
+    // TODO: map NTUPLES PAGE metadata
+    auto metadata = std::map<std::string, std::string>{};
+
+    return {name, parameters, data, peakTable, childNodeNames, metadata};
 }
 
 std::vector<sciformats::api::Point2D>
@@ -314,6 +324,38 @@ sciformats::jdx::api::JdxConverter::mapXyData(
     }
 
     return output;
+}
+
+std::map<std::string, std::string>
+sciformats::jdx::api::JdxConverter::mapMetadata(const Block& block)
+{
+    std::map<std::string, std::string> metadata{};
+
+    if (block.getLdr("DATATYPE"))
+    {
+        auto dataType = block.getLdr("DATATYPE").value().getValue();
+        util::toLower(dataType);
+
+        if ((dataType.find("infrared") != std::string::npos
+                && dataType.find("spectrum") != std::string::npos)
+            || (dataType.find("raman") != std::string::npos
+                && dataType.find("spectrum") != std::string::npos))
+        {
+            metadata.emplace("x.label", "Wavenumber");
+            metadata.emplace("plot.x.reverse", "true");
+        }
+    }
+
+    if (auto xUnits = block.getLdr("XUNITS"))
+    {
+        metadata.emplace("x.unit", xUnits.value().getValue());
+    }
+    if (auto yUnits = block.getLdr("YUNITS"))
+    {
+        metadata.emplace("y.unit", yUnits.value().getValue());
+    }
+
+    return metadata;
 }
 
 sciformats::api::PeakTable sciformats::jdx::api::JdxConverter::mapPeakTable(

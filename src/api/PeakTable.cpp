@@ -14,7 +14,8 @@ EMSCRIPTEN_BINDINGS(PeakTable)
         .field("columnNames", &PeakTable::columnNames)
         .field("peaks", &PeakTable::peaks);
 
-    value_object<std::pair<std::string, std::string>>("std::pair<std::string, std::string>")
+    value_object<std::pair<std::string, std::string>>(
+        "std::pair<std::string, std::string>")
         .field("first", &std::pair<std::string, std::string>::first)
         .field("second", &std::pair<std::string, std::string>::second);
     register_vector<std::pair<std::string, std::string>>(

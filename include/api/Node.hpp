@@ -17,6 +17,7 @@ struct Node
     std::vector<Point2D> data;
     PeakTable peakTable;
     std::vector<std::string> childNodeNames;
+    std::map<std::string, std::string> metadata;
 };
 } // sciformats::api
 

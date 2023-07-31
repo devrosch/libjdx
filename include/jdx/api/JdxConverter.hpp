@@ -40,6 +40,7 @@ private:
     static std::vector<sciformats::api::Point2D> mapData(const Block& block);
     static std::vector<sciformats::api::Point2D> mapXyData(
         const std::vector<std::pair<double, double>>& xyData);
+    static std::map<std::string, std::string> mapMetadata(const Block& block);
     static sciformats::api::PeakTable mapPeakTable(
         const sciformats::jdx::PeakTable& peakTable);
     static sciformats::api::PeakTable mapPeakAssignments(

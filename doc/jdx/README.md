@@ -16,8 +16,8 @@ JCAMP-DX data is organized into so-called labeled data records (LDRs) that can h
 ## Limitations
 
 * There is no special support for technique specific LDRs (e.g., ACQUISITION TIME, COUPLING CONSTANTS, or IONIZATION MODE). Their values are treated as strings.
-* No X value check is performed for (X++(Y..Y)) type data (relevant for for XYDATA, RADATA, and DATA TABLE LDRs). Instead, the ascissa values are derived exclusively from LDRs such as FIRSTX, LASTX, XFACTOR, NPOINTS or equivalent ones.
-* No vendor specific extensions of the JCAMP-DX standard are supported.
+* No X value check is performed for (X++(Y..Y)) type data (relevant for for XYDATA, RADATA, and DATA TABLE LDRs). Instead, the abscissa values are derived exclusively from LDRs such as FIRSTX, LASTX, XFACTOR, NPOINTS or equivalent ones.
+* No vendor specific extensions of the JCAMP-DX standard other than Bruker's are supported.
 * [JCAMP-CS](http://www.jcamp-dx.org/protocols/dxcs01.pdf) is not supported.
 
 ## Documentation

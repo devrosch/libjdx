@@ -15,7 +15,8 @@ EMSCRIPTEN_BINDINGS(Node)
         .field("parameters", &Node::parameters)
         .field("data", &Node::data)
         .field("peakTable", &Node::peakTable)
-        .field("childNodeNames", &Node::childNodeNames);
+        .field("childNodeNames", &Node::childNodeNames)
+        .field("metadata", &Node::metadata);
 
     register_vector<KeyValueParam>("vector<KeyValueParam>");
     register_vector<Point2D>("vector<Point2D>");

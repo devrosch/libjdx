@@ -30,7 +30,8 @@ public:
     {
         return {m_nodeName, std::vector<sciformats::api::KeyValueParam>{},
             std::vector<sciformats::api::Point2D>{},
-            sciformats::api::PeakTable{}, std::vector<std::string>{}};
+            sciformats::api::PeakTable{}, std::vector<std::string>{},
+            std::map<std::string, std::string>{}};
     }
 
 private:
