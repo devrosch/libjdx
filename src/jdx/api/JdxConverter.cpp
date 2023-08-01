@@ -344,7 +344,8 @@ sciformats::jdx::api::JdxConverter::mapMetadata(const Block& block)
     {
         auto xUnit = metadata.at("x.unit");
         util::toLower(xUnit);
-        if (xUnit == "1/cm" || xUnit == "1 / cm" || xUnit == "cm-1" || xUnit == "cm^-1")
+        if (xUnit == "1/cm" || xUnit == "1 / cm" || xUnit == "cm-1"
+            || xUnit == "cm^-1")
         {
             metadata.emplace("x.label", "Wavenumber");
 
@@ -360,7 +361,8 @@ sciformats::jdx::api::JdxConverter::mapMetadata(const Block& block)
                 }
             }
         }
-        else if (xUnit == "nanometers" || xUnit == "micrometers" || xUnit == "nm" || xUnit == "um")
+        else if (xUnit == "nanometers" || xUnit == "micrometers"
+                 || xUnit == "nm" || xUnit == "um")
         {
             metadata.emplace("x.label", "Wavelength");
         }
