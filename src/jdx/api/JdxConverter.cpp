@@ -331,28 +331,48 @@ sciformats::jdx::api::JdxConverter::mapMetadata(const Block& block)
 {
     std::map<std::string, std::string> metadata{};
 
-    if (block.getLdr("DATATYPE"))
-    {
-        auto dataType = block.getLdr("DATATYPE").value().getValue();
-        util::toLower(dataType);
-
-        if ((dataType.find("infrared") != std::string::npos
-                && dataType.find("spectrum") != std::string::npos)
-            || (dataType.find("raman") != std::string::npos
-                && dataType.find("spectrum") != std::string::npos))
-        {
-            metadata.emplace("x.label", "Wavenumber");
-            metadata.emplace("plot.x.reverse", "true");
-        }
-    }
-
     if (auto xUnits = block.getLdr("XUNITS"))
     {
         metadata.emplace("x.unit", xUnits.value().getValue());
     }
+    else if (auto rUnits = block.getLdr("RUNITS"))
+    {
+        metadata.emplace("x.unit", rUnits.value().getValue());
+    }
+
+    if (metadata.count("x.unit") > 0)
+    {
+        auto xUnit = metadata.at("x.unit");
+        util::toLower(xUnit);
+        if (xUnit == "1/cm" || xUnit == "1 / cm" || xUnit == "cm-1" || xUnit == "cm^-1")
+        {
+            metadata.emplace("x.label", "Wavenumber");
+
+            if (block.getLdr("DATATYPE"))
+            {
+                auto dataType = block.getLdr("DATATYPE").value().getValue();
+                util::toLower(dataType);
+
+                if (dataType.find("infrared") != std::string::npos
+                    || dataType.find("raman") != std::string::npos)
+                {
+                    metadata.emplace("plot.x.reverse", "true");
+                }
+            }
+        }
+        else if (xUnit == "nanometers" || xUnit == "micrometers" || xUnit == "nm" || xUnit == "um")
+        {
+            metadata.emplace("x.label", "Wavelength");
+        }
+    }
+
     if (auto yUnits = block.getLdr("YUNITS"))
     {
         metadata.emplace("y.unit", yUnits.value().getValue());
+    }
+    else if (auto aUnits = block.getLdr("AUNITS"))
+    {
+        metadata.emplace("y.unit", aUnits.value().getValue());
     }
 
     return metadata;
