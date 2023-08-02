@@ -229,7 +229,7 @@ sciformats::api::Node sciformats::jdx::api::JdxConverter::mapNTuples(
              ++pageIndex)
         {
             const auto& page = nTuples.getPage(pageIndex);
-            childNodeNames.push_back(page.getPageVariables());
+            childNodeNames.push_back(mapNTuplesPageName(page));
         }
 
         // TODO: map NTUPLES metadata
@@ -256,7 +256,7 @@ sciformats::api::Node sciformats::jdx::api::JdxConverter::mapNTuples(
 sciformats::api::Node sciformats::jdx::api::JdxConverter::mapNTuplesPage(
     const Page& page)
 {
-    const auto& name = page.getPageVariables();
+    auto name = mapNTuplesPageName(page);
 
     std::vector<sciformats::api::KeyValueParam> parameters{};
     for (auto&& ldr : page.getPageLdrs())
@@ -284,6 +284,18 @@ sciformats::api::Node sciformats::jdx::api::JdxConverter::mapNTuplesPage(
     auto metadata = std::map<std::string, std::string>{};
 
     return {name, parameters, data, peakTable, childNodeNames, metadata};
+}
+
+std::string sciformats::jdx::api::JdxConverter::mapNTuplesPageName(
+    const Page& page)
+{
+    auto name = page.getPageVariables();
+    if (page.getDataTable())
+    {
+        const auto& dataTable = page.getDataTable().value();
+        name += " - " + dataTable.getAttributes().yAttributes.varName;
+    }
+    return name;
 }
 
 std::vector<sciformats::api::Point2D>

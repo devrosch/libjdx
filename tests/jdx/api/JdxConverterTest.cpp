@@ -87,7 +87,7 @@ TEST_CASE("JdxConverter only maps valid JCAMP-DX", "[JdxConverter]")
                     == ",                 ,             VAL3,        VAL4");
 
             auto page1 = converter.read("/3/0/0");
-            REQUIRE(page1.name == "N=1");
+            REQUIRE(page1.name == "N=1 - SPECTRUM/REAL");
             REQUIRE(page1.parameters.size() == 1);
             REQUIRE(page1.parameters.at(0).key == "Plot Descriptor");
             REQUIRE(page1.parameters.at(0).value == "XYDATA");
@@ -100,7 +100,7 @@ TEST_CASE("JdxConverter only maps valid JCAMP-DX", "[JdxConverter]")
             REQUIRE(page1Data.at(3).y == Approx(105.0));
 
             auto page2 = converter.read("/3/0/1");
-            REQUIRE(page2.name == "N=2");
+            REQUIRE(page2.name == "N=2 - SPECTRUM/IMAG");
             REQUIRE(page2.parameters.size() == 1);
             REQUIRE(page2.parameters.at(0).key == "Plot Descriptor");
             REQUIRE(page2.parameters.at(0).value == "XYDATA");

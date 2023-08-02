@@ -37,6 +37,7 @@ private:
     static sciformats::api::Node mapNTuples(
         const NTuples& nTuples, const std::vector<size_t>& nodeIndices);
     static sciformats::api::Node mapNTuplesPage(const Page& page);
+    static std::string mapNTuplesPageName(const Page& page);
     static std::vector<sciformats::api::Point2D> mapData(const Block& block);
     static std::vector<sciformats::api::Point2D> mapXyData(
         const std::vector<std::pair<double, double>>& xyData);
