@@ -357,7 +357,7 @@ sciformats::jdx::api::JdxConverter::mapMetadata(const Block& block)
                 if (dataType.find("infrared") != std::string::npos
                     || dataType.find("raman") != std::string::npos)
                 {
-                    metadata.emplace("plot.x.reverse", "true");
+                    metadata.emplace("x.reverse", "true");
                 }
             }
         }
