@@ -92,6 +92,13 @@ TEST_CASE("JdxConverter only maps valid JCAMP-DX", "[JdxConverter]")
             REQUIRE(page1.parameters.at(0).key == "Plot Descriptor");
             REQUIRE(page1.parameters.at(0).value == "XYDATA");
 
+            auto page1Meta = page1.metadata;
+            REQUIRE(page1Meta.size() == 4);
+            REQUIRE(page1Meta.at("x.label") == "X");
+            REQUIRE(page1Meta.at("x.unit") == "HZ");
+            REQUIRE(page1Meta.at("y.label") == "R");
+            REQUIRE(page1Meta.at("y.unit") == "ARBITRARY UNITS");
+
             auto page1Data = page1.data;
             REQUIRE(page1Data.size() == 4);
             REQUIRE(page1Data.at(0).x == Approx(0.1));
@@ -104,6 +111,13 @@ TEST_CASE("JdxConverter only maps valid JCAMP-DX", "[JdxConverter]")
             REQUIRE(page2.parameters.size() == 1);
             REQUIRE(page2.parameters.at(0).key == "Plot Descriptor");
             REQUIRE(page2.parameters.at(0).value == "XYDATA");
+
+            auto page2Meta = page2.metadata;
+            REQUIRE(page2Meta.size() == 4);
+            REQUIRE(page2Meta.at("x.label") == "X");
+            REQUIRE(page2Meta.at("x.unit") == "HZ");
+            REQUIRE(page2Meta.at("y.label") == "I");
+            REQUIRE(page2Meta.at("y.unit") == "ARBITRARY UNITS");
 
             auto page2Data = page2.data;
             REQUIRE(page2Data.size() == 4);

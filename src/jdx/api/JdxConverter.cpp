@@ -232,7 +232,6 @@ sciformats::api::Node sciformats::jdx::api::JdxConverter::mapNTuples(
             childNodeNames.push_back(mapNTuplesPageName(page));
         }
 
-        // TODO: map NTUPLES metadata
         auto metadata = std::map<std::string, std::string>{};
 
         return {name, parameters, data, peakTable, childNodeNames, metadata};
@@ -280,8 +279,7 @@ sciformats::api::Node sciformats::jdx::api::JdxConverter::mapNTuplesPage(
 
     std::vector<std::string> childNodeNames{};
 
-    // TODO: map NTUPLES PAGE metadata
-    auto metadata = std::map<std::string, std::string>{};
+    auto metadata = mapMetadata(page);
 
     return {name, parameters, data, peakTable, childNodeNames, metadata};
 }
@@ -387,6 +385,32 @@ sciformats::jdx::api::JdxConverter::mapMetadata(const Block& block)
     else if (auto aUnits = block.getLdr("AUNITS"))
     {
         metadata.emplace("y.unit", aUnits.value().getValue());
+    }
+
+    return metadata;
+}
+
+std::map<std::string, std::string>
+sciformats::jdx::api::JdxConverter::mapMetadata(const Page& page)
+{
+    std::map<std::string, std::string> metadata{};
+
+    if (page.getDataTable().has_value())
+    {
+        const auto& pageAttributes
+            = page.getDataTable().value().getAttributes();
+        metadata.emplace("x.label", pageAttributes.xAttributes.symbol);
+        if (pageAttributes.xAttributes.units.has_value())
+        {
+            metadata.emplace(
+                "x.unit", pageAttributes.xAttributes.units.value());
+        }
+        metadata.emplace("y.label", pageAttributes.yAttributes.symbol);
+        if (pageAttributes.yAttributes.units.has_value())
+        {
+            metadata.emplace(
+                "y.unit", pageAttributes.yAttributes.units.value());
+        }
     }
 
     return metadata;
