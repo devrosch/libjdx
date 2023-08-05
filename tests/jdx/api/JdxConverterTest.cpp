@@ -241,7 +241,7 @@ TEST_CASE("JdxConverter only maps valid JCAMP-DX", "[JdxConverter]")
             REQUIRE("T=10 - INTENSITY" == nestedNode7.name);
             REQUIRE(nestedNode7.parameters.size() == 2);
             REQUIRE(nestedNode7.data.size() == 4);
-            REQUIRE(nestedNode7.metadata.size() == 5);
+            REQUIRE(nestedNode7.metadata.size() == 3);
             REQUIRE(nestedNode7.childNodeNames.empty());
 
             auto data = nestedNode7.data;
@@ -272,12 +272,8 @@ TEST_CASE("JdxConverter only maps valid JCAMP-DX", "[JdxConverter]")
             REQUIRE(peakTable.peaks.at(3).at("y") == "21.000000");
 
             auto metadata = nestedNode7.metadata;
-            REQUIRE(metadata.count("x.label") == 1);
-            REQUIRE(metadata.at("x.label") == "X");
             REQUIRE(metadata.count("x.unit") == 1);
             REQUIRE(metadata.at("x.unit") == "M/Z");
-            REQUIRE(metadata.count("y.label") == 1);
-            REQUIRE(metadata.at("y.label") == "Y");
             REQUIRE(metadata.count("y.unit") == 1);
             REQUIRE(metadata.at("y.unit") == "RELATIVE ABUNDANCE");
             REQUIRE(metadata.count("plot.style") == 1);

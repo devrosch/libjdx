@@ -51,8 +51,7 @@ private:
     static std::vector<sciformats::api::Point2D> mapPeakTableAsData(
         const sciformats::jdx::PeakTable& peakTable);
     static sciformats::api::PeakTable mapDataAsPeakTable(
-        const std::vector<std::pair<double, double>>& xyData,
-        const std::string& xColName, const std::string& yColName);
+        const std::vector<std::pair<double, double>>& xyData);
     static sciformats::api::PeakTable mapPeakAssignments(
         const sciformats::jdx::PeakAssignments& peakAssignments);
 };

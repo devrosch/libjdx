@@ -293,15 +293,7 @@ sciformats::api::Node sciformats::jdx::api::JdxConverter::mapNTuplesPage(
 
         if (isPeakData)
         {
-            auto xVar = dataTable.getAttributes().xAttributes.varName;
-            auto xUnit = dataTable.getAttributes().xAttributes.units;
-            auto xLabel
-                = xUnit.has_value() ? xVar + " / " + xUnit.value() : xVar;
-            auto yVar = dataTable.getAttributes().yAttributes.varName;
-            auto yUnit = dataTable.getAttributes().yAttributes.units;
-            auto yLabel
-                = yUnit.has_value() ? yVar + " / " + yUnit.value() : yVar;
-            peakTable = mapDataAsPeakTable(dataTable.getData(), xLabel, yLabel);
+            peakTable = mapDataAsPeakTable(dataTable.getData());
         }
     }
 
@@ -433,13 +425,11 @@ sciformats::jdx::api::JdxConverter::mapMetadata(
     {
         const auto& pageAttributes
             = page.getDataTable().value().getAttributes();
-        metadata.emplace("x.label", pageAttributes.xAttributes.symbol);
         if (pageAttributes.xAttributes.units.has_value())
         {
             metadata.emplace(
                 "x.unit", pageAttributes.xAttributes.units.value());
         }
-        metadata.emplace("y.label", pageAttributes.yAttributes.symbol);
         if (pageAttributes.yAttributes.units.has_value())
         {
             metadata.emplace(
@@ -448,6 +438,12 @@ sciformats::jdx::api::JdxConverter::mapMetadata(
         if (isPeakData)
         {
             metadata.emplace("plot.style", "sticks");
+        }
+        else
+        {
+            // don't use VAR_NAMEs for labels for MS
+            metadata.emplace("x.label", pageAttributes.xAttributes.symbol);
+            metadata.emplace("y.label", pageAttributes.yAttributes.symbol);
         }
     }
 
@@ -509,8 +505,7 @@ sciformats::jdx::api::JdxConverter::mapPeakTableAsData(
 
 sciformats::api::PeakTable
 sciformats::jdx::api::JdxConverter::mapDataAsPeakTable(
-    const std::vector<std::pair<double, double>>& xyData,
-    const std::string& xColName, const std::string& yColName)
+    const std::vector<std::pair<double, double>>& xyData)
 {
     auto resultPeakTable = sciformats::api::PeakTable{};
 
