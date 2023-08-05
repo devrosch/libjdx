@@ -29,22 +29,30 @@ private:
     static std::vector<size_t> convertPathToNodeIndices(
         const std::string& path);
     sciformats::api::Node retrieveNode(const std::vector<size_t>& nodeIndices);
-    static sciformats::api::Node mapBlock(const Block& block);
+    static sciformats::api::Node mapBlock(const Block& block, bool isPeakData);
+    static bool isPeakData(const Block& block);
     static sciformats::api::Node mapBrukerRelaxSection(
         const BrukerRelaxSection& section);
     static sciformats::api::Node mapBrukerSpecificParameters(
         const BrukerSpecificParameters& section);
-    static sciformats::api::Node mapNTuples(
-        const NTuples& nTuples, const std::vector<size_t>& nodeIndices);
-    static sciformats::api::Node mapNTuplesPage(const Page& page);
+    static sciformats::api::Node mapNTuples(const NTuples& nTuples,
+        const std::vector<size_t>& nodeIndices, bool isPeakData);
+    static sciformats::api::Node mapNTuplesPage(
+        const Page& page, bool isPeakData);
     static std::string mapNTuplesPageName(const Page& page);
     static std::vector<sciformats::api::Point2D> mapData(const Block& block);
     static std::vector<sciformats::api::Point2D> mapXyData(
         const std::vector<std::pair<double, double>>& xyData);
     static std::map<std::string, std::string> mapMetadata(const Block& block);
-    static std::map<std::string, std::string> mapMetadata(const Page& page);
+    static std::map<std::string, std::string> mapMetadata(
+        const Page& page, bool isPeakData);
     static sciformats::api::PeakTable mapPeakTable(
         const sciformats::jdx::PeakTable& peakTable);
+    static std::vector<sciformats::api::Point2D> mapPeakTableAsData(
+        const sciformats::jdx::PeakTable& peakTable);
+    static sciformats::api::PeakTable mapDataAsPeakTable(
+        const std::vector<std::pair<double, double>>& xyData,
+        const std::string& xColName, const std::string& yColName);
     static sciformats::api::PeakTable mapPeakAssignments(
         const sciformats::jdx::PeakAssignments& peakAssignments);
 };
