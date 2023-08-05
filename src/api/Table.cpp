@@ -1,18 +1,18 @@
-#include "api/PeakTable.hpp"
+#include "api/Table.hpp"
 
 #ifdef __EMSCRIPTEN__
 #include <emscripten/bind.h>
 #endif
 
 #ifdef __EMSCRIPTEN__
-EMSCRIPTEN_BINDINGS(PeakTable)
+EMSCRIPTEN_BINDINGS(Table)
 {
     using namespace sciformats::api;
     using namespace emscripten;
 
-    value_object<PeakTable>("PeakTable")
-        .field("columnNames", &PeakTable::columnNames)
-        .field("peaks", &PeakTable::peaks);
+    value_object<Table>("Table")
+        .field("columnNames", &Table::columnNames)
+        .field("rows", &Table::rows);
 
     value_object<std::pair<std::string, std::string>>(
         "std::pair<std::string, std::string>")

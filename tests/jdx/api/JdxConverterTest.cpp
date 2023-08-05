@@ -135,21 +135,21 @@ TEST_CASE("JdxConverter only maps valid JCAMP-DX", "[JdxConverter]")
             REQUIRE(nestedNode4.data.empty());
             REQUIRE(nestedNode4.childNodeNames.empty());
 
-            auto peakTable = nestedNode4.peakTable;
+            auto peakTable = nestedNode4.table;
             REQUIRE(peakTable.columnNames.size() == 2);
             REQUIRE(peakTable.columnNames.at(0).first == "x");
             REQUIRE(peakTable.columnNames.at(0).second == "Peak Position");
             REQUIRE(peakTable.columnNames.at(1).first == "y");
             REQUIRE(peakTable.columnNames.at(1).second == "Intensity");
 
-            REQUIRE(peakTable.peaks.at(0).at("x") == "450.000000");
-            REQUIRE(peakTable.peaks.at(0).at("y") == "10.000000");
-            REQUIRE(peakTable.peaks.at(1).at("x") == "451.000000");
-            REQUIRE(peakTable.peaks.at(1).at("y") == "11.000000");
-            REQUIRE(peakTable.peaks.at(2).at("x") == "460.000000");
-            REQUIRE(peakTable.peaks.at(2).at("y") == "20.000000");
-            REQUIRE(peakTable.peaks.at(3).at("x") == "461.000000");
-            REQUIRE(peakTable.peaks.at(3).at("y") == "21.000000");
+            REQUIRE(peakTable.rows.at(0).at("x") == "450.000000");
+            REQUIRE(peakTable.rows.at(0).at("y") == "10.000000");
+            REQUIRE(peakTable.rows.at(1).at("x") == "451.000000");
+            REQUIRE(peakTable.rows.at(1).at("y") == "11.000000");
+            REQUIRE(peakTable.rows.at(2).at("x") == "460.000000");
+            REQUIRE(peakTable.rows.at(2).at("y") == "20.000000");
+            REQUIRE(peakTable.rows.at(3).at("x") == "461.000000");
+            REQUIRE(peakTable.rows.at(3).at("y") == "21.000000");
         }
 
         SECTION("Maps nested PEAK ASSIGNMENTS node")
@@ -160,7 +160,7 @@ TEST_CASE("JdxConverter only maps valid JCAMP-DX", "[JdxConverter]")
             REQUIRE(nestedNode5.data.empty());
             REQUIRE(nestedNode5.childNodeNames.empty());
 
-            auto peakTable = nestedNode5.peakTable;
+            auto peakTable = nestedNode5.table;
             REQUIRE(peakTable.columnNames.size() == 4);
             REQUIRE(peakTable.columnNames.at(0).first == "x");
             REQUIRE(peakTable.columnNames.at(0).second == "Peak Position");
@@ -171,22 +171,22 @@ TEST_CASE("JdxConverter only maps valid JCAMP-DX", "[JdxConverter]")
             REQUIRE(peakTable.columnNames.at(3).first == "a");
             REQUIRE(peakTable.columnNames.at(3).second == "Assignment");
 
-            REQUIRE(peakTable.peaks.at(0).at("x") == "450.000000");
-            REQUIRE(peakTable.peaks.at(0).at("y") == "10.000000");
-            REQUIRE(peakTable.peaks.at(0).at("m") == "S");
-            REQUIRE(peakTable.peaks.at(0).at("a") == "1");
-            REQUIRE(peakTable.peaks.at(1).at("x") == "451.000000");
-            REQUIRE(peakTable.peaks.at(1).at("y") == "11.000000");
-            REQUIRE(peakTable.peaks.at(1).at("m") == "T");
-            REQUIRE(peakTable.peaks.at(1).at("a") == "2");
-            REQUIRE(peakTable.peaks.at(2).at("x") == "460.000000");
-            REQUIRE(peakTable.peaks.at(2).at("y") == "20.000000");
-            REQUIRE(peakTable.peaks.at(2).at("m") == "D");
-            REQUIRE(peakTable.peaks.at(2).at("a") == "3");
-            REQUIRE(peakTable.peaks.at(3).at("x") == "461.000000");
-            REQUIRE(peakTable.peaks.at(3).at("y") == "21.000000");
-            REQUIRE(peakTable.peaks.at(3).at("m") == "Q");
-            REQUIRE(peakTable.peaks.at(3).at("a") == "4");
+            REQUIRE(peakTable.rows.at(0).at("x") == "450.000000");
+            REQUIRE(peakTable.rows.at(0).at("y") == "10.000000");
+            REQUIRE(peakTable.rows.at(0).at("m") == "S");
+            REQUIRE(peakTable.rows.at(0).at("a") == "1");
+            REQUIRE(peakTable.rows.at(1).at("x") == "451.000000");
+            REQUIRE(peakTable.rows.at(1).at("y") == "11.000000");
+            REQUIRE(peakTable.rows.at(1).at("m") == "T");
+            REQUIRE(peakTable.rows.at(1).at("a") == "2");
+            REQUIRE(peakTable.rows.at(2).at("x") == "460.000000");
+            REQUIRE(peakTable.rows.at(2).at("y") == "20.000000");
+            REQUIRE(peakTable.rows.at(2).at("m") == "D");
+            REQUIRE(peakTable.rows.at(2).at("a") == "3");
+            REQUIRE(peakTable.rows.at(3).at("x") == "461.000000");
+            REQUIRE(peakTable.rows.at(3).at("y") == "21.000000");
+            REQUIRE(peakTable.rows.at(3).at("m") == "Q");
+            REQUIRE(peakTable.rows.at(3).at("a") == "4");
         }
 
         SECTION("Maps mass spectrum PEAK TABLE node as data and peaks")
@@ -209,21 +209,21 @@ TEST_CASE("JdxConverter only maps valid JCAMP-DX", "[JdxConverter]")
             REQUIRE(data.at(3).x == Approx(131.0));
             REQUIRE(data.at(3).y == Approx(21.0));
 
-            auto peakTable = nestedNode6.peakTable;
+            auto peakTable = nestedNode6.table;
             REQUIRE(peakTable.columnNames.size() == 2);
             REQUIRE(peakTable.columnNames.at(0).first == "x");
             REQUIRE(peakTable.columnNames.at(0).second == "Peak Position");
             REQUIRE(peakTable.columnNames.at(1).first == "y");
             REQUIRE(peakTable.columnNames.at(1).second == "Intensity");
 
-            REQUIRE(peakTable.peaks.at(0).at("x") == "50.000000");
-            REQUIRE(peakTable.peaks.at(0).at("y") == "10.000000");
-            REQUIRE(peakTable.peaks.at(1).at("x") == "51.000000");
-            REQUIRE(peakTable.peaks.at(1).at("y") == "11.000000");
-            REQUIRE(peakTable.peaks.at(2).at("x") == "130.000000");
-            REQUIRE(peakTable.peaks.at(2).at("y") == "20.000000");
-            REQUIRE(peakTable.peaks.at(3).at("x") == "131.000000");
-            REQUIRE(peakTable.peaks.at(3).at("y") == "21.000000");
+            REQUIRE(peakTable.rows.at(0).at("x") == "50.000000");
+            REQUIRE(peakTable.rows.at(0).at("y") == "10.000000");
+            REQUIRE(peakTable.rows.at(1).at("x") == "51.000000");
+            REQUIRE(peakTable.rows.at(1).at("y") == "11.000000");
+            REQUIRE(peakTable.rows.at(2).at("x") == "130.000000");
+            REQUIRE(peakTable.rows.at(2).at("y") == "20.000000");
+            REQUIRE(peakTable.rows.at(3).at("x") == "131.000000");
+            REQUIRE(peakTable.rows.at(3).at("y") == "21.000000");
 
             auto metadata = nestedNode6.metadata;
             REQUIRE(metadata.count("x.unit") == 1);
@@ -255,21 +255,21 @@ TEST_CASE("JdxConverter only maps valid JCAMP-DX", "[JdxConverter]")
             REQUIRE(data.at(3).x == Approx(131.0));
             REQUIRE(data.at(3).y == Approx(21.0));
 
-            auto peakTable = nestedNode7.peakTable;
+            auto peakTable = nestedNode7.table;
             REQUIRE(peakTable.columnNames.size() == 2);
             REQUIRE(peakTable.columnNames.at(0).first == "x");
             REQUIRE(peakTable.columnNames.at(0).second == "Peak Position");
             REQUIRE(peakTable.columnNames.at(1).first == "y");
             REQUIRE(peakTable.columnNames.at(1).second == "Intensity");
 
-            REQUIRE(peakTable.peaks.at(0).at("x") == "50.000000");
-            REQUIRE(peakTable.peaks.at(0).at("y") == "10.000000");
-            REQUIRE(peakTable.peaks.at(1).at("x") == "51.000000");
-            REQUIRE(peakTable.peaks.at(1).at("y") == "11.000000");
-            REQUIRE(peakTable.peaks.at(2).at("x") == "130.000000");
-            REQUIRE(peakTable.peaks.at(2).at("y") == "20.000000");
-            REQUIRE(peakTable.peaks.at(3).at("x") == "131.000000");
-            REQUIRE(peakTable.peaks.at(3).at("y") == "21.000000");
+            REQUIRE(peakTable.rows.at(0).at("x") == "50.000000");
+            REQUIRE(peakTable.rows.at(0).at("y") == "10.000000");
+            REQUIRE(peakTable.rows.at(1).at("x") == "51.000000");
+            REQUIRE(peakTable.rows.at(1).at("y") == "11.000000");
+            REQUIRE(peakTable.rows.at(2).at("x") == "130.000000");
+            REQUIRE(peakTable.rows.at(2).at("y") == "20.000000");
+            REQUIRE(peakTable.rows.at(3).at("x") == "131.000000");
+            REQUIRE(peakTable.rows.at(3).at("y") == "21.000000");
 
             auto metadata = nestedNode7.metadata;
             REQUIRE(metadata.count("x.unit") == 1);

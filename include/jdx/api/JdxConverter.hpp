@@ -3,7 +3,7 @@
 
 #include "api/Converter.hpp"
 #include "api/Node.hpp"
-#include "api/PeakTable.hpp"
+#include "api/Table.hpp"
 #include "jdx/Block.hpp"
 
 namespace sciformats::jdx::api
@@ -46,13 +46,13 @@ private:
     static std::map<std::string, std::string> mapMetadata(const Block& block);
     static std::map<std::string, std::string> mapMetadata(
         const Page& page, bool isPeakData);
-    static sciformats::api::PeakTable mapPeakTable(
+    static sciformats::api::Table mapPeakTable(
         const sciformats::jdx::PeakTable& peakTable);
     static std::vector<sciformats::api::Point2D> mapPeakTableAsData(
         const sciformats::jdx::PeakTable& peakTable);
-    static sciformats::api::PeakTable mapDataAsPeakTable(
+    static sciformats::api::Table mapDataAsPeakTable(
         const std::vector<std::pair<double, double>>& xyData);
-    static sciformats::api::PeakTable mapPeakAssignments(
+    static sciformats::api::Table mapPeakAssignments(
         const sciformats::jdx::PeakAssignments& peakAssignments);
 };
 } // sciformats::jdx::api

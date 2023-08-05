@@ -14,7 +14,7 @@ EMSCRIPTEN_BINDINGS(Node)
         .field("name", &Node::name)
         .field("parameters", &Node::parameters)
         .field("data", &Node::data)
-        .field("peakTable", &Node::peakTable)
+        .field("table", &Node::table)
         .field("childNodeNames", &Node::childNodeNames)
         .field("metadata", &Node::metadata);
 
