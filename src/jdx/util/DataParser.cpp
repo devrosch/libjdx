@@ -218,7 +218,7 @@ sciformats::jdx::util::DataParser::readXppYYLine(
     {
         // remove initial x value (not required for (X++(Y..Y)) encoded data)
         values.erase(values.begin());
-        // TODO: perform X value check
+        // skip X value check
     }
     if (yValueCheck.has_value() && !values.empty())
     {
@@ -360,7 +360,7 @@ bool sciformats::jdx::util::DataParser::isExponentStart(
     // a faster check for start of exponent instead of these regexes:
     // ^[eE][+-]{0,1}\\d{1,3}[;,\\s]{1}.*
     // ^[eE][+-]{0,1}\\d{1,3}[;,\\s]$
-    // TODO: these heuristics are fragile
+    // these heuristics are fragile
     if (index >= encodedValues.size())
     {
         throw ParseException(
@@ -368,7 +368,6 @@ bool sciformats::jdx::util::DataParser::isExponentStart(
             + ", index: " + std::to_string(index));
     }
     auto i = index;
-    // TODO: replace at() with []
     auto curChar = encodedValues[i++];
     if (curChar != 'E' && curChar != 'e')
     {

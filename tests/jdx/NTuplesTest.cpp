@@ -293,8 +293,6 @@ TEST_CASE(
     REQUIRE(Approx(21.0) == pageF0Data.at(3).second);
 }
 
-// TODO: add test for NMR spectrum format as described in round robin readme
-
 TEST_CASE("parses NTUPLES MS record", "[NTuples]")
 {
     auto nextLine
