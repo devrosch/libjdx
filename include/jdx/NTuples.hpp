@@ -1,5 +1,5 @@
-#ifndef LIBJDX_NTUPLES_HPP
-#define LIBJDX_NTUPLES_HPP
+#ifndef JDX_NTUPLES_HPP
+#define JDX_NTUPLES_HPP
 
 #include "io/TextReader.hpp"
 #include "jdx/LdrContainer.hpp"
@@ -101,4 +101,4 @@ private:
 };
 } // namespace sciformats::jdx
 
-#endif // LIBJDX_NTUPLES_HPP
+#endif // JDX_NTUPLES_HPP

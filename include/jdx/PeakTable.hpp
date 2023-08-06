@@ -1,5 +1,5 @@
-#ifndef LIBJDX_PEAKTABLE_HPP
-#define LIBJDX_PEAKTABLE_HPP
+#ifndef JDX_PEAKTABLE_HPP
+#define JDX_PEAKTABLE_HPP
 
 #include "io/TextReader.hpp"
 #include "jdx/DataLdr.hpp"
@@ -48,4 +48,4 @@ private:
 };
 } // namespace sciformats::jdx
 
-#endif // LIBJDX_PEAKTABLE_HPP
+#endif // JDX_PEAKTABLE_HPP

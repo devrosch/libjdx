@@ -1,5 +1,5 @@
-#ifndef LIBJDX_AUDITTRAIL_HPP
-#define LIBJDX_AUDITTRAIL_HPP
+#ifndef JDX_AUDITTRAIL_HPP
+#define JDX_AUDITTRAIL_HPP
 
 #include "io/TextReader.hpp"
 #include "jdx/AuditTrailEntry.hpp"
@@ -59,4 +59,4 @@ private:
 };
 } // namespace sciformats::jdx
 
-#endif // LIBJDX_AUDITTRAIL_HPP
+#endif // JDX_AUDITTRAIL_HPP

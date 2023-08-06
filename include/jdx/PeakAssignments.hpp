@@ -1,5 +1,5 @@
-#ifndef LIBJDX_PEAKASSIGNMENTS_HPP
-#define LIBJDX_PEAKASSIGNMENTS_HPP
+#ifndef JDX_PEAKASSIGNMENTS_HPP
+#define JDX_PEAKASSIGNMENTS_HPP
 
 #include "io/TextReader.hpp"
 #include "jdx/DataLdr.hpp"
@@ -49,4 +49,4 @@ private:
 };
 } // namespace sciformats::jdx
 
-#endif // LIBJDX_PEAKASSIGNMENTS_HPP
+#endif // JDX_PEAKASSIGNMENTS_HPP

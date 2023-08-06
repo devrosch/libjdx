@@ -1,5 +1,5 @@
-#ifndef LIBJDX_STRINGLDR_HPP
-#define LIBJDX_STRINGLDR_HPP
+#ifndef JDX_STRINGLDR_HPP
+#define JDX_STRINGLDR_HPP
 
 #include "jdx/Ldr.hpp"
 
@@ -33,4 +33,4 @@ private:
 };
 } // namespace sciformats::jdx
 
-#endif // LIBJDX_STRINGLDR_HPP
+#endif // JDX_STRINGLDR_HPP

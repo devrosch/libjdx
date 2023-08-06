@@ -1,5 +1,5 @@
-#ifndef LIBJDX_TABULARDATA_HPP
-#define LIBJDX_TABULARDATA_HPP
+#ifndef JDX_TABULARDATA_HPP
+#define JDX_TABULARDATA_HPP
 
 #include "io/TextReader.hpp"
 #include "jdx/DataLdr.hpp"
@@ -78,4 +78,4 @@ std::vector<R> sciformats::jdx::TabularData::getData(Parser parser) const
 
 } // namespace sciformats::jdx
 
-#endif // LIBJDX_TABULARDATA_HPP
+#endif // JDX_TABULARDATA_HPP

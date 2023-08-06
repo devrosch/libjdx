@@ -1,5 +1,5 @@
-#ifndef LIBJDX_PARSEEXCEPTION_HPP
-#define LIBJDX_PARSEEXCEPTION_HPP
+#ifndef JDX_PARSEEXCEPTION_HPP
+#define JDX_PARSEEXCEPTION_HPP
 
 #include <stdexcept>
 
@@ -17,4 +17,4 @@ public:
 };
 } // namespace sciformats::jdx
 
-#endif // LIBJDX_PARSEEXCEPTION_HPP
+#endif // JDX_PARSEEXCEPTION_HPP

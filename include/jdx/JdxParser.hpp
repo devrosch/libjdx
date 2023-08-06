@@ -1,5 +1,5 @@
-#ifndef LIBJDX_JDXPARSER_HPP
-#define LIBJDX_JDXPARSER_HPP
+#ifndef JDX_JDXPARSER_HPP
+#define JDX_JDXPARSER_HPP
 
 #include "jdx/Block.hpp"
 
@@ -45,4 +45,4 @@ private:
 };
 } // namespace sciformats::jdx
 
-#endif // LIBJDX_JDXPARSER_HPP
+#endif // JDX_JDXPARSER_HPP

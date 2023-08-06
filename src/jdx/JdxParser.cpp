@@ -1,26 +1,26 @@
 // determine the availability of the filesystem header
 // inspired by:
 // https://stackoverflow.com/questions/53365538/how-to-determine-whether-to-use-filesystem-or-experimental-filesystem
-#ifndef LIBJDX_USE_EXPERIMENTAL_FILESYSTEM
+#ifndef JDX_USE_EXPERIMENTAL_FILESYSTEM
 #if defined(__cpp_lib_filesystem)
 // NOLINTNEXTLINE(cppcoreguidelines-macro-usage)
-#define LIBJDX_USE_EXPERIMENTAL_FILESYSTEM 0
+#define JDX_USE_EXPERIMENTAL_FILESYSTEM 0
 #elif defined(__cpp_lib_experimental_filesystem)
 // NOLINTNEXTLINE(cppcoreguidelines-macro-usage)
-#define LIBJDX_USE_EXPERIMENTAL_FILESYSTEM 1
+#define JDX_USE_EXPERIMENTAL_FILESYSTEM 1
 #elif !defined(__has_include)
 // NOLINTNEXTLINE(cppcoreguidelines-macro-usage)
-#define LIBJDX_USE_EXPERIMENTAL_FILESYSTEM 1
+#define JDX_USE_EXPERIMENTAL_FILESYSTEM 1
 #elif __has_include(<filesystem>)
 // NOLINTNEXTLINE(cppcoreguidelines-macro-usage)
-#define LIBJDX_USE_EXPERIMENTAL_FILESYSTEM 0
+#define JDX_USE_EXPERIMENTAL_FILESYSTEM 0
 #elif __has_include(<experimental/filesystem>)
 // NOLINTNEXTLINE(cppcoreguidelines-macro-usage)
-#define LIBJDX_USE_EXPERIMENTAL_FILESYSTEM 1
+#define JDX_USE_EXPERIMENTAL_FILESYSTEM 1
 #endif
 #endif
 
-#ifndef LIBJDX_USE_EXPERIMENTAL_FILESYSTEM
+#ifndef JDX_USE_EXPERIMENTAL_FILESYSTEM
 #error Required <filesystem> header not available.
 #endif
 
@@ -36,7 +36,7 @@
 #include <limits>
 #include <sstream>
 // include and alias filesystem header
-#if LIBJDX_USE_EXPERIMENTAL_FILESYSTEM
+#if JDX_USE_EXPERIMENTAL_FILESYSTEM
 #include <experimental/filesystem>
 namespace fs = std::experimental::filesystem;
 #else

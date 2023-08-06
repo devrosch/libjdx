@@ -1,5 +1,5 @@
-#ifndef LIBJDX_DATA2D_HPP
-#define LIBJDX_DATA2D_HPP
+#ifndef JDX_DATA2D_HPP
+#define JDX_DATA2D_HPP
 
 #include "io/TextReader.hpp"
 #include "jdx/DataLdr.hpp"
@@ -109,4 +109,4 @@ protected:
 };
 } // namespace sciformats::jdx
 
-#endif // LIBJDX_DATA2D_HPP
+#endif // JDX_DATA2D_HPP

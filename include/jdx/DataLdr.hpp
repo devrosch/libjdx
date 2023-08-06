@@ -1,5 +1,5 @@
-#ifndef LIBJDX_DATALDR_HPP
-#define LIBJDX_DATALDR_HPP
+#ifndef JDX_DATALDR_HPP
+#define JDX_DATALDR_HPP
 
 #include "io/TextReader.hpp"
 #include "jdx/Ldr.hpp"
@@ -88,4 +88,4 @@ R sciformats::jdx::DataLdr::callAndResetStreamPos(
 
 } // namespace sciformats::jdx
 
-#endif // LIBJDX_DATALDR_HPP
+#endif // JDX_DATALDR_HPP

@@ -1,5 +1,5 @@
-#ifndef LIBJDX_DATAPARSER_HPP
-#define LIBJDX_DATAPARSER_HPP
+#ifndef JDX_DATAPARSER_HPP
+#define JDX_DATAPARSER_HPP
 
 #include "io/TextReader.hpp"
 
@@ -53,4 +53,4 @@ private:
 };
 } // namespace sciformats::jdx
 
-#endif // LIBJDX_DATAPARSER_HPP
+#endif // JDX_DATAPARSER_HPP

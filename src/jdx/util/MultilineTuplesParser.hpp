@@ -1,5 +1,5 @@
-#ifndef LIBJDX_MULTILINETUPLESPARSER_HPP
-#define LIBJDX_MULTILINETUPLESPARSER_HPP
+#ifndef JDX_MULTILINETUPLESPARSER_HPP
+#define JDX_MULTILINETUPLESPARSER_HPP
 
 #include "io/TextReader.hpp"
 #include "util/TuplesParser.hpp"
@@ -44,4 +44,4 @@ private:
 };
 }
 
-#endif /* LIBJDX_MULTILINETUPLESPARSER_HPP */
+#endif /* JDX_MULTILINETUPLESPARSER_HPP */

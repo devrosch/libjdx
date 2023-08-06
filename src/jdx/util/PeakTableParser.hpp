@@ -1,5 +1,5 @@
-#ifndef LIBJDX_PEAKTABLEPARSER_HPP
-#define LIBJDX_PEAKTABLEPARSER_HPP
+#ifndef JDX_PEAKTABLEPARSER_HPP
+#define JDX_PEAKTABLEPARSER_HPP
 
 #include "io/TextReader.hpp"
 #include "jdx/PeakTable.hpp"
@@ -60,4 +60,4 @@ private:
 };
 }
 
-#endif /* LIBJDX_PEAKTABLEPARSER_HPP */
+#endif /* JDX_PEAKTABLEPARSER_HPP */

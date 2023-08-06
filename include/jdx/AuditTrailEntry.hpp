@@ -1,5 +1,5 @@
-#ifndef LIBJDX_AUDITTRAILENTRY_HPP
-#define LIBJDX_AUDITTRAILENTRY_HPP
+#ifndef JDX_AUDITTRAILENTRY_HPP
+#define JDX_AUDITTRAILENTRY_HPP
 
 #include <optional>
 #include <string>
@@ -50,4 +50,4 @@ public:
 };
 } // namespace sciformats::jdx
 
-#endif // LIBJDX_AUDITTRAILENTRY_HPP
+#endif // JDX_AUDITTRAILENTRY_HPP

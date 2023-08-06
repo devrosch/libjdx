@@ -1,5 +1,5 @@
-#ifndef LIBJDX_AUDITTRAILPARSER_HPP
-#define LIBJDX_AUDITTRAILPARSER_HPP
+#ifndef JDX_AUDITTRAILPARSER_HPP
+#define JDX_AUDITTRAILPARSER_HPP
 
 #include "io/TextReader.hpp"
 #include "jdx/AuditTrailEntry.hpp"
@@ -57,4 +57,4 @@ private:
 };
 }
 
-#endif /* LIBJDX_AUDITTRAILPARSER_HPP */
+#endif /* JDX_AUDITTRAILPARSER_HPP */

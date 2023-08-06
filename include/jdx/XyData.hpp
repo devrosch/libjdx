@@ -1,5 +1,5 @@
-#ifndef LIBJDX_XYDATA_HPP
-#define LIBJDX_XYDATA_HPP
+#ifndef JDX_XYDATA_HPP
+#define JDX_XYDATA_HPP
 
 #include "io/TextReader.hpp"
 #include "jdx/StringLdr.hpp"
@@ -49,4 +49,4 @@ private:
 };
 } // namespace sciformats::jdx
 
-#endif // LIBJDX_XYDATA_HPP
+#endif // JDX_XYDATA_HPP

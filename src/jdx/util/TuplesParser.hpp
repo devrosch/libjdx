@@ -1,5 +1,5 @@
-#ifndef LIBJDX_TUPLESPARSER_HPP
-#define LIBJDX_TUPLESPARSER_HPP
+#ifndef JDX_TUPLESPARSER_HPP
+#define JDX_TUPLESPARSER_HPP
 
 #include "io/TextReader.hpp"
 
@@ -95,4 +95,4 @@ std::optional<R> sciformats::jdx::util::TuplesParser::next(
 
 }
 
-#endif /* LIBJDX_TUPLESPARSER_HPP */
+#endif /* JDX_TUPLESPARSER_HPP */

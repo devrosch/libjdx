@@ -1,5 +1,5 @@
-#ifndef LIBIO_ENDIANNESS_HPP
-#define LIBIO_ENDIANNESS_HPP
+#ifndef IO_ENDIANNESS_HPP
+#define IO_ENDIANNESS_HPP
 
 #include <cstdint> // for uint8_t
 
@@ -16,4 +16,4 @@ enum class Endianness : uint8_t
 
 } // namespace sciformats::io
 
-#endif // LIBIO_ENDIANNESS_HPP
+#endif // IO_ENDIANNESS_HPP

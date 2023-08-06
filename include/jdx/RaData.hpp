@@ -1,5 +1,5 @@
-#ifndef LIBJDX_RADATA_HPP
-#define LIBJDX_RADATA_HPP
+#ifndef JDX_RADATA_HPP
+#define JDX_RADATA_HPP
 
 #include "io/TextReader.hpp"
 #include "jdx/Data2D.hpp"
@@ -58,4 +58,4 @@ private:
 };
 } // namespace sciformats::jdx
 
-#endif // LIBJDX_RADATA_HPP
+#endif // JDX_RADATA_HPP

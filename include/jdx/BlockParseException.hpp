@@ -1,5 +1,5 @@
-#ifndef LIBJDX_BLOCKPARSEEXCEPTION_HPP
-#define LIBJDX_BLOCKPARSEEXCEPTION_HPP
+#ifndef JDX_BLOCKPARSEEXCEPTION_HPP
+#define JDX_BLOCKPARSEEXCEPTION_HPP
 
 #include "jdx/ParseException.hpp"
 
@@ -20,4 +20,4 @@ public:
 };
 } // namespace sciformats::jdx
 
-#endif // LIBJDX_BLOCKPARSEEXCEPTION_HPP
+#endif // JDX_BLOCKPARSEEXCEPTION_HPP

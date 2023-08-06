@@ -1,5 +1,5 @@
-#ifndef LIBJDX_NTUPLESATTRIBUTES_HPP
-#define LIBJDX_NTUPLESATTRIBUTES_HPP
+#ifndef JDX_NTUPLESATTRIBUTES_HPP
+#define JDX_NTUPLESATTRIBUTES_HPP
 
 #include "jdx/StringLdr.hpp"
 
@@ -65,4 +65,4 @@ public:
 };
 } // namespace sciformats::jdx
 
-#endif // LIBJDX_NTUPLESATTRIBUTES_HPP
+#endif // JDX_NTUPLESATTRIBUTES_HPP

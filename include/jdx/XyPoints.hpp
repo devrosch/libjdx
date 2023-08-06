@@ -1,5 +1,5 @@
-#ifndef LIBJDX_XYPOINTS_HPP
-#define LIBJDX_XYPOINTS_HPP
+#ifndef JDX_XYPOINTS_HPP
+#define JDX_XYPOINTS_HPP
 
 #include "io/TextReader.hpp"
 #include "jdx/StringLdr.hpp"
@@ -49,4 +49,4 @@ private:
 };
 } // namespace sciformats::jdx
 
-#endif // LIBJDX_XYPOINTS_HPP
+#endif // JDX_XYPOINTS_HPP

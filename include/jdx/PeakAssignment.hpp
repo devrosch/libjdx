@@ -1,5 +1,5 @@
-#ifndef LIBJDX_PEAKASSIGNMENT_HPP
-#define LIBJDX_PEAKASSIGNMENT_HPP
+#ifndef JDX_PEAKASSIGNMENT_HPP
+#define JDX_PEAKASSIGNMENT_HPP
 
 #include <optional>
 #include <string>
@@ -40,4 +40,4 @@ struct PeakAssignment
 };
 } // namespace sciformats::jdx
 
-#endif // LIBJDX_PEAKASSIGNMENT_HPP
+#endif // JDX_PEAKASSIGNMENT_HPP

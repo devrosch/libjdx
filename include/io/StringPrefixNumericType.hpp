@@ -1,5 +1,5 @@
-#ifndef LIBIO_STRINGPREFIXNUMERICTYPE_HPP
-#define LIBIO_STRINGPREFIXNUMERICTYPE_HPP
+#ifndef IO_STRINGPREFIXNUMERICTYPE_HPP
+#define IO_STRINGPREFIXNUMERICTYPE_HPP
 
 #include <cstdint> // for uint8_t
 
@@ -32,4 +32,4 @@ enum class StringPrefixNumericType : uint8_t
 
 } // namespace sciformats::io
 
-#endif // LIBIO_STRINGPREFIXNUMERICTYPE_HPP
+#endif // IO_STRINGPREFIXNUMERICTYPE_HPP

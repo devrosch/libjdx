@@ -1,5 +1,5 @@
-#ifndef LIBJDX_PAGE_HPP
-#define LIBJDX_PAGE_HPP
+#ifndef JDX_PAGE_HPP
+#define JDX_PAGE_HPP
 
 #include "io/TextReader.hpp"
 #include "jdx/DataTable.hpp"
@@ -76,4 +76,4 @@ private:
 };
 } // namespace sciformats::jdx
 
-#endif // LIBJDX_PAGE_HPP
+#endif // JDX_PAGE_HPP

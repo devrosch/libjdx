@@ -1,5 +1,5 @@
-#ifndef LIBJDX_STRINGUTILS_HPP
-#define LIBJDX_STRINGUTILS_HPP
+#ifndef JDX_STRINGUTILS_HPP
+#define JDX_STRINGUTILS_HPP
 
 #include <string>
 #include <vector>
@@ -19,4 +19,4 @@ std::vector<std::string> split(const std::string& input,
     size_t matchGroup = 0);
 } // namespace sciformats::jdx::utils
 
-#endif // LIBJDX_STRINGUTILS_HPP
+#endif // JDX_STRINGUTILS_HPP

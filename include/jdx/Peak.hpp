@@ -1,5 +1,5 @@
-#ifndef LIBJDX_PEAK_HPP
-#define LIBJDX_PEAK_HPP
+#ifndef JDX_PEAK_HPP
+#define JDX_PEAK_HPP
 
 #include <optional>
 
@@ -35,4 +35,4 @@ public:
 };
 } // namespace sciformats::jdx
 
-#endif // LIBJDX_PEAK_HPP
+#endif // JDX_PEAK_HPP

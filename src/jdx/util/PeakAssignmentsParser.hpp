@@ -1,5 +1,5 @@
-#ifndef LIBJDX_PEAKASSIGNMENTSPARSER_HPP
-#define LIBJDX_PEAKASSIGNMENTSPARSER_HPP
+#ifndef JDX_PEAKASSIGNMENTSPARSER_HPP
+#define JDX_PEAKASSIGNMENTSPARSER_HPP
 
 #include "io/TextReader.hpp"
 #include "jdx/PeakAssignment.hpp"
@@ -55,4 +55,4 @@ private:
 };
 }
 
-#endif /* LIBJDX_PEAKASSIGNMENTSPARSER_HPP */
+#endif /* JDX_PEAKASSIGNMENTSPARSER_HPP */

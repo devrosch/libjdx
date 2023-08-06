@@ -1,5 +1,5 @@
-#ifndef LIBJDX_RAPARAMETERS_HPP
-#define LIBJDX_RAPARAMETERS_HPP
+#ifndef JDX_RAPARAMETERS_HPP
+#define JDX_RAPARAMETERS_HPP
 
 #include <optional>
 #include <string>
@@ -36,4 +36,4 @@ struct RaParameters
 };
 } // namespace sciformats::jdx
 
-#endif // LIBJDX_RAPARAMETERS_HPP
+#endif // JDX_RAPARAMETERS_HPP

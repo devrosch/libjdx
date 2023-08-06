@@ -1,5 +1,5 @@
-#ifndef LIBJDX_XYBASE_HPP
-#define LIBJDX_XYBASE_HPP
+#ifndef JDX_XYBASE_HPP
+#define JDX_XYBASE_HPP
 
 #include "io/TextReader.hpp"
 #include "jdx/Data2D.hpp"
@@ -66,4 +66,4 @@ private:
 };
 } // namespace sciformats::jdx
 
-#endif // LIBJDX_XYBASE_HPP
+#endif // JDX_XYBASE_HPP

@@ -1,5 +1,5 @@
-#ifndef LIBJDX_XYPARAMETERS_HPP
-#define LIBJDX_XYPARAMETERS_HPP
+#ifndef JDX_XYPARAMETERS_HPP
+#define JDX_XYPARAMETERS_HPP
 
 #include <optional>
 #include <string>
@@ -50,4 +50,4 @@ struct XyParameters
 };
 } // namespace sciformats::jdx
 
-#endif // LIBJDX_XYPARAMETERS_HPP
+#endif // JDX_XYPARAMETERS_HPP

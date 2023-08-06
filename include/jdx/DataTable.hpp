@@ -1,5 +1,5 @@
-#ifndef LIBJDX_DATATABLE_HPP
-#define LIBJDX_DATATABLE_HPP
+#ifndef JDX_DATATABLE_HPP
+#define JDX_DATATABLE_HPP
 
 #include "io/TextReader.hpp"
 #include "jdx/Data2D.hpp"
@@ -145,4 +145,4 @@ R sciformats::jdx::DataTable::findValue(
 
 } // namespace sciformats::jdx
 
-#endif // LIBJDX_DATATABLE_HPP
+#endif // JDX_DATATABLE_HPP

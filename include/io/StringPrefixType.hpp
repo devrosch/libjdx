@@ -1,5 +1,5 @@
-#ifndef LIBIO_STRINGPREFIXTYPE_HPP
-#define LIBIO_STRINGPREFIXTYPE_HPP
+#ifndef IO_STRINGPREFIXTYPE_HPP
+#define IO_STRINGPREFIXTYPE_HPP
 
 #include "Endianness.hpp"
 #include "StringPrefixNumericType.hpp"
@@ -25,4 +25,4 @@ struct StringPrefixType
 
 } // namespace sciformats::io
 
-#endif // LIBIO_STRINGPREFIXTYPE_HPP
+#endif // IO_STRINGPREFIXTYPE_HPP

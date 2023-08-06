@@ -1,5 +1,5 @@
-#ifndef LIBJDX_LDRCONTAINER_HPP
-#define LIBJDX_LDRCONTAINER_HPP
+#ifndef JDX_LDRCONTAINER_HPP
+#define JDX_LDRCONTAINER_HPP
 
 #include "io/TextReader.hpp"
 
@@ -18,4 +18,4 @@ protected:
 };
 } // namespace sciformats::jdx
 
-#endif // LIBJDX_LDRCONTAINER_HPP
+#endif // JDX_LDRCONTAINER_HPP

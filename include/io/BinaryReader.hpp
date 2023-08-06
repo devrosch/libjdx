@@ -1,5 +1,5 @@
-#ifndef LIBIO_BINARYREADER_HPP
-#define LIBIO_BINARYREADER_HPP
+#ifndef IO_BINARYREADER_HPP
+#define IO_BINARYREADER_HPP
 
 #include "Endianness.hpp"
 #include "StringPrefixType.hpp"
@@ -254,4 +254,4 @@ private:
 };
 } // namespace sciformats::io
 
-#endif // LIBIO_BINARYREADER_HPP
+#endif // IO_BINARYREADER_HPP
