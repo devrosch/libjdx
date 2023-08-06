@@ -15,7 +15,13 @@ sciformats::jdx::XyData::XyData(const std::string& label,
 std::vector<std::pair<double, double>> sciformats::jdx::XyData::getData()
 {
     auto varList = getVariableList();
-    if (std::any_of(s_xyDataVariableLists.begin(), s_xyDataVariableLists.end(),
+    if (varList == s_ooQuirkVarList)
+    {
+        // Ocean Optics quirk
+        return XyBase::getXYXYData();
+    }
+    if (std::any_of(s_xyDataVariableLists.begin(),
+            s_xyDataVariableLists.end() - 1,
             [&varList](const std::string& s) { return s == varList; }))
     {
         return XyBase::getXppYYData();

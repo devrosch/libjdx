@@ -44,8 +44,10 @@ public:
 
 private:
     static constexpr const char* s_xyDataLabel = "XYDATA";
-    static constexpr std::array<const char*, 3> s_xyDataVariableLists
-        = {"(X++(Y..Y))", "(X++(R..R))", "(X++(I..I))"};
+    static constexpr const char* s_ooQuirkVarList = "(XY..XY)";
+    // if more quirks need to be added, getData() must be changed
+    static constexpr std::array<const char*, 4> s_xyDataVariableLists
+        = {"(X++(Y..Y))", "(X++(R..R))", "(X++(I..I))", s_ooQuirkVarList};
 };
 } // namespace sciformats::jdx
 
