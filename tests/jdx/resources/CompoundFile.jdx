@@ -134,4 +134,23 @@
 130.0, 20.0; 131.0, 21.0
 ##END NTUPLES= MASS SPECTRUM
 ##END=
+##TITLE=
+##JCAMPDX= 6.0
+##DATA TYPE= NMR SPECTRUM
+##OWNER= testuser
+##AUDIT TRAIL=  $$ (NUMBER, WHEN, WHO, WHERE, PROCESS, VERSION, WHAT)
+(   1,<2023-08-06 08:00:00.000 +0200>,<testuser>,<loc01>,<proc1>,<SW 1.3>,
+      <acquisition
+      line 2
+      line 3>)
+(   2,<2023-08-06 08:10:00.000 +0200>,<testuser>,<loc01>,<proc1>,<SW 1.3>,
+      <raw data processing
+      line 2
+      line 3>)
+(   3,<2023-08-06 08:20:00.000 +0200>,<testuser>,<loc01>,<proc1>,<SW 1.3>,
+      <raw data processing
+      line 2
+      line 3>)
+$$ ##END=
+##END=
 ##END= $$ Root LINK BLOCK

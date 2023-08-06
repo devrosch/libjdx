@@ -74,8 +74,11 @@ sciformats::api::Node sciformats::jdx::api::JdxConverter::retrieveNode(
             = brukerParamsStartIndex
               + block->getBrukerSpecificParameters().size();
         const size_t nTuplesIndex = brukerParamsEndIndexExclusive;
-        const size_t childBlocksStartIndex
+        const size_t auditTrailIndex
             = block->getNTuples().has_value() ? nTuplesIndex + 1 : nTuplesIndex;
+        const size_t childBlocksStartIndex = block->getAuditTrail().has_value()
+                                                 ? auditTrailIndex + 1
+                                                 : auditTrailIndex;
 
         // nodeIndex >= brukerRelaxStartIndex, always true
         if (nodeIndex < brukerRelaxEndIndexExclusive
@@ -106,12 +109,22 @@ sciformats::api::Node sciformats::jdx::api::JdxConverter::retrieveNode(
         }
         if (nodeIndex == nTuplesIndex && block->getNTuples().has_value())
         {
-            // consider NTUPLES LDR as first child node
+            // consider NTUPLES LDR as child node
             auto startIt = nodeIndices.cbegin() + iterationIndex;
             auto nTuplesIndices
                 = std::vector<size_t>{++startIt, nodeIndices.cend()};
             return mapNTuples(block->getNTuples().value(), nTuplesIndices,
                 isPeakData(*block));
+        }
+        if (nodeIndex == auditTrailIndex && block->getAuditTrail().has_value())
+        {
+            // consider AUDIT TRAIL LDR as child node
+            if (iterationIndex < nodeIndices.size() - 1)
+            {
+                // not a leaf node
+                raiseIllegalPathError(nodeIndex, block);
+            }
+            return mapAuditTrail(block->getAuditTrail().value());
         }
         const auto& childBlock
             = block->getBlocks().at(nodeIndex - childBlocksStartIndex);
@@ -164,9 +177,15 @@ sciformats::api::Node sciformats::jdx::api::JdxConverter::mapBlock(
     }
     if (block.getNTuples().has_value())
     {
-        // consider NTUPLES LDR as first child node
+        // consider NTUPLES LDR as child node
         auto nTuplesName = block.getNTuples().value().getDataForm();
         childNodeNames.push_back(nTuplesName);
+    }
+    if (block.getAuditTrail().has_value())
+    {
+        // consider AUDIT TRAIL LDR as child node
+        auto auditTrailLabel = block.getAuditTrail().value().getLabel();
+        childNodeNames.push_back(auditTrailLabel);
     }
     for (auto const& childBlock : block.getBlocks())
     {
@@ -503,8 +522,7 @@ sciformats::jdx::api::JdxConverter::mapPeakTableAsData(
     return data;
 }
 
-sciformats::api::Table
-sciformats::jdx::api::JdxConverter::mapDataAsPeakTable(
+sciformats::api::Table sciformats::jdx::api::JdxConverter::mapDataAsPeakTable(
     const std::vector<std::pair<double, double>>& xyData)
 {
     auto resultPeakTable = sciformats::api::Table{};
@@ -523,8 +541,7 @@ sciformats::jdx::api::JdxConverter::mapDataAsPeakTable(
     return resultPeakTable;
 }
 
-sciformats::api::Table
-sciformats::jdx::api::JdxConverter::mapPeakAssignments(
+sciformats::api::Table sciformats::jdx::api::JdxConverter::mapPeakAssignments(
     const sciformats::jdx::PeakAssignments& peakAssignments)
 {
     auto peakAssignmentsData = peakAssignments.getData();
@@ -577,6 +594,68 @@ sciformats::jdx::api::JdxConverter::mapPeakAssignments(
         resultPeakTable.rows.push_back(resultPeak);
     }
     return resultPeakTable;
+}
+
+sciformats::api::Node sciformats::jdx::api::JdxConverter::mapAuditTrail(
+    const sciformats::jdx::AuditTrail& auditTrail)
+{
+    auto auditEntries = auditTrail.getData();
+
+    const auto has_process = std::any_of(auditEntries.cbegin(),
+        auditEntries.cend(),
+        [](const AuditTrailEntry& entry) { return entry.process.has_value(); });
+    const auto has_version = std::any_of(auditEntries.cbegin(),
+        auditEntries.cend(),
+        [](const AuditTrailEntry& entry) { return entry.version.has_value(); });
+
+    sciformats::api::Table table{};
+    // columns
+    table.columnNames.emplace_back("number", "NUMBER");
+    table.columnNames.emplace_back("when", "WHEN");
+    table.columnNames.emplace_back("who", "WHO");
+    table.columnNames.emplace_back("where", "WHERE");
+    if (has_process)
+    {
+        table.columnNames.emplace_back("process", "PROCESS");
+    }
+    if (has_version)
+    {
+        table.columnNames.emplace_back("version", "VERSION");
+    }
+    table.columnNames.emplace_back("what", "WHAT");
+
+    // rows
+    for (const auto& entry : auditEntries)
+    {
+        std::map<std::string, std::string> row{
+            {"number", std::to_string(entry.number)},
+            {"when", entry.when},
+            {"who", entry.who},
+            {"where", entry.where},
+            {"what", entry.what},
+        };
+        if (has_process && entry.process.has_value())
+        {
+            row.emplace("process", entry.process.value());
+        }
+        if (has_version && entry.version.has_value())
+        {
+            row.emplace("version", entry.version.value());
+        }
+
+        table.rows.push_back(row);
+    }
+
+    const auto& auditTrailLabel = auditTrail.getLabel();
+
+    return {
+        auditTrailLabel,
+        std::vector<sciformats::api::KeyValueParam>{},
+        std::vector<sciformats::api::Point2D>{},
+        std::map<std::string, std::string>{},
+        table,
+        std::vector<std::string>{},
+    };
 }
 
 #ifdef __EMSCRIPTEN__

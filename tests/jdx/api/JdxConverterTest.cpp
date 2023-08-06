@@ -18,7 +18,7 @@ TEST_CASE("JdxConverter only maps valid JCAMP-DX", "[JdxConverter]")
         REQUIRE("Root LINK BLOCK" == rootNode.name);
         REQUIRE(rootNode.parameters.size() == 4);
         REQUIRE(rootNode.data.empty());
-        REQUIRE(rootNode.childNodeNames.size() == 8);
+        REQUIRE(rootNode.childNodeNames.size() == 9);
 
         SECTION("Maps nested XYDATA node")
         {
@@ -278,6 +278,59 @@ TEST_CASE("JdxConverter only maps valid JCAMP-DX", "[JdxConverter]")
             REQUIRE(metadata.at("y.unit") == "RELATIVE ABUNDANCE");
             REQUIRE(metadata.count("plot.style") == 1);
             REQUIRE(metadata.at("plot.style") == "sticks");
+        }
+
+        SECTION("Maps AUDIT TRAIL as node")
+        {
+            auto nestedNode8 = converter.read("/8/0");
+            REQUIRE("AUDITTRAIL" == nestedNode8.name);
+            REQUIRE(nestedNode8.parameters.empty());
+            REQUIRE(nestedNode8.data.empty());
+            REQUIRE(nestedNode8.metadata.empty());
+            REQUIRE(nestedNode8.childNodeNames.empty());
+
+            auto table = nestedNode8.table;
+            REQUIRE(table.columnNames.size() == 7);
+            REQUIRE(table.columnNames.at(0).first == "number");
+            REQUIRE(table.columnNames.at(0).second == "NUMBER");
+            REQUIRE(table.columnNames.at(1).first == "when");
+            REQUIRE(table.columnNames.at(1).second == "WHEN");
+            REQUIRE(table.columnNames.at(2).first == "who");
+            REQUIRE(table.columnNames.at(2).second == "WHO");
+            REQUIRE(table.columnNames.at(3).first == "where");
+            REQUIRE(table.columnNames.at(3).second == "WHERE");
+            REQUIRE(table.columnNames.at(4).first == "process");
+            REQUIRE(table.columnNames.at(4).second == "PROCESS");
+            REQUIRE(table.columnNames.at(5).first == "version");
+            REQUIRE(table.columnNames.at(5).second == "VERSION");
+            REQUIRE(table.columnNames.at(6).first == "what");
+            REQUIRE(table.columnNames.at(6).second == "WHAT");
+
+            REQUIRE(table.rows.size() == 3);
+            auto entry0 = table.rows.at(0);
+            REQUIRE(entry0.at("number") == "1");
+            REQUIRE(entry0.at("when") == "2023-08-06 08:00:00.000 +0200");
+            REQUIRE(entry0.at("who") == "testuser");
+            REQUIRE(entry0.at("where") == "loc01");
+            REQUIRE(entry0.at("process") == "proc1");
+            REQUIRE(entry0.at("version") == "SW 1.3");
+            REQUIRE(entry0.at("what") == "acquisition\nline 2\nline 3");
+            auto entry1 = table.rows.at(1);
+            REQUIRE(entry1.at("number") == "2");
+            REQUIRE(entry1.at("when") == "2023-08-06 08:10:00.000 +0200");
+            REQUIRE(entry1.at("who") == "testuser");
+            REQUIRE(entry1.at("where") == "loc01");
+            REQUIRE(entry1.at("process") == "proc1");
+            REQUIRE(entry1.at("version") == "SW 1.3");
+            REQUIRE(entry1.at("what") == "raw data processing\nline 2\nline 3");
+            auto entry2 = table.rows.at(2);
+            REQUIRE(entry2.at("number") == "3");
+            REQUIRE(entry2.at("when") == "2023-08-06 08:20:00.000 +0200");
+            REQUIRE(entry2.at("who") == "testuser");
+            REQUIRE(entry2.at("where") == "loc01");
+            REQUIRE(entry2.at("process") == "proc1");
+            REQUIRE(entry2.at("version") == "SW 1.3");
+            REQUIRE(entry2.at("what") == "raw data processing\nline 2\nline 3");
         }
 
         SECTION("Throws when trying to read non existent node")

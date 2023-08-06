@@ -54,6 +54,8 @@ private:
         const std::vector<std::pair<double, double>>& xyData);
     static sciformats::api::Table mapPeakAssignments(
         const sciformats::jdx::PeakAssignments& peakAssignments);
+    static sciformats::api::Node mapAuditTrail(
+        const sciformats::jdx::AuditTrail& auditTrail);
 };
 } // sciformats::jdx::api
 
