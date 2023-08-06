@@ -144,9 +144,6 @@ public:
 
 private:
     static constexpr const char* s_blockStartLabel = "TITLE";
-    static constexpr std::array<const char*, 11> s_specialLdrs
-        = {"", "END", s_blockStartLabel, "XYDATA", "RADATA", "XYPOINTS",
-            "PEAKTABLE", "PEAKASSIGNMENTS", "NTUPLES", "AUDITTRAIL", "$RELAX"};
 
     std::unique_ptr<io::TextReader> m_readerPtr;
     io::TextReader& m_reader;
@@ -180,7 +177,6 @@ private:
     static std::string parseFirstLine(const std::string& firstLine);
     void parseInput(
         const std::string& title, std::optional<std::string>& nextLine);
-    static bool isSpecialLabel(const std::string& label);
     template<typename T>
     void addLdr(const std::string& title, const std::string& label,
         std::optional<T>& member, const std::function<T()>& builderFunc);

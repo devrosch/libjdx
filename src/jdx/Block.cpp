@@ -148,29 +148,7 @@ void sciformats::jdx::Block::parseInput(
         std::string label;
         std::string value;
         std::tie(label, value) = util::parseLdrStart(nextLine.value());
-        if (!isSpecialLabel(label))
-        {
-            // LDR is a regular LDR
-            nextLine = parseStringValue(value, m_reader);
-            // duplicate?
-            std::optional<StringLdr> existingLdr = getLdr(label);
-            if (existingLdr)
-            {
-                // reference implementation seems to overwrite LDR with
-                // duplicate, but spec (JCAMP-DX IR 3.2) says
-                // a duplicate LDR is illegal in a block
-                // => accept if content is identical
-                if (existingLdr.has_value()
-                    && existingLdr.value().getValue() != value)
-                {
-                    throw BlockParseException(
-                        "Multiple non-identical values found for \"" + label
-                        + std::string{"\" in block: \"" + title + "\""});
-                }
-            }
-            m_ldrs.emplace_back(label, value);
-        }
-        else if (label.empty())
+        if (label.empty())
         {
             // LDR start is an LDR comment "##="
             nextLine = parseStringValue(value, m_reader);
@@ -244,22 +222,34 @@ void sciformats::jdx::Block::parseInput(
         }
         else
         {
-            throw BlockParseException("Unsupported", label, title);
+            // LDR is a regular LDR
+            nextLine = parseStringValue(value, m_reader);
+            // duplicate?
+            std::optional<StringLdr> existingLdr = getLdr(label);
+            if (existingLdr)
+            {
+                // reference implementation seems to overwrite LDR with
+                // duplicate, but spec (JCAMP-DX IR 3.2) says
+                // a duplicate LDR is illegal in a block
+                // => accept if content is identical
+                if (existingLdr.has_value()
+                    && existingLdr.value().getValue() != value)
+                {
+                    throw BlockParseException(
+                        "Multiple non-identical values found for \"" + label
+                        + std::string{"\" in block: \"" + title + "\""});
+                }
+            }
+            m_ldrs.emplace_back(label, value);
         }
     }
 
-    auto lastParsedLabel = util::parseLdrStart(nextLine.value()).first;
-    if ("END" != lastParsedLabel)
+    if (!nextLine.has_value()
+        || "END" != util::parseLdrStart(nextLine.value()).first)
     {
         throw BlockParseException("No", "END", title);
     }
     // make nextline the one following the ##END= LDR
     nextLine = m_reader.eof() ? std::nullopt
                               : std::optional<std::string>{m_reader.readLine()};
-}
-
-bool sciformats::jdx::Block::isSpecialLabel(const std::string& label)
-{
-    return std::any_of(s_specialLdrs.cbegin(), s_specialLdrs.cend(),
-        [&label](const char* specialLabel) { return specialLabel == label; });
 }
