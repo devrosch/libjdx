@@ -21,6 +21,8 @@ sciformats::jdx::LdrContainer::parseStringValue(
             value.pop_back();
             value.append(line);
         }
+        // Bruker quirk: check for specific comments that indicate the end of
+        // the previous LDR
         else if (content.empty() && comment.has_value()
                  && (util::isBrukerSpecificSectionStart(line)
                      || util::isBrukerSpecificSectionEnd(line)))

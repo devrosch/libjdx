@@ -133,6 +133,7 @@ void sciformats::jdx::Block::parseInput(
     {
         if (util::isPureComment(nextLine.value()))
         {
+            // check for Bruker quirk
             if (util::isBrukerSpecificSectionStart(nextLine.value()))
             {
                 m_brukerSpecificParameters.emplace_back(m_reader, nextLine);

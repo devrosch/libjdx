@@ -16,7 +16,7 @@ sciformats::jdx::AuditTrail::AuditTrail(const std::string& label,
         std::vector<std::string>{
             std::begin(s_variableLists), std::end(s_variableLists)});
 
-    // check if overruling Bruker var list is present
+    // Bruker quirk: check if overruling Bruker var list is present
     m_brukerVarList = scanForBrukerVarList(nextLine);
     if (m_brukerVarList)
     {
