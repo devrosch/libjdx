@@ -396,3 +396,52 @@ TEST_CASE("parses zero data point record", "[XyData]")
 
     REQUIRE(xyData.empty());
 }
+
+TEST_CASE("accepts (XY..XY) for XYDATA variable list", "[XyData][quirk]")
+{
+    // "##XYPOINTS= (XY..XY)\r\n"
+    const auto* label = "XYDATA";
+    const auto* variables = "(XY..XY)";
+    std::string input{"450.0, 10.0; 451.0, 11.0\r\n"
+                      "460.0, 20.0; 461.0, 21.0\r\n"
+                      "##END="};
+    auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
+    streamPtr->str(input);
+    sciformats::io::TextReader reader{std::move(streamPtr)};
+
+    std::vector<sciformats::jdx::StringLdr> ldrs;
+    ldrs.emplace_back("XUNITS", "1/CM");
+    ldrs.emplace_back("YUNITS", "ABSORBANCE");
+    ldrs.emplace_back("FIRSTX", "900.0");
+    ldrs.emplace_back("LASTX", "922.0");
+    ldrs.emplace_back("XFACTOR", "2.0");
+    ldrs.emplace_back("YFACTOR", "10.0");
+    ldrs.emplace_back("NPOINTS", "4");
+    auto nextLine = std::optional<std::string>{};
+    auto xyDataRecord
+        = sciformats::jdx::XyData(label, variables, ldrs, reader, nextLine);
+
+    REQUIRE("(XY..XY)" == xyDataRecord.getVariableList());
+
+    auto xyData = xyDataRecord.getData();
+
+    REQUIRE(4 == xyData.size());
+    REQUIRE(900.0 == Approx(xyData.at(0).first));
+    REQUIRE(100.0 == Approx(xyData.at(0).second));
+    REQUIRE(902.0 == Approx(xyData.at(1).first));
+    REQUIRE(110.0 == Approx(xyData.at(1).second));
+    REQUIRE(920.0 == Approx(xyData.at(2).first));
+    REQUIRE(200.0 == Approx(xyData.at(2).second));
+    REQUIRE(922.0 == Approx(xyData.at(3).first));
+    REQUIRE(210.0 == Approx(xyData.at(3).second));
+    auto params = xyDataRecord.getParameters();
+    REQUIRE("1/CM" == params.xUnits);
+    REQUIRE("ABSORBANCE" == params.yUnits);
+    REQUIRE(900.0 == Approx(params.firstX));
+    REQUIRE(922.0 == Approx(params.lastX));
+    REQUIRE(2.0 == Approx(params.xFactor));
+    REQUIRE(10.0 == Approx(params.yFactor));
+    REQUIRE(4 == params.nPoints);
+    REQUIRE_FALSE(params.deltaX.has_value());
+    REQUIRE_FALSE(params.resolution.has_value());
+}

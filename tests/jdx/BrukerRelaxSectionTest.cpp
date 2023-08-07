@@ -6,7 +6,7 @@
 #include <sstream>
 
 TEST_CASE("parses Bruker $RELAX section with arbitrary content",
-    "[BrukerRelaxSection]")
+    "[BrukerRelaxSection][quirk]")
 {
     const auto* label = "$RELAX";
     const auto* value = "";
@@ -32,7 +32,7 @@ TEST_CASE("parses Bruker $RELAX section with arbitrary content",
 }
 
 TEST_CASE("parses Bruker $RELAX section with JCAMP-DX like content",
-    "[BrukerRelaxSection]")
+    "[BrukerRelaxSection][quirk]")
 {
     const auto* label = "$RELAX";
     const auto* value = "";
@@ -72,7 +72,7 @@ TEST_CASE("parses Bruker $RELAX section with JCAMP-DX like content",
             == brukerRelaxSection.getContent());
 }
 
-TEST_CASE("parses empty Bruker $RELAX section", "[BrukerRelaxSection]")
+TEST_CASE("parses empty Bruker $RELAX section", "[BrukerRelaxSection][quirk]")
 {
     const auto* label = "$RELAX";
     const auto* value = "";
@@ -95,7 +95,7 @@ TEST_CASE("parses empty Bruker $RELAX section", "[BrukerRelaxSection]")
 }
 
 TEST_CASE("fails for illegal parameters for Bruker $RELAX section",
-    "[BrukerRelaxSection]")
+    "[BrukerRelaxSection][quirk]")
 {
     const auto* label = "TITLE";
     const auto* value = "abc";
@@ -113,8 +113,8 @@ TEST_CASE("fails for illegal parameters for Bruker $RELAX section",
         Catch::Matchers::Contains("illegal", Catch::CaseSensitive::No));
 }
 
-TEST_CASE(
-    "fails for premature end of Bruker $RELAX section", "[BrukerRelaxSection]")
+TEST_CASE("fails for premature end of Bruker $RELAX section",
+    "[BrukerRelaxSection][quirk]")
 {
     const auto* label = "$RELAX";
     const auto* value = "";
@@ -132,8 +132,8 @@ TEST_CASE(
         Catch::Matchers::Contains("premature", Catch::CaseSensitive::No));
 }
 
-TEST_CASE(
-    "fails for illegal start of Bruker $RELAX section", "[BrukerRelaxSection]")
+TEST_CASE("fails for illegal start of Bruker $RELAX section",
+    "[BrukerRelaxSection][quirk]")
 {
     const auto* label = "$RELAX";
     const auto* value = "";

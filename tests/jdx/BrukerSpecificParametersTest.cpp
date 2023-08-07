@@ -5,8 +5,8 @@
 #include <fstream>
 #include <sstream>
 
-TEST_CASE(
-    "parses regular Bruker parameters section", "[BrukerSpecificParameters]")
+TEST_CASE("parses regular Bruker parameters section",
+    "[BrukerSpecificParameters][quirk]")
 {
     auto nextLine = std::optional<std::string>{"$$ Bruker specific parameters"};
     // clang-format off
@@ -40,8 +40,8 @@ TEST_CASE(
     REQUIRE("3" == content.at(3).getValue());
 }
 
-TEST_CASE(
-    "parses Bruker parameters section for F1", "[BrukerSpecificParameters]")
+TEST_CASE("parses Bruker parameters section for F1",
+    "[BrukerSpecificParameters][quirk]")
 {
     auto nextLine
         = std::optional<std::string>{"$$ Bruker specific parameters for F1"};
@@ -81,7 +81,7 @@ TEST_CASE(
 }
 
 TEST_CASE("fails on premature end of Bruker parameters section",
-    "[BrukerSpecificParameters]")
+    "[BrukerSpecificParameters][quirk]")
 {
     auto nextLine = std::optional<std::string>{"$$ Bruker specific parameters"};
     // clang-format off
@@ -100,7 +100,7 @@ TEST_CASE("fails on premature end of Bruker parameters section",
 }
 
 TEST_CASE("fails on missing dashes after start of Bruker parameters section",
-    "[BrukerSpecificParameters]")
+    "[BrukerSpecificParameters][quirk]")
 {
     auto nextLine = std::optional<std::string>{"$$ Bruker specific parameters"};
     // clang-format off
@@ -121,7 +121,7 @@ TEST_CASE("fails on missing dashes after start of Bruker parameters section",
 }
 
 TEST_CASE("fails on missing dashes after end of Bruker parameters section",
-    "[BrukerSpecificParameters]")
+    "[BrukerSpecificParameters][quirk]")
 {
     auto nextLine
         = std::optional<std::string>{"$$ Bruker specific parameters for F1"};
@@ -142,7 +142,7 @@ TEST_CASE("fails on missing dashes after end of Bruker parameters section",
 }
 
 TEST_CASE("fails on illegal start of Bruker parameters section",
-    "[BrukerSpecificParameters]")
+    "[BrukerSpecificParameters][quirk]")
 {
     auto nextLine
         = std::optional<std::string>{"$$ Not Bruker specific parameters"};
@@ -164,7 +164,7 @@ TEST_CASE("fails on illegal start of Bruker parameters section",
 }
 
 TEST_CASE("fails on premature end of stream in Bruker parameters section",
-    "[BrukerSpecificParameters]")
+    "[BrukerSpecificParameters][quirk]")
 {
     auto nextLine = std::optional<std::string>{"$$ Bruker specific parameters"};
     // clang-format off
