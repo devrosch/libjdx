@@ -111,7 +111,7 @@ lib-cpp:release:linux_gcc:
   script:
     - cd lib-cpp
     - set -eo pipefail
-    - mkdir build && cd build
+    - mkdir -p build && cd build
     - cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=g++ ..
     - make
   artifacts:
@@ -124,7 +124,7 @@ lib-cpp:release:wasm_emcc:
   script:
     - cd lib-cpp
     - set -eo pipefail
-    - mkdir build-wasm && cd build-wasm
+    - mkdir -p build-wasm && cd build-wasm
     - emcmake cmake -DCMAKE_BUILD_TYPE=Release ..
     - make
   artifacts:
