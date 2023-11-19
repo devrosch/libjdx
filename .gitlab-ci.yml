@@ -1,5 +1,8 @@
 image: devrosch/cppcicdenv:2021-01-01
 
+before_script:
+  - cd lib-cpp
+
 stages:
   - build
   - test
@@ -22,12 +25,12 @@ build:wasm_emcc:
   stage: build
   script:
     - set -eo pipefail
-    - mkdir build && cd build
+    - mkdir build-wasm && cd build-wasm
     - emcmake cmake -DCMAKE_BUILD_TYPE=Debug ..
     - make
   artifacts:
     paths:
-      - build
+      - build-wasm
 
 test:linux_gcc:
   stage: test
@@ -44,13 +47,13 @@ test:linux_gcc:
 test:wasm_emcc:
   stage: test
   script:
-    - cd build
+    - cd build-wasm
     - ctest -VV
   dependencies:
     - build:wasm_emcc
   artifacts:
     paths:
-      - build
+      - build-wasm
 
 format:
   stage: test
@@ -96,19 +99,19 @@ doc:doxygen:
     paths:
       - build/doc
 
-pages:
-  stage: publish
-  script:
-    - rm -rf public
-    - mkdir public
-    - mv build/coverage public/coverage
-    - mv build/doc/html public/doc
-  dependencies:
-    - coverage:linux_gcc
-    - doc:doxygen
-  artifacts:
-    paths:
-      - public
-  only:
-    - master
+# pages:
+#   stage: publish
+#   script:
+#     - rm -rf public
+#     - mkdir public
+#     - mv build/coverage public/coverage
+#     - mv build/doc/html public/doc
+#   dependencies:
+#     - coverage:linux_gcc
+#     - doc:doxygen
+#   artifacts:
+#     paths:
+#       - public
+#   only:
+#     - master
 
