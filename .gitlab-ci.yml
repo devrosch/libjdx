@@ -19,7 +19,7 @@ build:linux_gcc:
     - make
   artifacts:
     paths:
-      - build
+      - lib-cpp/build
 
 build:wasm_emcc:
   stage: build
@@ -30,7 +30,7 @@ build:wasm_emcc:
     - make
   artifacts:
     paths:
-      - build-wasm
+      - lib-cpp/build-wasm
 
 test:linux_gcc:
   stage: test
@@ -42,7 +42,7 @@ test:linux_gcc:
     - build:linux_gcc
   artifacts:
     paths:
-      - build
+      - lib-cpp/build
 
 test:wasm_emcc:
   stage: test
@@ -53,7 +53,7 @@ test:wasm_emcc:
     - build:wasm_emcc
   artifacts:
     paths:
-      - build-wasm
+      - lib-cpp/build-wasm
 
 format:
   stage: test
@@ -87,7 +87,7 @@ coverage:linux_gcc:
   coverage: '/lines\.+: \d+\.\d+%/'
   artifacts:
     paths:
-      - build/coverage
+      - lib-cpp/build/coverage
 
 doc:doxygen:
   stage: doc
@@ -97,7 +97,7 @@ doc:doxygen:
     - build:linux_gcc
   artifacts:
     paths:
-      - build/doc
+      - lib-cpp/build/doc
 
 # pages:
 #   stage: publish
