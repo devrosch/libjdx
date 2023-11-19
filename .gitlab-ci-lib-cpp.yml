@@ -97,6 +97,7 @@ lib-cpp:doc:doxygen:
   image: devrosch/cppcicdenv:2021-01-01
   stage: doc
   script:
+    - cd lib-cpp
     - cd build && doxygen ./doxy.config
   dependencies:
     - lib-cpp:build:linux_gcc
