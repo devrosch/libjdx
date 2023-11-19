@@ -106,7 +106,7 @@ lib-cpp:doc:doxygen:
 
 lib-cpp:release:linux_gcc:
   image: devrosch/cppcicdenv:2021-01-01
-  stage: buireleaseld
+  stage: release
   script:
     - cd lib-cpp
     - set -eo pipefail
