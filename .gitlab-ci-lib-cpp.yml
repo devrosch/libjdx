@@ -103,3 +103,29 @@ lib-cpp:doc:doxygen:
   artifacts:
     paths:
       - lib-cpp/build/doc
+
+lib-cpp:release:linux_gcc:
+  image: devrosch/cppcicdenv:2021-01-01
+  stage: buireleaseld
+  script:
+    - cd lib-cpp
+    - set -eo pipefail
+    - mkdir build && cd build
+    - cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=g++ ..
+    - make
+  artifacts:
+    paths:
+      - lib-cpp/build
+
+lib-cpp:release:wasm_emcc:
+  image: devrosch/cppcicdenv:2021-01-01
+  stage: release
+  script:
+    - cd lib-cpp
+    - set -eo pipefail
+    - mkdir build-wasm && cd build-wasm
+    - emcmake cmake -DCMAKE_BUILD_TYPE=Release ..
+    - make
+  artifacts:
+    paths:
+      - lib-cpp/build-wasm
