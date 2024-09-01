@@ -9,7 +9,7 @@ TEST_CASE("parses well-formed 5 parameters audit trail", "[AuditTrail]")
     auto nextLine = std::optional<std::string>{
         "##AUDIT TRAIL=  $$ (NUMBER, WHEN, WHO, WHERE, WHAT)"};
     const auto* label = "AUDITTRAIL";
-    const auto* variables = "AUDITTRAIL";
+    const auto* variables = " $$ (NUMBER, WHEN, WHO, WHERE, WHAT)";
     // clang-format off
     std::string input{"(   1,<2022-09-01 09:10:11.123 -0200>,<testuser>,<location01>,\n"
                       "      <acquisition>)\n"
