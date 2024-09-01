@@ -130,3 +130,19 @@ lib-cpp:release:wasm_emcc:
   artifacts:
     paths:
       - lib-cpp/build-wasm
+
+# pages:
+#   stage: publish
+#   script:
+#     - rm -rf public
+#     - mkdir public
+#     - mv build/coverage public/coverage
+#     - mv build/doc/html public/doc
+#   dependencies:
+#     - coverage:linux_gcc
+#     - doc:doxygen
+#   artifacts:
+#     paths:
+#       - public
+#   only:
+#     - master
