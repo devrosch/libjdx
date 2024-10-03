@@ -130,6 +130,8 @@ lib-cpp:release:wasm_emcc:
   artifacts:
     paths:
       - lib-cpp/build-wasm
+  only:
+    - main
 
 # pages:
 #   stage: publish
