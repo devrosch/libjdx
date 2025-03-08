@@ -128,11 +128,11 @@ If the build has completeed successfully, you can then run the tests in the buil
 ctest -VV
 ```
 
-The test coverage report from the latest successful CI/CD pipeline run is located at: [GitLab Pages](https://devrosch.gitlab.io/sf/coverage)
+The test coverage report from the latest successful CI/CD pipeline run is located at: [GitLab Pages](https://devrosch.gitlab.io/libjdx2/coverage)
 
 ## Documentation
 
-Documentation generated during the build by the CI/CD pipeline is located at: [GitLab Pages](https://devrosch.gitlab.io/sf/doc)
+Documentation generated during the build by the CI/CD pipeline is located at: [GitLab Pages](https://devrosch.gitlab.io/libjdx2/doc).
 
 For more detailed information on specific data formats see:
 * [JCAMP-DX](doc/jdx/README.md)
