@@ -66,7 +66,7 @@ std::string sciformats::jdx::util::normalizeLdrLabel(const std::string& label)
             continue;
         }
         output += static_cast<char>(
-            makeUpperCase(static_cast<const unsigned char>(c)));
+            makeUpperCase(static_cast<unsigned char>(c)));
     }
     return output;
 }
