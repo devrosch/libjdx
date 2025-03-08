@@ -1,0 +1,147 @@
+stages:
+  - build
+  - test
+  - doc
+  - release
+  - deploy
+
+build:linux_gcc:
+  image: devrosch/cppcicdenv:2021-01-01
+  stage: build
+  script:
+    - set -eo pipefail
+    - mkdir build && cd build
+    - cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER=g++ ..
+    - make
+  artifacts:
+    paths:
+      - build
+
+build:wasm_emcc:
+  image: devrosch/cppcicdenv:2021-01-01
+  stage: build
+  script:
+    - set -eo pipefail
+    - mkdir build-wasm && cd build-wasm
+    - emcmake cmake -DCMAKE_BUILD_TYPE=Debug ..
+    - make
+  artifacts:
+    paths:
+      - build-wasm
+
+test:linux_gcc:
+  image: devrosch/cppcicdenv:2021-01-01
+  stage: test
+  script:
+    - cd build
+    - make coverage-base
+    - ctest
+  dependencies:
+    - build:linux_gcc
+  artifacts:
+    paths:
+      - build
+
+test:wasm_emcc:
+  image: devrosch/cppcicdenv:2021-01-01
+  stage: test
+  script:
+    - cd build-wasm
+    - ctest -VV
+  dependencies:
+    - build:wasm_emcc
+  artifacts:
+    paths:
+      - build-wasm
+
+format:
+  image: devrosch/cppcicdenv:2021-01-01
+  stage: test
+  script:
+    - cd build && make clang-format-check
+  dependencies:
+    - build:linux_gcc
+
+lint:
+  image: devrosch/cppcicdenv:2021-01-01
+  stage: test
+  script:
+    - cd build && make clang-tidy
+  dependencies:
+    - build:linux_gcc
+
+coverage:linux_gcc:
+  image: devrosch/cppcicdenv:2021-01-01
+  stage: test
+  variables:
+    COVERAGE_THRESHOLD: "95.0"
+  script:
+    - cd build
+    - set -eo pipefail
+    - make coverage-capture
+    - "make coverage-report
+      | tee /dev/stderr
+      | grep -E 'lines\\.{6,}:'
+      | awk -F': |%' '{print $2}'
+      | { read coverage; echo \"=== line coverage: ${coverage}%, threshold: ${COVERAGE_THRESHOLD}% ===\"; (( $(echo \"$coverage >= $COVERAGE_THRESHOLD\" | bc -l) )); }"
+  dependencies:
+    - test:linux_gcc
+  needs:
+    - test:linux_gcc
+  coverage: '/lines\.+: \d+\.\d+%/'
+  artifacts:
+    paths:
+      - build/coverage
+
+doc:doxygen:
+  image: devrosch/cppcicdenv:2021-01-01
+  stage: doc
+  script:
+    - cd build && doxygen ./doxy.config
+  dependencies:
+    - build:linux_gcc
+  artifacts:
+    paths:
+      - build/doc
+
+release:linux_gcc:
+  image: devrosch/cppcicdenv:2021-01-01
+  stage: release
+  script:
+    - set -eo pipefail
+    - mkdir -p build && cd build
+    - cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=g++ ..
+    - make
+  artifacts:
+    paths:
+      - build
+
+release:wasm_emcc:
+  image: devrosch/cppcicdenv:2021-01-01
+  stage: release
+  script:
+    - set -eo pipefail
+    - mkdir -p build-wasm && cd build-wasm
+    - emcmake cmake -DCMAKE_BUILD_TYPE=Release ..
+    - make
+  artifacts:
+    paths:
+      - build-wasm
+  only:
+    - main
+
+pages:
+  stage: publish
+  script:
+    - rm -rf public
+    - mkdir public
+    - mv build/coverage public/coverage
+    - mv build/doc/html public/doc
+  dependencies:
+    - coverage:linux_gcc
+    - doc:doxygen
+  artifacts:
+    paths:
+      - public
+  only:
+    - main

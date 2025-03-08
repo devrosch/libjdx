@@ -1,9 +1,6 @@
-[![pipeline](https://gitlab.com/devrosch/libsf/badges/master/pipeline.svg)](https://gitlab.com/devrosch/libsf/commits/master)
-[![coverage](https://gitlab.com/devrosch/libsf/badges/master/coverage.svg)](https://devrosch.gitlab.io/libsf)
+# libjdx
 
-# libsf
-
-A library for reading scientific data formats.
+A C++ library for reading JCAMP-DX data.
 
 ## Prerequisites
 
@@ -79,10 +76,6 @@ For compilers to find llvm you may need to set:
   export LDFLAGS="-L/usr/local/opt/llvm/lib"
   export CPPFLAGS="-I/usr/local/opt/llvm/include"
 ```
-
-### VS Code
-
-If you use [VS Code](https://code.visualstudio.com/) as editor, there is a "settings.json" file in the ".vscode" directory in the repositories root that helps VS Code's CMake extension to find this library and set up the build directory inside this directory instead of the root directory. See: https://github.com/microsoft/vscode-cmake-tools/issues/151.
 
 ## Build
 
@@ -161,10 +154,10 @@ and their dependencies, if any.
 
 ## License
 
-Copyright (C) 2020-2023 Robert Schiwon
+Copyright (C) 2020-2025 Robert Schiwon
 
-This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+This program is free software: you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
 
-You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+You should have received a copy of the GNU Lesser General Public License along with this program. If not, see <https://www.gnu.org/licenses/>.
