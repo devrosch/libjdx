@@ -3,7 +3,7 @@ stages:
   - test
   - doc
   - release
-  - deploy
+  - publish
 
 build:linux_gcc:
   image: devrosch/cppcicdenv:2021-01-01
