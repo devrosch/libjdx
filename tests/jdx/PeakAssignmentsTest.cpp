@@ -39,11 +39,11 @@ TEST_CASE("parses well-formed (XYA) PEAK ASSIGNMENTS", "[PeakAssignments]")
                       "##END="};
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::io::TextReader reader{std::move(streamPtr)};
+    libjdx::io::TextReader reader{std::move(streamPtr)};
 
     auto nextLine = std::optional<std::string>{};
     auto assignments
-        = sciformats::jdx::PeakAssignments(label, variables, reader, nextLine);
+        = libjdx::jdx::PeakAssignments(label, variables, reader, nextLine);
     auto widthFunction = assignments.getWidthFunction();
     auto data = assignments.getData();
 
@@ -108,11 +108,11 @@ TEST_CASE("parses well-formed (XYWA) PEAK ASSIGNMENTS", "[PeakAssignments]")
                       "##END="};
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::io::TextReader reader{std::move(streamPtr)};
+    libjdx::io::TextReader reader{std::move(streamPtr)};
 
     auto nextLine = std::optional<std::string>{};
     auto assignments
-        = sciformats::jdx::PeakAssignments(label, variables, reader, nextLine);
+        = libjdx::jdx::PeakAssignments(label, variables, reader, nextLine);
     auto widthFunction = assignments.getWidthFunction();
     auto data = assignments.getData();
 
@@ -179,11 +179,11 @@ TEST_CASE("parses well-formed (XYMA) PEAK ASSIGNMENTS", "[PeakAssignments]")
                       "##END="};
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::io::TextReader reader{std::move(streamPtr)};
+    libjdx::io::TextReader reader{std::move(streamPtr)};
 
     auto nextLine = std::optional<std::string>{};
     auto assignments
-        = sciformats::jdx::PeakAssignments(label, variables, reader, nextLine);
+        = libjdx::jdx::PeakAssignments(label, variables, reader, nextLine);
     auto widthFunction = assignments.getWidthFunction();
     auto data = assignments.getData();
 
@@ -209,11 +209,11 @@ TEST_CASE("parses well-formed (XYMWA) PEAK ASSIGNMENTS", "[PeakAssignments]")
                       "##END="};
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::io::TextReader reader{std::move(streamPtr)};
+    libjdx::io::TextReader reader{std::move(streamPtr)};
 
     auto nextLine = std::optional<std::string>{};
     auto assignments
-        = sciformats::jdx::PeakAssignments(label, variables, reader, nextLine);
+        = libjdx::jdx::PeakAssignments(label, variables, reader, nextLine);
     auto widthFunction = assignments.getWidthFunction();
     auto data = assignments.getData();
 
@@ -243,11 +243,11 @@ TEST_CASE("fails when excess component is encountered in three column PEAK "
                       "##END="};
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::io::TextReader reader{std::move(streamPtr)};
+    libjdx::io::TextReader reader{std::move(streamPtr)};
 
     auto nextLine = std::optional<std::string>{};
     auto assignments
-        = sciformats::jdx::PeakAssignments(label, variables, reader, nextLine);
+        = libjdx::jdx::PeakAssignments(label, variables, reader, nextLine);
 
     REQUIRE_THROWS_WITH(assignments.getData(),
         Catch::Matchers::Contains("illegal", Catch::CaseSensitive::No));
@@ -264,11 +264,11 @@ TEST_CASE("fails when excess component is encountered in four column PEAK "
                       "##END="};
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::io::TextReader reader{std::move(streamPtr)};
+    libjdx::io::TextReader reader{std::move(streamPtr)};
 
     auto nextLine = std::optional<std::string>{};
     auto assignments
-        = sciformats::jdx::PeakAssignments(label, variables, reader, nextLine);
+        = libjdx::jdx::PeakAssignments(label, variables, reader, nextLine);
 
     REQUIRE_THROWS_WITH(assignments.getData(),
         Catch::Matchers::Contains("illegal", Catch::CaseSensitive::No));
@@ -286,11 +286,11 @@ TEST_CASE("fails when ambiguous component is encountered in four column PEAK "
                       "##END="};
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::io::TextReader reader{std::move(streamPtr)};
+    libjdx::io::TextReader reader{std::move(streamPtr)};
 
     auto nextLine = std::optional<std::string>{};
     auto assignments
-        = sciformats::jdx::PeakAssignments(label, variables, reader, nextLine);
+        = libjdx::jdx::PeakAssignments(label, variables, reader, nextLine);
 
     REQUIRE_THROWS_WITH(assignments.getData(),
         Catch::Matchers::Contains("ambiguous", Catch::CaseSensitive::No));
@@ -308,11 +308,11 @@ TEST_CASE("fails when ambiguous component is encountered in five column PEAK "
                       "##END="};
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::io::TextReader reader{std::move(streamPtr)};
+    libjdx::io::TextReader reader{std::move(streamPtr)};
 
     auto nextLine = std::optional<std::string>{};
     auto assignments
-        = sciformats::jdx::PeakAssignments(label, variables, reader, nextLine);
+        = libjdx::jdx::PeakAssignments(label, variables, reader, nextLine);
 
     REQUIRE_THROWS_WITH(assignments.getData(),
         Catch::Matchers::Contains("ambiguous", Catch::CaseSensitive::No));
@@ -328,11 +328,11 @@ TEST_CASE("fails when opening parenthesis is missing in PEAK ASSIGNMENTS",
                       "##END="};
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::io::TextReader reader{std::move(streamPtr)};
+    libjdx::io::TextReader reader{std::move(streamPtr)};
 
     auto nextLine = std::optional<std::string>{};
     auto assignments
-        = sciformats::jdx::PeakAssignments(label, variables, reader, nextLine);
+        = libjdx::jdx::PeakAssignments(label, variables, reader, nextLine);
 
     REQUIRE_THROWS_WITH(assignments.getData(),
         Catch::Matchers::Contains("illegal", Catch::CaseSensitive::No));
@@ -348,11 +348,11 @@ TEST_CASE("fails when closing parenthesis is missing in PEAK ASSIGNMENTS",
                       "##END="};
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::io::TextReader reader{std::move(streamPtr)};
+    libjdx::io::TextReader reader{std::move(streamPtr)};
 
     auto nextLine = std::optional<std::string>{};
     auto assignments
-        = sciformats::jdx::PeakAssignments(label, variables, reader, nextLine);
+        = libjdx::jdx::PeakAssignments(label, variables, reader, nextLine);
 
     REQUIRE_THROWS_WITH(assignments.getData(),
         Catch::Matchers::Contains(
@@ -370,11 +370,11 @@ TEST_CASE("fails when opening angle bracket is missing in assignment string in "
                       "##END="};
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::io::TextReader reader{std::move(streamPtr)};
+    libjdx::io::TextReader reader{std::move(streamPtr)};
 
     auto nextLine = std::optional<std::string>{};
     auto assignments
-        = sciformats::jdx::PeakAssignments(label, variables, reader, nextLine);
+        = libjdx::jdx::PeakAssignments(label, variables, reader, nextLine);
 
     REQUIRE_THROWS_WITH(assignments.getData(),
         Catch::Matchers::Contains("illegal", Catch::CaseSensitive::No));
@@ -391,11 +391,11 @@ TEST_CASE("fails when closing angle bracket is missing in assignment string in "
                       "##END="};
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::io::TextReader reader{std::move(streamPtr)};
+    libjdx::io::TextReader reader{std::move(streamPtr)};
 
     auto nextLine = std::optional<std::string>{};
     auto assignments
-        = sciformats::jdx::PeakAssignments(label, variables, reader, nextLine);
+        = libjdx::jdx::PeakAssignments(label, variables, reader, nextLine);
 
     REQUIRE_THROWS_WITH(assignments.getData(),
         Catch::Matchers::Contains("illegal", Catch::CaseSensitive::No));
@@ -411,11 +411,11 @@ TEST_CASE("fails when illegal separator is used in PEAK ASSIGNMENTS",
                       "##END="};
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::io::TextReader reader{std::move(streamPtr)};
+    libjdx::io::TextReader reader{std::move(streamPtr)};
 
     auto nextLine = std::optional<std::string>{};
     auto assignments
-        = sciformats::jdx::PeakAssignments(label, variables, reader, nextLine);
+        = libjdx::jdx::PeakAssignments(label, variables, reader, nextLine);
 
     REQUIRE_THROWS_WITH(assignments.getData(),
         Catch::Matchers::Contains("illegal", Catch::CaseSensitive::No));
@@ -431,11 +431,11 @@ TEST_CASE("fails when illegal variable list is encountered in PEAK ASSIGNMENTS",
                       "##END="};
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::io::TextReader reader{std::move(streamPtr)};
+    libjdx::io::TextReader reader{std::move(streamPtr)};
     auto nextLine = std::optional<std::string>{};
 
     REQUIRE_THROWS_WITH(
-        sciformats::jdx::PeakAssignments(label, variables, reader, nextLine),
+        libjdx::jdx::PeakAssignments(label, variables, reader, nextLine),
         Catch::Matchers::Contains("illegal", Catch::CaseSensitive::No)
             && Catch::Matchers::Contains("variable list"));
 }
@@ -450,11 +450,11 @@ TEST_CASE(
                       "##END="};
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::io::TextReader reader{std::move(streamPtr)};
+    libjdx::io::TextReader reader{std::move(streamPtr)};
 
     auto nextLine = std::optional<std::string>{};
     auto assignments
-        = sciformats::jdx::PeakAssignments(label, variables, reader, nextLine);
+        = libjdx::jdx::PeakAssignments(label, variables, reader, nextLine);
 
     REQUIRE_THROWS(assignments.getData());
 }
@@ -470,11 +470,11 @@ TEST_CASE("fails for malformed PEAK ASSIGNMENT in PEAK ASSIGNMENTS",
                       "##END="};
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::io::TextReader reader{std::move(streamPtr)};
+    libjdx::io::TextReader reader{std::move(streamPtr)};
 
     auto nextLine = std::optional<std::string>{};
     auto assignments
-        = sciformats::jdx::PeakAssignments(label, variables, reader, nextLine);
+        = libjdx::jdx::PeakAssignments(label, variables, reader, nextLine);
 
     REQUIRE_THROWS_WITH(assignments.getData(),
         Catch::Matchers::Contains(
@@ -492,11 +492,11 @@ TEST_CASE(
                       "##END="};
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::io::TextReader reader{std::move(streamPtr)};
+    libjdx::io::TextReader reader{std::move(streamPtr)};
 
     auto nextLine = std::optional<std::string>{};
     auto assignments
-        = sciformats::jdx::PeakAssignments(label, variables, reader, nextLine);
+        = libjdx::jdx::PeakAssignments(label, variables, reader, nextLine);
     auto widthFunction = assignments.getWidthFunction();
     auto data = assignments.getData();
 

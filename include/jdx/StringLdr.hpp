@@ -22,7 +22,7 @@
 
 #include <string>
 
-namespace sciformats::jdx
+namespace libjdx::jdx
 {
 /**
  * @brief A JCAMP-DX labeled data record (LDR).
@@ -48,6 +48,6 @@ public:
 private:
     const std::string m_value;
 };
-} // namespace sciformats::jdx
+} // namespace libjdx::jdx
 
 #endif // JDX_STRINGLDR_HPP

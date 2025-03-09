@@ -28,7 +28,7 @@
 #include <sstream>
 #include <vector>
 
-namespace sciformats::io
+namespace libjdx::io
 {
 /**
  * @brief The BinaryReader class provides mechanisms to read binary data from
@@ -38,7 +38,7 @@ class BinaryReader
 {
 public:
     /**
-     * @brief sciformats::io::binaryreader::BinaryReader Constructs from file.
+     * @brief libjdx::io::binaryreader::BinaryReader Constructs from file.
      * @param filePath Path to the file.
      * @param endian Default endianness of data.
      */
@@ -46,7 +46,7 @@ public:
         Endianness endian = Endianness::LittleEndian);
 
     /**
-     * @brief sciformats::io::binaryreader::BinaryReader Constructs from
+     * @brief libjdx::io::binaryreader::BinaryReader Constructs from
      * istream. Does not change exceptions flags.
      * @param inputStream Input stream with binary data.
      * @param endian Default endianness of data.
@@ -57,7 +57,7 @@ public:
         bool activateExceptions = true);
 
     /**
-     * @brief sciformats::io::binaryreader::BinaryReader Constructs from vector.
+     * @brief libjdx::io::binaryreader::BinaryReader Constructs from vector.
      * @param vec Vector with binary data.
      * @param endian Default endianness of data.
      */
@@ -65,7 +65,7 @@ public:
         std::vector<char>& vec, Endianness endian = Endianness::LittleEndian);
 
     /**
-     * @brief sciformats::io::binaryreader::BinaryReader Constructs from vector.
+     * @brief libjdx::io::binaryreader::BinaryReader Constructs from vector.
      * @param vec Vector with binary data.
      * @param endian Default endianness of data.
      */
@@ -269,6 +269,6 @@ private:
     std::istream& m_istream;
     Endianness m_endianness;
 };
-} // namespace sciformats::io
+} // namespace libjdx::io
 
 #endif // IO_BINARYREADER_HPP

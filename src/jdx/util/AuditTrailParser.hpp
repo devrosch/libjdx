@@ -25,7 +25,7 @@
 #include <array>
 #include <optional>
 
-namespace sciformats::jdx::util
+namespace libjdx::jdx::util
 {
 /**
  * @brief A parser for AUDIT TRAIL.
@@ -69,7 +69,7 @@ private:
                              R"((?:\s*,\s*<([^>]*)>))"
                              R"(\s*\)\s*$)"};
 
-    [[nodiscard]] sciformats::jdx::AuditTrailEntry createAuditTrailEntry(
+    [[nodiscard]] libjdx::jdx::AuditTrailEntry createAuditTrailEntry(
         const std::string& tuple) const;
 };
 }

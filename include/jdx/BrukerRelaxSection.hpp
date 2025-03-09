@@ -24,7 +24,7 @@
 #include <string>
 #include <vector>
 
-namespace sciformats::jdx
+namespace libjdx::jdx
 {
 /**
  * @brief A JCAMP-DX Bruker specific RELAX section.
@@ -81,6 +81,6 @@ private:
     std::string m_name;
     std::string m_content;
 };
-} // namespace sciformats::jdx
+} // namespace libjdx::jdx
 
 #endif

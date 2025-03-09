@@ -22,7 +22,7 @@
 
 #include <string>
 
-namespace sciformats::api
+namespace libjdx::api
 {
 /**
  * Scan raw data to determine if a converter is applicable and provide
@@ -54,6 +54,6 @@ public:
     Scanner& operator=(Scanner&&) = default;
     virtual ~Scanner() = default;
 };
-} // sciformats::api
+} // libjdx::api
 
 #endif

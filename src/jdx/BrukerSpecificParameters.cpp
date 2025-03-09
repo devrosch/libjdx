@@ -19,13 +19,13 @@
 #include "jdx/ParseException.hpp"
 #include "util/LdrUtils.hpp"
 
-sciformats::jdx::BrukerSpecificParameters::BrukerSpecificParameters(
+libjdx::jdx::BrukerSpecificParameters::BrukerSpecificParameters(
     io::TextReader& reader, std::optional<std::string>& nextLine)
 {
     parse(reader, nextLine);
 }
 
-void sciformats::jdx::BrukerSpecificParameters::parse(
+void libjdx::jdx::BrukerSpecificParameters::parse(
     io::TextReader& reader, std::optional<std::string>& nextLine)
 {
     if (!nextLine.has_value()
@@ -55,7 +55,7 @@ void sciformats::jdx::BrukerSpecificParameters::parse(
     parseLdrs(reader, nextLine);
 }
 
-bool sciformats::jdx::BrukerSpecificParameters::isDashedLine(
+bool libjdx::jdx::BrukerSpecificParameters::isDashedLine(
     std::optional<std::string>& nextLine)
 {
     if (!nextLine.has_value())
@@ -71,7 +71,7 @@ bool sciformats::jdx::BrukerSpecificParameters::isDashedLine(
     return false;
 }
 
-void sciformats::jdx::BrukerSpecificParameters::parseLdrs(
+void libjdx::jdx::BrukerSpecificParameters::parseLdrs(
     io::TextReader& reader, std::optional<std::string>& nextLine)
 {
     while (nextLine.has_value()
@@ -108,13 +108,13 @@ void sciformats::jdx::BrukerSpecificParameters::parseLdrs(
     }
 }
 
-std::string sciformats::jdx::BrukerSpecificParameters::getName() const
+std::string libjdx::jdx::BrukerSpecificParameters::getName() const
 {
     return m_name;
 }
 
-std::vector<sciformats::jdx::StringLdr>
-sciformats::jdx::BrukerSpecificParameters::getContent() const
+std::vector<libjdx::jdx::StringLdr>
+libjdx::jdx::BrukerSpecificParameters::getContent() const
 {
     return m_content;
 }

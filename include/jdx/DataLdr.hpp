@@ -26,7 +26,7 @@
 #include <string>
 #include <vector>
 
-namespace sciformats::jdx
+namespace libjdx::jdx
 {
 /**
  * @brief Base class for JCAMP-DX data records.
@@ -67,7 +67,7 @@ private:
 };
 
 template<typename R>
-R sciformats::jdx::DataLdr::callAndResetStreamPos(
+R libjdx::jdx::DataLdr::callAndResetStreamPos(
     const std::function<R()>& func) const
 {
     auto pos = m_reader.eof() ? std::nullopt
@@ -103,6 +103,6 @@ R sciformats::jdx::DataLdr::callAndResetStreamPos(
     }
 }
 
-} // namespace sciformats::jdx
+} // namespace libjdx::jdx
 
 #endif // JDX_DATALDR_HPP

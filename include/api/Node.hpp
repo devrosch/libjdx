@@ -25,7 +25,7 @@
 #include <string>
 #include <vector>
 
-namespace sciformats::api
+namespace libjdx::api
 {
 struct Node
 {
@@ -36,6 +36,6 @@ struct Node
     Table table;
     std::vector<std::string> childNodeNames;
 };
-} // sciformats::api
+} // libjdx::api
 
 #endif

@@ -23,7 +23,7 @@
 #include <optional>
 #include <vector>
 
-namespace sciformats::jdx
+namespace libjdx::jdx
 {
 /**
  * @brief A collection of attributes describing NTUPLES data.
@@ -80,6 +80,6 @@ public:
      */
     std::vector<StringLdr> applicationAttributes;
 };
-} // namespace sciformats::jdx
+} // namespace libjdx::jdx
 
 #endif // JDX_NTUPLESATTRIBUTES_HPP

@@ -24,7 +24,7 @@
 #ifdef __EMSCRIPTEN__
 EMSCRIPTEN_BINDINGS(Scanner)
 {
-    using namespace sciformats::api;
+    using namespace libjdx::api;
     using namespace emscripten;
     class_<Scanner>("Scanner").smart_ptr<std::shared_ptr<Scanner>>(
         "std::shared_ptr<Scanner>");

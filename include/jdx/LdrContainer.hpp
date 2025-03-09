@@ -22,7 +22,7 @@
 
 #include <optional>
 
-namespace sciformats::jdx
+namespace libjdx::jdx
 {
 /**
  * @brief Parent class of JCAMP-DX BLOCK and NTUPLES records.
@@ -33,6 +33,6 @@ protected:
     static std::optional<const std::string> parseStringValue(
         std::string& value, io::TextReader& reader);
 };
-} // namespace sciformats::jdx
+} // namespace libjdx::jdx
 
 #endif // JDX_LDRCONTAINER_HPP

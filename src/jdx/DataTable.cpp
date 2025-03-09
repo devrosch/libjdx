@@ -25,8 +25,8 @@
 #include <limits>
 #include <tuple>
 
-sciformats::jdx::DataTable::DataTable(std::string label,
-    std::string variableList, std::optional<std::string> plotDescriptor,
+libjdx::jdx::DataTable::DataTable(std::string label, std::string variableList,
+    std::optional<std::string> plotDescriptor,
     const std::vector<StringLdr>& blockLdrs,
     const std::vector<NTuplesAttributes>& nTuplesAttributes,
     const std::vector<StringLdr>& pageLdrs, io::TextReader& reader,
@@ -53,19 +53,18 @@ sciformats::jdx::DataTable::DataTable(std::string label,
 }
 
 const std::optional<std::string>&
-sciformats::jdx::DataTable::getPlotDescriptor() const
+libjdx::jdx::DataTable::getPlotDescriptor() const
 {
     return m_plotDescriptor;
 }
 
-const sciformats::jdx::DataTable::Attributes&
-sciformats::jdx::DataTable::getAttributes() const
+const libjdx::jdx::DataTable::Attributes&
+libjdx::jdx::DataTable::getAttributes() const
 {
     return m_mergedAttributes;
 }
 
-std::vector<std::pair<double, double>>
-sciformats::jdx::DataTable::getData() const
+std::vector<std::pair<double, double>> libjdx::jdx::DataTable::getData() const
 {
     auto variableList = determineVariableList(getVariableList());
     auto dataTableParams = m_mergedAttributes;
@@ -88,7 +87,7 @@ sciformats::jdx::DataTable::getData() const
         getLabel(), getReader(), firstX, lastX, yFactor, nPoints);
 }
 
-void sciformats::jdx::DataTable::parse(const std::vector<StringLdr>& blockLdrs,
+void libjdx::jdx::DataTable::parse(const std::vector<StringLdr>& blockLdrs,
     const std::vector<NTuplesAttributes>& nTuplesVars,
     const std::vector<StringLdr>& pageLdrs,
     std::optional<std::string>& nextLine)
@@ -165,9 +164,9 @@ void sciformats::jdx::DataTable::parse(const std::vector<StringLdr>& blockLdrs,
     util::skipToNextLdr(reader, nextLine, true);
 }
 
-std::pair<sciformats::jdx::Data2D::VariableList,
-    std::optional<sciformats::jdx::DataTable::PlotDescriptor>>
-sciformats::jdx::DataTable::parseDataTableVars()
+std::pair<libjdx::jdx::Data2D::VariableList,
+    std::optional<libjdx::jdx::DataTable::PlotDescriptor>>
+libjdx::jdx::DataTable::parseDataTableVars()
 {
     auto varType = determineVariableList(getVariableList());
     if (!m_plotDescriptor.has_value() || m_plotDescriptor.value().empty())
@@ -178,21 +177,21 @@ sciformats::jdx::DataTable::parseDataTableVars()
     return {varType, plotDesc};
 }
 
-sciformats::jdx::Data2D::VariableList
-sciformats::jdx::DataTable::determineVariableList(const std::string& varList)
+libjdx::jdx::Data2D::VariableList libjdx::jdx::DataTable::determineVariableList(
+    const std::string& varList)
 {
     return findValue(s_varListMapping, varList, "variable list");
 }
 
-sciformats::jdx::DataTable::PlotDescriptor
-sciformats::jdx::DataTable::determinePlotDescriptor(
+libjdx::jdx::DataTable::PlotDescriptor
+libjdx::jdx::DataTable::determinePlotDescriptor(
     const std::string& plotDescriptor)
 {
     return findValue(
         s_plotDescriptorMapping, plotDescriptor, "plot descriptor");
 }
 
-sciformats::jdx::NTuplesAttributes sciformats::jdx::DataTable::mergeVars(
+libjdx::jdx::NTuplesAttributes libjdx::jdx::DataTable::mergeVars(
     const std::vector<StringLdr>& blockLdrs,
     const NTuplesAttributes& nTuplesVars,
     const std::vector<StringLdr>& pageLdrs)
@@ -263,7 +262,7 @@ sciformats::jdx::NTuplesAttributes sciformats::jdx::DataTable::mergeVars(
     return outputVars;
 }
 
-void sciformats::jdx::DataTable::mergeLdrs(const std::vector<StringLdr>& ldrs,
+void libjdx::jdx::DataTable::mergeLdrs(const std::vector<StringLdr>& ldrs,
     std::map<std::string, std::optional<std::string>&> stringMapping,
     std::map<std::string, std::optional<double>&> doubleMapping,
     std::map<std::string, std::optional<uint64_t>&> uint64Mapping, bool replace)
@@ -297,8 +296,8 @@ void sciformats::jdx::DataTable::mergeLdrs(const std::vector<StringLdr>& ldrs,
     }
 }
 
-void sciformats::jdx::DataTable::mergePageFirstLdr(
-    sciformats::jdx::NTuplesAttributes& mergedVars,
+void libjdx::jdx::DataTable::mergePageFirstLdr(
+    libjdx::jdx::NTuplesAttributes& mergedVars,
     const std::vector<StringLdr>& pageLdrs, size_t columnIndex)
 {
     for (const auto& ldr : pageLdrs)

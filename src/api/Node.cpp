@@ -24,7 +24,7 @@
 #ifdef __EMSCRIPTEN__
 EMSCRIPTEN_BINDINGS(Node)
 {
-    using namespace sciformats::api;
+    using namespace libjdx::api;
     using namespace emscripten;
 
     value_object<Node>("Node")

@@ -22,7 +22,7 @@
 #include <algorithm>
 #include <tuple>
 
-sciformats::jdx::PeakTable::PeakTable(const std::string& label,
+libjdx::jdx::PeakTable::PeakTable(const std::string& label,
     std::string variableList, io::TextReader& reader,
     std::optional<std::string>& nextLine)
     : TabularData(label, std::move(variableList), reader)
@@ -33,7 +33,7 @@ sciformats::jdx::PeakTable::PeakTable(const std::string& label,
     util::skipToNextLdr(reader, nextLine, true);
 }
 
-std::vector<sciformats::jdx::Peak> sciformats::jdx::PeakTable::getData() const
+std::vector<libjdx::jdx::Peak> libjdx::jdx::PeakTable::getData() const
 {
     util::PeakTableParser parser{getReader(), getVariableList()};
     return TabularData::getData<util::PeakTableParser, Peak>(parser);

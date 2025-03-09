@@ -27,7 +27,7 @@
 #include <string>
 #include <vector>
 
-namespace sciformats::jdx
+namespace libjdx::jdx
 {
 /**
  * @brief A JCAMP-DX AUDIT TRAIL record.
@@ -74,6 +74,6 @@ private:
     std::optional<std::string> scanForBrukerVarList(
         std::optional<std::string>& nextLine);
 };
-} // namespace sciformats::jdx
+} // namespace libjdx::jdx
 
 #endif // JDX_AUDITTRAIL_HPP

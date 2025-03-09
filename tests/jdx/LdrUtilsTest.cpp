@@ -27,7 +27,7 @@ TEST_CASE("recognizes regular LDR start", "[util][isLdrStart]")
 {
     std::string input{"##TITLE= abc"};
 
-    REQUIRE(true == sciformats::jdx::util::isLdrStart(input));
+    REQUIRE(true == libjdx::jdx::util::isLdrStart(input));
 }
 
 TEST_CASE(
@@ -35,7 +35,7 @@ TEST_CASE(
 {
     std::string input{"\t\n\v\f\r ##TITLE= abc"};
 
-    REQUIRE(true == sciformats::jdx::util::isLdrStart(input));
+    REQUIRE(true == libjdx::jdx::util::isLdrStart(input));
 }
 
 TEST_CASE("recognizes LDR start with trailing line break characters",
@@ -46,10 +46,10 @@ TEST_CASE("recognizes LDR start with trailing line break characters",
     std::string inputCrLf{"##TITLE= abc\r\n"};
     std::string inputCrLfLsPs{"##TITLE= abc\r\n\u2028\u2029"};
 
-    REQUIRE(sciformats::jdx::util::isLdrStart(inputLf));
-    REQUIRE(sciformats::jdx::util::isLdrStart(inputCr));
-    REQUIRE(sciformats::jdx::util::isLdrStart(inputCrLf));
-    REQUIRE(sciformats::jdx::util::isLdrStart(inputCrLfLsPs));
+    REQUIRE(libjdx::jdx::util::isLdrStart(inputLf));
+    REQUIRE(libjdx::jdx::util::isLdrStart(inputCr));
+    REQUIRE(libjdx::jdx::util::isLdrStart(inputCrLf));
+    REQUIRE(libjdx::jdx::util::isLdrStart(inputCrLfLsPs));
 }
 
 TEST_CASE(
@@ -57,7 +57,7 @@ TEST_CASE(
 {
     std::string inputLf{"xyz ##TITLE= abc"};
 
-    REQUIRE_FALSE(sciformats::jdx::util::isLdrStart(inputLf));
+    REQUIRE_FALSE(libjdx::jdx::util::isLdrStart(inputLf));
 }
 
 TEST_CASE("recognizes LDR start with labels containing special characters and "
@@ -66,14 +66,14 @@ TEST_CASE("recognizes LDR start with labels containing special characters and "
 {
     std::string input{"##.N_A/M2E$= abc"};
 
-    REQUIRE(true == sciformats::jdx::util::isLdrStart(input));
+    REQUIRE(true == libjdx::jdx::util::isLdrStart(input));
 }
 
 TEST_CASE("rejects non LDR start", "[util][isLdrStart]")
 {
     std::string input{"#NAME= ##NOT_LDR=abc"};
 
-    REQUIRE(false == sciformats::jdx::util::isLdrStart(input));
+    REQUIRE(false == libjdx::jdx::util::isLdrStart(input));
 }
 
 TEST_CASE("normalize LDR start removes \" -/_\" from label",
@@ -82,7 +82,7 @@ TEST_CASE("normalize LDR start removes \" -/_\" from label",
     std::string input{"##A B-C/D_E= abc"};
     std::string expect{"##ABCDE= abc"};
 
-    std::string actual = sciformats::jdx::util::normalizeLdrStart(input);
+    std::string actual = libjdx::jdx::util::normalizeLdrStart(input);
 
     REQUIRE(expect == actual);
 }
@@ -93,7 +93,7 @@ TEST_CASE("normalize LDR start leaves normalized label intact",
     std::string input{"##ABCDE= abc"};
     std::string expect{"##ABCDE= abc"};
 
-    std::string actual = sciformats::jdx::util::normalizeLdrStart(input);
+    std::string actual = libjdx::jdx::util::normalizeLdrStart(input);
 
     REQUIRE(expect == actual);
 }
@@ -104,7 +104,7 @@ TEST_CASE("normalize LDR start removes leading white spaces",
     std::string input{"\t\n\v\f\r ##ABCDE= abc"};
     std::string expect{"##ABCDE= abc"};
 
-    std::string actual = sciformats::jdx::util::normalizeLdrStart(input);
+    std::string actual = libjdx::jdx::util::normalizeLdrStart(input);
 
     REQUIRE(expect == actual);
 }
@@ -116,7 +116,7 @@ TEST_CASE("normalize LDR start turns (only) ASCII letters to upper case",
     std::string input{"##abcde\xE4\xF6\xFC\xC4\xD6\xDC= abc"};
     std::string expect{"##ABCDE\xE4\xF6\xFC\xC4\xD6\xDC= abc"};
 
-    std::string actual = sciformats::jdx::util::normalizeLdrStart(input);
+    std::string actual = libjdx::jdx::util::normalizeLdrStart(input);
 
     REQUIRE(expect == actual);
 }
@@ -126,21 +126,21 @@ TEST_CASE(
 {
     std::string input{"#LABEL= abc"};
 
-    REQUIRE_THROWS(sciformats::jdx::util::normalizeLdrStart(input));
+    REQUIRE_THROWS(libjdx::jdx::util::normalizeLdrStart(input));
 }
 
 TEST_CASE("rejects missing equals in LDR start", "[util][normalizeLdrLabel]")
 {
     std::string input{"##LABEL abc"};
 
-    REQUIRE_THROWS(sciformats::jdx::util::normalizeLdrStart(input));
+    REQUIRE_THROWS(libjdx::jdx::util::normalizeLdrStart(input));
 }
 
 TEST_CASE("tokenizes regular LDR start", "[util][parseLdrStart]")
 {
     std::string input{"##LABEL=abc"};
 
-    auto [label, value] = sciformats::jdx::util::parseLdrStart(input);
+    auto [label, value] = libjdx::jdx::util::parseLdrStart(input);
 
     REQUIRE("LABEL" == label);
     REQUIRE("abc" == value);
@@ -150,7 +150,7 @@ TEST_CASE("tokenizes LDR start with missing value", "[util][parseLdrStart]")
 {
     std::string input{"##LABEL="};
 
-    auto [label, value] = sciformats::jdx::util::parseLdrStart(input);
+    auto [label, value] = libjdx::jdx::util::parseLdrStart(input);
 
     REQUIRE("LABEL" == label);
     REQUIRE(value.empty());
@@ -161,7 +161,7 @@ TEST_CASE("removes (only) first leading space LDR start value",
 {
     std::string input{"##LABEL=  abc"};
 
-    auto [label, value] = sciformats::jdx::util::parseLdrStart(input);
+    auto [label, value] = libjdx::jdx::util::parseLdrStart(input);
 
     REQUIRE("LABEL" == label);
     REQUIRE(" abc" == value);
@@ -171,7 +171,7 @@ TEST_CASE("normalizes LDR start label", "[util][parseLdrStart]")
 {
     std::string input{"\t\n\v\f\r ##abcde\xE4\xF6\xFC\xC4\xD6\xDC="};
 
-    auto label = sciformats::jdx::util::parseLdrStart(input).first;
+    auto label = libjdx::jdx::util::parseLdrStart(input).first;
 
     REQUIRE("ABCDE\xE4\xF6\xFC\xC4\xD6\xDC" == label);
 }
@@ -180,7 +180,7 @@ TEST_CASE("rejects malformed LDR start (missing hash)", "[util][parseLdrStart]")
 {
     std::string input{"#LABEL="};
 
-    REQUIRE_THROWS(sciformats::jdx::util::parseLdrStart(input));
+    REQUIRE_THROWS(libjdx::jdx::util::parseLdrStart(input));
 }
 
 TEST_CASE(
@@ -188,13 +188,13 @@ TEST_CASE(
 {
     std::string input{"##LABEL"};
 
-    REQUIRE_THROWS(sciformats::jdx::util::parseLdrStart(input));
+    REQUIRE_THROWS(libjdx::jdx::util::parseLdrStart(input));
 }
 
 TEST_CASE("strips line comment", "[util][stripLineComment]")
 {
     std::string input{"line start $$ comment"};
-    auto [content, comment] = sciformats::jdx::util::stripLineComment(input);
+    auto [content, comment] = libjdx::jdx::util::stripLineComment(input);
 
     REQUIRE("line start " == content);
     REQUIRE(comment.has_value());
@@ -204,7 +204,7 @@ TEST_CASE("strips line comment", "[util][stripLineComment]")
 TEST_CASE("indicates missing comment with nullopt", "[util][stripLineComment]")
 {
     std::string input{"line content"};
-    auto [content, comment] = sciformats::jdx::util::stripLineComment(input);
+    auto [content, comment] = libjdx::jdx::util::stripLineComment(input);
 
     REQUIRE("line content" == content);
     REQUIRE(!comment.has_value());
@@ -214,7 +214,7 @@ TEST_CASE("indicates empty content if whole line is comment",
     "[util][stripLineComment]")
 {
     std::string input{"$$line comment"};
-    auto [content, comment] = sciformats::jdx::util::stripLineComment(input);
+    auto [content, comment] = libjdx::jdx::util::stripLineComment(input);
 
     REQUIRE(content.empty());
     REQUIRE(comment.has_value());
@@ -225,7 +225,7 @@ TEST_CASE(
     "indicates empty comment with empty string", "[util][stripLineComment]")
 {
     std::string input{"line content$$"};
-    auto [content, comment] = sciformats::jdx::util::stripLineComment(input);
+    auto [content, comment] = libjdx::jdx::util::stripLineComment(input);
 
     REQUIRE(!content.empty());
     REQUIRE("line content" == content);
@@ -237,13 +237,13 @@ TEST_CASE("trims content and comment if indicated", "[util][stripLineComment]")
 {
     std::string input{" content $$ comment "};
     auto [contentFull0, commentFull0]
-        = sciformats::jdx::util::stripLineComment(input, false, false);
+        = libjdx::jdx::util::stripLineComment(input, false, false);
     auto [contentFull1, commentTrimmed1]
-        = sciformats::jdx::util::stripLineComment(input, false, true);
+        = libjdx::jdx::util::stripLineComment(input, false, true);
     auto [contentTrimmed2, commentFull2]
-        = sciformats::jdx::util::stripLineComment(input, true, false);
+        = libjdx::jdx::util::stripLineComment(input, true, false);
     auto [contentTrimmed3, commentTrimmed3]
-        = sciformats::jdx::util::stripLineComment(input, true, true);
+        = libjdx::jdx::util::stripLineComment(input, true, true);
 
     REQUIRE(" content " == contentFull0);
     REQUIRE(" comment " == commentFull0.value());
@@ -264,14 +264,13 @@ TEST_CASE("recognizes Bruker specific section",
     std::string brukerDashes{"$$ ---------------------------------"};
     std::string regularLdr{"##ORIGIN= Test"};
 
-    REQUIRE(sciformats::jdx::util::isBrukerSpecificSectionStart(
-        brukerSectionStart));
-    REQUIRE(sciformats::jdx::util::isBrukerSpecificSectionStart(
-        brukerSectionStartF1));
+    REQUIRE(
+        libjdx::jdx::util::isBrukerSpecificSectionStart(brukerSectionStart));
+    REQUIRE(
+        libjdx::jdx::util::isBrukerSpecificSectionStart(brukerSectionStartF1));
     REQUIRE_FALSE(
-        sciformats::jdx::util::isBrukerSpecificSectionStart(brukerSectionEnd));
+        libjdx::jdx::util::isBrukerSpecificSectionStart(brukerSectionEnd));
     REQUIRE_FALSE(
-        sciformats::jdx::util::isBrukerSpecificSectionStart(brukerDashes));
-    REQUIRE_FALSE(
-        sciformats::jdx::util::isBrukerSpecificSectionStart(regularLdr));
+        libjdx::jdx::util::isBrukerSpecificSectionStart(brukerDashes));
+    REQUIRE_FALSE(libjdx::jdx::util::isBrukerSpecificSectionStart(regularLdr));
 }

@@ -23,7 +23,7 @@
 #include <utility>
 #include <vector>
 
-namespace sciformats::api
+namespace libjdx::api
 {
 /**
  * A table.
@@ -45,6 +45,6 @@ struct Table
      */
     std::vector<std::map<std::string, std::string>> rows;
 };
-} // sciformats::api
+} // libjdx::api
 
 #endif

@@ -21,20 +21,20 @@
 #include <sstream>
 #include <stdexcept>
 
-sciformats::io::SimpleTextReader::SimpleTextReader(
+libjdx::io::SimpleTextReader::SimpleTextReader(
     std::unique_ptr<std::istream> streamPtr)
     : m_streamPtr{std::move(streamPtr)}
 {
     setStreamFlags();
 }
 
-sciformats::io::SimpleTextReader::SimpleTextReader(const std::string& filePath)
+libjdx::io::SimpleTextReader::SimpleTextReader(const std::string& filePath)
     : m_streamPtr{std::make_unique<std::ifstream>(filePath)}
 {
     setStreamFlags();
 }
 
-void sciformats::io::SimpleTextReader::setStreamFlags()
+void libjdx::io::SimpleTextReader::setStreamFlags()
 {
     if (m_streamPtr == nullptr)
     {
@@ -45,18 +45,18 @@ void sciformats::io::SimpleTextReader::setStreamFlags()
     m_streamPtr->exceptions(std::ios::failbit | std::ios::badbit);
 }
 
-std::ios::pos_type sciformats::io::SimpleTextReader::tellg() const
+std::ios::pos_type libjdx::io::SimpleTextReader::tellg() const
 {
     return m_streamPtr->tellg();
 }
 
-void sciformats::io::SimpleTextReader::seekg(
+void libjdx::io::SimpleTextReader::seekg(
     std::ios::pos_type position, std::ios_base::seekdir seekdir)
 {
     m_streamPtr->seekg(position, seekdir);
 }
 
-std::ios::pos_type sciformats::io::SimpleTextReader::getLength()
+std::ios::pos_type libjdx::io::SimpleTextReader::getLength()
 {
     const std::ios::pos_type current = m_streamPtr->tellg();
     m_streamPtr->seekg(0, std::ios::end);
@@ -65,7 +65,7 @@ std::ios::pos_type sciformats::io::SimpleTextReader::getLength()
     return length;
 }
 
-bool sciformats::io::SimpleTextReader::eof() const
+bool libjdx::io::SimpleTextReader::eof() const
 {
     // see:
     // https://stackoverflow.com/questions/6283632/how-to-know-if-the-next-character-is-eof-in-c
@@ -84,7 +84,7 @@ bool sciformats::io::SimpleTextReader::eof() const
     return false;
 }
 
-std::string sciformats::io::SimpleTextReader::readLine()
+std::string libjdx::io::SimpleTextReader::readLine()
 {
     std::string out{};
     if (std::getline(*m_streamPtr, out))

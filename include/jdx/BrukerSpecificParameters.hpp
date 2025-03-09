@@ -26,7 +26,7 @@
 #include <string>
 #include <vector>
 
-namespace sciformats::jdx
+namespace libjdx::jdx
 {
 /**
  * @brief A JCAMP-DX Bruker specific parameters section.
@@ -80,6 +80,6 @@ private:
     std::string m_name;
     std::vector<StringLdr> m_content;
 };
-} // namespace sciformats::jdx
+} // namespace libjdx::jdx
 
 #endif // JDX_BRUKERSPECIFICPARAMETERS_HPP

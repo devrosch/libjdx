@@ -23,9 +23,9 @@
 #include "api/Table.hpp"
 #include "jdx/Block.hpp"
 
-namespace sciformats::jdx::api
+namespace libjdx::jdx::api
 {
-class JdxConverter : public sciformats::api::Converter
+class JdxConverter : public libjdx::api::Converter
 {
 public:
     /**
@@ -38,42 +38,41 @@ public:
      * @brief Read node from data set.
      * @param path Path to the node within the data set.
      */
-    sciformats::api::Node read(const std::string& path) override;
+    libjdx::api::Node read(const std::string& path) override;
 
 private:
-    std::unique_ptr<sciformats::jdx::Block> m_rootBlock;
+    std::unique_ptr<libjdx::jdx::Block> m_rootBlock;
 
     static std::vector<size_t> convertPathToNodeIndices(
         const std::string& path);
-    sciformats::api::Node retrieveNode(const std::vector<size_t>& nodeIndices);
-    static sciformats::api::Node mapBlock(const Block& block, bool isPeakData);
+    libjdx::api::Node retrieveNode(const std::vector<size_t>& nodeIndices);
+    static libjdx::api::Node mapBlock(const Block& block, bool isPeakData);
     static bool isPeakData(const Block& block);
-    static sciformats::api::Node mapBrukerRelaxSection(
+    static libjdx::api::Node mapBrukerRelaxSection(
         const BrukerRelaxSection& section);
-    static sciformats::api::Node mapBrukerSpecificParameters(
+    static libjdx::api::Node mapBrukerSpecificParameters(
         const BrukerSpecificParameters& section);
-    static sciformats::api::Node mapNTuples(const NTuples& nTuples,
+    static libjdx::api::Node mapNTuples(const NTuples& nTuples,
         const std::vector<size_t>& nodeIndices, bool isPeakData);
-    static sciformats::api::Node mapNTuplesPage(
-        const Page& page, bool isPeakData);
+    static libjdx::api::Node mapNTuplesPage(const Page& page, bool isPeakData);
     static std::string mapNTuplesPageName(const Page& page);
-    static std::vector<sciformats::api::Point2D> mapData(const Block& block);
-    static std::vector<sciformats::api::Point2D> mapXyData(
+    static std::vector<libjdx::api::Point2D> mapData(const Block& block);
+    static std::vector<libjdx::api::Point2D> mapXyData(
         const std::vector<std::pair<double, double>>& xyData);
     static std::map<std::string, std::string> mapMetadata(const Block& block);
     static std::map<std::string, std::string> mapMetadata(
         const Page& page, bool isPeakData);
-    static sciformats::api::Table mapPeakTable(
-        const sciformats::jdx::PeakTable& peakTable);
-    static std::vector<sciformats::api::Point2D> mapPeakTableAsData(
-        const sciformats::jdx::PeakTable& peakTable);
-    static sciformats::api::Table mapDataAsPeakTable(
+    static libjdx::api::Table mapPeakTable(
+        const libjdx::jdx::PeakTable& peakTable);
+    static std::vector<libjdx::api::Point2D> mapPeakTableAsData(
+        const libjdx::jdx::PeakTable& peakTable);
+    static libjdx::api::Table mapDataAsPeakTable(
         const std::vector<std::pair<double, double>>& xyData);
-    static sciformats::api::Table mapPeakAssignments(
-        const sciformats::jdx::PeakAssignments& peakAssignments);
-    static sciformats::api::Node mapAuditTrail(
-        const sciformats::jdx::AuditTrail& auditTrail);
+    static libjdx::api::Table mapPeakAssignments(
+        const libjdx::jdx::PeakAssignments& peakAssignments);
+    static libjdx::api::Node mapAuditTrail(
+        const libjdx::jdx::AuditTrail& auditTrail);
 };
-} // sciformats::jdx::api
+} // libjdx::jdx::api
 
 #endif

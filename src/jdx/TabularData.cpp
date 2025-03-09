@@ -20,13 +20,13 @@
 #include "util/PeakAssignmentsParser.hpp"
 #include "util/StringUtils.hpp"
 
-sciformats::jdx::TabularData::TabularData(
+libjdx::jdx::TabularData::TabularData(
     std::string label, std::string variableList, io::TextReader& reader)
     : DataLdr(std::move(label), std::move(variableList), reader)
 {
 }
 
-std::optional<std::string> sciformats::jdx::TabularData::getWidthFunction()
+std::optional<std::string> libjdx::jdx::TabularData::getWidthFunction()
 {
     auto appendToDescription
         = [](std::string comment, std::string& description) {

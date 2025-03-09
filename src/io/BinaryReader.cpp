@@ -41,8 +41,8 @@
 #endif
 #endif
 
-sciformats::io::BinaryReader::BinaryReader(
-    const std::string& filePath, sciformats::io::Endianness endian)
+libjdx::io::BinaryReader::BinaryReader(
+    const std::string& filePath, libjdx::io::Endianness endian)
     : m_ifstream{std::ifstream{}}
     , m_stringstream{std::nullopt}
     , m_istream{m_ifstream.value()}
@@ -53,8 +53,8 @@ sciformats::io::BinaryReader::BinaryReader(
     m_ifstream.value().open(filePath, std::ios::in | std::ios::binary);
 }
 
-sciformats::io::BinaryReader::BinaryReader(std::istream& inputStream,
-    sciformats::io::Endianness endian, bool activateExceptions)
+libjdx::io::BinaryReader::BinaryReader(std::istream& inputStream,
+    libjdx::io::Endianness endian, bool activateExceptions)
     : m_ifstream{std::nullopt}
     , m_stringstream{std::nullopt}
     , m_istream{inputStream}
@@ -69,8 +69,8 @@ sciformats::io::BinaryReader::BinaryReader(std::istream& inputStream,
     }
 }
 
-sciformats::io::BinaryReader::BinaryReader(
-    std::vector<char>& vec, sciformats::io::Endianness endian)
+libjdx::io::BinaryReader::BinaryReader(
+    std::vector<char>& vec, libjdx::io::Endianness endian)
     : m_ifstream{std::nullopt}
     , m_stringstream{std::stringstream{}}
     , m_istream{m_stringstream.value()}
@@ -100,8 +100,8 @@ sciformats::io::BinaryReader::BinaryReader(
 #endif
 }
 
-sciformats::io::BinaryReader::BinaryReader(
-    std::vector<uint8_t>& vec, sciformats::io::Endianness endian)
+libjdx::io::BinaryReader::BinaryReader(
+    std::vector<uint8_t>& vec, libjdx::io::Endianness endian)
     : m_ifstream{std::nullopt}
     , m_stringstream{std::stringstream{}}
     , m_istream{m_stringstream.value()}
@@ -132,18 +132,18 @@ sciformats::io::BinaryReader::BinaryReader(
 #endif
 }
 
-std::ios::pos_type sciformats::io::BinaryReader::tellg() const
+std::ios::pos_type libjdx::io::BinaryReader::tellg() const
 {
     return m_istream.tellg();
 }
 
-void sciformats::io::BinaryReader::seekg(
+void libjdx::io::BinaryReader::seekg(
     std::ios::pos_type position, std::ios_base::seekdir seekdir)
 {
     m_istream.seekg(position, seekdir);
 }
 
-std::ios::pos_type sciformats::io::BinaryReader::getLength()
+std::ios::pos_type libjdx::io::BinaryReader::getLength()
 {
     std::ios::pos_type current = m_istream.tellg();
     m_istream.seekg(0, std::ios::end);
@@ -152,26 +152,25 @@ std::ios::pos_type sciformats::io::BinaryReader::getLength()
     return length;
 }
 
-int8_t sciformats::io::BinaryReader::readInt8()
+int8_t libjdx::io::BinaryReader::readInt8()
 {
     static_assert(sizeof(char) == sizeof(int8_t),
         "Char size does not match int8_t size.");
     return static_cast<int8_t>(m_istream.get());
 }
 
-uint8_t sciformats::io::BinaryReader::readUInt8()
+uint8_t libjdx::io::BinaryReader::readUInt8()
 {
     static_assert(CHAR_BIT == 8, "Char size is not 8.");
     return static_cast<uint8_t>(m_istream.get());
 }
 
-uint16_t sciformats::io::BinaryReader::readUInt16()
+uint16_t libjdx::io::BinaryReader::readUInt16()
 {
     return readUInt16(m_endianness);
 }
 
-uint16_t sciformats::io::BinaryReader::readUInt16(
-    sciformats::io::Endianness endian)
+uint16_t libjdx::io::BinaryReader::readUInt16(libjdx::io::Endianness endian)
 {
     static_assert(CHAR_BIT == 8, "Char size is not 8.");
     // don't initialize array for potentially better performance
@@ -187,33 +186,31 @@ uint16_t sciformats::io::BinaryReader::readUInt16(
                    | ((static_cast<uint8_t>(bytes[0]) & 0xFFU) << 8U));
 }
 
-int16_t sciformats::io::BinaryReader::readInt16()
+int16_t libjdx::io::BinaryReader::readInt16()
 {
     return readInt16(m_endianness);
 }
 
-int16_t sciformats::io::BinaryReader::readInt16(
-    sciformats::io::Endianness endian)
+int16_t libjdx::io::BinaryReader::readInt16(libjdx::io::Endianness endian)
 {
     static_assert(sizeof(uint16_t) == sizeof(int16_t),
         "Size of uinte16_t does not match size of int16_t.");
     return static_cast<int16_t>(readUInt16(endian));
 }
 
-uint32_t sciformats::io::BinaryReader::readUInt32()
+uint32_t libjdx::io::BinaryReader::readUInt32()
 {
     return readUInt32(m_endianness);
 }
 
-uint32_t sciformats::io::BinaryReader::readUInt32(
-    sciformats::io::Endianness endian)
+uint32_t libjdx::io::BinaryReader::readUInt32(libjdx::io::Endianness endian)
 {
     static_assert(CHAR_BIT == 8, "Char size is not 8.");
     // don't initialize array for potentially better performance
     // NOLINTNEXTLINE(cppcoreguidelines-pro-type-member-init,hicpp-member-init)
     std::array<char, sizeof(uint32_t)> bytes;
     m_istream.read(bytes.data(), bytes.size());
-    return endian == sciformats::io::Endianness::LittleEndian
+    return endian == libjdx::io::Endianness::LittleEndian
                ? ((static_cast<uint8_t>(bytes[0]) & 0xFFU) << 0U)
                      | ((static_cast<uint8_t>(bytes[1]) & 0xFFU) << 8U)
                      | ((static_cast<uint8_t>(bytes[2]) & 0xFFU) << 16U)
@@ -224,26 +221,24 @@ uint32_t sciformats::io::BinaryReader::readUInt32(
                      | ((static_cast<uint8_t>(bytes[0]) & 0xFFU) << 24U);
 }
 
-int32_t sciformats::io::BinaryReader::readInt32()
+int32_t libjdx::io::BinaryReader::readInt32()
 {
     return readInt32(m_endianness);
 }
 
-int32_t sciformats::io::BinaryReader::readInt32(
-    sciformats::io::Endianness endian)
+int32_t libjdx::io::BinaryReader::readInt32(libjdx::io::Endianness endian)
 {
     static_assert(sizeof(uint32_t) == sizeof(int32_t),
         "Size of uinte32_t does not match size of int32_t.");
     return static_cast<int32_t>(readUInt32(endian));
 }
 
-uint64_t sciformats::io::BinaryReader::readUInt64()
+uint64_t libjdx::io::BinaryReader::readUInt64()
 {
     return readUInt64(m_endianness);
 }
 
-uint64_t sciformats::io::BinaryReader::readUInt64(
-    sciformats::io::Endianness endian)
+uint64_t libjdx::io::BinaryReader::readUInt64(libjdx::io::Endianness endian)
 {
     static_assert(CHAR_BIT == 8, "Char size is not 8.");
     static_assert(sizeof(uint64_t) == 8, "uint8_t size is not 8 bytes.");
@@ -251,7 +246,7 @@ uint64_t sciformats::io::BinaryReader::readUInt64(
     // NOLINTNEXTLINE(cppcoreguidelines-pro-type-member-init,hicpp-member-init)
     std::array<char, sizeof(uint64_t)> bytes;
     m_istream.read(bytes.data(), bytes.size());
-    return endian == sciformats::io::Endianness::LittleEndian
+    return endian == libjdx::io::Endianness::LittleEndian
                ? (static_cast<uint64_t>(static_cast<uint8_t>(bytes[0]) & 0xFFU)
                      << 0U)
                      | (static_cast<uint64_t>(
@@ -300,25 +295,24 @@ uint64_t sciformats::io::BinaryReader::readUInt64(
                          << 56U);
 }
 
-int64_t sciformats::io::BinaryReader::readInt64()
+int64_t libjdx::io::BinaryReader::readInt64()
 {
     return readInt64(m_endianness);
 }
 
-int64_t sciformats::io::BinaryReader::readInt64(
-    sciformats::io::Endianness endian)
+int64_t libjdx::io::BinaryReader::readInt64(libjdx::io::Endianness endian)
 {
     static_assert(sizeof(uint64_t) == sizeof(int64_t),
         "Size of uinte64_t does not match size of int64_t.");
     return static_cast<int64_t>(readUInt64(endian));
 }
 
-float sciformats::io::BinaryReader::readFloat()
+float libjdx::io::BinaryReader::readFloat()
 {
     return readFloat(m_endianness);
 }
 
-float sciformats::io::BinaryReader::readFloat(sciformats::io::Endianness endian)
+float libjdx::io::BinaryReader::readFloat(libjdx::io::Endianness endian)
 {
     static_assert(CHAR_BIT == 8, "Char size is not 8.");
     static_assert(sizeof(float) == sizeof(int32_t),
@@ -338,13 +332,12 @@ float sciformats::io::BinaryReader::readFloat(sciformats::io::Endianness endian)
     return output;
 }
 
-double sciformats::io::BinaryReader::readDouble()
+double libjdx::io::BinaryReader::readDouble()
 {
     return readDouble(m_endianness);
 }
 
-double sciformats::io::BinaryReader::readDouble(
-    sciformats::io::Endianness endian)
+double libjdx::io::BinaryReader::readDouble(libjdx::io::Endianness endian)
 {
     static_assert(CHAR_BIT == 8, "Char size is not 8.");
     static_assert(sizeof(double) == sizeof(int64_t),
@@ -364,7 +357,7 @@ double sciformats::io::BinaryReader::readDouble(
     return output;
 }
 
-std::vector<char> sciformats::io::BinaryReader::readChars(size_t size)
+std::vector<char> libjdx::io::BinaryReader::readChars(size_t size)
 {
     std::vector<char> dest;
     dest.resize(size);
@@ -372,7 +365,7 @@ std::vector<char> sciformats::io::BinaryReader::readChars(size_t size)
     return dest;
 }
 
-std::vector<uint8_t> sciformats::io::BinaryReader::readBytes(size_t size)
+std::vector<uint8_t> libjdx::io::BinaryReader::readBytes(size_t size)
 {
     static_assert(CHAR_BIT == 8, "Char size is not 8.");
     std::vector<uint8_t> dest;
@@ -395,7 +388,7 @@ std::vector<uint8_t> sciformats::io::BinaryReader::readBytes(size_t size)
     return dest;
 }
 
-std::string sciformats::io::BinaryReader::readString(
+std::string libjdx::io::BinaryReader::readString(
     const std::string& encoding, int32_t size)
 {
     if (size < 0)
@@ -467,7 +460,7 @@ std::string sciformats::io::BinaryReader::readString(
     }
 }
 
-std::string sciformats::io::BinaryReader::readPrefixedString(
+std::string libjdx::io::BinaryReader::readPrefixedString(
     StringPrefixType prefixType, const std::string& encoding, int32_t maxSize)
 {
     static_assert(CHAR_BIT == 8, "Char size is not 8.");

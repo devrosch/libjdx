@@ -21,7 +21,7 @@
 #include <optional>
 #include <string>
 
-namespace sciformats::jdx
+namespace libjdx::jdx
 {
 /**
  * @brief JCAMP-DX spectral parameters describing an XYDATA record.
@@ -65,6 +65,6 @@ struct XyParameters
      */
     std::optional<double> deltaX;
 };
-} // namespace sciformats::jdx
+} // namespace libjdx::jdx
 
 #endif // JDX_XYPARAMETERS_HPP

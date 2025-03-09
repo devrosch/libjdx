@@ -22,25 +22,25 @@
 
 #include <limits>
 
-sciformats::jdx::util::TuplesParser::TuplesParser(
+libjdx::jdx::util::TuplesParser::TuplesParser(
     std::string variableList, std::string ldrName)
     : m_variableList{std::move(variableList)}
     , m_ldrName{std::move(ldrName)}
 {
 }
 
-const std::string& sciformats::jdx::util::TuplesParser::getVariableList() const
+const std::string& libjdx::jdx::util::TuplesParser::getVariableList() const
 {
     return m_variableList;
 }
 
-const std::string& sciformats::jdx::util::TuplesParser::getLdrName() const
+const std::string& libjdx::jdx::util::TuplesParser::getLdrName() const
 {
     return m_ldrName;
 }
 
 std::vector<std::optional<std::string>>
-sciformats::jdx::util::TuplesParser::extractTokens(
+libjdx::jdx::util::TuplesParser::extractTokens(
     const std::string& tuple, const std::regex& regex, size_t numTokens) const
 {
     auto noCommentTuple = util::stripLineComment(tuple, true).first;
@@ -55,8 +55,7 @@ sciformats::jdx::util::TuplesParser::extractTokens(
     return tokens;
 }
 
-void sciformats::jdx::util::TuplesParser::checkForErrors(
-    const std::string& varList,
+void libjdx::jdx::util::TuplesParser::checkForErrors(const std::string& varList,
     const std::multimap<std::string, std::tuple<bool, std::string>>& errorMap,
     const std::string& ldrName)
 {
@@ -77,14 +76,14 @@ void sciformats::jdx::util::TuplesParser::checkForErrors(
     }
 }
 
-double sciformats::jdx::util::TuplesParser::parseDoubleToken(
+double libjdx::jdx::util::TuplesParser::parseDoubleToken(
     const std::optional<std::string>& token)
 {
     return token.value().empty() ? std::numeric_limits<double>::quiet_NaN()
                                  : strtod(token.value().data(), nullptr);
 }
 
-std::optional<std::string> sciformats::jdx::util::TuplesParser::extractToken(
+std::optional<std::string> libjdx::jdx::util::TuplesParser::extractToken(
     const std::smatch& matches, size_t index)
 {
     return matches[index].matched
@@ -92,7 +91,7 @@ std::optional<std::string> sciformats::jdx::util::TuplesParser::extractToken(
                : std::nullopt;
 }
 
-std::smatch sciformats::jdx::util::TuplesParser::match(
+std::smatch libjdx::jdx::util::TuplesParser::match(
     const std::string& tuple, const std::regex& regex) const
 {
     std::smatch matches;

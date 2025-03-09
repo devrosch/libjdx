@@ -24,7 +24,7 @@
 #include <limits>
 #include <string>
 
-std::vector<double> sciformats::jdx::util::DataParser::readXppYYData(
+std::vector<double> libjdx::jdx::util::DataParser::readXppYYData(
     io::TextReader& reader)
 {
     static_assert(
@@ -73,7 +73,7 @@ std::vector<double> sciformats::jdx::util::DataParser::readXppYYData(
 }
 
 std::vector<std::pair<double, double>>
-sciformats::jdx::util::DataParser::readXyXyData(io::TextReader& reader)
+libjdx::jdx::util::DataParser::readXyXyData(io::TextReader& reader)
 {
     static_assert(
         std::numeric_limits<double>::has_quiet_NaN, "No quiet NaN available.");
@@ -129,7 +129,7 @@ sciformats::jdx::util::DataParser::readXyXyData(io::TextReader& reader)
 // TODO: refactor to reduce complexity
 std::pair<std::vector<double>, bool>
 // NOLINTNEXTLINE(readability-function-cognitive-complexity)
-sciformats::jdx::util::DataParser::readValues(
+libjdx::jdx::util::DataParser::readValues(
     std::string& encodedValues, bool isAsdf)
 {
     // output
@@ -226,7 +226,7 @@ sciformats::jdx::util::DataParser::readValues(
 }
 
 std::pair<std::vector<double>, bool>
-sciformats::jdx::util::DataParser::readXppYYLine(
+libjdx::jdx::util::DataParser::readXppYYLine(
     std::string& line, const std::optional<double>& yValueCheck)
 {
     // read (X++(Y..Y)) data line
@@ -248,7 +248,7 @@ sciformats::jdx::util::DataParser::readXppYYLine(
     return {values, difEncoded};
 }
 
-std::optional<std::string> sciformats::jdx::util::DataParser::nextToken(
+std::optional<std::string> libjdx::jdx::util::DataParser::nextToken(
     const std::string& line, size_t& pos, bool isAsdf)
 {
     // skip delimiters
@@ -274,8 +274,8 @@ std::optional<std::string> sciformats::jdx::util::DataParser::nextToken(
     return std::string{startIt, endIt};
 }
 
-sciformats::jdx::util::DataParser::TokenType
-sciformats::jdx::util::DataParser::toAffn(std::string& token)
+libjdx::jdx::util::DataParser::TokenType libjdx::jdx::util::DataParser::toAffn(
+    std::string& token)
 {
     auto c = token.front();
     TokenType tokenType = TokenType::Affn;
@@ -320,7 +320,7 @@ sciformats::jdx::util::DataParser::toAffn(std::string& token)
     return tokenType;
 }
 
-bool sciformats::jdx::util::DataParser::isTokenDelimiter(
+bool libjdx::jdx::util::DataParser::isTokenDelimiter(
     const std::string& encodedValues, size_t index)
 {
     if (index >= encodedValues.size())
@@ -331,7 +331,7 @@ bool sciformats::jdx::util::DataParser::isTokenDelimiter(
     return isSpace(c) || c == ';' || c == ',';
 }
 
-bool sciformats::jdx::util::DataParser::isTokenStart(
+bool libjdx::jdx::util::DataParser::isTokenStart(
     const std::string& encodedValues, size_t index, bool isAsdf)
 {
     if (index >= encodedValues.size())
@@ -372,7 +372,7 @@ bool sciformats::jdx::util::DataParser::isTokenStart(
     return false;
 }
 
-bool sciformats::jdx::util::DataParser::isExponentStart(
+bool libjdx::jdx::util::DataParser::isExponentStart(
     const std::string& encodedValues, size_t index, bool isAsdf)
 {
     // a faster check for start of exponent instead of these regexes:
@@ -430,33 +430,32 @@ bool sciformats::jdx::util::DataParser::isExponentStart(
     return i >= encodedValues.size() || isTokenDelimiter(encodedValues, i);
 }
 
-bool sciformats::jdx::util::DataParser::isAsciiDigit(char c)
+bool libjdx::jdx::util::DataParser::isAsciiDigit(char c)
 {
     return c >= '0' && c <= '9';
 }
 
-bool sciformats::jdx::util::DataParser::isSqzDigit(char c)
+bool libjdx::jdx::util::DataParser::isSqzDigit(char c)
 {
     return (c >= '@' && c <= 'I') || (c >= 'a' && c <= 'i');
 }
 
-bool sciformats::jdx::util::DataParser::isDifDigit(char c)
+bool libjdx::jdx::util::DataParser::isDifDigit(char c)
 {
     return (c >= 'J' && c <= 'R') || (c >= 'j' && c <= 'r') || c == '%';
 }
 
-bool sciformats::jdx::util::DataParser::isDupDigit(char c)
+bool libjdx::jdx::util::DataParser::isDupDigit(char c)
 {
     return (c >= 'S' && c <= 'Z') || c == 's';
 }
 
-bool sciformats::jdx::util::DataParser::isSqzDifDupDigit(char c)
+bool libjdx::jdx::util::DataParser::isSqzDifDupDigit(char c)
 {
     return (c >= '@' && c <= 'Z') || (c >= 'a' && c <= 's') || c == '%';
 }
 
-std::optional<char> sciformats::jdx::util::DataParser::getAsciiDigitValue(
-    char c)
+std::optional<char> libjdx::jdx::util::DataParser::getAsciiDigitValue(char c)
 {
     static const std::string asciiDigits = "0123456789";
     auto pos = asciiDigits.find(c);
@@ -465,7 +464,7 @@ std::optional<char> sciformats::jdx::util::DataParser::getAsciiDigitValue(
                : std::make_optional(static_cast<char>(pos));
 }
 
-std::optional<char> sciformats::jdx::util::DataParser::getSqzDigitValue(char c)
+std::optional<char> libjdx::jdx::util::DataParser::getSqzDigitValue(char c)
 {
     // positive SQZ digits @ABCDEFGHI
     if (c >= '@' && c <= 'I')
@@ -480,7 +479,7 @@ std::optional<char> sciformats::jdx::util::DataParser::getSqzDigitValue(char c)
     return {};
 }
 
-std::optional<char> sciformats::jdx::util::DataParser::getDifDigitValue(char c)
+std::optional<char> libjdx::jdx::util::DataParser::getDifDigitValue(char c)
 {
     // positive DIF digits %JKLMNOPQR
     if (c == '%')
@@ -499,7 +498,7 @@ std::optional<char> sciformats::jdx::util::DataParser::getDifDigitValue(char c)
     return {};
 }
 
-std::optional<char> sciformats::jdx::util::DataParser::getDupDigitValue(char c)
+std::optional<char> libjdx::jdx::util::DataParser::getDupDigitValue(char c)
 {
     // DUP digits STUVWXYZs
     if (c >= 'S' && c <= 'Z')

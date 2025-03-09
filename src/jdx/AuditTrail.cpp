@@ -22,7 +22,7 @@
 
 #include <algorithm>
 
-sciformats::jdx::AuditTrail::AuditTrail(const std::string& label,
+libjdx::jdx::AuditTrail::AuditTrail(const std::string& label,
     std::string variableList, io::TextReader& reader,
     std::optional<std::string>& nextLine)
     : TabularData(label, std::move(variableList), reader)
@@ -45,8 +45,8 @@ sciformats::jdx::AuditTrail::AuditTrail(const std::string& label,
     util::skipToNextLdr(reader, nextLine, false);
 }
 
-std::vector<sciformats::jdx::AuditTrailEntry>
-sciformats::jdx::AuditTrail::getData() const
+std::vector<libjdx::jdx::AuditTrailEntry>
+libjdx::jdx::AuditTrail::getData() const
 {
     auto variableList = m_brukerVarList.value_or(getVariableList());
     if (util::isPureComment(variableList))
@@ -60,7 +60,7 @@ sciformats::jdx::AuditTrail::getData() const
         parser);
 }
 
-std::optional<std::string> sciformats::jdx::AuditTrail::scanForBrukerVarList(
+std::optional<std::string> libjdx::jdx::AuditTrail::scanForBrukerVarList(
     std::optional<std::string>& nextLine)
 {
     auto& reader = getReader();

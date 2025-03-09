@@ -29,7 +29,7 @@
 #include <string>
 #include <vector>
 
-namespace sciformats::jdx
+namespace libjdx::jdx
 {
 /**
  * @brief A JCAMP-DX NTUPLES DATA TABLE record.
@@ -147,7 +147,7 @@ private:
 };
 
 template<typename R, size_t SIZE>
-R sciformats::jdx::DataTable::findValue(
+R libjdx::jdx::DataTable::findValue(
     std::array<std::pair<const char*, R>, SIZE> keyValuePairs,
     const std::string& key, const std::string& type)
 {
@@ -160,6 +160,6 @@ R sciformats::jdx::DataTable::findValue(
     throw ParseException("Illegal " + type + "in NTUPLES PAGE: " + key);
 }
 
-} // namespace sciformats::jdx
+} // namespace libjdx::jdx
 
 #endif // JDX_DATATABLE_HPP

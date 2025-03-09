@@ -33,9 +33,9 @@ TEST_CASE("parses AFFN RA data with minimum required parameters", "[RaData]")
                       "##END="};
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::io::TextReader reader{std::move(streamPtr)};
+    libjdx::io::TextReader reader{std::move(streamPtr)};
 
-    std::vector<sciformats::jdx::StringLdr> ldrs;
+    std::vector<libjdx::jdx::StringLdr> ldrs;
     ldrs.emplace_back("RUNITS", "MICROMETERS");
     ldrs.emplace_back("AUNITS", "ARBITRARY UNITS");
     ldrs.emplace_back("FIRSTR", "0");
@@ -45,7 +45,7 @@ TEST_CASE("parses AFFN RA data with minimum required parameters", "[RaData]")
     ldrs.emplace_back("NPOINTS", "3");
     auto nextLine = std::optional<std::string>{};
     auto raDataRecord
-        = sciformats::jdx::RaData(label, variables, ldrs, reader, nextLine);
+        = libjdx::jdx::RaData(label, variables, ldrs, reader, nextLine);
 
     REQUIRE("(R++(A..A))" == raDataRecord.getVariableList());
 
@@ -84,9 +84,9 @@ TEST_CASE("parses AFFN RA data with all parameters", "[RaData]")
                       "##END="};
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::io::TextReader reader{std::move(streamPtr)};
+    libjdx::io::TextReader reader{std::move(streamPtr)};
 
-    std::vector<sciformats::jdx::StringLdr> ldrs;
+    std::vector<libjdx::jdx::StringLdr> ldrs;
     ldrs.emplace_back("RUNITS", "MICROMETERS");
     ldrs.emplace_back("AUNITS", "ARBITRARY UNITS");
     ldrs.emplace_back("FIRSTR", "0");
@@ -103,7 +103,7 @@ TEST_CASE("parses AFFN RA data with all parameters", "[RaData]")
     ldrs.emplace_back("ALIAS", "1/2");
     auto nextLine = std::optional<std::string>{};
     auto raDataRecord
-        = sciformats::jdx::RaData(label, variables, ldrs, reader, nextLine);
+        = libjdx::jdx::RaData(label, variables, ldrs, reader, nextLine);
 
     auto raData = raDataRecord.getData();
 
@@ -143,9 +143,9 @@ TEST_CASE("accepts blank values for optional RA data parameters", "[RaData]")
                       "##END="};
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::io::TextReader reader{std::move(streamPtr)};
+    libjdx::io::TextReader reader{std::move(streamPtr)};
 
-    std::vector<sciformats::jdx::StringLdr> ldrs;
+    std::vector<libjdx::jdx::StringLdr> ldrs;
     ldrs.emplace_back("RUNITS", "MICROMETERS");
     ldrs.emplace_back("AUNITS", "ARBITRARY UNITS");
     ldrs.emplace_back("FIRSTR", "0");
@@ -163,7 +163,7 @@ TEST_CASE("accepts blank values for optional RA data parameters", "[RaData]")
 
     auto nextLine = std::optional<std::string>{};
     auto raDataRecord
-        = sciformats::jdx::RaData(label, variables, ldrs, reader, nextLine);
+        = libjdx::jdx::RaData(label, variables, ldrs, reader, nextLine);
     auto raData = raDataRecord.getData();
     auto params = raDataRecord.getParameters();
 
@@ -192,9 +192,9 @@ TEST_CASE("detects mismatching variables list for RADATA", "[RaData]")
                       "##END="};
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::io::TextReader reader{std::move(streamPtr)};
+    libjdx::io::TextReader reader{std::move(streamPtr)};
 
-    std::vector<sciformats::jdx::StringLdr> ldrs;
+    std::vector<libjdx::jdx::StringLdr> ldrs;
     ldrs.emplace_back("RUNITS", "MICROMETERS");
     ldrs.emplace_back("AUNITS", "ARBITRARY UNITS");
     ldrs.emplace_back("FIRSTR", "0");
@@ -206,7 +206,7 @@ TEST_CASE("detects mismatching variables list for RADATA", "[RaData]")
     auto nextLine = std::optional<std::string>{};
 
     REQUIRE_THROWS_WITH(
-        sciformats::jdx::RaData(label, variables, ldrs, reader, nextLine),
+        libjdx::jdx::RaData(label, variables, ldrs, reader, nextLine),
         Catch::Matchers::Contains("missing", Catch::CaseSensitive::No)
             && Catch::Matchers::Contains("NPOINTS", Catch::CaseSensitive::No));
 }

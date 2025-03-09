@@ -29,7 +29,7 @@
 #include <map>
 #include <vector>
 
-namespace sciformats::jdx
+namespace libjdx::jdx
 {
 /**
  * @brief A JCAMP-DX NTUPLES PAGE record.
@@ -91,6 +91,6 @@ private:
     static std::pair<std::string, std::optional<std::string>>
     parseDataTableVars(const std::string& rawPageVars);
 };
-} // namespace sciformats::jdx
+} // namespace libjdx::jdx
 
 #endif // JDX_PAGE_HPP

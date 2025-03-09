@@ -20,7 +20,7 @@
 
 #include <cstdint> // for uint8_t
 
-namespace sciformats::io
+namespace libjdx::io
 {
 /**
  * @brief The endianness indicates the byte order of data.
@@ -47,6 +47,6 @@ enum class StringPrefixNumericType : uint8_t
     // characters
 };
 
-} // namespace sciformats::io
+} // namespace libjdx::io
 
 #endif // IO_STRINGPREFIXNUMERICTYPE_HPP

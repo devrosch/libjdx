@@ -21,7 +21,7 @@
 #include <optional>
 #include <string>
 
-namespace sciformats::jdx
+namespace libjdx::jdx
 {
 /**
  * @brief JCAMP-DX spectral parameters describing an RADATA record.
@@ -51,6 +51,6 @@ struct RaParameters
     // in addition, XUNITS, YUNITS, FIRSTX, LASTX, DELTAX are given in examples
     // in the standard with not quite clear meaning
 };
-} // namespace sciformats::jdx
+} // namespace libjdx::jdx
 
 #endif // JDX_RAPARAMETERS_HPP

@@ -25,22 +25,22 @@
 #include <map>
 #include <regex>
 
-sciformats::jdx::util::AuditTrailParser::AuditTrailParser(
+libjdx::jdx::util::AuditTrailParser::AuditTrailParser(
     io::TextReader& reader, std::string variableList)
     : MultilineTuplesParser(reader, std::move(variableList), s_ldrName, "\n")
 {
 }
 
-std::optional<sciformats::jdx::AuditTrailEntry>
-sciformats::jdx::util::AuditTrailParser::next()
+std::optional<libjdx::jdx::AuditTrailEntry>
+libjdx::jdx::util::AuditTrailParser::next()
 {
     return TuplesParser::next<AuditTrailEntry>([this]() { return nextTuple(); },
         [this](
             const std::string& tuple) { return createAuditTrailEntry(tuple); });
 }
 
-sciformats::jdx::AuditTrailEntry
-sciformats::jdx::util::AuditTrailParser::createAuditTrailEntry(
+libjdx::jdx::AuditTrailEntry
+libjdx::jdx::util::AuditTrailParser::createAuditTrailEntry(
     const std::string& tuple) const
 {
     // tokenize

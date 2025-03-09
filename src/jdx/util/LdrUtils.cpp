@@ -24,7 +24,7 @@
 #include <string>
 #include <utility>
 
-bool sciformats::jdx::util::isLdrStart(const std::string& line)
+bool libjdx::jdx::util::isLdrStart(const std::string& line)
 {
     static const std::regex regex{"\\s*##.*=.*"};
     // match_continuous => match at start only
@@ -32,7 +32,7 @@ bool sciformats::jdx::util::isLdrStart(const std::string& line)
         line, regex, std::regex_constants::match_continuous);
 }
 
-std::string sciformats::jdx::util::normalizeLdrStart(const std::string& ldr)
+std::string libjdx::jdx::util::normalizeLdrStart(const std::string& ldr)
 {
     std::string output{};
     auto it = ldr.cbegin();
@@ -70,7 +70,7 @@ std::string sciformats::jdx::util::normalizeLdrStart(const std::string& ldr)
     return output;
 }
 
-std::string sciformats::jdx::util::normalizeLdrLabel(const std::string& label)
+std::string libjdx::jdx::util::normalizeLdrLabel(const std::string& label)
 {
     std::string output{};
     // normalize LDR label, i.e. the string between ## and =
@@ -88,7 +88,7 @@ std::string sciformats::jdx::util::normalizeLdrLabel(const std::string& label)
     return output;
 }
 
-std::pair<std::string, std::string> sciformats::jdx::util::parseLdrStart(
+std::pair<std::string, std::string> libjdx::jdx::util::parseLdrStart(
     const std::string& ldrStart)
 {
     size_t posEquals = ldrStart.find('=');
@@ -122,7 +122,7 @@ std::pair<std::string, std::string> sciformats::jdx::util::parseLdrStart(
 }
 
 std::pair<std::string, std::optional<std::string>>
-sciformats::jdx::util::stripLineComment(
+libjdx::jdx::util::stripLineComment(
     const std::string& line, bool trimContent, bool trimComment)
 {
     const auto pos = line.find("$$");
@@ -152,7 +152,7 @@ sciformats::jdx::util::stripLineComment(
     return std::make_pair(content, comment);
 }
 
-std::optional<const sciformats::jdx::StringLdr> sciformats::jdx::util::findLdr(
+std::optional<const libjdx::jdx::StringLdr> libjdx::jdx::util::findLdr(
     const std::vector<StringLdr>& ldrs, const std::string& label)
 {
     std::string normalizedLabel = normalizeLdrLabel(label);
@@ -168,7 +168,7 @@ std::optional<const sciformats::jdx::StringLdr> sciformats::jdx::util::findLdr(
     return std::nullopt;
 }
 
-std::optional<std::string> sciformats::jdx::util::findLdrValue(
+std::optional<std::string> libjdx::jdx::util::findLdrValue(
     const std::vector<StringLdr>& ldrs, const std::string& label)
 {
     auto ldr = util::findLdr(ldrs, label);
@@ -176,7 +176,7 @@ std::optional<std::string> sciformats::jdx::util::findLdrValue(
                            : std::optional<std::string>(std::nullopt);
 }
 
-void sciformats::jdx::util::skipToNextLdr(io::TextReader& reader,
+void libjdx::jdx::util::skipToNextLdr(io::TextReader& reader,
     std::optional<std::string>& nextLine, bool forceSkipFirstLine)
 {
     if (forceSkipFirstLine)
@@ -201,7 +201,7 @@ void sciformats::jdx::util::skipToNextLdr(io::TextReader& reader,
     }
 }
 
-void sciformats::jdx::util::skipPureComments(io::TextReader& reader,
+void libjdx::jdx::util::skipPureComments(io::TextReader& reader,
     std::optional<std::string>& nextLine, bool mustPrecedeLdr)
 {
     while (nextLine)
@@ -225,20 +225,19 @@ void sciformats::jdx::util::skipPureComments(io::TextReader& reader,
     }
 }
 
-bool sciformats::jdx::util::isPureComment(const std::string& line)
+bool libjdx::jdx::util::isPureComment(const std::string& line)
 {
     // only $$ comment?
     auto preCommentValue = util::stripLineComment(line, true).first;
     return preCommentValue.empty();
 }
 
-bool sciformats::jdx::util::isBrukerSpecificSectionStart(
-    const std::string& line)
+bool libjdx::jdx::util::isBrukerSpecificSectionStart(const std::string& line)
 {
     return line.rfind("$$ Bruker specific parameters", 0) == 0;
 }
 
-bool sciformats::jdx::util::isBrukerSpecificSectionEnd(const std::string& line)
+bool libjdx::jdx::util::isBrukerSpecificSectionEnd(const std::string& line)
 {
     return line.rfind("$$ End of Bruker specific parameters", 0) == 0;
 }

@@ -23,7 +23,7 @@
 
 #include <vector>
 
-namespace sciformats::jdx
+namespace libjdx::jdx
 {
 /**
  * @brief A JCAMP-DX 2D data record. Base for "XYPOINTS", XYDATA", "RADATA", and
@@ -124,6 +124,6 @@ protected:
         const std::string& label, io::TextReader& reader, double xFactor,
         double yFactor, std::optional<size_t> nPoints) const;
 };
-} // namespace sciformats::jdx
+} // namespace libjdx::jdx
 
 #endif // JDX_DATA2D_HPP

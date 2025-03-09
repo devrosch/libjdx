@@ -29,7 +29,7 @@ TEST_CASE("BufferedTextReader reads data", "[BufferedTextReader]")
     SECTION("reads file specified by path", "[BufferedTextReader]")
     {
         const std::string path{"resources/dummy.txt"};
-        sciformats::io::BufferedTextReader reader{path, 5};
+        libjdx::io::BufferedTextReader reader{path, 5};
 
         REQUIRE(0 == reader.tellg());
         REQUIRE(20 == reader.getLength());
@@ -49,7 +49,7 @@ TEST_CASE("BufferedTextReader reads data", "[BufferedTextReader]")
                           "line 3"};
         auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
         streamPtr->str(input);
-        sciformats::io::BufferedTextReader reader{std::move(streamPtr), 5};
+        libjdx::io::BufferedTextReader reader{std::move(streamPtr), 5};
 
         REQUIRE(0 == reader.tellg());
         REQUIRE(21 == reader.getLength());
@@ -77,7 +77,7 @@ TEST_CASE("BufferedTextReader reads data", "[BufferedTextReader]")
         std::string input{};
         auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
         streamPtr->str(input);
-        sciformats::io::BufferedTextReader reader{std::move(streamPtr), 5};
+        libjdx::io::BufferedTextReader reader{std::move(streamPtr), 5};
 
         REQUIRE_THROWS(reader.readLine());
     }

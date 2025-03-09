@@ -21,7 +21,7 @@
 #include "Endianness.hpp"
 #include "StringPrefixNumericType.hpp"
 
-namespace sciformats::io
+namespace libjdx::io
 {
 /**
  * @brief The configuration for reading a string.
@@ -40,6 +40,6 @@ struct StringPrefixType
     Endianness endianness = Endianness::LittleEndian;
 };
 
-} // namespace sciformats::io
+} // namespace libjdx::io
 
 #endif // IO_STRINGPREFIXTYPE_HPP

@@ -24,7 +24,7 @@
 #include <optional>
 #include <regex>
 
-namespace sciformats::jdx::util
+namespace libjdx::jdx::util
 {
 /**
  * @brief A parser base class for tuple parsers such as AUDIT TRAIL, PEAK
@@ -97,7 +97,7 @@ private:
 };
 
 template<typename R>
-std::optional<R> sciformats::jdx::util::TuplesParser::next(
+std::optional<R> libjdx::jdx::util::TuplesParser::next(
     const std::function<std::optional<std::string>()>& nextTuple,
     const std::function<R(const std::string&)>& create)
 {

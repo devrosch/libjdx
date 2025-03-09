@@ -23,7 +23,7 @@
 #include <memory>
 #include <string>
 
-namespace sciformats::api
+namespace libjdx::api
 {
 /**
  * Map parsed data to a common structure.
@@ -46,6 +46,6 @@ public:
     Converter& operator=(Converter&&) = default;
     virtual ~Converter() = default;
 };
-} // sciformats::api
+} // libjdx::api
 
 #endif

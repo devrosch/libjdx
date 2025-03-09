@@ -23,8 +23,8 @@ TEST_CASE("JdxScanner recognizes valid JCAMP-DX and provides a converter for "
           "the data",
     "[JdxScanner]")
 {
-    using namespace sciformats::api;
-    using namespace sciformats::jdx::api;
+    using namespace libjdx::api;
+    using namespace libjdx::jdx::api;
     JdxScanner scanner{};
 
     SECTION("Recognizes JCAMP-DX data")

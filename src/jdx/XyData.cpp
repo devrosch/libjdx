@@ -19,7 +19,7 @@
 #include "jdx/ParseException.hpp"
 #include "jdx/XyBase.hpp"
 
-sciformats::jdx::XyData::XyData(const std::string& label,
+libjdx::jdx::XyData::XyData(const std::string& label,
     const std::string& variableList, const std::vector<StringLdr>& ldrs,
     io::TextReader& reader, std::optional<std::string>& nextLine)
     : XyBase(label, variableList, ldrs, s_xyDataLabel,
@@ -29,7 +29,7 @@ sciformats::jdx::XyData::XyData(const std::string& label,
 {
 }
 
-std::vector<std::pair<double, double>> sciformats::jdx::XyData::getData()
+std::vector<std::pair<double, double>> libjdx::jdx::XyData::getData()
 {
     auto varList = getVariableList();
     if (varList == s_ooQuirkVarList)

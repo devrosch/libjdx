@@ -24,7 +24,7 @@
 #ifdef __EMSCRIPTEN__
 EMSCRIPTEN_BINDINGS(KeyValueParam)
 {
-    using namespace sciformats::api;
+    using namespace libjdx::api;
     using namespace emscripten;
     value_object<KeyValueParam>("KeyValueParam")
         .field("key", &KeyValueParam::key)

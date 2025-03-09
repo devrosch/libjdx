@@ -24,7 +24,7 @@
 #include <string>
 #include <vector>
 
-namespace sciformats::api
+namespace libjdx::api
 {
 class ConverterService : public Scanner
 {
@@ -36,6 +36,6 @@ public:
 private:
     std::vector<std::shared_ptr<Scanner>> m_scanners;
 };
-} // sciformats::api
+} // libjdx::api
 
 #endif

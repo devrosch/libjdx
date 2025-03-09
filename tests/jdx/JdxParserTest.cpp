@@ -29,7 +29,7 @@ TEST_CASE("accepts legal file", "[JdxParser]")
     const std::string path{"resources/SimpleFile.jdx"};
     std::ifstream istream{path};
 
-    bool canParse = sciformats::jdx::JdxParser::canParse(path, istream);
+    bool canParse = libjdx::jdx::JdxParser::canParse(path, istream);
     REQUIRE(canParse == true);
 }
 
@@ -39,7 +39,7 @@ TEST_CASE("accepts legal header with whitespaces", "[JdxParser]")
     const std::string header{"  ##TI_TLE= xxx\n"};
     std::stringstream istream{header};
 
-    bool canParse = sciformats::jdx::JdxParser::canParse(path, istream);
+    bool canParse = libjdx::jdx::JdxParser::canParse(path, istream);
     REQUIRE(canParse == true);
 }
 
@@ -48,7 +48,7 @@ TEST_CASE("rejects illegal file (wrong extension)", "[JdxParser]")
     const std::string path{"resources/dummy.txt"};
     std::ifstream istream{path};
 
-    bool canParse = sciformats::jdx::JdxParser::canParse(path, istream);
+    bool canParse = libjdx::jdx::JdxParser::canParse(path, istream);
     REQUIRE(canParse == false);
 }
 
@@ -57,7 +57,7 @@ TEST_CASE("rejects illegal file (wrong magic bytes)", "[JdxParser]")
     const std::string path{"resources/dummy.jdx"};
     std::ifstream istream{path};
 
-    bool canParse = sciformats::jdx::JdxParser::canParse(path, istream);
+    bool canParse = libjdx::jdx::JdxParser::canParse(path, istream);
     REQUIRE(canParse == false);
 }
 
@@ -66,7 +66,7 @@ TEST_CASE("parse succeeds for legal file", "[JdxParser]")
     const std::string path{"resources/SimpleFile.jdx"};
     auto istream = std::make_unique<std::ifstream>(path);
 
-    REQUIRE_NOTHROW(sciformats::jdx::JdxParser::parse(std::move(istream)));
+    REQUIRE_NOTHROW(libjdx::jdx::JdxParser::parse(std::move(istream)));
 }
 
 TEST_CASE("parse throws for illegal file", "[JdxParser]")
@@ -74,5 +74,5 @@ TEST_CASE("parse throws for illegal file", "[JdxParser]")
     const std::string path{"resources/dummy.jdx"};
     auto istream = std::make_unique<std::ifstream>(path);
 
-    REQUIRE_THROWS(sciformats::jdx::JdxParser::parse(std::move(istream)));
+    REQUIRE_THROWS(libjdx::jdx::JdxParser::parse(std::move(istream)));
 }

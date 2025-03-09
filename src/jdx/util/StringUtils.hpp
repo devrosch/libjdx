@@ -24,7 +24,7 @@
 /**
  * @brief Helper functions for processing strings.
  */
-namespace sciformats::jdx::util
+namespace libjdx::jdx::util
 {
 void trim(std::string& s);
 void trimLeft(std::string& s);
@@ -34,6 +34,6 @@ void toLower(std::string& s);
 std::vector<std::string> split(const std::string& input,
     const std::string& delimiterRegEx, bool trimSegments = false,
     size_t matchGroup = 0);
-} // namespace sciformats::jdx::utils
+} // namespace libjdx::jdx::utils
 
 #endif // JDX_STRINGUTILS_HPP

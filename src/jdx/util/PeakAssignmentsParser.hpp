@@ -24,7 +24,7 @@
 
 #include <array>
 
-namespace sciformats::jdx::util
+namespace libjdx::jdx::util
 {
 /**
  * @brief A parser for PEAK ASSIGNMENTS.
@@ -67,7 +67,7 @@ private:
                              R"(\s*,\s*<(.*)>\s*\))"
                              R"(\s*$)"};
 
-    [[nodiscard]] sciformats::jdx::PeakAssignment createPeakAssignment(
+    [[nodiscard]] libjdx::jdx::PeakAssignment createPeakAssignment(
         const std::string& tuple) const;
 };
 }

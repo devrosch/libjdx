@@ -24,7 +24,7 @@
 #ifdef __EMSCRIPTEN__
 EMSCRIPTEN_BINDINGS(Table)
 {
-    using namespace sciformats::api;
+    using namespace libjdx::api;
     using namespace emscripten;
 
     value_object<Table>("Table")

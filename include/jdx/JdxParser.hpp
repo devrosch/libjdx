@@ -24,7 +24,7 @@
 #include <memory>
 #include <string>
 
-namespace sciformats::jdx
+namespace libjdx::jdx
 {
 /**
  * @brief A parser for JCAMP-DX data.
@@ -60,6 +60,6 @@ private:
         = {".jdx", ".dx", ".jcm"};
     static constexpr size_t s_scanBufferSize = 16;
 };
-} // namespace sciformats::jdx
+} // namespace libjdx::jdx
 
 #endif // JDX_JDXPARSER_HPP

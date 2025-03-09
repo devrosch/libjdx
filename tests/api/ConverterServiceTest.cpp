@@ -30,24 +30,24 @@
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wweak-vtables"
 #endif
-class MockScanner : public trompeloeil::mock_interface<sciformats::api::Scanner>
+class MockScanner : public trompeloeil::mock_interface<libjdx::api::Scanner>
 {
     IMPLEMENT_MOCK1(isRecognized);
     IMPLEMENT_MOCK1(getConverter);
 };
 
-class SuccessConverter : public sciformats::api::Converter
+class SuccessConverter : public libjdx::api::Converter
 {
 public:
     explicit SuccessConverter(std::string nodeName)
         : m_nodeName{std::move(nodeName)}
     {
     }
-    sciformats::api::Node read(const std::string& path) override
+    libjdx::api::Node read(const std::string& path) override
     {
-        return {m_nodeName, std::vector<sciformats::api::KeyValueParam>{},
-            std::vector<sciformats::api::Point2D>{},
-            std::map<std::string, std::string>{}, sciformats::api::Table{},
+        return {m_nodeName, std::vector<libjdx::api::KeyValueParam>{},
+            std::vector<libjdx::api::Point2D>{},
+            std::map<std::string, std::string>{}, libjdx::api::Table{},
             std::vector<std::string>{}};
     }
 
@@ -55,7 +55,7 @@ private:
     std::string m_nodeName;
 };
 
-class ErrorConverter : public sciformats::api::Converter
+class ErrorConverter : public libjdx::api::Converter
 {
 public:
     explicit ErrorConverter(std::string errorMessage)
@@ -63,7 +63,7 @@ public:
     {
         throw std::runtime_error(m_errorMessage);
     }
-    sciformats::api::Node read(const std::string& path) override
+    libjdx::api::Node read(const std::string& path) override
     {
         return {};
     }
@@ -78,7 +78,7 @@ private:
 TEST_CASE("ConverterService sequentially checks parsers for applicability",
     "[ConverterService]")
 {
-    using namespace sciformats::api;
+    using namespace libjdx::api;
 
     auto mockScannerPtr0 = std::make_shared<MockScanner>();
     REQUIRE_CALL(*mockScannerPtr0, isRecognized(ANY(const std::string&)))
@@ -103,7 +103,7 @@ TEST_CASE("ConverterService sequentially checks parsers for applicability",
 TEST_CASE("ConverterService collects failed parsing error messages",
     "[ConverterService]")
 {
-    using namespace sciformats::api;
+    using namespace libjdx::api;
 
     auto mockScannerPtr0 = std::make_shared<MockScanner>();
     REQUIRE_CALL(*mockScannerPtr0, isRecognized(ANY(const std::string&)))
@@ -142,7 +142,7 @@ TEST_CASE("ConverterService provides generic error when no suitable parser "
           "is found",
     "[ConverterService]")
 {
-    using namespace sciformats::api;
+    using namespace libjdx::api;
 
     auto mockScannerPtr0 = std::make_shared<MockScanner>();
     REQUIRE_CALL(*mockScannerPtr0, isRecognized(ANY(const std::string&)))
@@ -166,7 +166,7 @@ TEST_CASE(
     "is found",
     "[ConverterService]")
 {
-    using namespace sciformats::api;
+    using namespace libjdx::api;
 
     auto mockScannerPtr0 = std::make_shared<MockScanner>();
     REQUIRE_CALL(*mockScannerPtr0, isRecognized(ANY(const std::string&)))
@@ -181,7 +181,7 @@ TEST_CASE(
 TEST_CASE("ConverterService returns converter from first applicable scanner",
     "[ConverterService]")
 {
-    using namespace sciformats::api;
+    using namespace libjdx::api;
 
     const auto* nodeName = "Test node name";
 

@@ -36,7 +36,7 @@ constexpr auto operator"" _c(unsigned long long arg) noexcept
 TEST_CASE("correctly reads file", "[BinaryReader]")
 {
     const std::string path{"resources/test.bin"};
-    sciformats::io::BinaryReader reader(path);
+    libjdx::io::BinaryReader reader(path);
 
     REQUIRE(reader.tellg() == 0);
     REQUIRE(reader.getLength() == 8);
@@ -57,7 +57,7 @@ TEST_CASE("throws exception when reading past end and constructed from file",
     "[BinaryReader]")
 {
     const std::string path{"resources/test.bin"};
-    sciformats::io::BinaryReader reader(path);
+    libjdx::io::BinaryReader reader(path);
 
     reader.seekg(reader.getLength());
     REQUIRE_THROWS(reader.readUInt8());
@@ -67,8 +67,7 @@ TEST_CASE("correctly reads istream", "[BinaryReader]")
 {
     std::array<unsigned char, 3> bytes{0x00, 0xFF, 0x7F};
     std::istringstream ss(std::string(std::begin(bytes), std::end(bytes)));
-    sciformats::io::BinaryReader reader(
-        ss, sciformats::io::Endianness::BigEndian);
+    libjdx::io::BinaryReader reader(ss, libjdx::io::Endianness::BigEndian);
 
     REQUIRE(reader.tellg() == 0);
     REQUIRE(reader.getLength() == 3);
@@ -89,8 +88,8 @@ TEST_CASE("throws exception when reading past and constructed from istream "
     std::array<unsigned char, 3> bytes{0x00, 0xFF, 0x7F};
     std::istringstream ss_nothrow(
         std::string(std::begin(bytes), std::end(bytes)));
-    sciformats::io::BinaryReader reader_nothrow(
-        ss_nothrow, sciformats::io::Endianness::BigEndian, false);
+    libjdx::io::BinaryReader reader_nothrow(
+        ss_nothrow, libjdx::io::Endianness::BigEndian, false);
 
     // unlike for other reader constructors, for constructor the behavior of the
     // argument stream determines if it throws
@@ -99,8 +98,8 @@ TEST_CASE("throws exception when reading past and constructed from istream "
 
     std::istringstream ss_nothrow2(
         std::string(std::begin(bytes), std::end(bytes)));
-    sciformats::io::BinaryReader reader_nothrow2(
-        ss_nothrow2, sciformats::io::Endianness::BigEndian, true);
+    libjdx::io::BinaryReader reader_nothrow2(
+        ss_nothrow2, libjdx::io::Endianness::BigEndian, true);
 
     reader_nothrow2.seekg(3);
     REQUIRE_THROWS(reader_nothrow2.readUInt8());
@@ -109,8 +108,8 @@ TEST_CASE("throws exception when reading past and constructed from istream "
         std::string(std::begin(bytes), std::end(bytes)));
     ss_throw.exceptions(
         std::ios::eofbit | std::ios::failbit | std::ios::badbit);
-    sciformats::io::BinaryReader reader_throw(
-        ss_throw, sciformats::io::Endianness::BigEndian, false);
+    libjdx::io::BinaryReader reader_throw(
+        ss_throw, libjdx::io::Endianness::BigEndian, false);
 
     reader_throw.seekg(3);
     REQUIRE_THROWS(reader_throw.readUInt8());
@@ -119,7 +118,7 @@ TEST_CASE("throws exception when reading past and constructed from istream "
 TEST_CASE("correctly reads char vector", "[BinaryReader]")
 {
     std::vector<char> bytes{0x00_c, 0xFF_c, 0x7F_c};
-    sciformats::io::BinaryReader reader(bytes);
+    libjdx::io::BinaryReader reader(bytes);
 
     REQUIRE(reader.tellg() == 0);
     REQUIRE(reader.getLength() == 3);
@@ -137,7 +136,7 @@ TEST_CASE(
     "[BinaryReader]")
 {
     std::vector<char> bytes{0x00_c, 0xFF_c, 0x7F_c};
-    sciformats::io::BinaryReader reader(bytes);
+    libjdx::io::BinaryReader reader(bytes);
 
     reader.seekg(3);
     REQUIRE_THROWS(reader.readUInt8());
@@ -146,7 +145,7 @@ TEST_CASE(
 TEST_CASE("correctly reads uint8_t vector", "[BinaryReader]")
 {
     std::vector<uint8_t> bytes{0x00, 0xFF, 0x7F};
-    sciformats::io::BinaryReader reader(bytes);
+    libjdx::io::BinaryReader reader(bytes);
 
     REQUIRE(reader.tellg() == 0);
     REQUIRE(reader.getLength() == 3);
@@ -166,7 +165,7 @@ TEST_CASE("throws exception when reading past end and constructed from uint8_t "
     "[BinaryReader]")
 {
     std::vector<uint8_t> bytes{0x00, 0xFF, 0x7F};
-    sciformats::io::BinaryReader reader(bytes);
+    libjdx::io::BinaryReader reader(bytes);
 
     reader.seekg(3);
     REQUIRE_THROWS(reader.readUInt8());
@@ -175,7 +174,7 @@ TEST_CASE("throws exception when reading past end and constructed from uint8_t "
 TEST_CASE("read int8 correctly", "[BinaryReader]")
 {
     std::vector<uint8_t> bytes{0xFF};
-    sciformats::io::BinaryReader reader(bytes);
+    libjdx::io::BinaryReader reader(bytes);
 
     REQUIRE(reader.readInt8() == -1);
 }
@@ -183,7 +182,7 @@ TEST_CASE("read int8 correctly", "[BinaryReader]")
 TEST_CASE("read uint8 correctly", "[BinaryReader]")
 {
     std::vector<uint8_t> bytes{0xFF};
-    sciformats::io::BinaryReader reader(bytes);
+    libjdx::io::BinaryReader reader(bytes);
 
     REQUIRE(reader.readUInt8() == 255);
 }
@@ -194,23 +193,22 @@ TEST_CASE("read int16 correctly", "[BinaryReader]")
 
     // little endian
     std::vector<uint8_t> bytes{0x00, 0xFF};
-    sciformats::io::BinaryReader reader_le(
-        bytes, sciformats::io::Endianness::LittleEndian);
+    libjdx::io::BinaryReader reader_le(
+        bytes, libjdx::io::Endianness::LittleEndian);
 
     REQUIRE(reader_le.readInt16() == expected);
     reader_le.seekg(0, std::ios::beg);
-    REQUIRE(reader_le.readInt16(sciformats::io::Endianness::LittleEndian)
-            == expected);
+    REQUIRE(
+        reader_le.readInt16(libjdx::io::Endianness::LittleEndian) == expected);
 
     // big endian
     std::reverse(bytes.begin(), bytes.end());
-    sciformats::io::BinaryReader reader_be(
-        bytes, sciformats::io::Endianness::BigEndian);
+    libjdx::io::BinaryReader reader_be(
+        bytes, libjdx::io::Endianness::BigEndian);
 
     REQUIRE(reader_be.readInt16() == expected);
     reader_be.seekg(0, std::ios::beg);
-    REQUIRE(
-        reader_be.readInt16(sciformats::io::Endianness::BigEndian) == expected);
+    REQUIRE(reader_be.readInt16(libjdx::io::Endianness::BigEndian) == expected);
 }
 
 TEST_CASE("read uint16 correctly", "[BinaryReader]")
@@ -219,23 +217,23 @@ TEST_CASE("read uint16 correctly", "[BinaryReader]")
 
     // little endian
     std::vector<uint8_t> bytes{0x00, 0xFF};
-    sciformats::io::BinaryReader reader_le(
-        bytes, sciformats::io::Endianness::LittleEndian);
+    libjdx::io::BinaryReader reader_le(
+        bytes, libjdx::io::Endianness::LittleEndian);
 
     REQUIRE(reader_le.readUInt16() == expected);
     reader_le.seekg(0, std::ios::beg);
-    REQUIRE(reader_le.readUInt16(sciformats::io::Endianness::LittleEndian)
-            == expected);
+    REQUIRE(
+        reader_le.readUInt16(libjdx::io::Endianness::LittleEndian) == expected);
 
     // big endian
     std::reverse(bytes.begin(), bytes.end());
-    sciformats::io::BinaryReader reader_be(
-        bytes, sciformats::io::Endianness::BigEndian);
+    libjdx::io::BinaryReader reader_be(
+        bytes, libjdx::io::Endianness::BigEndian);
 
     REQUIRE(reader_be.readUInt16() == expected);
     reader_be.seekg(0, std::ios::beg);
-    REQUIRE(reader_be.readUInt16(sciformats::io::Endianness::BigEndian)
-            == expected);
+    REQUIRE(
+        reader_be.readUInt16(libjdx::io::Endianness::BigEndian) == expected);
 }
 
 TEST_CASE("read int32 correctly", "[BinaryReader]")
@@ -244,23 +242,22 @@ TEST_CASE("read int32 correctly", "[BinaryReader]")
 
     // little endian
     std::vector<uint8_t> bytes{0x00, 0x00, 0x00, 0xFF};
-    sciformats::io::BinaryReader reader_le(
-        bytes, sciformats::io::Endianness::LittleEndian);
+    libjdx::io::BinaryReader reader_le(
+        bytes, libjdx::io::Endianness::LittleEndian);
 
     REQUIRE(reader_le.readInt32() == expected);
     reader_le.seekg(0, std::ios::beg);
-    REQUIRE(reader_le.readInt32(sciformats::io::Endianness::LittleEndian)
-            == expected);
+    REQUIRE(
+        reader_le.readInt32(libjdx::io::Endianness::LittleEndian) == expected);
 
     // big endian
     std::reverse(bytes.begin(), bytes.end());
-    sciformats::io::BinaryReader reader_be(
-        bytes, sciformats::io::Endianness::BigEndian);
+    libjdx::io::BinaryReader reader_be(
+        bytes, libjdx::io::Endianness::BigEndian);
 
     REQUIRE(reader_be.readInt32() == expected);
     reader_be.seekg(0, std::ios::beg);
-    REQUIRE(
-        reader_be.readInt32(sciformats::io::Endianness::BigEndian) == expected);
+    REQUIRE(reader_be.readInt32(libjdx::io::Endianness::BigEndian) == expected);
 }
 
 TEST_CASE("read uint32 correctly", "[BinaryReader]")
@@ -269,23 +266,23 @@ TEST_CASE("read uint32 correctly", "[BinaryReader]")
 
     // little endian
     std::vector<uint8_t> bytes{0x00, 0x00, 0x00, 0xFF};
-    sciformats::io::BinaryReader reader_le(
-        bytes, sciformats::io::Endianness::LittleEndian);
+    libjdx::io::BinaryReader reader_le(
+        bytes, libjdx::io::Endianness::LittleEndian);
 
     REQUIRE(reader_le.readUInt32() == expected);
     reader_le.seekg(0, std::ios::beg);
-    REQUIRE(reader_le.readUInt32(sciformats::io::Endianness::LittleEndian)
-            == expected);
+    REQUIRE(
+        reader_le.readUInt32(libjdx::io::Endianness::LittleEndian) == expected);
 
     // big endian
     std::reverse(bytes.begin(), bytes.end());
-    sciformats::io::BinaryReader reader_be(
-        bytes, sciformats::io::Endianness::BigEndian);
+    libjdx::io::BinaryReader reader_be(
+        bytes, libjdx::io::Endianness::BigEndian);
 
     REQUIRE(reader_be.readUInt32() == expected);
     reader_be.seekg(0, std::ios::beg);
-    REQUIRE(reader_be.readUInt32(sciformats::io::Endianness::BigEndian)
-            == expected);
+    REQUIRE(
+        reader_be.readUInt32(libjdx::io::Endianness::BigEndian) == expected);
 }
 
 TEST_CASE("read int64 correctly", "[BinaryReader]")
@@ -294,23 +291,22 @@ TEST_CASE("read int64 correctly", "[BinaryReader]")
 
     // little endian
     std::vector<uint8_t> bytes{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFF};
-    sciformats::io::BinaryReader reader_le(
-        bytes, sciformats::io::Endianness::LittleEndian);
+    libjdx::io::BinaryReader reader_le(
+        bytes, libjdx::io::Endianness::LittleEndian);
 
     REQUIRE(reader_le.readInt64() == expected);
     reader_le.seekg(0, std::ios::beg);
-    REQUIRE(reader_le.readInt64(sciformats::io::Endianness::LittleEndian)
-            == expected);
+    REQUIRE(
+        reader_le.readInt64(libjdx::io::Endianness::LittleEndian) == expected);
 
     // big endian
     std::reverse(bytes.begin(), bytes.end());
-    sciformats::io::BinaryReader reader_be(
-        bytes, sciformats::io::Endianness::BigEndian);
+    libjdx::io::BinaryReader reader_be(
+        bytes, libjdx::io::Endianness::BigEndian);
 
     REQUIRE(reader_be.readInt64() == expected);
     reader_be.seekg(0, std::ios::beg);
-    REQUIRE(
-        reader_be.readInt64(sciformats::io::Endianness::BigEndian) == expected);
+    REQUIRE(reader_be.readInt64(libjdx::io::Endianness::BigEndian) == expected);
 }
 
 TEST_CASE("read uint64 correctly", "[BinaryReader]")
@@ -319,23 +315,23 @@ TEST_CASE("read uint64 correctly", "[BinaryReader]")
 
     // little endian
     std::vector<uint8_t> bytes{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFF};
-    sciformats::io::BinaryReader reader_le(
-        bytes, sciformats::io::Endianness::LittleEndian);
+    libjdx::io::BinaryReader reader_le(
+        bytes, libjdx::io::Endianness::LittleEndian);
 
     REQUIRE(reader_le.readUInt64() == expected);
     reader_le.seekg(0, std::ios::beg);
-    REQUIRE(reader_le.readUInt64(sciformats::io::Endianness::LittleEndian)
-            == expected);
+    REQUIRE(
+        reader_le.readUInt64(libjdx::io::Endianness::LittleEndian) == expected);
 
     // big endian
     std::reverse(bytes.begin(), bytes.end());
-    sciformats::io::BinaryReader reader_be(
-        bytes, sciformats::io::Endianness::BigEndian);
+    libjdx::io::BinaryReader reader_be(
+        bytes, libjdx::io::Endianness::BigEndian);
 
     REQUIRE(reader_be.readUInt64() == expected);
     reader_be.seekg(0, std::ios::beg);
-    REQUIRE(reader_be.readUInt64(sciformats::io::Endianness::BigEndian)
-            == expected);
+    REQUIRE(
+        reader_be.readUInt64(libjdx::io::Endianness::BigEndian) == expected);
 }
 
 TEST_CASE("read float32 correctly", "[BinaryReader]")
@@ -344,22 +340,22 @@ TEST_CASE("read float32 correctly", "[BinaryReader]")
 
     // little endian
     std::vector<uint8_t> bytes{0x00, 0x00, 0x20, 0x40};
-    sciformats::io::BinaryReader reader_le(
-        bytes, sciformats::io::Endianness::LittleEndian);
+    libjdx::io::BinaryReader reader_le(
+        bytes, libjdx::io::Endianness::LittleEndian);
 
     REQUIRE(reader_le.readFloat() == Approx(expected));
     reader_le.seekg(0, std::ios::beg);
-    REQUIRE(reader_le.readFloat(sciformats::io::Endianness::LittleEndian)
+    REQUIRE(reader_le.readFloat(libjdx::io::Endianness::LittleEndian)
             == Approx(expected));
 
     // big endian
     std::reverse(bytes.begin(), bytes.end());
-    sciformats::io::BinaryReader reader_be(
-        bytes, sciformats::io::Endianness::BigEndian);
+    libjdx::io::BinaryReader reader_be(
+        bytes, libjdx::io::Endianness::BigEndian);
 
     REQUIRE(reader_be.readFloat() == Approx(expected));
     reader_be.seekg(0, std::ios::beg);
-    REQUIRE(reader_be.readFloat(sciformats::io::Endianness::BigEndian)
+    REQUIRE(reader_be.readFloat(libjdx::io::Endianness::BigEndian)
             == Approx(expected));
 }
 
@@ -369,29 +365,29 @@ TEST_CASE("read float64 correctly", "[BinaryReader]")
 
     // little endian
     std::vector<uint8_t> bytes{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x04, 0x40};
-    sciformats::io::BinaryReader reader_le(
-        bytes, sciformats::io::Endianness::LittleEndian);
+    libjdx::io::BinaryReader reader_le(
+        bytes, libjdx::io::Endianness::LittleEndian);
 
     REQUIRE(reader_le.readDouble() == Approx(expected));
     reader_le.seekg(0, std::ios::beg);
-    REQUIRE(reader_le.readDouble(sciformats::io::Endianness::LittleEndian)
+    REQUIRE(reader_le.readDouble(libjdx::io::Endianness::LittleEndian)
             == Approx(expected));
 
     // big endian
     std::reverse(bytes.begin(), bytes.end());
-    sciformats::io::BinaryReader reader_be(
-        bytes, sciformats::io::Endianness::BigEndian);
+    libjdx::io::BinaryReader reader_be(
+        bytes, libjdx::io::Endianness::BigEndian);
 
     REQUIRE(reader_be.readDouble() == Approx(expected));
     reader_be.seekg(0, std::ios::beg);
-    REQUIRE(reader_be.readDouble(sciformats::io::Endianness::BigEndian)
+    REQUIRE(reader_be.readDouble(libjdx::io::Endianness::BigEndian)
             == Approx(expected));
 }
 
 TEST_CASE("read chars into vector correctly", "[BinaryReader]")
 {
     std::vector<char> bytes{0x00, 0x01, 0x02, 0xFF_c};
-    sciformats::io::BinaryReader reader(bytes);
+    libjdx::io::BinaryReader reader(bytes);
     size_t size = bytes.size();
 
     auto output = reader.readChars(size);
@@ -406,7 +402,7 @@ TEST_CASE("read chars into vector correctly", "[BinaryReader]")
 TEST_CASE("read bytes into vector correctly", "[BinaryReader]")
 {
     std::vector<uint8_t> bytes{0x00, 0x01, 0x02, 0xFF};
-    sciformats::io::BinaryReader reader(bytes);
+    libjdx::io::BinaryReader reader(bytes);
     size_t size = bytes.size();
 
     auto output = reader.readBytes(size);
@@ -462,7 +458,7 @@ TEST_CASE("read ISO-8859-1 encoded string correctly", "[BinaryReader]")
         "èéêëìíîïðñòó"
         "ôõö÷øùúûüýþÿ"};
 
-    sciformats::io::BinaryReader reader(bytes);
+    libjdx::io::BinaryReader reader(bytes);
     auto output
         = reader.readString("ISO-8859-1", static_cast<int32_t>(bytes.size()));
 
@@ -486,7 +482,7 @@ TEST_CASE("all single byte values can be converted from ISO-8859-1 to UTF-8",
     // http://userguide.icu-project.org/conversion/converters
     auto replacementChar = std::string{u8"�"};
 
-    sciformats::io::BinaryReader reader(bytes);
+    libjdx::io::BinaryReader reader(bytes);
     auto output
         = reader.readString("ISO-8859-1", static_cast<int32_t>(bytes.size()));
 
@@ -507,7 +503,7 @@ TEST_CASE(
     // http://userguide.icu-project.org/conversion/converters
     auto expected = std::string{u8"ABC���abc"};
 
-    sciformats::io::BinaryReader reader(bytes);
+    libjdx::io::BinaryReader reader(bytes);
     // does not accept "ASCII" in Emscripten build, but in Linux build
     auto output
         = reader.readString("US-ASCII", static_cast<int32_t>(bytes.size()));
@@ -527,7 +523,7 @@ TEST_CASE("read UTF-8 encoded string correctly", "[BinaryReader]")
         0x9d, 0x84, 0x9e, 0xe0, 0xa4, 0xb9, 0xed, 0x95, 0x9c};
     auto expected = std::string{u8"!\"#123ABCabcä®€𝄞ह한"};
 
-    sciformats::io::BinaryReader reader(bytes);
+    libjdx::io::BinaryReader reader(bytes);
     auto output
         = reader.readString("UTF-8", static_cast<int32_t>(bytes.size()));
 
@@ -547,7 +543,7 @@ TEST_CASE("show escape character for byte sequences illegal in UTF-8",
     // http://userguide.icu-project.org/conversion/converters
     auto expected = std::string{u8"A�a"};
 
-    sciformats::io::BinaryReader reader(bytes);
+    libjdx::io::BinaryReader reader(bytes);
     auto output
         = reader.readString("UTF-8", static_cast<int32_t>(bytes.size()));
 
@@ -567,7 +563,7 @@ TEST_CASE("read UTF-16BE encoded string correctly", "[BinaryReader]")
         0xdd, 0x1e, 0x09, 0x39, 0xd5, 0x5c};
     auto expected = std::string{u8"!\"#123ABCabcä®€𝄞ह한"};
 
-    sciformats::io::BinaryReader reader(bytes);
+    libjdx::io::BinaryReader reader(bytes);
     auto output
         = reader.readString("UTF-16BE", static_cast<int32_t>(bytes.size()));
 
@@ -587,7 +583,7 @@ TEST_CASE("show escape character for byte sequences illegal in UTF-16BE",
     // http://userguide.icu-project.org/conversion/converters
     auto expected = std::string{u8"A�a"};
 
-    sciformats::io::BinaryReader reader(bytes);
+    libjdx::io::BinaryReader reader(bytes);
     auto output
         = reader.readString("UTF-16BE", static_cast<int32_t>(bytes.size()));
 
@@ -607,7 +603,7 @@ TEST_CASE("read UTF-16LE encoded string correctly", "[BinaryReader]")
         0x1e, 0xdd, 0x39, 0x09, 0x5c, 0xd5};
     auto expected = std::string{u8"!\"#123ABCabcä®€𝄞ह한"};
 
-    sciformats::io::BinaryReader reader(bytes);
+    libjdx::io::BinaryReader reader(bytes);
     auto output
         = reader.readString("UTF-16LE", static_cast<int32_t>(bytes.size()));
 
@@ -626,7 +622,7 @@ TEST_CASE("read zero terminated ISO-8859-1 encoded string correctly",
     std::vector<uint8_t> bytes{0x61, 0x62, 0x00, 0x63, 0x64};
     auto expected = std::string{u8"ab"};
 
-    sciformats::io::BinaryReader reader(bytes);
+    libjdx::io::BinaryReader reader(bytes);
     auto output
         = reader.readString("ISO-8859-1", static_cast<int32_t>(bytes.size()));
 
@@ -644,7 +640,7 @@ TEST_CASE(
     std::vector<uint8_t> bytes{0x61, 0xc3, 0xa4, 0x62, 0x00, 0x63, 0x64};
     auto expected = std::string{u8"aäb"};
 
-    sciformats::io::BinaryReader reader(bytes);
+    libjdx::io::BinaryReader reader(bytes);
     auto output
         = reader.readString("UTF-8", static_cast<int32_t>(bytes.size()));
 
@@ -663,7 +659,7 @@ TEST_CASE(
         0x00, 0x61, 0x00, 0xe4, 0x00, 0x00, 0x00, 0x62, 0x00, 0x63};
     auto expected = std::string{u8"aä"};
 
-    sciformats::io::BinaryReader reader(bytes);
+    libjdx::io::BinaryReader reader(bytes);
     auto output
         = reader.readString("UTF-16BE", static_cast<int32_t>(bytes.size()));
 
@@ -683,7 +679,7 @@ TEST_CASE("show escape character for byte sequences illegal in UTF-16LE",
     // http://userguide.icu-project.org/conversion/converters
     auto expected = std::string{u8"A�a"};
 
-    sciformats::io::BinaryReader reader(bytes);
+    libjdx::io::BinaryReader reader(bytes);
     auto output
         = reader.readString("UTF-16LE", static_cast<int32_t>(bytes.size()));
 
@@ -702,7 +698,7 @@ TEST_CASE(
         0x61, 0x00, 0xe4, 0x00, 0x00, 0x00, 0x62, 0x00, 0x63, 0x00};
     auto expected = std::string{u8"aä"};
 
-    sciformats::io::BinaryReader reader(bytes);
+    libjdx::io::BinaryReader reader(bytes);
     auto output
         = reader.readString("UTF-16LE", static_cast<int32_t>(bytes.size()));
 
@@ -719,7 +715,7 @@ TEST_CASE(
     // "a" UTF-16LE encoded
     std::vector<uint8_t> bytes{0x61, 0x00};
 
-    sciformats::io::BinaryReader reader(bytes);
+    libjdx::io::BinaryReader reader(bytes);
     auto output = reader.readString("UTF-16LE", -1);
 
     REQUIRE(output.empty());
@@ -733,7 +729,7 @@ TEST_CASE(
     // "a" UTF-16LE encoded
     std::vector<uint8_t> bytes{0x61, 0x00};
 
-    sciformats::io::BinaryReader reader(bytes);
+    libjdx::io::BinaryReader reader(bytes);
     REQUIRE_THROWS(reader.readString(
         "UTF-16LE", std::numeric_limits<int32_t>::max() / 2 + 1));
 }
@@ -745,10 +741,10 @@ TEST_CASE(
     std::vector<uint8_t> bytes{0x03, 0x61, 0x62, 0x63};
     auto expected = std::string{u8"abc"};
 
-    sciformats::io::StringPrefixType prefixType{
-        sciformats::io::StringPrefixNumericType::Int8Chars8,
-        sciformats::io::Endianness::LittleEndian};
-    sciformats::io::BinaryReader reader(bytes);
+    libjdx::io::StringPrefixType prefixType{
+        libjdx::io::StringPrefixNumericType::Int8Chars8,
+        libjdx::io::Endianness::LittleEndian};
+    libjdx::io::BinaryReader reader(bytes);
     auto output = reader.readPrefixedString(prefixType, "UTF-8");
 
     REQUIRE(output.size() == expected.size());
@@ -765,10 +761,10 @@ TEST_CASE("read UInt8Chars8 prefixed UTF-8 encoded string correctly",
     std::vector<uint8_t> bytes{0x03, 0x61, 0x62, 0x63};
     auto expected = std::string{u8"abc"};
 
-    sciformats::io::StringPrefixType prefixType{
-        sciformats::io::StringPrefixNumericType::UInt8Chars8,
-        sciformats::io::Endianness::LittleEndian};
-    sciformats::io::BinaryReader reader(bytes);
+    libjdx::io::StringPrefixType prefixType{
+        libjdx::io::StringPrefixNumericType::UInt8Chars8,
+        libjdx::io::Endianness::LittleEndian};
+    libjdx::io::BinaryReader reader(bytes);
     auto output = reader.readPrefixedString(prefixType, "UTF-8");
 
     REQUIRE(output.size() == expected.size());
@@ -785,10 +781,10 @@ TEST_CASE("read Int8Chars16 prefixed UTF-8 encoded string correctly",
     std::vector<uint8_t> bytes{0x03, 0x61, 0x00, 0x62, 0x00, 0x63, 0x00};
     auto expected = std::string{u8"abc"};
 
-    sciformats::io::StringPrefixType prefixType{
-        sciformats::io::StringPrefixNumericType::Int8Chars16,
-        sciformats::io::Endianness::LittleEndian};
-    sciformats::io::BinaryReader reader(bytes);
+    libjdx::io::StringPrefixType prefixType{
+        libjdx::io::StringPrefixNumericType::Int8Chars16,
+        libjdx::io::Endianness::LittleEndian};
+    libjdx::io::BinaryReader reader(bytes);
     auto output = reader.readPrefixedString(prefixType, "UTF-16LE");
 
     REQUIRE(output.size() == expected.size());
@@ -805,10 +801,10 @@ TEST_CASE("read UInt8Chars16 prefixed UTF-8 encoded string correctly",
     std::vector<uint8_t> bytes{0x03, 0x61, 0x00, 0x62, 0x00, 0x63, 0x00};
     auto expected = std::string{u8"abc"};
 
-    sciformats::io::StringPrefixType prefixType{
-        sciformats::io::StringPrefixNumericType::UInt8Chars16,
-        sciformats::io::Endianness::LittleEndian};
-    sciformats::io::BinaryReader reader(bytes);
+    libjdx::io::StringPrefixType prefixType{
+        libjdx::io::StringPrefixNumericType::UInt8Chars16,
+        libjdx::io::Endianness::LittleEndian};
+    libjdx::io::BinaryReader reader(bytes);
     auto output = reader.readPrefixedString(prefixType, "UTF-16LE");
 
     REQUIRE(output.size() == expected.size());
@@ -825,10 +821,10 @@ TEST_CASE("read Int16LEChars8 prefixed UTF-8 encoded string correctly",
     std::vector<uint8_t> bytes{0x03, 0x00, 0x61, 0x62, 0x63};
     auto expected = std::string{u8"abc"};
 
-    sciformats::io::StringPrefixType prefixType{
-        sciformats::io::StringPrefixNumericType::Int16Chars8,
-        sciformats::io::Endianness::LittleEndian};
-    sciformats::io::BinaryReader reader(bytes);
+    libjdx::io::StringPrefixType prefixType{
+        libjdx::io::StringPrefixNumericType::Int16Chars8,
+        libjdx::io::Endianness::LittleEndian};
+    libjdx::io::BinaryReader reader(bytes);
     auto output = reader.readPrefixedString(prefixType, "UTF-8");
 
     REQUIRE(output.size() == expected.size());
@@ -845,10 +841,10 @@ TEST_CASE("read Int16BEChars8 prefixed UTF-8 encoded string correctly",
     std::vector<uint8_t> bytes{0x00, 0x03, 0x61, 0x62, 0x63};
     auto expected = std::string{u8"abc"};
 
-    sciformats::io::StringPrefixType prefixType{
-        sciformats::io::StringPrefixNumericType::Int16Chars8,
-        sciformats::io::Endianness::BigEndian};
-    sciformats::io::BinaryReader reader(bytes);
+    libjdx::io::StringPrefixType prefixType{
+        libjdx::io::StringPrefixNumericType::Int16Chars8,
+        libjdx::io::Endianness::BigEndian};
+    libjdx::io::BinaryReader reader(bytes);
     auto output = reader.readPrefixedString(prefixType, "UTF-8");
 
     REQUIRE(output.size() == expected.size());
@@ -865,10 +861,10 @@ TEST_CASE("read UInt16LEChars8 prefixed UTF-8 encoded string correctly",
     std::vector<uint8_t> bytes{0x03, 0x00, 0x61, 0x62, 0x63};
     auto expected = std::string{u8"abc"};
 
-    sciformats::io::StringPrefixType prefixType{
-        sciformats::io::StringPrefixNumericType::UInt16Chars8,
-        sciformats::io::Endianness::LittleEndian};
-    sciformats::io::BinaryReader reader(bytes);
+    libjdx::io::StringPrefixType prefixType{
+        libjdx::io::StringPrefixNumericType::UInt16Chars8,
+        libjdx::io::Endianness::LittleEndian};
+    libjdx::io::BinaryReader reader(bytes);
     auto output = reader.readPrefixedString(prefixType, "UTF-8");
 
     REQUIRE(output.size() == expected.size());
@@ -885,10 +881,10 @@ TEST_CASE("read Int16LEChars16 prefixed UTF-16LE encoded string correctly",
     std::vector<uint8_t> bytes{0x03, 0x00, 0x61, 0x00, 0x62, 0x00, 0x63, 0x00};
     auto expected = std::string{u8"abc"};
 
-    sciformats::io::StringPrefixType prefixType{
-        sciformats::io::StringPrefixNumericType::Int16Chars16,
-        sciformats::io::Endianness::LittleEndian};
-    sciformats::io::BinaryReader reader(bytes);
+    libjdx::io::StringPrefixType prefixType{
+        libjdx::io::StringPrefixNumericType::Int16Chars16,
+        libjdx::io::Endianness::LittleEndian};
+    libjdx::io::BinaryReader reader(bytes);
     auto output = reader.readPrefixedString(prefixType, "UTF-16LE");
 
     REQUIRE(output.size() == expected.size());
@@ -907,10 +903,10 @@ TEST_CASE("read Int16LEChars16 prefixed UTF-16LE encoded "
         0x05, 0x00, 0x61, 0x00, 0x62, 0x00, 0x63, 0x00, 0x00, 0x00, 0x64, 0x00};
     auto expected = std::string{u8"abc"};
 
-    sciformats::io::StringPrefixType prefixType{
-        sciformats::io::StringPrefixNumericType::Int16Chars16,
-        sciformats::io::Endianness::LittleEndian};
-    sciformats::io::BinaryReader reader(bytes);
+    libjdx::io::StringPrefixType prefixType{
+        libjdx::io::StringPrefixNumericType::Int16Chars16,
+        libjdx::io::Endianness::LittleEndian};
+    libjdx::io::BinaryReader reader(bytes);
     auto output = reader.readPrefixedString(prefixType, "UTF-16LE");
 
     REQUIRE(output.size() == expected.size());
@@ -927,10 +923,10 @@ TEST_CASE(
     std::vector<uint8_t> bytes{0x03, 0x00, 0x61, 0x00, 0x62, 0x00, 0x63, 0x00};
     auto expected = std::string{u8"abc"};
 
-    sciformats::io::StringPrefixType prefixType{
-        sciformats::io::StringPrefixNumericType::UInt16Chars16,
-        sciformats::io::Endianness::LittleEndian};
-    sciformats::io::BinaryReader reader(bytes);
+    libjdx::io::StringPrefixType prefixType{
+        libjdx::io::StringPrefixNumericType::UInt16Chars16,
+        libjdx::io::Endianness::LittleEndian};
+    libjdx::io::BinaryReader reader(bytes);
     auto output = reader.readPrefixedString(prefixType, "UTF-16LE");
 
     REQUIRE(output.size() == expected.size());
@@ -950,10 +946,10 @@ TEST_CASE("read UInt16LEChars16 prefixed UTF-16LE encoded"
         0x05, 0x00, 0x61, 0x00, 0x62, 0x00, 0x63, 0x00, 0x00, 0x00, 0x64, 0x00};
     auto expected = std::string{u8"abc"};
 
-    sciformats::io::StringPrefixType prefixType{
-        sciformats::io::StringPrefixNumericType::UInt16Chars16,
-        sciformats::io::Endianness::LittleEndian};
-    sciformats::io::BinaryReader reader(bytes);
+    libjdx::io::StringPrefixType prefixType{
+        libjdx::io::StringPrefixNumericType::UInt16Chars16,
+        libjdx::io::Endianness::LittleEndian};
+    libjdx::io::BinaryReader reader(bytes);
     auto output = reader.readPrefixedString(prefixType, "UTF-16LE");
 
     REQUIRE(output.size() == expected.size());
@@ -973,10 +969,10 @@ TEST_CASE("when reading zero terminated string reader is moved forward by "
         0x00, 0x00, 0x64, 0x00, 0x00, 0x00};
     auto expected = std::string{u8"abc"};
 
-    sciformats::io::StringPrefixType prefixType{
-        sciformats::io::StringPrefixNumericType::UInt16Chars16,
-        sciformats::io::Endianness::LittleEndian};
-    sciformats::io::BinaryReader reader(bytes);
+    libjdx::io::StringPrefixType prefixType{
+        libjdx::io::StringPrefixNumericType::UInt16Chars16,
+        libjdx::io::Endianness::LittleEndian};
+    libjdx::io::BinaryReader reader(bytes);
 
     REQUIRE(reader.tellg() == 0);
 
@@ -992,10 +988,10 @@ TEST_CASE("throws exception when Int16LEChars16 prefix value "
     // "ab" UTF-16LE encoded
     std::vector<uint8_t> bytes{0x02, 0x00, 0x61, 0x00, 0x62};
 
-    sciformats::io::StringPrefixType prefixType{
-        sciformats::io::StringPrefixNumericType::Int16Chars16,
-        sciformats::io::Endianness::LittleEndian};
-    sciformats::io::BinaryReader reader(bytes);
+    libjdx::io::StringPrefixType prefixType{
+        libjdx::io::StringPrefixNumericType::Int16Chars16,
+        libjdx::io::Endianness::LittleEndian};
+    libjdx::io::BinaryReader reader(bytes);
     REQUIRE_THROWS(reader.readPrefixedString(prefixType, "UTF-16LE", 3));
 }
 
@@ -1006,10 +1002,10 @@ TEST_CASE("throws exception when maxSize exceeds "
     // "abc" with zero terminator and trailing char UTF-16LE encoded
     std::vector<uint8_t> bytes{0x03, 0x00, 0x61, 0x00, 0x62, 0x00, 0x63, 0x00};
 
-    sciformats::io::StringPrefixType prefixType{
-        sciformats::io::StringPrefixNumericType::Int16Chars16,
-        sciformats::io::Endianness::LittleEndian};
-    sciformats::io::BinaryReader reader(bytes);
+    libjdx::io::StringPrefixType prefixType{
+        libjdx::io::StringPrefixNumericType::Int16Chars16,
+        libjdx::io::Endianness::LittleEndian};
+    libjdx::io::BinaryReader reader(bytes);
     REQUIRE_THROWS(reader.readPrefixedString(
         prefixType, "UTF-16LE", std::numeric_limits<uint16_t>::max() + 1));
 }
@@ -1019,10 +1015,10 @@ TEST_CASE("negative prefix results in empty string", "[BinaryReader]")
     // "abc" UTF-16LE encoded, -1 as length prefix
     std::vector<uint8_t> bytes{0xff, 0xff, 0x61, 0x00, 0x62, 0x00, 0x63, 0x00};
 
-    sciformats::io::StringPrefixType prefixType{
-        sciformats::io::StringPrefixNumericType::Int16Chars16,
-        sciformats::io::Endianness::LittleEndian};
-    sciformats::io::BinaryReader reader(bytes);
+    libjdx::io::StringPrefixType prefixType{
+        libjdx::io::StringPrefixNumericType::Int16Chars16,
+        libjdx::io::Endianness::LittleEndian};
+    libjdx::io::BinaryReader reader(bytes);
     auto output = reader.readPrefixedString(prefixType, "UTF-16LE");
 
     REQUIRE(output.empty());
@@ -1034,7 +1030,7 @@ TEST_CASE(
 {
     // "abc" in ASCII
     std::vector<uint8_t> bytes{0x61, 0x62, 0x63};
-    sciformats::io::BinaryReader reader(bytes);
+    libjdx::io::BinaryReader reader(bytes);
 
     REQUIRE_THROWS(reader.readString("non-existent encoding name", 1));
 }

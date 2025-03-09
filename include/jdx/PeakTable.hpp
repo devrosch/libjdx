@@ -28,7 +28,7 @@
 #include <string>
 #include <vector>
 
-namespace sciformats::jdx
+namespace libjdx::jdx
 {
 /**
  * @brief A JCAMP-DX PEAK TABLE record.
@@ -63,6 +63,6 @@ private:
     static constexpr std::array<const char*, 3> s_peakTableVariableLists
         = {"(XY..XY)", "(XYW..XYW)", "(XYM..XYM)"};
 };
-} // namespace sciformats::jdx
+} // namespace libjdx::jdx
 
 #endif // JDX_PEAKTABLE_HPP

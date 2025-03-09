@@ -24,7 +24,7 @@
 #include <stdexcept>
 #include <vector>
 
-sciformats::io::BufferedTextReader::BufferedTextReader(
+libjdx::io::BufferedTextReader::BufferedTextReader(
     std::unique_ptr<std::istream> streamPtr, size_t bufferSize)
     : m_streamPtr{std::move(streamPtr)}
     , m_bufferMaxSize{bufferSize}
@@ -36,7 +36,7 @@ sciformats::io::BufferedTextReader::BufferedTextReader(
     updateBuffer(0);
 }
 
-sciformats::io::BufferedTextReader::BufferedTextReader(
+libjdx::io::BufferedTextReader::BufferedTextReader(
     const std::string& filePath, size_t bufferSize)
     : m_streamPtr{std::make_unique<std::ifstream>(filePath)}
     , m_bufferMaxSize{bufferSize}
@@ -48,7 +48,7 @@ sciformats::io::BufferedTextReader::BufferedTextReader(
     updateBuffer(0);
 }
 
-void sciformats::io::BufferedTextReader::setStreamFlags()
+void libjdx::io::BufferedTextReader::setStreamFlags()
 {
     if (m_streamPtr == nullptr)
     {
@@ -59,8 +59,7 @@ void sciformats::io::BufferedTextReader::setStreamFlags()
     m_streamPtr->exceptions(std::ios::badbit);
 }
 
-std::ios::pos_type
-sciformats::io::BufferedTextReader::calculateAbsolutePosition(
+std::ios::pos_type libjdx::io::BufferedTextReader::calculateAbsolutePosition(
     std::ios::pos_type position, std::ios_base::seekdir seekdir)
 {
     // find absolute stream position
@@ -83,8 +82,7 @@ sciformats::io::BufferedTextReader::calculateAbsolutePosition(
     return pos;
 }
 
-void sciformats::io::BufferedTextReader::updateBuffer(
-    std::ios::pos_type position)
+void libjdx::io::BufferedTextReader::updateBuffer(std::ios::pos_type position)
 {
     auto bufferStartPos = static_cast<std::ios::pos_type>(
         (position / m_bufferMaxSize) * m_bufferMaxSize);
@@ -103,14 +101,14 @@ void sciformats::io::BufferedTextReader::updateBuffer(
                         position - bufferStartPos);
 }
 
-std::ios::pos_type sciformats::io::BufferedTextReader::tellg() const
+std::ios::pos_type libjdx::io::BufferedTextReader::tellg() const
 {
     return m_bufferBasePos
            + static_cast<std::ios::pos_type>(
                std::distance(m_buffer.cbegin(), m_bufferPosIt));
 }
 
-void sciformats::io::BufferedTextReader::seekg(
+void libjdx::io::BufferedTextReader::seekg(
     std::ios::off_type position, std::ios_base::seekdir seekdir)
 {
     auto pos = calculateAbsolutePosition(position, seekdir);
@@ -144,7 +142,7 @@ void sciformats::io::BufferedTextReader::seekg(
     }
 }
 
-std::ios::pos_type sciformats::io::BufferedTextReader::getLength()
+std::ios::pos_type libjdx::io::BufferedTextReader::getLength()
 {
     const std::ios::pos_type current = m_streamPtr->tellg();
     m_streamPtr->seekg(0, std::ios::end);
@@ -153,7 +151,7 @@ std::ios::pos_type sciformats::io::BufferedTextReader::getLength()
     return length;
 }
 
-bool sciformats::io::BufferedTextReader::eof() const
+bool libjdx::io::BufferedTextReader::eof() const
 {
     // static cast is safe as distance from the beginning cannot benegative
     if (static_cast<size_t>(std::distance(m_buffer.cbegin(), m_bufferPosIt))
@@ -178,7 +176,7 @@ bool sciformats::io::BufferedTextReader::eof() const
     return false;
 }
 
-std::string sciformats::io::BufferedTextReader::readLine()
+std::string libjdx::io::BufferedTextReader::readLine()
 {
     auto nextChunkStartPos
         = m_bufferBasePos + static_cast<std::ios::pos_type>(m_bufferMaxSize);

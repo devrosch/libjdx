@@ -20,7 +20,7 @@
 
 #include <cstdint> // for uint8_t
 
-namespace sciformats::io
+namespace libjdx::io
 {
 /**
  * @brief The endianness indicates the byte order of data.
@@ -31,6 +31,6 @@ enum class Endianness : uint8_t
     BigEndian, ///< The most significant byte comes first.
 };
 
-} // namespace sciformats::io
+} // namespace libjdx::io
 
 #endif // IO_ENDIANNESS_HPP

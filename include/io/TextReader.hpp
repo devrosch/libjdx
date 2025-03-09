@@ -24,7 +24,7 @@
 #include "io/SimpleTextReader.hpp"
 #endif
 
-namespace sciformats::io
+namespace libjdx::io
 {
 // use BufferedTextReader for EMSCRIPTEN build as it drastically improves data
 // reading performance in browser context

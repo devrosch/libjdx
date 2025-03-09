@@ -22,19 +22,19 @@
 
 #include <tuple>
 
-sciformats::jdx::Data2D::Data2D(
+libjdx::jdx::Data2D::Data2D(
     std::string label, std::string variableList, io::TextReader& reader)
     : DataLdr(std::move(label), std::move(variableList), reader)
 {
 }
 
-std::vector<std::pair<double, double>> sciformats::jdx::Data2D::parseXppYYData(
+std::vector<std::pair<double, double>> libjdx::jdx::Data2D::parseXppYYData(
     const std::string& label, io::TextReader& reader, double firstX,
     double lastX, double yFactor, uint64_t nPoints) const
 {
     // parse
     auto func = [&]() {
-        return sciformats::jdx::util::DataParser::readXppYYData(reader);
+        return libjdx::jdx::util::DataParser::readXppYYData(reader);
     };
     auto yData = callAndResetStreamPos<std::vector<double>>(func);
 
@@ -69,14 +69,13 @@ std::vector<std::pair<double, double>> sciformats::jdx::Data2D::parseXppYYData(
     return xyData;
 }
 
-std::vector<std::pair<double, double>> sciformats::jdx::Data2D::parseXyXyData(
+std::vector<std::pair<double, double>> libjdx::jdx::Data2D::parseXyXyData(
     const std::string& label, io::TextReader& reader, double xFactor,
     double yFactor, std::optional<size_t> nPoints) const
 {
     // parse
-    auto func = [&]() {
-        return sciformats::jdx::util::DataParser::readXyXyData(reader);
-    };
+    auto func
+        = [&]() { return libjdx::jdx::util::DataParser::readXyXyData(reader); };
     auto xyData
         = callAndResetStreamPos<std::vector<std::pair<double, double>>>(func);
 

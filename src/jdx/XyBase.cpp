@@ -22,7 +22,7 @@
 
 #include <limits>
 
-sciformats::jdx::XyBase::XyBase(const std::string& label,
+libjdx::jdx::XyBase::XyBase(const std::string& label,
     const std::string& variableList, const std::vector<StringLdr>& ldrs,
     const std::string& expectedLabel,
     const std::vector<std::string>& expectedVariableLists,
@@ -35,27 +35,24 @@ sciformats::jdx::XyBase::XyBase(const std::string& label,
     util::skipToNextLdr(reader, nextLine, true);
 }
 
-const sciformats::jdx::XyParameters&
-sciformats::jdx::XyBase::getParameters() const
+const libjdx::jdx::XyParameters& libjdx::jdx::XyBase::getParameters() const
 {
     return m_parameters;
 }
 
-std::vector<std::pair<double, double>>
-sciformats::jdx::XyBase::getXppYYData() const
+std::vector<std::pair<double, double>> libjdx::jdx::XyBase::getXppYYData() const
 {
     return Data2D::parseXppYYData(getLabel(), getReader(), m_parameters.firstX,
         m_parameters.lastX, m_parameters.yFactor, m_parameters.nPoints);
 }
 
-std::vector<std::pair<double, double>>
-sciformats::jdx::XyBase::getXYXYData() const
+std::vector<std::pair<double, double>> libjdx::jdx::XyBase::getXYXYData() const
 {
     return Data2D::parseXyXyData(getLabel(), getReader(), m_parameters.xFactor,
         m_parameters.yFactor, m_parameters.nPoints);
 }
 
-sciformats::jdx::XyParameters sciformats::jdx::XyBase::parseParameters(
+libjdx::jdx::XyParameters libjdx::jdx::XyBase::parseParameters(
     const std::vector<StringLdr>& ldrs)
 {
     // required

@@ -26,7 +26,7 @@
 #include <string>
 #include <vector>
 
-namespace sciformats::jdx
+namespace libjdx::jdx
 {
 /**
  * @brief A JCAMP-DX RADATA record.
@@ -73,6 +73,6 @@ private:
 
     static RaParameters parseParameters(const std::vector<StringLdr>& ldrs);
 };
-} // namespace sciformats::jdx
+} // namespace libjdx::jdx
 
 #endif // JDX_RADATA_HPP

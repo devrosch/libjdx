@@ -20,7 +20,7 @@
 #include "util/LdrUtils.hpp"
 #include "util/StringUtils.hpp"
 
-sciformats::jdx::util::MultilineTuplesParser::MultilineTuplesParser(
+libjdx::jdx::util::MultilineTuplesParser::MultilineTuplesParser(
     io::TextReader& reader, std::string variableList, std::string ldrName,
     std::string lineBreakChars)
     : TuplesParser(std::move(variableList), std::move(ldrName))
@@ -29,8 +29,7 @@ sciformats::jdx::util::MultilineTuplesParser::MultilineTuplesParser(
 {
 }
 
-std::optional<std::string>
-sciformats::jdx::util::MultilineTuplesParser::nextTuple()
+std::optional<std::string> libjdx::jdx::util::MultilineTuplesParser::nextTuple()
 {
     const auto& ldrName = getLdrName();
     std::string tupleString{};
@@ -104,7 +103,7 @@ sciformats::jdx::util::MultilineTuplesParser::nextTuple()
             .append(tupleString));
 }
 
-bool sciformats::jdx::util::MultilineTuplesParser::isTupleStart(
+bool libjdx::jdx::util::MultilineTuplesParser::isTupleStart(
     const std::string& stringValue)
 {
     std::string value{stringValue};
@@ -112,7 +111,7 @@ bool sciformats::jdx::util::MultilineTuplesParser::isTupleStart(
     return !value.empty() && value.at(0) == '(';
 }
 
-bool sciformats::jdx::util::MultilineTuplesParser::isTupleEnd(
+bool libjdx::jdx::util::MultilineTuplesParser::isTupleEnd(
     const std::string& stringValue)
 {
     std::string value{stringValue};

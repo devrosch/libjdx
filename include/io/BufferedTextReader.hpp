@@ -22,7 +22,7 @@
 #include <memory>
 #include <vector>
 
-namespace sciformats::io
+namespace libjdx::io
 {
 /**
  * @brief Provides mechanisms to read textual data partially buffered in memory.
@@ -93,6 +93,6 @@ private:
         std::ios::pos_type position, std::ios_base::seekdir seekdir);
     void updateBuffer(std::ios::pos_type position);
 };
-} // namespace sciformats::io
+} // namespace libjdx::io
 
 #endif

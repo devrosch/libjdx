@@ -27,7 +27,7 @@
 #include <queue>
 #include <regex>
 
-namespace sciformats::jdx::util
+namespace libjdx::jdx::util
 {
 /**
  * @brief A parser for PEAK TABLE.
@@ -72,8 +72,7 @@ private:
     // tuple
     std::optional<std::string> nextTuple();
     // peak
-    [[nodiscard]] sciformats::jdx::Peak createPeak(
-        const std::string& tuple) const;
+    [[nodiscard]] libjdx::jdx::Peak createPeak(const std::string& tuple) const;
 };
 }
 

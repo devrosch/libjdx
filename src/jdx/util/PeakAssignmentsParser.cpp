@@ -24,22 +24,22 @@
 #include <algorithm>
 #include <regex>
 
-sciformats::jdx::util::PeakAssignmentsParser::PeakAssignmentsParser(
+libjdx::jdx::util::PeakAssignmentsParser::PeakAssignmentsParser(
     io::TextReader& reader, std::string variableList)
     : MultilineTuplesParser(reader, std::move(variableList), s_ldrName, " ")
 {
 }
 
-std::optional<sciformats::jdx::PeakAssignment>
-sciformats::jdx::util::PeakAssignmentsParser::next()
+std::optional<libjdx::jdx::PeakAssignment>
+libjdx::jdx::util::PeakAssignmentsParser::next()
 {
     return TuplesParser::next<PeakAssignment>([this]() { return nextTuple(); },
         [this](
             const std::string& tuple) { return createPeakAssignment(tuple); });
 }
 
-sciformats::jdx::PeakAssignment
-sciformats::jdx::util::PeakAssignmentsParser::createPeakAssignment(
+libjdx::jdx::PeakAssignment
+libjdx::jdx::util::PeakAssignmentsParser::createPeakAssignment(
     const std::string& tuple) const
 {
     // tokenize

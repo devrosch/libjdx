@@ -20,15 +20,15 @@
 #include "util/LdrUtils.hpp"
 #include "util/StringUtils.hpp"
 
-sciformats::jdx::BrukerRelaxSection::BrukerRelaxSection(
-    const std::string& label, const std::string& value, io::TextReader& reader,
+libjdx::jdx::BrukerRelaxSection::BrukerRelaxSection(const std::string& label,
+    const std::string& value, io::TextReader& reader,
     std::optional<std::string>& nextLine)
 {
     validate(label, value, nextLine);
     parse(reader, nextLine);
 }
 
-void sciformats::jdx::BrukerRelaxSection::validate(const std::string& label,
+void libjdx::jdx::BrukerRelaxSection::validate(const std::string& label,
     std::string value, std::optional<std::string>& nextLine)
 {
     util::trim(value);
@@ -40,7 +40,7 @@ void sciformats::jdx::BrukerRelaxSection::validate(const std::string& label,
     }
 }
 
-void sciformats::jdx::BrukerRelaxSection::parse(
+void libjdx::jdx::BrukerRelaxSection::parse(
     io::TextReader& reader, std::optional<std::string>& nextLine)
 {
     if (reader.eof())
@@ -90,12 +90,12 @@ void sciformats::jdx::BrukerRelaxSection::parse(
     }
 }
 
-std::string sciformats::jdx::BrukerRelaxSection::getName() const
+std::string libjdx::jdx::BrukerRelaxSection::getName() const
 {
     return m_name;
 }
 
-std::string sciformats::jdx::BrukerRelaxSection::getContent() const
+std::string libjdx::jdx::BrukerRelaxSection::getContent() const
 {
     return m_content;
 }

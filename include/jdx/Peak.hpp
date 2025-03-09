@@ -20,7 +20,7 @@
 
 #include <optional>
 
-namespace sciformats::jdx
+namespace libjdx::jdx
 {
 /**
  * @brief A JCAMP-DX peak, i.e. one item in a PEAK TABLE.
@@ -50,6 +50,6 @@ public:
      */
     std::optional<double> w;
 };
-} // namespace sciformats::jdx
+} // namespace libjdx::jdx
 
 #endif // JDX_PEAK_HPP

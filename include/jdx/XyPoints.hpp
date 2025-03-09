@@ -26,7 +26,7 @@
 #include <array>
 #include <vector>
 
-namespace sciformats::jdx
+namespace libjdx::jdx
 {
 /**
  * @brief A JCAMP-DX XYPOINTS record.
@@ -64,6 +64,6 @@ private:
     static constexpr std::array<const char*, 3> s_xyPointsVariableLists
         = {"(XY..XY)", "(XR..XR)", "(XI..XI)"};
 };
-} // namespace sciformats::jdx
+} // namespace libjdx::jdx
 
 #endif // JDX_XYPOINTS_HPP

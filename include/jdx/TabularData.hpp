@@ -25,7 +25,7 @@
 #include <regex>
 #include <string>
 
-namespace sciformats::jdx
+namespace libjdx::jdx
 {
 /**
  * @brief Base class for JCAMP-DX PEAK TABLE and PEAK ASSIGNMENTS records.
@@ -57,7 +57,7 @@ protected:
 };
 
 template<typename Parser, typename R>
-std::vector<R> sciformats::jdx::TabularData::getData(Parser parser) const
+std::vector<R> libjdx::jdx::TabularData::getData(Parser parser) const
 {
     const static std::regex pureCommentRegex{"^[ \t\n\v\f\r]*\\$\\$.*$"};
     auto func = [&]() {
@@ -93,6 +93,6 @@ std::vector<R> sciformats::jdx::TabularData::getData(Parser parser) const
     return callAndResetStreamPos<std::vector<R>>(func);
 }
 
-} // namespace sciformats::jdx
+} // namespace libjdx::jdx
 
 #endif // JDX_TABULARDATA_HPP

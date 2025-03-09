@@ -22,7 +22,7 @@
 
 #include <string>
 
-namespace sciformats::jdx
+namespace libjdx::jdx
 {
 /**
  * @brief Indicates an exception during parsing of JCAMP-DX data.
@@ -35,6 +35,6 @@ public:
     BlockParseException(const std::string& issueMsg, const std::string& label,
         const std::string& blockTitle);
 };
-} // namespace sciformats::jdx
+} // namespace libjdx::jdx
 
 #endif // JDX_BLOCKPARSEEXCEPTION_HPP

@@ -21,7 +21,7 @@
 #include <optional>
 #include <string>
 
-namespace sciformats::jdx
+namespace libjdx::jdx
 {
 /**
  * @brief A JCAMP-DX audit trail entry, i.e. one item in an AUDIT TRAIL.
@@ -65,6 +65,6 @@ public:
      */
     std::string what{};
 };
-} // namespace sciformats::jdx
+} // namespace libjdx::jdx
 
 #endif // JDX_AUDITTRAILENTRY_HPP

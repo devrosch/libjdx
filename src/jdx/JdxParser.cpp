@@ -61,7 +61,7 @@ namespace fs = std::experimental::filesystem;
 namespace fs = std::filesystem;
 #endif
 
-bool sciformats::jdx::JdxParser::canParse(
+bool libjdx::jdx::JdxParser::canParse(
     const std::string& filePath, std::istream& iStream)
 {
     // check extension
@@ -93,18 +93,17 @@ bool sciformats::jdx::JdxParser::canParse(
     return false;
 }
 
-sciformats::jdx::Block sciformats::jdx::JdxParser::parse(
+libjdx::jdx::Block libjdx::jdx::JdxParser::parse(
     std::unique_ptr<std::istream> streamPtr)
 {
     auto textReaderPtr = std::make_unique<io::TextReader>(std::move(streamPtr));
-    sciformats::jdx::Block block{std::move(textReaderPtr)};
+    libjdx::jdx::Block block{std::move(textReaderPtr)};
     return block;
 }
 
-sciformats::jdx::Block sciformats::jdx::JdxParser::parse(
-    const std::string& filePath)
+libjdx::jdx::Block libjdx::jdx::JdxParser::parse(const std::string& filePath)
 {
     auto textReaderPtr = std::make_unique<io::TextReader>(filePath);
-    sciformats::jdx::Block block{std::move(textReaderPtr)};
+    libjdx::jdx::Block block{std::move(textReaderPtr)};
     return block;
 }

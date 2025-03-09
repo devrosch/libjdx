@@ -24,7 +24,7 @@
 #include <string>
 #include <vector>
 
-namespace sciformats::jdx::util
+namespace libjdx::jdx::util
 {
 /**
  * @brief Helper functions for parsing JCAMP-DX data.
@@ -68,6 +68,6 @@ private:
     static std::optional<char> getDifDigitValue(char c);
     static std::optional<char> getDupDigitValue(char c);
 };
-} // namespace sciformats::jdx
+} // namespace libjdx::jdx
 
 #endif // JDX_DATAPARSER_HPP

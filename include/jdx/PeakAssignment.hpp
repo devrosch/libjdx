@@ -21,7 +21,7 @@
 #include <optional>
 #include <string>
 
-namespace sciformats::jdx
+namespace libjdx::jdx
 {
 /**
  * @brief A JCAMP-DX peak assignment, i.e., one item in PEAK ASSIGNMENTS.
@@ -55,6 +55,6 @@ struct PeakAssignment
      */
     std::string a;
 };
-} // namespace sciformats::jdx
+} // namespace libjdx::jdx
 
 #endif // JDX_PEAKASSIGNMENT_HPP

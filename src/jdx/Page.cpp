@@ -22,7 +22,7 @@
 #include "util/PeakTableParser.hpp"
 #include "util/StringUtils.hpp"
 
-sciformats::jdx::Page::Page(std::string& label, std::string pageVar,
+libjdx::jdx::Page::Page(std::string& label, std::string pageVar,
     const std::vector<NTuplesAttributes>& nTuplesAttributes,
     const std::vector<StringLdr>& blockLdrs, io::TextReader& reader,
     std::optional<std::string>& nextLine)
@@ -32,7 +32,7 @@ sciformats::jdx::Page::Page(std::string& label, std::string pageVar,
     parse(nTuplesAttributes, blockLdrs, reader, nextLine);
 }
 
-void sciformats::jdx::Page::validateInput(const std::string& label)
+void libjdx::jdx::Page::validateInput(const std::string& label)
 {
     if (label != s_label)
     {
@@ -41,24 +41,24 @@ void sciformats::jdx::Page::validateInput(const std::string& label)
     }
 }
 
-const std::string& sciformats::jdx::Page::getPageVariables() const
+const std::string& libjdx::jdx::Page::getPageVariables() const
 {
     return m_pageVariables;
 }
 
-const std::vector<sciformats::jdx::StringLdr>&
-sciformats::jdx::Page::getPageLdrs() const
+const std::vector<libjdx::jdx::StringLdr>&
+libjdx::jdx::Page::getPageLdrs() const
 {
     return m_pageLdrs;
 }
 
-const std::optional<sciformats::jdx::DataTable>&
-sciformats::jdx::Page::getDataTable() const
+const std::optional<libjdx::jdx::DataTable>&
+libjdx::jdx::Page::getDataTable() const
 {
     return m_dataTable;
 }
 
-void sciformats::jdx::Page::parse(
+void libjdx::jdx::Page::parse(
     const std::vector<NTuplesAttributes>& nTuplesAttributes,
     const std::vector<StringLdr>& blockLdrs, io::TextReader& reader,
     std::optional<std::string>& nextLine)
@@ -91,7 +91,7 @@ void sciformats::jdx::Page::parse(
         nTuplesAttributes, m_pageLdrs, reader, nextLine));
 }
 
-std::vector<sciformats::jdx::StringLdr> sciformats::jdx::Page::parsePageLdrs(
+std::vector<libjdx::jdx::StringLdr> libjdx::jdx::Page::parsePageLdrs(
     io::TextReader& reader, std::optional<std::string>& nextLine)
 {
     std::vector<StringLdr> pageLdrs;
@@ -112,7 +112,7 @@ std::vector<sciformats::jdx::StringLdr> sciformats::jdx::Page::parsePageLdrs(
 }
 
 std::pair<std::string, std::optional<std::string>>
-sciformats::jdx::Page::parseDataTableVars(const std::string& rawPageVars)
+libjdx::jdx::Page::parseDataTableVars(const std::string& rawPageVars)
 {
     auto rawPageVarsTrimmed = util::stripLineComment(rawPageVars, true).first;
     if (rawPageVarsTrimmed.empty())

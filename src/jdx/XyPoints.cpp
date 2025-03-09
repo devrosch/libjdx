@@ -19,7 +19,7 @@
 #include "jdx/ParseException.hpp"
 #include "jdx/XyBase.hpp"
 
-sciformats::jdx::XyPoints::XyPoints(const std::string& label,
+libjdx::jdx::XyPoints::XyPoints(const std::string& label,
     const std::string& variableList, const std::vector<StringLdr>& ldrs,
     io::TextReader& reader, std::optional<std::string>& nextLine)
     : XyBase(label, variableList, ldrs, s_xyPointsLabel,
@@ -29,8 +29,7 @@ sciformats::jdx::XyPoints::XyPoints(const std::string& label,
 {
 }
 
-std::vector<std::pair<double, double>>
-sciformats::jdx::XyPoints::getData() const
+std::vector<std::pair<double, double>> libjdx::jdx::XyPoints::getData() const
 {
     auto varList = getVariableList();
     if (std::any_of(s_xyPointsVariableLists.begin(),

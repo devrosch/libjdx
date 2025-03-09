@@ -23,13 +23,13 @@
 #include <emscripten/bind.h>
 #endif
 
-sciformats::api::ConverterService::ConverterService(
-    std::vector<std::shared_ptr<sciformats::api::Scanner>> scanners)
+libjdx::api::ConverterService::ConverterService(
+    std::vector<std::shared_ptr<libjdx::api::Scanner>> scanners)
     : m_scanners{std::move(scanners)}
 {
 }
 
-bool sciformats::api::ConverterService::isRecognized(const std::string& path)
+bool libjdx::api::ConverterService::isRecognized(const std::string& path)
 {
     // for C++20 #include <algorithm> and do:
     // std::ranges::any_of(m_fileParsers,
@@ -46,8 +46,8 @@ bool sciformats::api::ConverterService::isRecognized(const std::string& path)
     return false;
 }
 
-std::unique_ptr<sciformats::api::Converter>
-sciformats::api::ConverterService::getConverter(const std::string& path)
+std::unique_ptr<libjdx::api::Converter>
+libjdx::api::ConverterService::getConverter(const std::string& path)
 {
     auto parseErrors = std::vector<std::string>{};
 
@@ -87,13 +87,13 @@ sciformats::api::ConverterService::getConverter(const std::string& path)
 #ifdef __EMSCRIPTEN__
 EMSCRIPTEN_BINDINGS(ConverterService)
 {
-    using namespace sciformats::api;
+    using namespace libjdx::api;
     using namespace emscripten;
     class_<ConverterService, base<Scanner>>("ConverterService")
-        .constructor<std::vector<std::shared_ptr<sciformats::api::Scanner>>>()
+        .constructor<std::vector<std::shared_ptr<libjdx::api::Scanner>>>()
         .function("isRecognized", &ConverterService::isRecognized)
         .function("getConverter", &ConverterService::getConverter);
-    register_vector<std::shared_ptr<sciformats::api::Scanner>>(
-        "vector<std::shared_ptr<sciformats::api::Scanner>>");
+    register_vector<std::shared_ptr<libjdx::api::Scanner>>(
+        "vector<std::shared_ptr<libjdx::api::Scanner>>");
 }
 #endif

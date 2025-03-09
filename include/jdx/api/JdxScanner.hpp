@@ -20,17 +20,17 @@
 
 #include "api/Scanner.hpp"
 
-namespace sciformats::jdx::api
+namespace libjdx::jdx::api
 {
-class JdxScanner : public sciformats::api::Scanner
+class JdxScanner : public libjdx::api::Scanner
 {
 public:
     bool isRecognized(const std::string& path) override;
-    std::unique_ptr<sciformats::api::Converter> getConverter(
+    std::unique_ptr<libjdx::api::Converter> getConverter(
         const std::string& path) override;
 
 private:
 };
-} // sciformats::jdx::api
+} // libjdx::jdx::api
 
 #endif

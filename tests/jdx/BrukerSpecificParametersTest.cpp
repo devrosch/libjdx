@@ -39,9 +39,9 @@ TEST_CASE("parses regular Bruker parameters section",
 
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::io::TextReader reader{std::move(streamPtr)};
+    libjdx::io::TextReader reader{std::move(streamPtr)};
 
-    sciformats::jdx::BrukerSpecificParameters brukerParameterSection{
+    libjdx::jdx::BrukerSpecificParameters brukerParameterSection{
         reader, nextLine};
 
     REQUIRE("Bruker specific parameters" == brukerParameterSection.getName());
@@ -76,9 +76,9 @@ TEST_CASE("parses Bruker parameters section for F1",
 
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::io::TextReader reader{std::move(streamPtr)};
+    libjdx::io::TextReader reader{std::move(streamPtr)};
 
-    sciformats::jdx::BrukerSpecificParameters brukerParameterSection{
+    libjdx::jdx::BrukerSpecificParameters brukerParameterSection{
         reader, nextLine};
 
     REQUIRE("Bruker specific parameters for F1"
@@ -109,10 +109,9 @@ TEST_CASE("fails on premature end of Bruker parameters section",
 
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::io::TextReader reader{std::move(streamPtr)};
+    libjdx::io::TextReader reader{std::move(streamPtr)};
 
-    REQUIRE_THROWS_WITH(
-        sciformats::jdx::BrukerSpecificParameters(reader, nextLine),
+    REQUIRE_THROWS_WITH(libjdx::jdx::BrukerSpecificParameters(reader, nextLine),
         Catch::Matchers::Contains("unexpected", Catch::CaseSensitive::No));
 }
 
@@ -130,10 +129,9 @@ TEST_CASE("fails on missing dashes after start of Bruker parameters section",
 
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::io::TextReader reader{std::move(streamPtr)};
+    libjdx::io::TextReader reader{std::move(streamPtr)};
 
-    REQUIRE_THROWS_WITH(
-        sciformats::jdx::BrukerSpecificParameters(reader, nextLine),
+    REQUIRE_THROWS_WITH(libjdx::jdx::BrukerSpecificParameters(reader, nextLine),
         Catch::Matchers::Contains("illegal", Catch::CaseSensitive::No));
 }
 
@@ -151,10 +149,9 @@ TEST_CASE("fails on missing dashes after end of Bruker parameters section",
 
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::io::TextReader reader{std::move(streamPtr)};
+    libjdx::io::TextReader reader{std::move(streamPtr)};
 
-    REQUIRE_THROWS_WITH(
-        sciformats::jdx::BrukerSpecificParameters(reader, nextLine),
+    REQUIRE_THROWS_WITH(libjdx::jdx::BrukerSpecificParameters(reader, nextLine),
         Catch::Matchers::Contains("illegal", Catch::CaseSensitive::No));
 }
 
@@ -173,10 +170,9 @@ TEST_CASE("fails on illegal start of Bruker parameters section",
 
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::io::TextReader reader{std::move(streamPtr)};
+    libjdx::io::TextReader reader{std::move(streamPtr)};
 
-    REQUIRE_THROWS_WITH(
-        sciformats::jdx::BrukerSpecificParameters(reader, nextLine),
+    REQUIRE_THROWS_WITH(libjdx::jdx::BrukerSpecificParameters(reader, nextLine),
         Catch::Matchers::Contains("illegal", Catch::CaseSensitive::No));
 }
 
@@ -190,9 +186,8 @@ TEST_CASE("fails on premature end of stream in Bruker parameters section",
 
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::io::TextReader reader{std::move(streamPtr)};
+    libjdx::io::TextReader reader{std::move(streamPtr)};
 
-    REQUIRE_THROWS_WITH(
-        sciformats::jdx::BrukerSpecificParameters(reader, nextLine),
+    REQUIRE_THROWS_WITH(libjdx::jdx::BrukerSpecificParameters(reader, nextLine),
         Catch::Matchers::Contains("illegal", Catch::CaseSensitive::No));
 }

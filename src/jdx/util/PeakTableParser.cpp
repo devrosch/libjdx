@@ -24,15 +24,14 @@
 #include <algorithm>
 #include <regex>
 
-sciformats::jdx::util::PeakTableParser::PeakTableParser(
+libjdx::jdx::util::PeakTableParser::PeakTableParser(
     io::TextReader& reader, std::string variableList)
     : TuplesParser(std::move(variableList), "peak table")
     , m_reader{reader}
 {
 }
 
-std::optional<sciformats::jdx::Peak>
-sciformats::jdx::util::PeakTableParser::next()
+std::optional<libjdx::jdx::Peak> libjdx::jdx::util::PeakTableParser::next()
 {
     return TuplesParser::next<Peak>([this]() { return nextTuple(); },
         [this](const std::string& tuple) { return createPeak(tuple); });
@@ -42,7 +41,7 @@ sciformats::jdx::util::PeakTableParser::next()
     //    std::bind(&PeakTableParser::createPeak, this, std::placeholders::_1));
 }
 
-std::optional<std::string> sciformats::jdx::util::PeakTableParser::nextTuple()
+std::optional<std::string> libjdx::jdx::util::PeakTableParser::nextTuple()
 {
     while (m_tuples.empty())
     {
@@ -86,7 +85,7 @@ std::optional<std::string> sciformats::jdx::util::PeakTableParser::nextTuple()
     return tuple;
 }
 
-sciformats::jdx::Peak sciformats::jdx::util::PeakTableParser::createPeak(
+libjdx::jdx::Peak libjdx::jdx::util::PeakTableParser::createPeak(
     const std::string& tuple) const
 {
     // tokenize

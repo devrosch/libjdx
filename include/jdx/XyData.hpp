@@ -26,7 +26,7 @@
 #include <array>
 #include <vector>
 
-namespace sciformats::jdx
+namespace libjdx::jdx
 {
 /**
  * @brief A JCAMP-DX XYDATA record.
@@ -66,6 +66,6 @@ private:
     static constexpr std::array<const char*, 4> s_xyDataVariableLists
         = {"(X++(Y..Y))", "(X++(R..R))", "(X++(I..I))", s_ooQuirkVarList};
 };
-} // namespace sciformats::jdx
+} // namespace libjdx::jdx
 
 #endif // JDX_XYDATA_HPP

@@ -19,7 +19,7 @@
 #include "util/LdrUtils.hpp"
 #include "util/StringUtils.hpp"
 
-sciformats::jdx::Block::Block(std::unique_ptr<io::TextReader> readerPtr)
+libjdx::jdx::Block::Block(std::unique_ptr<io::TextReader> readerPtr)
     : m_readerPtr{std::move(readerPtr)}
     , m_reader{*m_readerPtr}
 {
@@ -29,7 +29,7 @@ sciformats::jdx::Block::Block(std::unique_ptr<io::TextReader> readerPtr)
     parseInput(titleFirstLine, nextLine);
 }
 
-sciformats::jdx::Block::Block(io::TextReader& reader)
+libjdx::jdx::Block::Block(io::TextReader& reader)
     : m_readerPtr{nullptr}
     , m_reader{reader}
 {
@@ -39,7 +39,7 @@ sciformats::jdx::Block::Block(io::TextReader& reader)
     parseInput(titleFirstLine, nextLine);
 }
 
-sciformats::jdx::Block::Block(const std::string& title, io::TextReader& reader,
+libjdx::jdx::Block::Block(const std::string& title, io::TextReader& reader,
     std::optional<std::string>& nextLine)
     : m_readerPtr{nullptr}
     , m_reader{reader}
@@ -47,84 +47,80 @@ sciformats::jdx::Block::Block(const std::string& title, io::TextReader& reader,
     parseInput(title, nextLine);
 }
 
-std::optional<const sciformats::jdx::StringLdr> sciformats::jdx::Block::getLdr(
+std::optional<const libjdx::jdx::StringLdr> libjdx::jdx::Block::getLdr(
     const std::string& label) const
 {
     return util::findLdr(m_ldrs, label);
 }
 
-const std::vector<sciformats::jdx::StringLdr>&
-sciformats::jdx::Block::getLdrs() const
+const std::vector<libjdx::jdx::StringLdr>& libjdx::jdx::Block::getLdrs() const
 {
     return m_ldrs;
 }
 
-const std::vector<sciformats::jdx::Block>&
-sciformats::jdx::Block::getBlocks() const
+const std::vector<libjdx::jdx::Block>& libjdx::jdx::Block::getBlocks() const
 {
     return m_blocks;
 }
 
-const std::vector<std::string>& sciformats::jdx::Block::getLdrComments() const
+const std::vector<std::string>& libjdx::jdx::Block::getLdrComments() const
 {
     return m_ldrComments;
 }
 
-const std::optional<sciformats::jdx::XyData>&
-sciformats::jdx::Block::getXyData() const
+const std::optional<libjdx::jdx::XyData>& libjdx::jdx::Block::getXyData() const
 {
     return m_xyData;
 }
 
-const std::optional<sciformats::jdx::RaData>&
-sciformats::jdx::Block::getRaData() const
+const std::optional<libjdx::jdx::RaData>& libjdx::jdx::Block::getRaData() const
 {
     return m_raData;
 }
 
-const std::optional<sciformats::jdx::XyPoints>&
-sciformats::jdx::Block::getXyPoints() const
+const std::optional<libjdx::jdx::XyPoints>&
+libjdx::jdx::Block::getXyPoints() const
 {
     return m_xyPoints;
 }
 
-const std::optional<sciformats::jdx::PeakTable>&
-sciformats::jdx::Block::getPeakTable() const
+const std::optional<libjdx::jdx::PeakTable>&
+libjdx::jdx::Block::getPeakTable() const
 {
     return m_peakTable;
 }
 
-const std::optional<sciformats::jdx::PeakAssignments>&
-sciformats::jdx::Block::getPeakAssignments() const
+const std::optional<libjdx::jdx::PeakAssignments>&
+libjdx::jdx::Block::getPeakAssignments() const
 {
     return m_peakAssignments;
 }
 
-const std::optional<sciformats::jdx::NTuples>&
-sciformats::jdx::Block::getNTuples() const
+const std::optional<libjdx::jdx::NTuples>&
+libjdx::jdx::Block::getNTuples() const
 {
     return m_nTuples;
 }
 
-const std::optional<sciformats::jdx::AuditTrail>&
-sciformats::jdx::Block::getAuditTrail() const
+const std::optional<libjdx::jdx::AuditTrail>&
+libjdx::jdx::Block::getAuditTrail() const
 {
     return m_auditTrail;
 }
 
-const std::vector<sciformats::jdx::BrukerSpecificParameters>&
-sciformats::jdx::Block::getBrukerSpecificParameters() const
+const std::vector<libjdx::jdx::BrukerSpecificParameters>&
+libjdx::jdx::Block::getBrukerSpecificParameters() const
 {
     return m_brukerSpecificParameters;
 }
 
-const std::vector<sciformats::jdx::BrukerRelaxSection>&
-sciformats::jdx::Block::getBrukerRelaxSections() const
+const std::vector<libjdx::jdx::BrukerRelaxSection>&
+libjdx::jdx::Block::getBrukerRelaxSections() const
 {
     return m_brukerRelaxSections;
 }
 
-std::string sciformats::jdx::Block::parseFirstLine(const std::string& firstLine)
+std::string libjdx::jdx::Block::parseFirstLine(const std::string& firstLine)
 {
     if (!util::isLdrStart(firstLine))
     {
@@ -139,7 +135,7 @@ std::string sciformats::jdx::Block::parseFirstLine(const std::string& firstLine)
     return value;
 }
 
-void sciformats::jdx::Block::parseInput(
+void libjdx::jdx::Block::parseInput(
     const std::string& titleValue, std::optional<std::string>& nextLine)
 {
     std::string title = titleValue;

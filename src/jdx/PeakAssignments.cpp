@@ -19,7 +19,7 @@
 #include "util/LdrUtils.hpp"
 #include "util/PeakAssignmentsParser.hpp"
 
-sciformats::jdx::PeakAssignments::PeakAssignments(const std::string& label,
+libjdx::jdx::PeakAssignments::PeakAssignments(const std::string& label,
     std::string variableList, io::TextReader& reader,
     std::optional<std::string>& nextLine)
     : TabularData(label, std::move(variableList), reader)
@@ -31,8 +31,8 @@ sciformats::jdx::PeakAssignments::PeakAssignments(const std::string& label,
     util::skipToNextLdr(reader, nextLine, true);
 }
 
-std::vector<sciformats::jdx::PeakAssignment>
-sciformats::jdx::PeakAssignments::getData() const
+std::vector<libjdx::jdx::PeakAssignment>
+libjdx::jdx::PeakAssignments::getData() const
 {
     util::PeakAssignmentsParser parser{getReader(), getVariableList()};
     return TabularData::getData<util::PeakAssignmentsParser, PeakAssignment>(

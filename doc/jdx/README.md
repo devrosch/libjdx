@@ -36,7 +36,7 @@ const std::string path{"path/to/data.jdx"};
 auto istream = std::make_unique<std::ifstream>(path);
 
 // Block is the root element in any JCAMP-DX data set
-auto block = sciformats::jdx::JdxParser::parse(std::move(istream));
+auto block = libjdx::jdx::JdxParser::parse(std::move(istream));
 
 // get LDRs that are not specially treated
 const auto& ldrs = block.getLdrs();

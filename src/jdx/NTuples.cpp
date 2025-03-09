@@ -22,44 +22,42 @@
 
 #include <utility>
 
-sciformats::jdx::NTuples::NTuples(const std::string& label,
-    std::string dataForm, const std::vector<StringLdr>& blockLdrs,
-    io::TextReader& reader, std::optional<std::string>& nextLine)
+libjdx::jdx::NTuples::NTuples(const std::string& label, std::string dataForm,
+    const std::vector<StringLdr>& blockLdrs, io::TextReader& reader,
+    std::optional<std::string>& nextLine)
     : m_dataForm{std::move(dataForm)}
 {
     validateInput(label);
     parse(blockLdrs, reader, nextLine);
 }
 
-std::string sciformats::jdx::NTuples::getDataForm() const
+std::string libjdx::jdx::NTuples::getDataForm() const
 {
     return m_dataForm;
 }
 
-const std::vector<sciformats::jdx::StringLdr>&
-sciformats::jdx::NTuples::getLdrs() const
+const std::vector<libjdx::jdx::StringLdr>& libjdx::jdx::NTuples::getLdrs() const
 {
     return m_ldrs;
 }
 
-const std::vector<sciformats::jdx::NTuplesAttributes>&
-sciformats::jdx::NTuples::getAttributes() const
+const std::vector<libjdx::jdx::NTuplesAttributes>&
+libjdx::jdx::NTuples::getAttributes() const
 {
     return m_attributes;
 }
 
-size_t sciformats::jdx::NTuples::getNumPages() const
+size_t libjdx::jdx::NTuples::getNumPages() const
 {
     return m_pages.size();
 }
 
-const sciformats::jdx::Page& sciformats::jdx::NTuples::getPage(
-    size_t pageIndex) const
+const libjdx::jdx::Page& libjdx::jdx::NTuples::getPage(size_t pageIndex) const
 {
     return m_pages.at(pageIndex);
 }
 
-void sciformats::jdx::NTuples::validateInput(const std::string& label)
+void libjdx::jdx::NTuples::validateInput(const std::string& label)
 {
     if (label != s_label)
     {
@@ -68,7 +66,7 @@ void sciformats::jdx::NTuples::validateInput(const std::string& label)
     }
 }
 
-void sciformats::jdx::NTuples::parse(const std::vector<StringLdr>& blockLdrs,
+void libjdx::jdx::NTuples::parse(const std::vector<StringLdr>& blockLdrs,
     io::TextReader& reader, std::optional<std::string>& nextLine)
 {
     // skip potential comment lines
@@ -110,8 +108,8 @@ void sciformats::jdx::NTuples::parse(const std::vector<StringLdr>& blockLdrs,
     }
 }
 
-std::vector<sciformats::jdx::NTuplesAttributes>
-sciformats::jdx::NTuples::parseAttributes(
+std::vector<libjdx::jdx::NTuplesAttributes>
+libjdx::jdx::NTuples::parseAttributes(
     io::TextReader& reader, std::optional<std::string>& nextLine)
 {
     m_ldrs = readLdrs(nextLine, reader);
@@ -148,7 +146,7 @@ sciformats::jdx::NTuples::parseAttributes(
     return output;
 }
 
-std::vector<sciformats::jdx::StringLdr> sciformats::jdx::NTuples::readLdrs(
+std::vector<libjdx::jdx::StringLdr> libjdx::jdx::NTuples::readLdrs(
     std::optional<std::string>& firstLdrStart, io::TextReader& reader)
 {
     std::optional<std::string>& nextLine = firstLdrStart;
@@ -168,7 +166,7 @@ std::vector<sciformats::jdx::StringLdr> sciformats::jdx::NTuples::readLdrs(
 }
 
 std::map<std::string, std::vector<std::string>>
-sciformats::jdx::NTuples::splitValues(const std::vector<StringLdr>& ldrs)
+libjdx::jdx::NTuples::splitValues(const std::vector<StringLdr>& ldrs)
 {
     std::map<std::string, std::vector<std::string>> output;
     for (const auto& ldr : ldrs)
@@ -186,7 +184,7 @@ sciformats::jdx::NTuples::splitValues(const std::vector<StringLdr>& ldrs)
 }
 
 std::map<std::string, std::vector<std::string>>
-sciformats::jdx::NTuples::extractStandardAttributes(
+libjdx::jdx::NTuples::extractStandardAttributes(
     std::map<std::string, std::vector<std::string>>& attributes)
 {
     // see:
@@ -213,7 +211,7 @@ sciformats::jdx::NTuples::extractStandardAttributes(
     return standardAttrs;
 }
 
-sciformats::jdx::NTuplesAttributes sciformats::jdx::NTuples::map(
+libjdx::jdx::NTuplesAttributes libjdx::jdx::NTuples::map(
     const std::map<std::string, std::vector<std::string>>& standardAttributes,
     const std::map<std::string, std::vector<std::string>>& additionalAttributes,
     size_t valueColumnIndex)
@@ -326,7 +324,7 @@ sciformats::jdx::NTuplesAttributes sciformats::jdx::NTuples::map(
     return nTupleAttrs;
 }
 
-std::optional<std::vector<std::string>> sciformats::jdx::NTuples::findValue(
+std::optional<std::vector<std::string>> libjdx::jdx::NTuples::findValue(
     const std::string& key,
     const std::map<std::string, std::vector<std::string>>& map)
 {

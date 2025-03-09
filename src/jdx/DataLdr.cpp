@@ -20,7 +20,7 @@
 #include "util/LdrUtils.hpp"
 #include "util/StringUtils.hpp"
 
-sciformats::jdx::DataLdr::DataLdr(
+libjdx::jdx::DataLdr::DataLdr(
     std::string label, std::string variableList, io::TextReader& reader)
     : Ldr{std::move(label)}
     , m_variableList{std::move(variableList)}
@@ -29,17 +29,17 @@ sciformats::jdx::DataLdr::DataLdr(
 {
 }
 
-const std::string& sciformats::jdx::DataLdr::getVariableList() const
+const std::string& libjdx::jdx::DataLdr::getVariableList() const
 {
     return m_variableList;
 }
 
-sciformats::io::TextReader& sciformats::jdx::DataLdr::getReader() const
+libjdx::io::TextReader& libjdx::jdx::DataLdr::getReader() const
 {
     return m_reader;
 }
 
-void sciformats::jdx::DataLdr::validateInput(const std::string& label,
+void libjdx::jdx::DataLdr::validateInput(const std::string& label,
     const std::string& variableList, const std::string& expectedLabel,
     const std::vector<std::string>& expectedVariableLists)
 {

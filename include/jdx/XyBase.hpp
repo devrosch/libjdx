@@ -25,7 +25,7 @@
 
 #include <vector>
 
-namespace sciformats::jdx
+namespace libjdx::jdx
 {
 /**
  * @brief A JCAMP-DX 2D data record. Base for XYDATA, XYPOINTS, RADATA, and DATA
@@ -81,6 +81,6 @@ private:
 
     static XyParameters parseParameters(const std::vector<StringLdr>& ldrs);
 };
-} // namespace sciformats::jdx
+} // namespace libjdx::jdx
 
 #endif // JDX_XYBASE_HPP

@@ -39,9 +39,9 @@ TEST_CASE("parses Bruker $RELAX section with arbitrary content",
 
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::io::TextReader reader{std::move(streamPtr)};
+    libjdx::io::TextReader reader{std::move(streamPtr)};
 
-    sciformats::jdx::BrukerRelaxSection brukerRelaxSection{
+    libjdx::jdx::BrukerRelaxSection brukerRelaxSection{
         label, value, reader, nextLine};
 
     REQUIRE("file_name_1" == brukerRelaxSection.getName());
@@ -71,9 +71,9 @@ TEST_CASE("parses Bruker $RELAX section with JCAMP-DX like content",
 
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::io::TextReader reader{std::move(streamPtr)};
+    libjdx::io::TextReader reader{std::move(streamPtr)};
 
-    sciformats::jdx::BrukerRelaxSection brukerRelaxSection{
+    libjdx::jdx::BrukerRelaxSection brukerRelaxSection{
         label, value, reader, nextLine};
 
     REQUIRE("file_name_2" == brukerRelaxSection.getName());
@@ -102,9 +102,9 @@ TEST_CASE("parses empty Bruker $RELAX section", "[BrukerRelaxSection][quirk]")
 
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::io::TextReader reader{std::move(streamPtr)};
+    libjdx::io::TextReader reader{std::move(streamPtr)};
 
-    sciformats::jdx::BrukerRelaxSection brukerRelaxSection{
+    libjdx::jdx::BrukerRelaxSection brukerRelaxSection{
         label, value, reader, nextLine};
 
     REQUIRE(brukerRelaxSection.getName().empty());
@@ -123,10 +123,10 @@ TEST_CASE("fails for illegal parameters for Bruker $RELAX section",
 
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::io::TextReader reader{std::move(streamPtr)};
+    libjdx::io::TextReader reader{std::move(streamPtr)};
 
     REQUIRE_THROWS_WITH(
-        sciformats::jdx::BrukerRelaxSection(label, value, reader, nextLine),
+        libjdx::jdx::BrukerRelaxSection(label, value, reader, nextLine),
         Catch::Matchers::Contains("illegal", Catch::CaseSensitive::No));
 }
 
@@ -142,10 +142,10 @@ TEST_CASE("fails for premature end of Bruker $RELAX section",
 
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::io::TextReader reader{std::move(streamPtr)};
+    libjdx::io::TextReader reader{std::move(streamPtr)};
 
     REQUIRE_THROWS_WITH(
-        sciformats::jdx::BrukerRelaxSection(label, value, reader, nextLine),
+        libjdx::jdx::BrukerRelaxSection(label, value, reader, nextLine),
         Catch::Matchers::Contains("premature", Catch::CaseSensitive::No));
 }
 
@@ -162,10 +162,10 @@ TEST_CASE("fails for illegal start of Bruker $RELAX section",
 
     auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
     streamPtr->str(input);
-    sciformats::io::TextReader reader{std::move(streamPtr)};
+    libjdx::io::TextReader reader{std::move(streamPtr)};
 
     REQUIRE_THROWS_WITH(
-        sciformats::jdx::BrukerRelaxSection(label, value, reader, nextLine),
+        libjdx::jdx::BrukerRelaxSection(label, value, reader, nextLine),
         Catch::Matchers::Contains("illegal", Catch::CaseSensitive::No)
             && Catch::Matchers::Contains(
                 "not followed by", Catch::CaseSensitive::No));

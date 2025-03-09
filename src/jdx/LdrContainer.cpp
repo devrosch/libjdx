@@ -19,8 +19,7 @@
 #include "util/LdrUtils.hpp"
 #include "util/StringUtils.hpp"
 
-std::optional<const std::string>
-sciformats::jdx::LdrContainer::parseStringValue(
+std::optional<const std::string> libjdx::jdx::LdrContainer::parseStringValue(
     std::string& value, io::TextReader& reader)
 {
     util::trim(value); // trim first line value only

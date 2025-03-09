@@ -30,7 +30,7 @@
 /**
  * @brief Helper functions for parsing JCAMP-DX labeled data records (LDRs).
  */
-namespace sciformats::jdx::util
+namespace libjdx::jdx::util
 {
 bool isLdrStart(const std::string& line);
 std::string normalizeLdrStart(const std::string& ldr);
@@ -101,6 +101,6 @@ std::optional<T> parseLdrValue(
         = stripLineComment(stringValueOptional.value(), true).first;
     return LdrValueParser<T>::parse(stringValue);
 }
-} // namespace sciformats::jdx::utils
+} // namespace libjdx::jdx::utils
 
 #endif

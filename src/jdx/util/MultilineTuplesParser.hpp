@@ -24,7 +24,7 @@
 #include <optional>
 #include <regex>
 
-namespace sciformats::jdx::util
+namespace libjdx::jdx::util
 {
 /**
  * @brief A parser base class for multiline tuple parsers such as AUDIT TRAIL

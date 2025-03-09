@@ -30,14 +30,13 @@
 #include <emscripten/bind.h>
 #endif
 
-sciformats::jdx::api::JdxConverter::JdxConverter(const std::string& path)
-    : m_rootBlock{std::make_unique<sciformats::jdx::Block>(
-        sciformats::jdx::JdxParser::parse(path))}
+libjdx::jdx::api::JdxConverter::JdxConverter(const std::string& path)
+    : m_rootBlock{std::make_unique<libjdx::jdx::Block>(
+        libjdx::jdx::JdxParser::parse(path))}
 {
 }
 
-sciformats::api::Node sciformats::jdx::api::JdxConverter::read(
-    const std::string& path)
+libjdx::api::Node libjdx::jdx::api::JdxConverter::read(const std::string& path)
 {
     std::cout << "C++: JdxConverter.read(): " << path << '\n';
     std::vector<size_t> nodeIndices = convertPathToNodeIndices(path);
@@ -45,8 +44,7 @@ sciformats::api::Node sciformats::jdx::api::JdxConverter::read(
     return node;
 }
 
-std::vector<size_t>
-sciformats::jdx::api::JdxConverter::convertPathToNodeIndices(
+std::vector<size_t> libjdx::jdx::api::JdxConverter::convertPathToNodeIndices(
     const std::string& path)
 {
     auto pathSegments = util::split(path, "/", true);
@@ -69,7 +67,7 @@ sciformats::jdx::api::JdxConverter::convertPathToNodeIndices(
     return nodeIndices;
 }
 
-sciformats::api::Node sciformats::jdx::api::JdxConverter::retrieveNode(
+libjdx::api::Node libjdx::jdx::api::JdxConverter::retrieveNode(
     const std::vector<size_t>& nodeIndices)
 {
     auto raiseIllegalPathError = [](size_t nodeIndex, const Block* block) {
@@ -151,12 +149,12 @@ sciformats::api::Node sciformats::jdx::api::JdxConverter::retrieveNode(
     return mapBlock(*block, isPeakData(*block));
 }
 
-sciformats::api::Node sciformats::jdx::api::JdxConverter::mapBlock(
+libjdx::api::Node libjdx::jdx::api::JdxConverter::mapBlock(
     const Block& block, bool isPeakData)
 {
     auto name = block.getLdr("TITLE").value().getValue();
 
-    std::vector<sciformats::api::KeyValueParam> parameters{};
+    std::vector<libjdx::api::KeyValueParam> parameters{};
     for (auto const& ldr : block.getLdrs())
     {
         parameters.push_back({ldr.getLabel(), ldr.getValue()});
@@ -164,7 +162,7 @@ sciformats::api::Node sciformats::jdx::api::JdxConverter::mapBlock(
 
     auto data = mapData(block);
 
-    auto peakTable = sciformats::api::Table{};
+    auto peakTable = libjdx::api::Table{};
     if (block.getPeakAssignments().has_value())
     {
         peakTable = mapPeakAssignments(block.getPeakAssignments().value());
@@ -215,7 +213,7 @@ sciformats::api::Node sciformats::jdx::api::JdxConverter::mapBlock(
     return {name, parameters, data, metadata, peakTable, childNodeNames};
 }
 
-bool sciformats::jdx::api::JdxConverter::isPeakData(const Block& block)
+bool libjdx::jdx::api::JdxConverter::isPeakData(const Block& block)
 {
     auto dataType
         = block.getLdr("DATATYPE").value_or(StringLdr{"", ""}).getValue();
@@ -223,26 +221,25 @@ bool sciformats::jdx::api::JdxConverter::isPeakData(const Block& block)
     return dataType == "mass spectrum";
 }
 
-sciformats::api::Node sciformats::jdx::api::JdxConverter::mapBrukerRelaxSection(
+libjdx::api::Node libjdx::jdx::api::JdxConverter::mapBrukerRelaxSection(
     const BrukerRelaxSection& section)
 {
-    std::vector<sciformats::api::KeyValueParam> parameters{};
+    std::vector<libjdx::api::KeyValueParam> parameters{};
     parameters.push_back({"", section.getContent()});
     return {
         section.getName(),
         parameters,
-        std::vector<sciformats::api::Point2D>{},
+        std::vector<libjdx::api::Point2D>{},
         std::map<std::string, std::string>{},
-        sciformats::api::Table{},
+        libjdx::api::Table{},
         std::vector<std::string>{},
     };
 }
 
-sciformats::api::Node
-sciformats::jdx::api::JdxConverter::mapBrukerSpecificParameters(
+libjdx::api::Node libjdx::jdx::api::JdxConverter::mapBrukerSpecificParameters(
     const BrukerSpecificParameters& section)
 {
-    std::vector<sciformats::api::KeyValueParam> parameters{};
+    std::vector<libjdx::api::KeyValueParam> parameters{};
     for (const auto& ldr : section.getContent())
     {
         parameters.push_back({ldr.getLabel(), ldr.getValue()});
@@ -250,14 +247,14 @@ sciformats::jdx::api::JdxConverter::mapBrukerSpecificParameters(
     return {
         section.getName(),
         parameters,
-        std::vector<sciformats::api::Point2D>{},
+        std::vector<libjdx::api::Point2D>{},
         std::map<std::string, std::string>{},
-        sciformats::api::Table{},
+        libjdx::api::Table{},
         std::vector<std::string>{},
     };
 }
 
-sciformats::api::Node sciformats::jdx::api::JdxConverter::mapNTuples(
+libjdx::api::Node libjdx::jdx::api::JdxConverter::mapNTuples(
     const NTuples& nTuples, const std::vector<size_t>& nodeIndices,
     bool isPeakData)
 {
@@ -266,15 +263,15 @@ sciformats::api::Node sciformats::jdx::api::JdxConverter::mapNTuples(
         // map NTUPLES record
         auto name = nTuples.getDataForm();
 
-        std::vector<sciformats::api::KeyValueParam> parameters{};
+        std::vector<libjdx::api::KeyValueParam> parameters{};
         for (const auto& ldr : nTuples.getLdrs())
         {
             parameters.push_back({ldr.getLabel(), ldr.getValue()});
         }
 
-        std::vector<sciformats::api::Point2D> data{};
+        std::vector<libjdx::api::Point2D> data{};
 
-        auto peakTable = sciformats::api::Table{};
+        auto peakTable = libjdx::api::Table{};
 
         std::vector<std::string> childNodeNames{};
         for (size_t pageIndex = 0; pageIndex < nTuples.getNumPages();
@@ -304,19 +301,19 @@ sciformats::api::Node sciformats::jdx::api::JdxConverter::mapNTuples(
     return mapNTuplesPage(nTuples.getPage(nodeIndices.at(0)), isPeakData);
 }
 
-sciformats::api::Node sciformats::jdx::api::JdxConverter::mapNTuplesPage(
+libjdx::api::Node libjdx::jdx::api::JdxConverter::mapNTuplesPage(
     const Page& page, bool isPeakData)
 {
     auto name = mapNTuplesPageName(page);
 
-    std::vector<sciformats::api::KeyValueParam> parameters{};
+    std::vector<libjdx::api::KeyValueParam> parameters{};
     for (auto&& ldr : page.getPageLdrs())
     {
         parameters.push_back({ldr.getLabel(), ldr.getValue()});
     }
 
-    std::vector<sciformats::api::Point2D> data{};
-    sciformats::api::Table peakTable{};
+    std::vector<libjdx::api::Point2D> data{};
+    libjdx::api::Table peakTable{};
     if (page.getDataTable())
     {
         auto dataTable = page.getDataTable().value();
@@ -340,8 +337,7 @@ sciformats::api::Node sciformats::jdx::api::JdxConverter::mapNTuplesPage(
     return {name, parameters, data, metadata, peakTable, childNodeNames};
 }
 
-std::string sciformats::jdx::api::JdxConverter::mapNTuplesPageName(
-    const Page& page)
+std::string libjdx::jdx::api::JdxConverter::mapNTuplesPageName(const Page& page)
 {
     auto name = page.getPageVariables();
     if (page.getDataTable())
@@ -352,8 +348,8 @@ std::string sciformats::jdx::api::JdxConverter::mapNTuplesPageName(
     return name;
 }
 
-std::vector<sciformats::api::Point2D>
-sciformats::jdx::api::JdxConverter::mapData(const Block& block)
+std::vector<libjdx::api::Point2D> libjdx::jdx::api::JdxConverter::mapData(
+    const Block& block)
 {
     std::optional<std::vector<std::pair<double, double>>> rawData{};
     if (block.getXyData())
@@ -375,14 +371,13 @@ sciformats::jdx::api::JdxConverter::mapData(const Block& block)
     }
 
     return rawData ? mapXyData(rawData.value())
-                   : std::vector<sciformats::api::Point2D>{};
+                   : std::vector<libjdx::api::Point2D>{};
 }
 
-std::vector<sciformats::api::Point2D>
-sciformats::jdx::api::JdxConverter::mapXyData(
+std::vector<libjdx::api::Point2D> libjdx::jdx::api::JdxConverter::mapXyData(
     const std::vector<std::pair<double, double>>& xyData)
 {
-    std::vector<sciformats::api::Point2D> output{};
+    std::vector<libjdx::api::Point2D> output{};
     output.reserve(xyData.size());
     for (const auto& pair : xyData)
     {
@@ -392,8 +387,8 @@ sciformats::jdx::api::JdxConverter::mapXyData(
     return output;
 }
 
-std::map<std::string, std::string>
-sciformats::jdx::api::JdxConverter::mapMetadata(const Block& block)
+std::map<std::string, std::string> libjdx::jdx::api::JdxConverter::mapMetadata(
+    const Block& block)
 {
     std::map<std::string, std::string> metadata{};
 
@@ -451,8 +446,7 @@ sciformats::jdx::api::JdxConverter::mapMetadata(const Block& block)
     return metadata;
 }
 
-std::map<std::string, std::string>
-sciformats::jdx::api::JdxConverter::mapMetadata(
+std::map<std::string, std::string> libjdx::jdx::api::JdxConverter::mapMetadata(
     const Page& page, bool isPeakData)
 {
     std::map<std::string, std::string> metadata{};
@@ -486,8 +480,8 @@ sciformats::jdx::api::JdxConverter::mapMetadata(
     return metadata;
 }
 
-sciformats::api::Table sciformats::jdx::api::JdxConverter::mapPeakTable(
-    const sciformats::jdx::PeakTable& peakTable)
+libjdx::api::Table libjdx::jdx::api::JdxConverter::mapPeakTable(
+    const libjdx::jdx::PeakTable& peakTable)
 {
     auto peakTableData = peakTable.getData();
     const auto has_w = std::any_of(peakTableData.cbegin(), peakTableData.cend(),
@@ -495,7 +489,7 @@ sciformats::api::Table sciformats::jdx::api::JdxConverter::mapPeakTable(
     const auto has_m = std::any_of(peakTableData.cbegin(), peakTableData.cend(),
         [](const Peak& peak) { return peak.m.has_value(); });
 
-    auto resultPeakTable = sciformats::api::Table{};
+    auto resultPeakTable = libjdx::api::Table{};
     resultPeakTable.columnNames.emplace_back("x", "Peak Position");
     resultPeakTable.columnNames.emplace_back("y", "Intensity");
     if (has_w)
@@ -525,11 +519,11 @@ sciformats::api::Table sciformats::jdx::api::JdxConverter::mapPeakTable(
     return resultPeakTable;
 }
 
-std::vector<sciformats::api::Point2D>
-sciformats::jdx::api::JdxConverter::mapPeakTableAsData(
-    const sciformats::jdx::PeakTable& peakTable)
+std::vector<libjdx::api::Point2D>
+libjdx::jdx::api::JdxConverter::mapPeakTableAsData(
+    const libjdx::jdx::PeakTable& peakTable)
 {
-    std::vector<sciformats::api::Point2D> data{};
+    std::vector<libjdx::api::Point2D> data{};
 
     for (const auto& peak : peakTable.getData())
     {
@@ -539,10 +533,10 @@ sciformats::jdx::api::JdxConverter::mapPeakTableAsData(
     return data;
 }
 
-sciformats::api::Table sciformats::jdx::api::JdxConverter::mapDataAsPeakTable(
+libjdx::api::Table libjdx::jdx::api::JdxConverter::mapDataAsPeakTable(
     const std::vector<std::pair<double, double>>& xyData)
 {
-    auto resultPeakTable = sciformats::api::Table{};
+    auto resultPeakTable = libjdx::api::Table{};
 
     resultPeakTable.columnNames.emplace_back("x", "Peak Position");
     resultPeakTable.columnNames.emplace_back("y", "Intensity");
@@ -558,8 +552,8 @@ sciformats::api::Table sciformats::jdx::api::JdxConverter::mapDataAsPeakTable(
     return resultPeakTable;
 }
 
-sciformats::api::Table sciformats::jdx::api::JdxConverter::mapPeakAssignments(
-    const sciformats::jdx::PeakAssignments& peakAssignments)
+libjdx::api::Table libjdx::jdx::api::JdxConverter::mapPeakAssignments(
+    const libjdx::jdx::PeakAssignments& peakAssignments)
 {
     auto peakAssignmentsData = peakAssignments.getData();
     const auto has_y = std::any_of(peakAssignmentsData.cbegin(),
@@ -575,7 +569,7 @@ sciformats::api::Table sciformats::jdx::api::JdxConverter::mapPeakAssignments(
             return peakAssignment.w.has_value();
         });
 
-    auto resultPeakTable = sciformats::api::Table{};
+    auto resultPeakTable = libjdx::api::Table{};
     resultPeakTable.columnNames.emplace_back("x", "Peak Position");
     if (has_y)
     {
@@ -613,8 +607,8 @@ sciformats::api::Table sciformats::jdx::api::JdxConverter::mapPeakAssignments(
     return resultPeakTable;
 }
 
-sciformats::api::Node sciformats::jdx::api::JdxConverter::mapAuditTrail(
-    const sciformats::jdx::AuditTrail& auditTrail)
+libjdx::api::Node libjdx::jdx::api::JdxConverter::mapAuditTrail(
+    const libjdx::jdx::AuditTrail& auditTrail)
 {
     auto auditEntries = auditTrail.getData();
 
@@ -625,7 +619,7 @@ sciformats::api::Node sciformats::jdx::api::JdxConverter::mapAuditTrail(
         auditEntries.cend(),
         [](const AuditTrailEntry& entry) { return entry.version.has_value(); });
 
-    sciformats::api::Table table{};
+    libjdx::api::Table table{};
     // columns
     table.columnNames.emplace_back("number", "NUMBER");
     table.columnNames.emplace_back("when", "WHEN");
@@ -667,8 +661,8 @@ sciformats::api::Node sciformats::jdx::api::JdxConverter::mapAuditTrail(
 
     return {
         auditTrailLabel,
-        std::vector<sciformats::api::KeyValueParam>{},
-        std::vector<sciformats::api::Point2D>{},
+        std::vector<libjdx::api::KeyValueParam>{},
+        std::vector<libjdx::api::Point2D>{},
         std::map<std::string, std::string>{},
         table,
         std::vector<std::string>{},
@@ -678,8 +672,8 @@ sciformats::api::Node sciformats::jdx::api::JdxConverter::mapAuditTrail(
 #ifdef __EMSCRIPTEN__
 EMSCRIPTEN_BINDINGS(JdxConverter)
 {
-    using namespace sciformats::api;
-    using namespace sciformats::jdx::api;
+    using namespace libjdx::api;
+    using namespace libjdx::jdx::api;
     using namespace emscripten;
     class_<JdxConverter, base<Converter>>("JdxConverter")
         .smart_ptr_constructor(

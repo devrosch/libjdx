@@ -28,7 +28,7 @@
 #include <map>
 #include <vector>
 
-namespace sciformats::jdx
+namespace libjdx::jdx
 {
 /**
  * @brief A JCAMP-DX NTUPLES record.
@@ -116,6 +116,6 @@ private:
         const std::string& key,
         const std::map<std::string, std::vector<std::string>>& map);
 };
-} // namespace sciformats::jdx
+} // namespace libjdx::jdx
 
 #endif // JDX_NTUPLES_HPP

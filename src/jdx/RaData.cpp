@@ -23,7 +23,7 @@
 
 #include <limits>
 
-sciformats::jdx::RaData::RaData(const std::string& label,
+libjdx::jdx::RaData::RaData(const std::string& label,
     const std::string& variableList, const std::vector<StringLdr>& ldrs,
     io::TextReader& reader, std::optional<std::string>& nextLine)
     : Data2D(label, variableList, reader)
@@ -34,19 +34,18 @@ sciformats::jdx::RaData::RaData(const std::string& label,
     util::skipToNextLdr(reader, nextLine, true);
 }
 
-const sciformats::jdx::RaParameters&
-sciformats::jdx::RaData::getParameters() const
+const libjdx::jdx::RaParameters& libjdx::jdx::RaData::getParameters() const
 {
     return m_parameters;
 }
 
-std::vector<std::pair<double, double>> sciformats::jdx::RaData::getData()
+std::vector<std::pair<double, double>> libjdx::jdx::RaData::getData()
 {
     return Data2D::parseXppYYData(getLabel(), getReader(), m_parameters.firstR,
         m_parameters.lastR, m_parameters.rFactor, m_parameters.nPoints);
 }
 
-sciformats::jdx::RaParameters sciformats::jdx::RaData::parseParameters(
+libjdx::jdx::RaParameters libjdx::jdx::RaData::parseParameters(
     const std::vector<StringLdr>& ldrs)
 {
     // required

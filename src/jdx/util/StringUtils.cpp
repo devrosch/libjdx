@@ -23,35 +23,35 @@
 #include <regex>
 #include <string>
 
-void sciformats::jdx::util::trimLeft(std::string& s)
+void libjdx::jdx::util::trimLeft(std::string& s)
 {
     s.erase(s.begin(), std::find_if(s.begin(), s.end(), std::not_fn(isSpace)));
 }
 
-void sciformats::jdx::util::trimRight(std::string& s)
+void libjdx::jdx::util::trimRight(std::string& s)
 {
     s.erase(std::find_if(s.rbegin(), s.rend(), std::not_fn(isSpace)).base(),
         s.end());
 }
 
-void sciformats::jdx::util::trim(std::string& s)
+void libjdx::jdx::util::trim(std::string& s)
 {
     trimRight(s);
     trimLeft(s);
 }
 
-bool sciformats::jdx::util::isSpace(char c)
+bool libjdx::jdx::util::isSpace(char c)
 {
     return static_cast<bool>(std::isspace(static_cast<unsigned char>(c)));
 }
 
-void sciformats::jdx::util::toLower(std::string& s)
+void libjdx::jdx::util::toLower(std::string& s)
 {
     std::transform(s.begin(), s.end(), s.begin(),
         [](unsigned char c) { return std::tolower(c); });
 }
 
-std::vector<std::string> sciformats::jdx::util::split(const std::string& input,
+std::vector<std::string> libjdx::jdx::util::split(const std::string& input,
     const std::string& delimiterRegEx, bool trimSegments, size_t matchGroup)
 {
     auto remainder = input;

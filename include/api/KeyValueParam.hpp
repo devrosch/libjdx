@@ -20,13 +20,13 @@
 
 #include <string>
 
-namespace sciformats::api
+namespace libjdx::api
 {
 struct KeyValueParam
 {
     std::string key;
     std::string value;
 };
-} // sciformats::api
+} // libjdx::api
 
 #endif

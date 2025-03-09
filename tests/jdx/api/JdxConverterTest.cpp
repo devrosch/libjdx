@@ -24,8 +24,8 @@
 // NOLINTNEXTLINE(hicpp-function-size,readability-function-size)
 TEST_CASE("JdxConverter only maps valid JCAMP-DX", "[JdxConverter]")
 {
-    using namespace sciformats::api;
-    using namespace sciformats::jdx::api;
+    using namespace libjdx::api;
+    using namespace libjdx::jdx::api;
 
     SECTION("Maps valid JCAMP-DX file")
     {
@@ -369,8 +369,8 @@ TEST_CASE("JdxConverter only maps valid JCAMP-DX", "[JdxConverter]")
 
 TEST_CASE("JdxConverter maps Bruker specific JCAMP-DX", "[JdxConverter]")
 {
-    using namespace sciformats::api;
-    using namespace sciformats::jdx::api;
+    using namespace libjdx::api;
+    using namespace libjdx::jdx::api;
 
     SECTION("Bruker $RELAX sections as child nodes")
     {

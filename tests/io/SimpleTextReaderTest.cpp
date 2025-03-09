@@ -28,7 +28,7 @@ TEST_CASE("SimpleTextReader reads data", "[SimpleTextReader]")
     SECTION("reads file specified by path", "[SimpleTextReader]")
     {
         const std::string path{"resources/dummy.txt"};
-        sciformats::io::SimpleTextReader reader{path};
+        libjdx::io::SimpleTextReader reader{path};
 
         REQUIRE(0 == reader.tellg());
         REQUIRE(20 == reader.getLength());
@@ -48,7 +48,7 @@ TEST_CASE("SimpleTextReader reads data", "[SimpleTextReader]")
                           "line 3"};
         auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
         streamPtr->str(input);
-        sciformats::io::SimpleTextReader reader{std::move(streamPtr)};
+        libjdx::io::SimpleTextReader reader{std::move(streamPtr)};
 
         REQUIRE(0 == reader.tellg());
         REQUIRE(21 == reader.getLength());
@@ -76,7 +76,7 @@ TEST_CASE("SimpleTextReader reads data", "[SimpleTextReader]")
         std::string input{};
         auto streamPtr = std::make_unique<std::stringstream>(std::ios_base::in);
         streamPtr->str(input);
-        sciformats::io::SimpleTextReader reader{std::move(streamPtr)};
+        libjdx::io::SimpleTextReader reader{std::move(streamPtr)};
 
         REQUIRE_THROWS(reader.readLine());
     }

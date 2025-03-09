@@ -21,7 +21,7 @@
 #include <istream>
 #include <memory>
 
-namespace sciformats::io
+namespace libjdx::io
 {
 /**
  * @brief Provides mechanisms to read textual data.
@@ -80,6 +80,6 @@ private:
 
     void setStreamFlags();
 };
-} // namespace sciformats::io
+} // namespace libjdx::io
 
 #endif

@@ -22,7 +22,7 @@
 
 #include <string>
 
-namespace sciformats::jdx
+namespace libjdx::jdx
 {
 /**
  * @brief Indicates an exception during parsing of JCAMP-DX data.
@@ -32,6 +32,6 @@ class ParseException : public std::invalid_argument
 public:
     explicit ParseException(const std::string& what);
 };
-} // namespace sciformats::jdx
+} // namespace libjdx::jdx
 
 #endif // JDX_PARSEEXCEPTION_HPP

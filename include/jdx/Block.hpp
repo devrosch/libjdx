@@ -36,7 +36,7 @@
 #include <string>
 #include <vector>
 
-namespace sciformats::jdx
+namespace libjdx::jdx
 {
 /**
  * @brief A JCAMP-DX block. Can be a link or data block.
@@ -200,7 +200,7 @@ private:
 };
 
 template<typename T>
-void sciformats::jdx::Block::addLdr(const std::string& title,
+void libjdx::jdx::Block::addLdr(const std::string& title,
     const std::string& label, std::optional<T>& member,
     const std::function<T()>& builderFunc)
 {
@@ -211,6 +211,6 @@ void sciformats::jdx::Block::addLdr(const std::string& title,
     }
     member.emplace(builderFunc());
 }
-} // namespace sciformats::jdx
+} // namespace libjdx::jdx
 
 #endif // JDX_BLOCK_HPP

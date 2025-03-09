@@ -28,7 +28,7 @@
 #include <string>
 #include <vector>
 
-namespace sciformats::jdx
+namespace libjdx::jdx
 {
 /**
  * @brief A JCAMP-DX PEAK ASSIGNMENTS record.
@@ -64,6 +64,6 @@ private:
     static constexpr std::array<const char*, 4> s_peakAssignentsVariableLists
         = {"(XYA)", "(XYWA)", "(XYMA)", "(XYMWA)"};
 };
-} // namespace sciformats::jdx
+} // namespace libjdx::jdx
 
 #endif // JDX_PEAKASSIGNMENTS_HPP
