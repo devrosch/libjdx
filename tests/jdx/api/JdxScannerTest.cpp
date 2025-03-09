@@ -12,15 +12,15 @@ TEST_CASE("JdxScanner recognizes valid JCAMP-DX and provides a converter for "
 
     SECTION("Recognizes JCAMP-DX data")
     {
-        const char* clanilinePath = "resources/Claniline.jdx";
+        const char* simpleFilePath = "resources/SimpleFile.jdx";
         const char* compoundFilePath = "resources/CompoundFile.jdx";
 
-        REQUIRE(scanner.isRecognized(clanilinePath));
+        REQUIRE(scanner.isRecognized(simpleFilePath));
         REQUIRE(scanner.isRecognized(compoundFilePath));
 
         SECTION("Provides converter for JCAMP-DX data")
         {
-            REQUIRE_NOTHROW(scanner.getConverter(clanilinePath));
+            REQUIRE_NOTHROW(scanner.getConverter(simpleFilePath));
             REQUIRE_NOTHROW(scanner.getConverter(compoundFilePath));
         }
     }

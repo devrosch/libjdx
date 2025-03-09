@@ -6,22 +6,19 @@
 #include <fstream>
 #include <sstream>
 
-TEST_CASE(
-    "parses XyData from Claniline.jdx sample file", "[IntegrationTest][XyData]")
+TEST_CASE("parses XyData from SimpleFile.jdx sample file",
+    "[IntegrationTest][XyData]")
 {
-    const std::string path{"resources/Claniline.jdx"};
+    const std::string path{"resources/SimpleFile.jdx"};
     auto istream = std::make_unique<std::ifstream>(path);
 
     auto block = sciformats::jdx::JdxParser::parse(std::move(istream));
 
-    REQUIRE(block.getBlocks().size() == 6);
+    REQUIRE(block.getXyData());
 
-    const auto& nestedBlock0 = block.getBlocks().at(0);
-    REQUIRE(nestedBlock0.getXyData());
-
-    auto xyData = nestedBlock0.getXyData().value();
+    auto xyData = block.getXyData().value();
     auto data = xyData.getData();
-    REQUIRE(data.size() == 1801);
+    REQUIRE(data.size() == 2);
 }
 
 TEST_CASE("parses Bruker specific sample file", "[IntegrationTest]")
