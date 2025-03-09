@@ -10,7 +10,7 @@ set(IO_SOURCE_LIST
     "${CMAKE_CURRENT_SOURCE_DIR}/BufferedTextReader.cpp"
 )
 
-target_sources("${SF_LIBRARY_NAME}"
+target_sources("${JDX_LIBRARY_NAME}"
     PRIVATE "${IO_SOURCE_LIST}"
     PUBLIC "${IO_HEADER_LIST}"
 )

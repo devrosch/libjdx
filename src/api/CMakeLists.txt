@@ -19,7 +19,7 @@ set(API_SOURCE_LIST
     "${CMAKE_CURRENT_SOURCE_DIR}/Table.cpp"
 )
 
-target_sources("${SF_LIBRARY_NAME}"
+target_sources("${JDX_LIBRARY_NAME}"
     PRIVATE "${API_SOURCE_LIST}"
     PUBLIC "${API_HEADER_LIST}"
 )

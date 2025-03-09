@@ -6,7 +6,7 @@ add_executable(io_test
 )
 
 # Link to the library, as well as the Catch2 testing library
-target_link_libraries(io_test PRIVATE "${SF_LIBRARY_NAME}" catch2)
+target_link_libraries(io_test PRIVATE "${JDX_LIBRARY_NAME}" catch2)
 
 # https://stackoverflow.com/questions/12313258/cmake-how-to-install-test-files-with-unit-tests
 # https://stackoverflow.com/questions/34799916/copy-file-from-source-directory-to-binary-directory-using-cmake

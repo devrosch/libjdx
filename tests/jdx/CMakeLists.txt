@@ -21,10 +21,10 @@ add_executable(jdx_test
 )
 
 # Link to the library, as well as the Catch2 testing library
-target_link_libraries(jdx_test PRIVATE "${SF_LIBRARY_NAME}" catch2)
+target_link_libraries(jdx_test PRIVATE "${JDX_LIBRARY_NAME}" catch2)
 # include private headers see https://stackoverflow.com/questions/35385908/cmake-testing-a-library-header-location-issue
 # required for testing some utils
-target_include_directories(jdx_test PRIVATE $<TARGET_PROPERTY:sf,INCLUDE_DIRECTORIES>)
+target_include_directories(jdx_test PRIVATE $<TARGET_PROPERTY:jdx,INCLUDE_DIRECTORIES>)
 
 # https://stackoverflow.com/questions/12313258/cmake-how-to-install-test-files-with-unit-tests
 # https://stackoverflow.com/questions/34799916/copy-file-from-source-directory-to-binary-directory-using-cmake

@@ -95,7 +95,7 @@ set(JDX_SOURCE_LIST
     "${CMAKE_CURRENT_SOURCE_DIR}/BrukerRelaxSection.cpp"
 )
 
-target_sources("${SF_LIBRARY_NAME}"
+target_sources("${JDX_LIBRARY_NAME}"
     PRIVATE "${JDX_SOURCE_LIST}"
     PUBLIC "${JDX_PUBLIC_HEADER_LIST}"
     PRIVATE "${JDX_PRIVATE_HEADER_LIST}"

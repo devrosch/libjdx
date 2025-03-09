@@ -1,0 +1,12 @@
+set(WRAPPER_HEADER_LIST
+    # none
+)
+
+set(WRAPPER_SOURCE_LIST
+    "${CMAKE_CURRENT_SOURCE_DIR}/Wrapper.cpp"
+)
+
+target_sources("${JDX_LIBRARY_NAME}"
+    PRIVATE "${WRAPPER_SOURCE_LIST}"
+    PUBLIC "${WRAPPER_HEADER_LIST}"
+)

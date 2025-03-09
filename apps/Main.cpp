@@ -1,13 +1,13 @@
 #include <iostream>
 
-#ifdef SF_PROJECT_NAME
-constexpr const char* projectName = SF_PROJECT_NAME;
+#ifdef JDX_PROJECT_NAME
+constexpr const char* projectName = JDX_PROJECT_NAME;
 #else
 constexpr const char* projectName = "<unknown name>";
 #endif
 
-#ifdef SF_PROJECT_VERSION
-constexpr const char* projectVersion = SF_PROJECT_VERSION;
+#ifdef JDX_PROJECT_VERSION
+constexpr const char* projectVersion = JDX_PROJECT_VERSION;
 #else
 constexpr const char* projectVersion = "<unknown version>";
 #endif

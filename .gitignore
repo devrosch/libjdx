@@ -14,5 +14,5 @@ gmon.out
 
 /build
 /build-wasm
-/example*/libsf.wasm
-/example*/libsf.js
+/example*/libjdx.wasm
+/example*/libjdx.js
