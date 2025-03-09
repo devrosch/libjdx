@@ -123,7 +123,7 @@ cmake --build
 
 ## Tests
 
-If the build has completeed successfully, you can then run the tests in the build directory with:
+If the build has completed successfully, you can then run the tests in the build directory with:
 ```
 ctest -VV
 ```
