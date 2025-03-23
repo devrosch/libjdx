@@ -29,7 +29,7 @@
 
 bool libjdx::jdx::api::JdxScanner::isRecognized(const std::string& path)
 {
-    std::cout << "C++: JdxScanner.isRecognized(): " << path << '\n';
+    // std::cout << "C++: JdxScanner.isRecognized(): " << path << '\n';
     std::ifstream input{path};
     auto isRecognized = libjdx::jdx::JdxParser::canParse(path, input);
     return isRecognized;

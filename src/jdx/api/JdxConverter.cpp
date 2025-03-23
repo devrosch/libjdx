@@ -38,7 +38,7 @@ libjdx::jdx::api::JdxConverter::JdxConverter(const std::string& path)
 
 libjdx::api::Node libjdx::jdx::api::JdxConverter::read(const std::string& path)
 {
-    std::cout << "C++: JdxConverter.read(): " << path << '\n';
+    // std::cout << "C++: JdxConverter.read(): " << path << '\n';
     std::vector<size_t> nodeIndices = convertPathToNodeIndices(path);
     auto node = retrieveNode(nodeIndices);
     return node;
