@@ -2,6 +2,17 @@
 
 A C++ library for reading JCAMP-DX data.
 
+## Structure
+
+* `apps`: Executable wrapping the library. Only required for Emspripten build.
+* `cmake`: Custom CMake modules used by build script.
+* `doc`: Library dcoumentation.
+* `examples`: Example data.
+* `include`: Public headers.
+* `lib`: Third-party libraries.
+* `src`: Source code.
+* `tests`: Test code.
+
 ## Prerequisites
 
 You will need a recent version of git, CMake >= 3.15, a C++ compiler that is compliant with C++17 (e.g. recent versions of GCC and Clang/LLVM) to download the source code and to build this library.
@@ -139,14 +150,16 @@ For more detailed information on specific data formats see:
 
 ## Third Party Code
 
-* [ICU](http://site.icu-project.org/design/cpp) (license: [ICU](https://github.com/unicode-org/icu/blob/master/icu4c/LICENSE), source code: [GitHub](https://github.com/unicode-org/icu))
+This library links against and uses at runtime
 
-and for development
+* [ICU](http://site.icu-project.org/design/cpp), Copyright (c) 2016-2025 Unicode, Inc. (license: [ICU](https://github.com/unicode-org/icu/blob/main/LICENSE), source code: [GitHub](https://github.com/unicode-org/icu))
 
-* [Catch2](https://github.com/catchorg/Catch2/releases/download/v2.13.1/catch.hpp) (license: [Boost](https://github.com/catchorg/Catch2/blob/master/LICENSE.txt), source code: [GitHub](https://github.com/catchorg/Catch2))
-* [Trompeloeil](https://github.com/rollbear/trompeloeil) (license: [Boost Software License](https://github.com/rollbear/trompeloeil/blob/master/LICENSE_1_0.txt))
+and for testing includes (in `lib`)
 
-and their dependencies, if any.
+* [Catch2](https://github.com/catchorg/Catch2/releases/download/v2.13.0/catch.hpp)
+* [Trompeloeil](https://github.com/rollbear/trompeloeil).
+
+See License section for more license information.
 
 ## Authors
 
@@ -164,9 +177,9 @@ You should have received a copy of the GNU Lesser General Public License along w
 
 ### Test Dependencies
 
-For testing, the following libraries are used that come with their respective license terms:
-* [Catch2](https://github.com/catchorg/Catch2): Boost Software License - Version 1.0 - August 17th, 2003, see [BSL-1.0](https://www.boost.org/LICENSE_1_0.txt) and [LICENSE.txt](https://github.com/catchorg/Catch2/blob/devel/LICENSE.txt).
-* [Tromeloeil](https://github.com/rollbear/trompeloeil): Boost Software License - Version 1.0 - August 17th, 2003, see [BSL-1.0](https://www.boost.org/LICENSE_1_0.txt) and [LICENSE.txt](https://github.com/rollbear/trompeloeil/blob/main/LICENSE_1_0.txt).
+For testing, the following libraries are used that are copyrighted by their respective authors and their respective license terms:
+* [Catch2](https://github.com/catchorg/Catch2): Copyright (c) 2020 Two Blue Cubes Ltd. All rights reserved., Boost Software License - Version 1.0 - August 17th, 2003, see [BSL-1.0](https://www.boost.org/LICENSE_1_0.txt) and [LICENSE.txt](https://github.com/catchorg/Catch2/blob/devel/LICENSE.txt).
+* [Tromeloeil](https://github.com/rollbear/trompeloeil): Copyright (C) Björn Fahller 2014-2021, Copyright (C) 2017, 2018 Andrew Paxie, Copyright Tore Martin Hagen 2019, Boost Software License - Version 1.0 - August 17th, 2003, see [BSL-1.0](https://www.boost.org/LICENSE_1_0.txt) and [LICENSE.txt](https://github.com/rollbear/trompeloeil/blob/main/LICENSE_1_0.txt).
 
 Boost Software License - Version 1.0 - August 17th, 2003
 
