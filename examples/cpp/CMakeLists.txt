@@ -24,7 +24,7 @@ option(BUILD_SHARED_LIBS "Build shared of static library. Defaults to static." O
 # --------------------------------------------------------------
 
 # The compiled library code is here
-add_subdirectory("../.." build)
+add_subdirectory("${PROJECT_SOURCE_DIR}/../.." build)
 
 add_executable("${CMAKE_PROJECT_NAME}"
     Main.cpp

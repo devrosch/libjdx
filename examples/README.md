@@ -6,7 +6,7 @@ Examples for how to use libjdx.
 
 * `cpp`: C++ example project.
 * `js`: JavaScript example project.
-* `data`: Example data.
+* `resources`: Example data.
 
 ## Build and run
 
