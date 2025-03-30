@@ -1,0 +1,189 @@
+name: linux_gcc
+
+run-name: ${{ github.workflow }} CI/CD run started by ${{ github.actor }}
+
+on: [push, workflow_dispatch]
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  build_debug:
+    runs-on: ubuntu-latest
+    container:
+      image: devrosch/cppcicdenv:2021-01-01
+    steps:
+      - uses: actions/checkout@v4
+      - name: build
+        run: |
+          set -eo pipefail
+          mkdir build && cd build
+          cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER=g++ ..
+          make -j6
+      - name: upload build_debug artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build_debug
+          path: build
+          retention-days: 3
+
+  test:
+    runs-on: ubuntu-latest
+    container:
+      image: devrosch/cppcicdenv:2021-01-01
+    needs: build_debug
+    steps:
+      - uses: actions/checkout@v4
+      - name: download build_debug artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build_debug
+          path: build
+      # Workaround for artifacts losing file permissions.
+      # See: https://github.com/actions/download-artifact/issues/14
+      - name: make test artifacts executable
+        run: cd build && chmod +x -R tests
+      - name: test
+        run: |
+          cd build
+          make coverage-base
+          ctest
+      - name: upload test artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: test
+          path: build
+
+  coverage:
+    runs-on: ubuntu-latest
+    container:
+      image: devrosch/cppcicdenv:2021-01-01
+    needs: test
+    steps:
+      - uses: actions/checkout@v4
+      - name: download test artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: test
+          path: build
+      - name: coverage
+        env:
+          COVERAGE_THRESHOLD: "95.0"
+        run: |
+          cd build
+          ../coverage.sh
+      - name: upload coverage artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage
+          path: build/coverage
+
+  format:
+    runs-on: ubuntu-latest
+    container:
+      image: devrosch/cppcicdenv:2021-01-01
+    needs: build_debug
+    steps:
+      - uses: actions/checkout@v4
+      - name: download build_debug artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build_debug
+          path: build
+      - name: format
+        run: cd build && make clang-format-check
+
+  lint:
+    runs-on: ubuntu-latest
+    container:
+      image: devrosch/cppcicdenv:2021-01-01
+    needs: build_debug
+    steps:
+      - uses: actions/checkout@v4
+      - name: download build_debug artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build_debug
+          path: build
+      - name: lint
+        run: cd build && make clang-tidy
+
+  doc:
+    runs-on: ubuntu-latest
+    container:
+      image: devrosch/cppcicdenv:2021-01-01
+    needs: build_debug
+    steps:
+      - uses: actions/checkout@v4
+      - name: download build_debug artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build_debug
+          path: build
+      - name: doc
+        run: cd build && doxygen ./doxy.config
+      - name: upload doc artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: doc
+          path: build/doc
+
+  build_release:
+    runs-on: ubuntu-latest
+    container:
+      image: devrosch/cppcicdenv:2021-01-01
+    needs: [test, coverage, format, lint, doc]
+    steps:
+      - uses: actions/checkout@v4
+      - name: build
+        run: |
+          set -eo pipefail
+          mkdir -p build && cd build
+          cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=g++ ..
+          make -j6
+      - name: upload build_release artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build_release
+          path: build
+
+  collect_docs:
+    runs-on: ubuntu-latest
+    needs: [test, coverage, format, lint, doc]
+    if: startsWith(github.ref, 'refs/tags/v')
+    steps:
+      - name: download doc artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: doc
+          path: dist
+      - name: download coverage artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: coverage
+          path: dist/coverage
+      - name: rename directory
+        run: mv dist/html/ dist/docs/
+      - name: list artifacts
+        run: |
+          cd dist && ls -R
+      - name: upload static files as artifact
+        id: deployment
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist/
+
+  publish_docs:
+    runs-on: ubuntu-latest
+    needs: collect_docs
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    permissions:
+      pages: write
+      id-token: write
+    steps:
+      - name: deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

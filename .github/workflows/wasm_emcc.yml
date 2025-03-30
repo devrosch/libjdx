@@ -1,0 +1,70 @@
+name: wasm_emcc
+
+run-name: ${{ github.workflow }} CI/CD run started by ${{ github.actor }}
+
+on: [push, workflow_dispatch]
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  build_debug:
+    runs-on: ubuntu-latest
+    container:
+      image: devrosch/cppcicdenv:2021-01-01
+    steps:
+      - uses: actions/checkout@v4
+      - name: build
+        run: |
+          set -eo pipefail
+          mkdir build-wasm && cd build-wasm
+          emcmake cmake -DCMAKE_BUILD_TYPE=Debug ..
+          make -j6
+      - name: upload build_debug artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build_debug
+          path: build-wasm
+          retention-days: 3
+
+  test:
+    runs-on: ubuntu-latest
+    container:
+      image: devrosch/cppcicdenv:2021-01-01
+    needs: build_debug
+    steps:
+      - uses: actions/checkout@v4
+      - name: download build_debug artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build_debug
+          path: build-wasm
+      - name: test
+        run: |
+          cd build-wasm
+          ctest -VV
+      - name: upload test artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: test
+          path: build-wasm
+
+  build_release:
+    runs-on: ubuntu-latest
+    container:
+      image: devrosch/cppcicdenv:2021-01-01
+    needs: test
+    steps:
+      - uses: actions/checkout@v4
+      - name: build
+        run: |
+          set -eo pipefail
+          mkdir -p build-wasm && cd build-wasm
+          cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=g++ ..
+          make -j6
+      - name: upload build_release artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build_release
+          path: build-wasm
