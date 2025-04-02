@@ -179,7 +179,7 @@ You should have received a copy of the GNU Lesser General Public License along w
 
 For testing, the following libraries are used that are copyrighted by their respective authors and their respective license terms:
 * [Catch2](https://github.com/catchorg/Catch2): Copyright (c) 2020 Two Blue Cubes Ltd. All rights reserved., Boost Software License - Version 1.0 - August 17th, 2003, see [BSL-1.0](https://www.boost.org/LICENSE_1_0.txt) and [LICENSE.txt](https://github.com/catchorg/Catch2/blob/devel/LICENSE.txt).
-* [Tromeloeil](https://github.com/rollbear/trompeloeil): Copyright (C) Björn Fahller 2014-2021, Copyright (C) 2017, 2018 Andrew Paxie, Copyright Tore Martin Hagen 2019, Boost Software License - Version 1.0 - August 17th, 2003, see [BSL-1.0](https://www.boost.org/LICENSE_1_0.txt) and [LICENSE.txt](https://github.com/rollbear/trompeloeil/blob/main/LICENSE_1_0.txt).
+* [Trompeloeil](https://github.com/rollbear/trompeloeil): Copyright (C) Björn Fahller 2014-2021, Copyright (C) 2017, 2018 Andrew Paxie, Copyright Tore Martin Hagen 2019, Boost Software License - Version 1.0 - August 17th, 2003, see [BSL-1.0](https://www.boost.org/LICENSE_1_0.txt) and [LICENSE.txt](https://github.com/rollbear/trompeloeil/blob/main/LICENSE_1_0.txt).
 
 Boost Software License - Version 1.0 - August 17th, 2003
 
