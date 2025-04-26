@@ -17,6 +17,7 @@
  */
 #include "api/ConverterService.hpp"
 
+#include <stdexcept>
 #include <vector>
 
 #ifdef __EMSCRIPTEN__

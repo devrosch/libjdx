@@ -18,6 +18,7 @@
 #ifndef JDX_AUDITTRAILENTRY_HPP
 #define JDX_AUDITTRAILENTRY_HPP
 
+#include <cstdint>
 #include <optional>
 #include <string>
 

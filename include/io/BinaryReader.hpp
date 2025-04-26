@@ -24,6 +24,7 @@
 #include <cstdint>
 #include <fstream>
 #include <istream>
+#include <limits>
 #include <optional>
 #include <sstream>
 #include <vector>

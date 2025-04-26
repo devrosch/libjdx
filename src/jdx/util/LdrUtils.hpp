@@ -22,6 +22,7 @@
 #include "jdx/StringLdr.hpp"
 #include "util/StringUtils.hpp"
 
+#include <limits>
 #include <optional>
 #include <string>
 #include <type_traits>
