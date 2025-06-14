@@ -54,7 +54,7 @@ std::vector<size_t> libjdx::jdx::api::JdxConverter::convertPathToNodeIndices(
     }
 
     std::vector<size_t> nodeIndices{};
-    if (!(pathSegments.size() == 2 && pathSegments.at(1).empty()))
+    if (pathSegments.size() != 2 || !pathSegments.at(1).empty())
     {
         // path not only "/"
         for (size_t i = 1; i < pathSegments.size(); i++)
@@ -67,6 +67,7 @@ std::vector<size_t> libjdx::jdx::api::JdxConverter::convertPathToNodeIndices(
     return nodeIndices;
 }
 
+// NOLINTBEGIN(readability-function-cognitive-complexity)
 libjdx::api::Node libjdx::jdx::api::JdxConverter::retrieveNode(
     const std::vector<size_t>& nodeIndices)
 {
@@ -125,6 +126,7 @@ libjdx::api::Node libjdx::jdx::api::JdxConverter::retrieveNode(
         if (nodeIndex == nTuplesIndex && block->getNTuples().has_value())
         {
             // consider NTUPLES LDR as child node
+            // NOLINTNEXTLINE(bugprone-narrowing-conversions,cppcoreguidelines-narrowing-conversions)
             auto startIt = nodeIndices.cbegin() + iterationIndex;
             auto nTuplesIndices
                 = std::vector<size_t>{++startIt, nodeIndices.cend()};
@@ -148,6 +150,7 @@ libjdx::api::Node libjdx::jdx::api::JdxConverter::retrieveNode(
     }
     return mapBlock(*block, isPeakData(*block));
 }
+// NOLINTEND(readability-function-cognitive-complexity)
 
 libjdx::api::Node libjdx::jdx::api::JdxConverter::mapBlock(
     const Block& block, bool isPeakData)

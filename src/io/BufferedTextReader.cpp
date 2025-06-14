@@ -84,6 +84,7 @@ std::ios::pos_type libjdx::io::BufferedTextReader::calculateAbsolutePosition(
 
 void libjdx::io::BufferedTextReader::updateBuffer(std::ios::pos_type position)
 {
+    // NOLINTBEGIN(bugprone-narrowing-conversions,cppcoreguidelines-narrowing-conversions)
     auto bufferStartPos = static_cast<std::ios::pos_type>(
         (position / m_bufferMaxSize) * m_bufferMaxSize);
     m_streamPtr->seekg(bufferStartPos);
@@ -99,6 +100,7 @@ void libjdx::io::BufferedTextReader::updateBuffer(std::ios::pos_type position)
     m_bufferPosIt = std::begin(m_buffer)
                     + static_cast<std::vector<char>::difference_type>(
                         position - bufferStartPos);
+    // NOLINTEND(bugprone-narrowing-conversions,cppcoreguidelines-narrowing-conversions)
 }
 
 std::ios::pos_type libjdx::io::BufferedTextReader::tellg() const
@@ -112,9 +114,11 @@ void libjdx::io::BufferedTextReader::seekg(
     std::ios::off_type position, std::ios_base::seekdir seekdir)
 {
     auto pos = calculateAbsolutePosition(position, seekdir);
+    // NOLINTBEGIN(bugprone-narrowing-conversions,cppcoreguidelines-narrowing-conversions)
     if (pos >= m_bufferBasePos
         && pos < m_bufferBasePos
                      + static_cast<std::ios::pos_type>(m_buffer.size()))
+    // NOLINTEND(bugprone-narrowing-conversions,cppcoreguidelines-narrowing-conversions)
     {
         // new pos inside existing buffer => only update m_bufferPosIt
         auto newBufferPos = position - m_bufferBasePos;
@@ -178,6 +182,7 @@ bool libjdx::io::BufferedTextReader::eof() const
 
 std::string libjdx::io::BufferedTextReader::readLine()
 {
+    // NOLINTBEGIN(bugprone-narrowing-conversions,cppcoreguidelines-narrowing-conversions)
     auto nextChunkStartPos
         = m_bufferBasePos + static_cast<std::ios::pos_type>(m_bufferMaxSize);
     if (m_bufferPosIt == m_buffer.cend() && nextChunkStartPos >= getLength())
@@ -201,6 +206,7 @@ std::string libjdx::io::BufferedTextReader::readLine()
         // set new buffer position either past end or past found LF
         m_bufferPosIt = lfFound ? ++posIt : m_buffer.cend();
     }
+    // NOLINTEND(bugprone-narrowing-conversions,cppcoreguidelines-narrowing-conversions)
     if (m_streamPtr->eof())
     {
         // cleat eofbit, so that other operations will still succeed

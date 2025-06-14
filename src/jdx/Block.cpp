@@ -135,6 +135,7 @@ std::string libjdx::jdx::Block::parseFirstLine(const std::string& firstLine)
     return value;
 }
 
+// NOLINTBEGIN(readability-function-cognitive-complexity)
 void libjdx::jdx::Block::parseInput(
     const std::string& titleValue, std::optional<std::string>& nextLine)
 {
@@ -267,3 +268,4 @@ void libjdx::jdx::Block::parseInput(
     nextLine = m_reader.eof() ? std::nullopt
                               : std::optional<std::string>{m_reader.readLine()};
 }
+// NOLINTEND(readability-function-cognitive-complexity)

@@ -25,7 +25,7 @@ std::optional<const std::string> libjdx::jdx::LdrContainer::parseStringValue(
     util::trim(value); // trim first line value only
     while (!reader.eof())
     {
-        const auto line = reader.readLine();
+        auto line = reader.readLine();
         if (util::isLdrStart(line))
         {
             return line;

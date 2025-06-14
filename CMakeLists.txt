@@ -19,8 +19,8 @@
 # General project settings
 # --------------------------------------------------------------
 
-# Works with 3.15 and newer CMake
-cmake_minimum_required(VERSION 3.15...3.25)
+# Works with 3.25 and newer CMake
+cmake_minimum_required(VERSION 3.25...3.28)
 
 # Project name and a few useful settings. Other commands can pick up the results
 project(
@@ -143,10 +143,11 @@ endif()
 # deactivate checks for magic-numbers as they are
 # too sensitive in bit oprations and sample data
 # bugprone-unchecked-optional-access, misc-const-correctness, readability-identifier-length deactivated for now as they generate to many warnings
-# TODO: reactivate and fix bugprone-unchecked-optional-access, misc-const-correctness, readability-identifier-length
+# deactivate bugprone-chained-comparison due to many warnings for Catch2
+# TODO: reactivate and fix bugprone-unchecked-optional-access, misc-const-correctness, readability-identifier-length, bugprone-chained-comparison
 set(CLANG_TIDY_CHECKS
     "-*\
-    ,bugprone-*,-bugprone-unchecked-optional-access,-bugprone-easily-swappable-parameters\
+    ,bugprone-*,-bugprone-unchecked-optional-access,-bugprone-easily-swappable-parameters,-bugprone-chained-comparison\
     ,cert-*\
     ,clang-analyzer-*\
     ,cppcoreguidelines-*,-cppcoreguidelines-avoid-magic-numbers\
@@ -203,8 +204,8 @@ endif()
 
 # Make testing available if this is the main app
 if((CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME) AND BUILD_TESTING)
-    add_subdirectory(lib/catch2)
-    add_subdirectory(lib/trompeloeil)
+    add_subdirectory(lib/catch2 SYSTEM)
+    add_subdirectory(lib/trompeloeil SYSTEM)
     add_subdirectory(tests)
 endif()
 

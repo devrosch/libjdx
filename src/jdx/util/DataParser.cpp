@@ -196,7 +196,6 @@ libjdx::jdx::util::DataParser::readValues(
         }
         else
         {
-            auto str = token.value();
             // TODO: use std::from_chars from <charconv> header
             // for better performance when more compilers support it
             // see: https://en.cppreference.com/w/cpp/utility/from_chars
@@ -265,12 +264,12 @@ std::optional<std::string> libjdx::jdx::util::DataParser::nextToken(
         throw ParseException("illegal sequence encountered in line \"" + line
                              + "\" at position: " + std::to_string(pos));
     }
-    auto startIt = line.cbegin() + pos++;
+    auto startIt = line.cbegin() + static_cast<long>(pos++);
     while (!isTokenDelimiter(line, pos) && !isTokenStart(line, pos, isAsdf))
     {
         ++pos;
     }
-    auto endIt = line.cbegin() + pos;
+    auto endIt = line.cbegin() + static_cast<long>(pos);
     return std::string{startIt, endIt};
 }
 

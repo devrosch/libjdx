@@ -612,7 +612,7 @@ TEST_CASE("read UTF-16LE encoded string correctly", "[BinaryReader]")
     {
         REQUIRE(output.at(i) == expected.at(i));
     }
-    std::cout << std::endl;
+    std::cout << '\n';
 }
 
 TEST_CASE("read zero terminated ISO-8859-1 encoded string correctly",
@@ -967,7 +967,6 @@ TEST_CASE("when reading zero terminated string reader is moved forward by "
     // length prefix (16 bit LE)
     std::vector<uint8_t> bytes{0x05, 0x00, 0x61, 0x00, 0x62, 0x00, 0x63, 0x00,
         0x00, 0x00, 0x64, 0x00, 0x00, 0x00};
-    auto expected = std::string{u8"abc"};
 
     libjdx::io::StringPrefixType prefixType{
         libjdx::io::StringPrefixNumericType::UInt16Chars16,
