@@ -19,8 +19,8 @@
 # General project settings
 # --------------------------------------------------------------
 
-# Works with 3.25 and newer CMake
-cmake_minimum_required(VERSION 3.25...3.28)
+# Works with 3.15 and newer CMake
+cmake_minimum_required(VERSION 3.15...3.28)
 
 # Project name and a few useful settings. Other commands can pick up the results
 project(
