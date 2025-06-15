@@ -2,6 +2,10 @@
 
 A C++ library for reading JCAMP-DX data.
 
+## Details
+
+This library allows to read data in the JCAMP-DX format ([jcamp-dx.org](http://www.jcamp-dx.org/)). For more details, see [jdx/README.md](./doc/README.md).
+
 ## Structure
 
 * `apps`: Executable wrapping the library. Only required for Emspripten build.
@@ -30,6 +34,7 @@ apt-get update --yes && apt-get install --yes gcc g++ clang clang-tidy clang-for
 On other flavors of Linux, similar packages should be available and need to be installed.
 
 If you would also like to cross compile to WebAssembly, you will need to do:
+
 ```
 apt-get update --yes && apt-get install --yes python3 default-jre
 cd ~
@@ -95,46 +100,52 @@ Both native build and cross compilation to WebAssembly (WASM) is supported (test
 ### Clone
 
 First, clone the repository including its submodules (currently none are used but might be added in the future):
-```
-git clone --recursive <URL>
-```
 
-In case you have already cloned the repo without submodules, you can then also run:
 ```
-git submodule update --init --recursive
+git clone <URL>
 ```
 
 To pull updates to the code later, run:
 ```
 git pull
-git submodule foreach --recursive git pull
 ```
 
 ### Native
 
-Create a build directory anywhere (e.g., as sub directory in the library's directory), cd into it and run:
+Create a build directory anywhere (conventionally as `build` sub directory in the library's directory), cd into it and run:
+
 ```
 cmake <path/to/project/dir>
+# e.g., cmake ..
 ```
+
 followed by:
+
 ```
 cmake --build <path/to/project/dir>
+# e.g., cmake --build .
 ```
 
 ### WASM
 
 Build WebAssembly with Emscripten using the commands:
+
 ```
 emcmake cmake <path/to/project/dir>
+# e.g., emcmake cmake ..
 ```
+
 followed by:
+
 ```
 cmake --build <path/to/project/dir>
+# e.g., cmake --build ..
 ```
 
 ## Tests
 
 If the build has completed successfully, you can then run the tests in the build directory with:
+
 ```
 ctest -VV
 ```
@@ -147,6 +158,10 @@ Documentation generated during the build by the CI/CD pipeline is located at: [G
 
 For more detailed information on specific data formats see:
 * [JCAMP-DX](doc/jdx/README.md)
+
+### Examples
+
+Examples for using the library can be found in the `examples` directory. More details are available at [examples/README](./examples/README.md).
 
 ## Authors
 

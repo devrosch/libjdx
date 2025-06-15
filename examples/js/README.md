@@ -1,4 +1,4 @@
-# JavaScrip Example
+# JavaScript Example
 
 An JavaScript example application that reads JCAMP-DX files using libjdx.
 

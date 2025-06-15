@@ -4,7 +4,7 @@ Support for reading JCAMP-DX data.
 
 ## Details
 
-This library provides mechanisms to read data in the JCAMP-DX format ([jcamp-dx.org](http://www.jcamp-dx.org/)) with a focus on:
+This library allows to read data in the JCAMP-DX format ([jcamp-dx.org](http://www.jcamp-dx.org/)) with a focus on:
 * [JCAMP-DX IR](http://www.jcamp-dx.org/protocols/dxir01.pdf)
 * [JCAMP-DX NMR](http://www.jcamp-dx.org/protocols/dxnmr01.pdf)
 * [JCAMP-DX MS](http://www.jcamp-dx.org/protocols/dxms01.pdf)
@@ -20,11 +20,7 @@ JCAMP-DX data is organized into so-called labeled data records (LDRs) that can h
 * No vendor specific extensions of the JCAMP-DX standard other than Bruker's are supported.
 * [JCAMP-CS](http://www.jcamp-dx.org/protocols/dxcs01.pdf) is not supported.
 
-## Documentation
-
-Documentation generated during the build by the CI/CD pipeline is located at: [GitLab Pages](https://devrosch.gitlab.io/libsf/doc)
-
-Inheritance diagram of classes:
+## Inheritance diagram
 
 ![Inheritance diagram](DataHierarchy.svg "Inheritance diagram")
 
@@ -56,4 +52,4 @@ if (xyData)
 
 ## Sample data
 
-Public domain sample data taken from [JSpecView2](http://wwwchem.uwimona.edu.jm/spectra/JSpecView2/sample/).
+Public sample data can be found at [JSpecView2](http://wwwchem.uwimona.edu.jm/spectra/JSpecView2/sample/).
