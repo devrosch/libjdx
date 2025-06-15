@@ -148,22 +148,9 @@ Documentation generated during the build by the CI/CD pipeline is located at: [G
 For more detailed information on specific data formats see:
 * [JCAMP-DX](doc/jdx/README.md)
 
-## Third Party Code
-
-This library links against and uses at runtime
-
-* [ICU](http://site.icu-project.org/design/cpp), Copyright (c) 2016-2025 Unicode, Inc. (license: [ICU](https://github.com/unicode-org/icu/blob/main/LICENSE), source code: [GitHub](https://github.com/unicode-org/icu))
-
-and for testing includes (in `lib`)
-
-* [Catch2](https://github.com/catchorg/Catch2/releases/download/v2.13.0/catch.hpp)
-* [Trompeloeil](https://github.com/rollbear/trompeloeil).
-
-See License section for more license information.
-
 ## Authors
 
-* **Robert Schiwon** - [devrosch](https://gitlab.com/devrosch)
+* [Robert Schiwon (devrosch)](https://gitlab.com/devrosch)
 
 ## License
 
@@ -175,10 +162,13 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 
 You should have received a copy of the GNU Lesser General Public License along with this program. If not, see <https://www.gnu.org/licenses/>.
 
-### Test Dependencies
+### Third Party Code
 
-For testing, the following libraries are used that are copyrighted by their respective authors and their respective license terms:
-* [Catch2](https://github.com/catchorg/Catch2): Copyright (c) 2020 Two Blue Cubes Ltd. All rights reserved., Boost Software License - Version 1.0 - August 17th, 2003, see [BSL-1.0](https://www.boost.org/LICENSE_1_0.txt) and [LICENSE.txt](https://github.com/catchorg/Catch2/blob/devel/LICENSE.txt).
+This library links against and uses at runtime
+* [ICU](http://site.icu-project.org/design/cpp), Copyright (c) 2016-2025 Unicode, Inc. (license: [ICU](https://github.com/unicode-org/icu/blob/main/LICENSE), source code: [GitHub](https://github.com/unicode-org/icu)).
+
+For testing (in `lib`), the following libraries are included and used that are copyrighted by their respective authors and their respective license terms:
+* [Catch2](https://github.com/catchorg/Catch2): Copyright (c) 2022 Two Blue Cubes Ltd. All rights reserved, Boost Software License - Version 1.0 - August 17th, 2003, see [BSL-1.0](https://www.boost.org/LICENSE_1_0.txt) and [LICENSE.txt](https://github.com/catchorg/Catch2/blob/devel/LICENSE.txt).
 * [Trompeloeil](https://github.com/rollbear/trompeloeil): Copyright (C) Björn Fahller 2014-2021, Copyright (C) 2017, 2018 Andrew Paxie, Copyright Tore Martin Hagen 2019, Boost Software License - Version 1.0 - August 17th, 2003, see [BSL-1.0](https://www.boost.org/LICENSE_1_0.txt) and [LICENSE.txt](https://github.com/rollbear/trompeloeil/blob/main/LICENSE_1_0.txt).
 
 Boost Software License - Version 1.0 - August 17th, 2003
