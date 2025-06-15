@@ -154,7 +154,7 @@ The test coverage report from the latest successful CI/CD pipeline run is locate
 
 ## Documentation
 
-Documentation generated during the build by the CI/CD pipeline is located at: [GitHub Pages](https://devrosch.github.io/libjdx/doc).
+Documentation generated during the build by the CI/CD pipeline is located at: [GitHub Pages](https://devrosch.github.io/libjdx/docs).
 
 For more detailed information on specific data formats see:
 * [JCAMP-DX](doc/jdx/README.md)
