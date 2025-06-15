@@ -15,7 +15,7 @@ A C++ library for reading JCAMP-DX data.
 
 ## Prerequisites
 
-You will need a recent version of git, CMake >= 3.15, a C++ compiler that is compliant with C++17 (e.g. recent versions of GCC and Clang/LLVM) to download the source code and to build this library.
+You will need a recent version of git, CMake >= 3.15 (better: 3.25 or newer), a C++ compiler that is compliant with C++17 (e.g. recent versions of GCC and Clang/LLVM) to download the source code and to build this library.
 
 For compiling to WebAssembly (WASM), you need to have the [Emscripten](https://emscripten.org/docs/getting_started/downloads.html) EMSDK set up. For running tests for Emscripten compiled code, Node.js (available as command "node") is required.
 
