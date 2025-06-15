@@ -204,8 +204,14 @@ endif()
 
 # Make testing available if this is the main app
 if((CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME) AND BUILD_TESTING)
-    add_subdirectory(lib/catch2 SYSTEM)
-    add_subdirectory(lib/trompeloeil SYSTEM)
+    if(CMAKE_VERSION VERSION_LESS "3.25.0")
+        add_subdirectory(lib/catch2)
+        add_subdirectory(lib/trompeloeil)
+    else()
+        # SYSTEM available in CMake >= 3.25 suppresses warnings for these libs
+        add_subdirectory(lib/catch2 SYSTEM)
+        add_subdirectory(lib/trompeloeil SYSTEM)
+    endif()
     add_subdirectory(tests)
 endif()
 
