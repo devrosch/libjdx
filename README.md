@@ -150,11 +150,11 @@ If the build has completed successfully, you can then run the tests in the build
 ctest -VV
 ```
 
-The test coverage report from the latest successful CI/CD pipeline run is located at: [GitLab Pages](https://devrosch.gitlab.io/libjdx/coverage)
+The test coverage report from the latest successful CI/CD pipeline run is located at: [GitHub Pages](https://devrosch.github.io/libjdx/coverage)
 
 ## Documentation
 
-Documentation generated during the build by the CI/CD pipeline is located at: [GitLab Pages](https://devrosch.gitlab.io/libjdx/doc).
+Documentation generated during the build by the CI/CD pipeline is located at: [GitHub Pages](https://devrosch.github.io/libjdx/doc).
 
 For more detailed information on specific data formats see:
 * [JCAMP-DX](doc/jdx/README.md)
@@ -165,7 +165,7 @@ Examples for using the library can be found in the `examples` directory. More de
 
 ## Authors
 
-* [Robert Schiwon (devrosch)](https://gitlab.com/devrosch)
+* [Robert Schiwon (devrosch)](https://github.com/devrosch)
 
 ## License
 

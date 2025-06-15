@@ -25,7 +25,7 @@ cmake_minimum_required(VERSION 3.15...3.28)
 # Project name and a few useful settings. Other commands can pick up the results
 project(
     libjdx
-    VERSION 0.1.0
+    VERSION 1.0.0
     DESCRIPTION "A C++ library for reading JCAMP-DX data."
     LANGUAGES CXX)
 

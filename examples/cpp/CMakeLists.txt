@@ -30,7 +30,7 @@ cmake_minimum_required(VERSION 3.15...3.25)
 # Project name and a few useful settings. Other commands can pick up the results
 project(
     exampleapp
-    VERSION 0.1.0
+    VERSION 1.0.0
     DESCRIPTION "A C++ example app for using libjdx for reading JCAMP-DX data."
     LANGUAGES CXX)
 

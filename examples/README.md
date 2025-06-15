@@ -14,7 +14,7 @@ See instructions in the respective example projects.
 
 ## Author
 
-**Robert Schiwon** - [devrosch](https://gitlab.com/devrosch)
+* [Robert Schiwon (devrosch)](https://github.com/devrosch)
 
 ## License
 
